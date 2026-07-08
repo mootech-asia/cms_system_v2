@@ -280,19 +280,25 @@ function applyProviderFilter() {
     c.style.display = show ? '' : 'none';
     if (show) shown++;
   });
-  const grid = cards[0].parentElement;
-  let empty = grid && grid.querySelector(':scope > .fav-empty');
-  if (favOnly && shown === 0) {
-    if (!empty && grid) {
-      empty = document.createElement('div');
+  const emptyState = favOnly && shown === 0;
+  // 空清單訊息永遠只有一則:先清掉所有既有訊息再視情況補一則
+  document.querySelectorAll('#container .fav-empty').forEach((el) => el.remove());
+  if (emptyState) {
+    const grid = cards[0].parentElement;
+    if (grid) {
+      const empty = document.createElement('div');
       empty.className = 'fav-empty';
       empty.style.cssText = 'grid-column:1/-1;text-align:center;color:#9ca3af;padding:48px 16px';
       empty.textContent = 'No favorites yet - tap the star to add one.';
       grid.appendChild(empty);
     }
-  } else if (empty) {
-    empty.remove();
   }
+  // 空清單時 Load more 沒有意義,一併隱藏
+  [...document.querySelectorAll('#container button')].forEach((b) => {
+    if (!/load more/i.test((b.textContent || '').trim())) return;
+    const wrap = b.parentElement && b.parentElement.children.length === 1 ? b.parentElement : b;
+    wrap.style.display = emptyState ? 'none' : '';
+  });
 }
 
 // --- Promotion Event / News 頁籤 ---
