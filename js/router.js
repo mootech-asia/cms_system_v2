@@ -10,10 +10,14 @@ function slugFromHref(href) {
   return clean.split('/').pop();
 }
 
+// 片段版本號:每次改版 pages/*.html 時一併更新,避免 GitHub Pages 的
+// max-age=600 快取讓使用者在部署後最多 10 分鐘內拿到舊頁面
+const PAGES_V = '20260708-1030';
+
 const cache = {};
 async function loadFragment(slug) {
   if (cache[slug]) return cache[slug];
-  const res = await fetch('pages/' + slug + '.html');
+  const res = await fetch('pages/' + slug + '.html?v=' + PAGES_V);
   const html = await res.text();
   cache[slug] = html;
   return html;
