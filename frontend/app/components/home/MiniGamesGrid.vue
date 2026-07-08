@@ -60,7 +60,7 @@ function moveRail(direction: number) {
 </script>
 
 <template>
-  <section class="py-12 bg-[#1a2128]">
+  <section class="py-12 bg-[#0f1419]">
     <div class="container mx-auto px-4">
       <div class="mb-8">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">

@@ -4,7 +4,7 @@ const track = ref<HTMLElement | null>(null)
 </script>
 
 <template>
-  <section class="py-6 bg-[#0f1419]">
+  <section class="py-6 bg-[#1a2128]">
     <div class="container mx-auto px-4">
       <div class="flex items-center justify-between mb-4">
         <h2 class="text-white flex items-center gap-2">
