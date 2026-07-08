@@ -65,19 +65,17 @@ export function useGamesPage(rootRef: Ref<HTMLElement | null>) {
   }
 
   // --- Load more (ports games.js: create button if missing, clone up to 12) ---
+  // Same rule as games.js findGameGrids: only parents holding >=4 real game
+  // cards (.group with an img[alt]) qualify — layout grids don't, so pages
+  // like sport get no Load more, matching the static site.
   function findGrids(root: HTMLElement) {
-    const set = new Set<HTMLElement>();
-    root.querySelectorAll<HTMLElement>('[class*="grid-cols"]').forEach((g) => {
-      if (g.children.length >= 4) set.add(g);
-    });
     const cards = [...root.querySelectorAll<HTMLElement>('.group')].filter((c) => c.querySelector('img[alt]'));
     const m = new Map<HTMLElement, number>();
     cards.forEach((c) => {
       const p = c.parentElement as HTMLElement;
       m.set(p, (m.get(p) || 0) + 1);
     });
-    [...m.entries()].filter(([, n]) => n >= 4).forEach(([p]) => set.add(p));
-    return [...set];
+    return [...m.entries()].filter(([, n]) => n >= 4).map(([p]) => p);
   }
 
   function lmAppend(grid: HTMLElement) {
