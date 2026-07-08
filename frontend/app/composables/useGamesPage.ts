@@ -34,7 +34,7 @@ export function useGamesPage(rootRef: Ref<HTMLElement | null>) {
     });
   }
 
-  // --- favourite toggle + game modal ---
+  // --- favourite toggle (card click no longer opens the game modal) ---
   function onClick(e: MouseEvent) {
     const target = e.target as HTMLElement;
     const card = target.closest<HTMLElement>('div.group');
@@ -51,13 +51,7 @@ export function useGamesPage(rootRef: Ref<HTMLElement | null>) {
       const svg = fav.querySelector('svg')!;
       svg.setAttribute('fill', on ? '#98E7D2' : 'none');
       svg.style.stroke = on ? '#98E7D2' : 'currentColor';
-      return;
     }
-
-    const ps = card.querySelectorAll('p');
-    const name = (card.querySelector('h3')?.textContent || img.getAttribute('alt') || 'Game').trim();
-    const provider = (ps[ps.length - 1]?.textContent || '').trim();
-    modal.value = { name, provider, src: img.src };
   }
 
   function onKey(e: KeyboardEvent) {
