@@ -293,11 +293,12 @@ function applyProviderFilter() {
       grid.appendChild(empty);
     }
   }
-  // 空清單時 Load more 沒有意義,一併隱藏
+  // 空清單時 Load more 沒有意義,一併隱藏;恢復時還原本來的 display(可能是 flex)
   [...document.querySelectorAll('#container button')].forEach((b) => {
     if (!/load more/i.test((b.textContent || '').trim())) return;
     const wrap = b.parentElement && b.parentElement.children.length === 1 ? b.parentElement : b;
-    wrap.style.display = emptyState ? 'none' : '';
+    if (!('lmDisplay' in wrap.dataset)) wrap.dataset.lmDisplay = wrap.style.display;
+    wrap.style.display = emptyState ? 'none' : wrap.dataset.lmDisplay;
   });
 }
 
