@@ -29,9 +29,9 @@ const ICONS = {
 function ic(name, size) { return `<svg xmlns="http://www.w3.org/2000/svg" width="${size || 20}" height="${size || 20}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[name] || ''}</svg>`; }
 
 const MAIN_LINKS = [
-  ['Home', 'home', 'house'], ['Hot Games', 'hot-games', 'flame'], ['Mini Games', 'mini-games', 'gamepad'],
-  ['Slots', 'slot', 'cherry'], ['Sports', 'sport', 'trophy'], ['Live', 'live', 'video'],
-  ['Fish', 'fish', 'fish'], ['Promotion', 'promotion', 'gift'],
+  ['Home', 'home', 'house'], ['Hot Games', 'hot-games', 'flame'], ['Sports', 'sport', 'trophy'],
+  ['Live', 'live', 'video'], ['Slots', 'slot', 'cherry'], ['Fish', 'fish', 'fish'],
+  ['Mini Games', 'mini-games', 'gamepad'], ['Promotion', 'promotion', 'gift'],
 ];
 const MEMBER_LINKS = [
   ['Account Overview', 'account', 'grid'], ['Deposit', 'deposit', 'download'], ['Withdrawal', 'withdrawal', 'upload'],

@@ -12,22 +12,22 @@ interface NavItem {
 const nav: NavItem[] = [
   { label: 'Home', to: '/', icon: 'house' },
   { label: 'Hot Games', to: '/hot-games', icon: 'flame' },
-  { label: 'Mini Games', to: '/mini-games', icon: 'gamepad2' },
   { label: 'Sports', to: '/sport', icon: 'trophy', dropdown: [{ label: 'BTI', tab: 'BTI' }, { label: 'SABA', tab: 'SABA' }] },
   { label: 'Live', to: '/live', icon: 'video', dropdown: [{ label: 'Sexy', tab: 'Sexy' }, { label: 'Pragmatic Play', tab: 'Pragmatic Play' }, { label: 'Yeebet', tab: 'Yeebet' }] },
-  { label: 'Fish', to: '/fish', icon: 'fish' },
   { label: 'Slots', to: '/slot', icon: 'cherry' },
+  { label: 'Fish', to: '/fish', icon: 'fish' },
+  { label: 'Mini Games', to: '/mini-games', icon: 'gamepad2' },
   { label: 'Promotion', to: '/promotion', icon: 'gift' },
 ];
 
 const mobileLinks = [
   { label: 'Home', to: '/', icon: 'house' },
   { label: 'Hot Games', to: '/hot-games', icon: 'flame' },
-  { label: 'Mini Games', to: '/mini-games', icon: 'gamepad2' },
-  { label: 'Slots', to: '/slot', icon: 'cherry' },
   { label: 'Sports', to: '/sport', icon: 'trophy' },
   { label: 'Live', to: '/live', icon: 'video' },
+  { label: 'Slots', to: '/slot', icon: 'cherry' },
   { label: 'Fish', to: '/fish', icon: 'fish' },
+  { label: 'Mini Games', to: '/mini-games', icon: 'gamepad2' },
   { label: 'Promotion', to: '/promotion', icon: 'gift' },
 ];
 
