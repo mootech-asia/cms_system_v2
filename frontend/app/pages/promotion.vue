@@ -1,8 +1,3 @@
-<script setup lang="ts">
-import { ref } from 'vue';
-const tab = ref<'event' | 'news'>('event');
-</script>
-
 <template>
   <div class="min-h-screen bg-[#0f1419]" style="overflow-x: hidden;">
     <AppHeader />
@@ -14,11 +9,7 @@ const tab = ref<'event' | 'news'>('event');
     <section class="py-8 bg-[#0f1419] min-h-[600px]">
     <div class="container mx-auto px-4">
     <div class="flex flex-col gap-6">
-    <div class="flex items-center gap-6 border-b border-gray-800">
-    <button class="pb-4 px-2 transition-colors relative" :class="tab==='event' ? 'text-[#98E7D2]' : 'text-gray-400 hover:text-gray-300'" @click="tab='event'">Event<div v-if="tab==='event'" class="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2]"></div></button>
-    <button class="pb-4 px-2 transition-colors relative" :class="tab==='news' ? 'text-[#98E7D2]' : 'text-gray-400 hover:text-gray-300'" @click="tab='news'">News<div v-if="tab==='news'" class="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2]"></div></button>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
     <div class="bg-[#1a2128] border border-gray-800 rounded-lg overflow-hidden hover:border-[#98E7D2] transition-colors">
     <div class="relative h-32 overflow-hidden" style="background: linear-gradient(135deg, rgb(9, 29, 20) 0%, rgb(13, 42, 30) 50%, rgb(10, 26, 18) 100%);">
     <div class="absolute inset-0 flex items-center justify-center">
@@ -39,11 +30,7 @@ const tab = ref<'event' | 'news'>('event');
     </div>
     <div class="p-6">
     <h3 class="text-white text-xl mb-4 text-center">RioBet Casino</h3>
-    <div class="mb-6">
-    <div class="text-gray-400 text-sm text-center mb-1">SAFETY INDEX:</div>
-    <div class="text-[#A0E187] text-center font-semibold">VERY HIGH</div>
-    </div>
-    <div class="space-y-3">
+        <div class="space-y-3">
     <button class="w-full bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2] text-gray-900 px-4 py-3 rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center font-semibold">Detail</button>
     </div>
     </div>
@@ -68,11 +55,7 @@ const tab = ref<'event' | 'news'>('event');
     </div>
     <div class="p-6">
     <h3 class="text-white text-xl mb-4 text-center">BitStarz Casino</h3>
-    <div class="mb-6">
-    <div class="text-gray-400 text-sm text-center mb-1">SAFETY INDEX:</div>
-    <div class="text-[#A0E187] text-center font-semibold">VERY HIGH</div>
-    </div>
-    <div class="space-y-3">
+        <div class="space-y-3">
     <button class="w-full bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2] text-gray-900 px-4 py-3 rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center font-semibold">Detail</button>
     </div>
     </div>
@@ -97,11 +80,7 @@ const tab = ref<'event' | 'news'>('event');
     </div>
     <div class="p-6">
     <h3 class="text-white text-xl mb-4 text-center">IceCasino</h3>
-    <div class="mb-6">
-    <div class="text-gray-400 text-sm text-center mb-1">SAFETY INDEX:</div>
-    <div class="text-[#A0E187] text-center font-semibold">VERY HIGH</div>
-    </div>
-    <div class="space-y-3">
+        <div class="space-y-3">
     <button class="w-full bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2] text-gray-900 px-4 py-3 rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center font-semibold">Detail</button>
     </div>
     </div>
@@ -126,11 +105,7 @@ const tab = ref<'event' | 'news'>('event');
     </div>
     <div class="p-6">
     <h3 class="text-white text-xl mb-4 text-center">Gamdom Casino</h3>
-    <div class="mb-6">
-    <div class="text-gray-400 text-sm text-center mb-1">SAFETY INDEX:</div>
-    <div class="text-[#A0E187] text-center font-semibold">VERY HIGH</div>
-    </div>
-    <div class="space-y-3">
+        <div class="space-y-3">
     <button class="w-full bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2] text-gray-900 px-4 py-3 rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center font-semibold">Detail</button>
     </div>
     </div>
