@@ -3,9 +3,9 @@
     <AppHeader />
     <AppBanner />
     <HomeTicker />
+    <HomeSportsPromo />
     <HomeHotGamesRail />
     <HomeMiniGamesGrid />
-    <HomeSportsPromo />
     <HomePromotion />
     <AppFooter />
     <MobileBottomNav />

@@ -54,8 +54,9 @@ const arrow = 'width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.4
           >{{ b.cta }}</button>
         </div>
       </div>
-      <div class="absolute z-20" style="bottom:12px;left:0;right:0;display:flex;align-items:center;justify-content:center;gap:12px">
-        <button :style="arrow" @click="prev(); restart()">‹</button>
+      <button :style="arrow" style="position:absolute;z-index:20;left:20px;top:50%;transform:translateY(-50%)" @click="prev(); restart()">‹</button>
+      <button :style="arrow" style="position:absolute;z-index:20;right:20px;top:50%;transform:translateY(-50%)" @click="next(); restart()">›</button>
+      <div class="absolute z-20" style="bottom:12px;left:0;right:0;display:flex;align-items:center;justify-content:center">
         <div class="flex items-center gap-2">
           <button
             v-for="(s, i) in banners" :key="s.id" class="rounded-full"
@@ -63,7 +64,6 @@ const arrow = 'width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.4
             @click="go(i)"
           />
         </div>
-        <button :style="arrow" @click="next(); restart()">›</button>
       </div>
     </div>
   </section>
