@@ -283,10 +283,91 @@
     render();
   }
 
+  // ---------- Personal Info:Submit → 成功彈窗 ----------
+  function initPersonalInfo() {
+    const main = document.querySelector('#container main');
+    if (!main || main.dataset.piReady === '1') return;
+    main.dataset.piReady = '1';
+    const submit = main.querySelector('button.bg-gradient-to-r');
+    if (submit) submit.addEventListener('click', () => showModal({ type: 'success' }));
+  }
+
+  // ---------- Deposit:Transfer Details 第二步 ----------
+  function initDeposit() {
+    const main = document.querySelector('#container main');
+    if (!main || main.dataset.dpReady === '1') return;
+    const shell = main.querySelector('.pm-shell');
+    const tabs = main.querySelector('[data-payment-tabs]');
+    if (!shell) return; // forms.js 尚未轉換完成
+    main.dataset.dpReady = '1';
+    // Next 的啟用/停用與配色由 account.js 控制(需選金額 + 優惠);這裡只標記供事件委派
+    const nextBtn = [...main.querySelectorAll('button')].find((b) => b.textContent.trim() === 'Next');
+    if (!nextBtn) return;
+    nextBtn.dataset.dpNext = '1';
+
+    const tv = document.createElement('div');
+    tv.className = 'mf-wrap';
+    tv.style.display = 'none';
+    tv.innerHTML = `
+      <div class="mf-card">
+        <div class="mf-section"><span>Transfer Details</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+          <span style="color:#fff;font-size:18px;font-weight:700;">Deposit Amount</span>
+          <span data-dp-amount style="color:#fff;font-size:26px;font-weight:800;">₩ 10,000</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+          <span style="color:#fff;font-size:16px;font-weight:700;">Deposit Account</span>
+          <span style="color:#fff;font-size:16px;font-weight:700;">wururu1234</span>
+        </div>
+        <p style="color:#c3cbd6;font-size:14px;line-height:1.6;margin:0 0 18px;">Once the transfer is complete, please click the "Complete" button below. Should you have any questions, please feel free to contact our Customer Service team.</p>
+        <p style="text-align:center;margin:0 0 22px;"><a href="#/support" style="color:#98E7D2;text-decoration:underline;font-weight:600;">Customer Service</a></p>
+        <button type="button" class="mf-submit ready" data-dp-complete><span>Complete</span></button>
+        <button type="button" class="mf-back" data-dp-back><span>Back</span></button>
+      </div>`;
+    shell.parentNode.insertBefore(tv, shell.nextSibling);
+
+    function showTransfer() {
+      const amtInput = [...main.querySelectorAll('input')].find((i) => /₩/.test(i.value || '') || /₩/.test(i.placeholder || ''));
+      const amt = amtInput && amtInput.value.trim() ? amtInput.value.trim() : '₩ 10,000';
+      tv.querySelector('[data-dp-amount]').textContent = amt;
+      if (tabs) tabs.style.display = 'none';
+      shell.style.display = 'none';
+      tv.style.display = '';
+      window.scrollTo(0, 0);
+    }
+    function hideTransfer() {
+      if (tabs) tabs.style.display = '';
+      shell.style.display = '';
+      tv.style.display = 'none';
+    }
+    main.addEventListener('click', (e) => {
+      if (e.target.closest('[data-dp-next]')) { showTransfer(); return; }
+      if (e.target.closest('[data-dp-back]')) { hideTransfer(); return; }
+      if (e.target.closest('[data-dp-complete]')) showModal({ type: 'success', message: 'Deposit request submitted successfully.' });
+    });
+  }
+
+  // ---------- Withdrawal:Submit → 成功／警告彈窗 ----------
+  function initWithdrawal() {
+    const main = document.querySelector('#container main');
+    if (!main || main.dataset.wdReady === '1') return;
+    main.dataset.wdReady = '1';
+    const submit = [...main.querySelectorAll('button')].find((b) => b.textContent.trim() === 'Submit');
+    if (!submit) return;
+    submit.addEventListener('click', () => {
+      const amt = [...main.querySelectorAll('input')].find((i) => /10,000\s*~/.test(i.placeholder || ''));
+      if (!amt || amt.value.trim() === '') { showModal({ type: 'warning', message: 'invalid' }); return; }
+      showModal({ type: 'success', message: 'Withdrawal request submitted successfully.' });
+    });
+  }
+
   document.addEventListener('page:rendered', (e) => {
     if (!e.detail) return;
     injectStyle();
     if (e.detail.slug === 'change-password') initChangePassword();
     if (e.detail.slug === 'banking-details') initBankingDetails();
+    if (e.detail.slug === 'personal-info') initPersonalInfo();
+    if (e.detail.slug === 'deposit') initDeposit();
+    if (e.detail.slug === 'withdrawal') initWithdrawal();
   });
 })();

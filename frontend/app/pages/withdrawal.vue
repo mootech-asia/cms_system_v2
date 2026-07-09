@@ -23,6 +23,12 @@ const managementWalletPassword = ref('');
 const cryptoWithdrawReady = computed(() => [walletType.value, walletAddress.value, cryptoWithdrawAmount.value, cryptoWithdrawPassword.value].some(Boolean));
 const bankManagementReady = computed(() => [selectedBank.value, accountNumber.value.trim(), accountPassword.value.trim()].some(Boolean));
 const cryptoManagementReady = computed(() => [managementWalletType.value, managementWalletAddress.value, managementWalletPassword.value].some(Boolean));
+
+const modal = ref<{ type: 'success' | 'warning'; message?: string } | null>(null);
+function submitWithdraw() {
+  if (withdrawalAmount.value.trim() === '') { modal.value = { type: 'warning', message: 'invalid' }; return; }
+  modal.value = { type: 'success', message: 'Withdrawal request submitted successfully.' };
+}
 </script>
 
 <template>
@@ -45,22 +51,20 @@ const cryptoManagementReady = computed(() => [managementWalletType.value, manage
 
           <section v-if="method === 'bank'" class="payment-card">
             <div class="mb-6 md:mb-8">
-              <h2 class="section-title mb-4">My Bank Accounts</h2>
-              <div class="bank-empty relative overflow-hidden rounded-2xl p-6 md:p-12 text-center">
+              <div class="accts-head">
+                <button type="button" class="accts-nav" aria-label="Previous"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6" /></svg></button>
+                <h2 class="accts-title">My Bank Accounts <span>1 / 5</span></h2>
+                <button type="button" class="accts-nav" aria-label="Next"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6" /></svg></button>
+              </div>
+              <div class="bound-card relative overflow-hidden rounded-2xl">
                 <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 1200 320" preserveAspectRatio="none" fill="none">
-                  <path d="M0,305 C300,255 620,365 1200,150 L1200,320 L0,320 Z" fill="rgba(152,231,210,0.045)" />
-                  <path d="M0,255 C340,185 740,325 1200,120 L1200,320 L0,320 Z" fill="rgba(152,231,210,0.06)" />
-                  <path d="M0,232 C380,162 780,300 1200,92 L1200,150 C780,332 380,205 0,278 Z" fill="rgba(152,231,210,0.07)" />
-                  <path d="M0,232 C380,162 780,300 1200,92" stroke="rgba(190,245,225,0.32)" stroke-width="1.2" />
+                  <path d="M0,232 C380,162 780,300 1200,92" stroke="rgba(190,245,225,0.18)" stroke-width="1.2" />
+                  <path d="M0,275 C380,205 740,330 1200,120" stroke="rgba(190,245,225,0.10)" stroke-width="1.2" />
                 </svg>
-                <div class="relative">
-                  <div class="flex justify-center mb-4">
-                    <div class="coin-empty w-20 h-20 md:w-24 md:h-24 rounded-full border-2 border-dashed border-gray-600 flex items-center justify-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-10 h-10 md:w-12 md:h-12 text-gray-400"><rect width="20" height="14" x="2" y="5" rx="2" /><line x1="2" x2="22" y1="10" y2="10" /></svg>
-                    </div>
-                  </div>
-                  <h3 class="text-white text-base md:text-lg font-semibold mb-4">Empty Bank Account</h3>
-                  <button class="add-account px-6 py-2 rounded-lg hover:opacity-90 transition-opacity font-semibold text-sm md:text-base">Add Account</button>
+                <div class="relative bound-inner">
+                  <div class="bound-pill">Bank Name</div>
+                  <div class="bound-num"><p class="bn-label">Account number</p><p class="bn-value">＊＊＊＊5567</p></div>
+                  <div class="bound-foot"><span class="bound-name">M＊＊＊＊＊＊＊</span><span class="bound-date">Bind Date<br><b>2025-09-05</b></span></div>
                 </div>
               </div>
               <button class="refresh flex items-center gap-2 mt-4 transition-colors">
@@ -107,7 +111,7 @@ const cryptoManagementReady = computed(() => [managementWalletType.value, manage
               </div>
             </div>
             <div class="flex flex-col gap-3 md:gap-4">
-              <button class="submit-gray w-full py-3 md:py-4 rounded-lg hover:opacity-90 transition-opacity font-semibold text-sm md:text-base">Submit</button>
+              <button class="submit-ready w-full py-3 md:py-4 rounded-lg font-semibold text-sm md:text-base" @click="submitWithdraw"><span>Submit</span></button>
               <NuxtLink class="back-flat w-full py-3 md:py-4 rounded-lg transition-colors font-semibold text-sm md:text-base" to="/account">Back</NuxtLink>
             </div>
           </section>
@@ -165,9 +169,27 @@ const cryptoManagementReady = computed(() => [managementWalletType.value, manage
       </main>
     </div>
     <MobileBottomNav />
+    <MemberModal v-if="modal" :type="modal.type" :message="modal.message" @confirm="modal = null" @cancel="modal = null" />
   </div>
 </template>
 
 <style scoped>
 .mode-tabs{display:flex;gap:32px;width:100%;max-width:56rem;margin:0 auto 24px;border-bottom:1px solid #263241}.mode-tabs button{position:relative;padding:0 0 12px;background:none;border:0;color:#9ca3af;font-weight:600}.mode-tabs button.active{color:#98e7d2}.mode-tabs button.active:after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:3px;border-radius:99px;background:#98e7d2}.payment-tabs{display:flex;gap:12px;width:100%;max-width:56rem;margin:0 auto 24px}.payment-tabs.inner{margin:0 0 24px}.payment-tabs button{display:flex;align-items:center;justify-content:center;gap:10px;min-width:170px;padding:12px 18px;border:1px solid #374151;border-radius:10px;background:#0f1419;color:#d1d5db;font-weight:600}.payment-tabs svg{width:22px;height:22px}.payment-tabs button.active{border-color:#98e7d2;background:linear-gradient(90deg,#cbe8e4,#98e7d2);color:#0f1622}.payment-card{width:100%;max-width:56rem;margin:0 auto;padding:32px;background:#1a2128;border:1px solid #1f2937;border-radius:10px}.section-title{display:flex;align-items:center;gap:8px;padding-left:12px;border-left:4px solid #aae5d3;color:#aae5d3;font-size:20px;font-weight:600}.section-title span{color:#d1d5db}.bank-empty{background:linear-gradient(105deg,rgb(22,63,52) 0%,rgb(15,42,35) 28%,rgb(11,24,21) 55%,rgb(10,14,18) 100%)}.coin-empty{background:rgba(26,33,40,.6)}.add-account{border:0;background:#313e40;color:#aae5d3}.refresh{background:none;border:0;color:#9ca3af}.refresh:hover{color:#fff}.field{width:100%;min-height:50px;padding:12px 16px;border:1px solid #374151;border-radius:10px;background:#0f1419;color:#d1d5db;outline:none}.field:focus{border-color:#98e7d2}select.field{appearance:none;padding-right:36px}.eye{background:none;border:0}.submit-gray{border:0;background:#4b5563;color:#fff}.back-flat{display:flex;align-items:center;justify-content:center;border:1px solid #374151;background:#0f1419;color:#fff;text-decoration:none}.back-flat:hover{border-color:#4b5563}.wallet-empty{display:flex;min-height:292px;margin-top:24px;flex-direction:column;align-items:center;justify-content:center;text-align:center;border:0;border-radius:16px;background:linear-gradient(105deg,#163f34 0%,#0f2a23 28%,#0b1815 55%,#0a0e12 100%);color:#d1d5db;padding:48px}.wallet-empty .coin-lg,.bound-wallet .coin-md{display:flex;align-items:center;justify-content:center;border:2px dashed #4b5563;border-radius:50%;background:rgba(26,33,40,.6);color:#9ca3af;font-weight:600}.wallet-empty .coin-lg{width:96px;height:96px;font-size:40px;margin-bottom:16px}.add-wallet{display:inline-flex;align-items:center;gap:8px;margin-top:16px;padding:8px 24px;border-radius:10px;border:0;background:#313e40;color:#aae5d3;font-weight:600;font-size:16px;cursor:pointer}.balance-grid{display:grid;grid-template-columns:190px minmax(0,1fr);gap:8px 20px;margin-top:24px;color:#d1d5db}.balance-grid strong{color:#aae5d3;font-size:20px;font-weight:600}.form-grid{display:grid;grid-template-columns:190px minmax(0,1fr);gap:16px 20px;align-items:center;color:#d1d5db}.form-grid label{font-weight:600}.account-summary{margin-bottom:32px}.registered-card{display:flex;align-items:center;gap:16px;width:100%;height:140px;margin-top:24px;padding:24px;border:1px solid #374151;border-radius:10px;background:#0f1419;color:#d1d5db}.registered-card .bank-logo{display:grid;place-items:center;width:80px;height:56px;border-radius:10px;background:#dbeafe;color:#0f172a;font-weight:700}.registered-card div:last-child{display:flex;flex-direction:column;gap:4px}.registered-card strong{color:white}.registered-card span{color:#9ca3af;font-size:14px}.bound-wallet{display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;height:140px;margin-top:24px;text-align:center;color:#9ca3af;border:1px solid #374151;border-radius:10px;background:#0f1419}.bound-wallet .coin-md{width:72px;height:72px;margin-bottom:12px;font-size:32px}.action,.back{display:flex;align-items:center;justify-content:center;width:100%;height:56px;margin-top:24px;border-radius:10px;font-weight:600}.action{border:0;background:#4b5563;color:white;cursor:not-allowed}.action.ready{background:linear-gradient(90deg,#cbe8e4,#98e7d2);color:#0f1622;cursor:pointer}.back{border:1px solid #374151;background:#0f1419;color:white;text-decoration:none}.back:hover{border-color:#4b5563}@media(max-width:700px){.mode-tabs{gap:24px;margin-bottom:16px}.mode-tabs button{font-size:14px}.payment-tabs{gap:8px;margin-bottom:16px}.payment-tabs button{flex:1;min-width:0;padding:10px 12px;font-size:14px}.payment-card{padding:16px}.section-title{font-size:17px}.wallet-empty{min-height:220px;padding:24px}.wallet-empty .coin-lg{width:80px;height:80px;font-size:34px}.add-wallet{font-size:14px}.form-grid,.balance-grid{grid-template-columns:1fr;gap:8px}.form-grid label{margin-top:8px;font-size:14px}.field{min-height:48px;font-size:14px}.registered-card,.bound-wallet{height:140px;padding:16px}.registered-card .bank-logo{width:72px}.action,.back{height:48px;font-size:14px}}
+.accts-head{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:16px}
+.accts-nav{background:none;border:0;color:#9ca3af;cursor:pointer;padding:0;line-height:0}
+.accts-nav:hover{color:#fff}
+.accts-title{color:#fff;font-size:17px;font-weight:600}
+.accts-title span{color:#9ca3af;font-weight:500}
+.bound-card{min-height:150px;background:linear-gradient(105deg,#1b2536 0%,#131c2b 55%,#0d1420 100%);border:1px solid #26324a;padding:22px 26px}
+.bound-inner{display:flex;flex-direction:column;min-height:106px}
+.bound-pill{align-self:flex-start;background:#0a1526;color:#cbd5e1;font-size:12px;font-weight:700;padding:6px 14px;border-radius:8px}
+.bound-num{text-align:center;margin-top:-4px}
+.bound-num .bn-label{color:#9ca3af;font-size:13px;margin:0}
+.bound-num .bn-value{color:#fff;font-size:24px;font-weight:800;letter-spacing:.12em;margin:2px 0 0}
+.bound-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:auto;padding-top:14px}
+.bound-name{color:#eab308;font-weight:700;letter-spacing:.08em}
+.bound-date{text-align:right;color:#9ca3af;font-size:12px}
+.bound-date b{color:#e5e7eb;font-size:13px}
+.submit-ready{display:flex;align-items:center;justify-content:center;border:0;background:#0a1526;cursor:pointer}
+.submit-ready span{background:linear-gradient(90deg,#ff4d9d,#ff8a3d,#ffb43d);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:800}
 </style>

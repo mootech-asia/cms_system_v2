@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 const root = ref<HTMLElement | null>(null);
 useMemberPage(root);
+const showSuccess = ref(false);
 </script>
 
 <template>
@@ -189,11 +190,12 @@ useMemberPage(root);
     <span class="text-xs px-3 py-1 rounded-full" style="background-color: rgba(152, 231, 210, 0.15); color: rgb(152, 231, 210);">We care about your privacy</span>
     </div>
     <p class="text-gray-500 text-xs text-center mb-4 leading-relaxed">All the user data are encrypted to ensure your personal privacy is protected. For updates to your personal info, please contact support.</p>
-    <button class="w-full py-3 rounded-lg font-semibold mb-2 bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2] text-gray-900 hover:opacity-90 transition-opacity">Submit</button>
+    <button class="w-full py-3 rounded-lg font-semibold mb-2 bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2] text-gray-900 hover:opacity-90 transition-opacity" @click="showSuccess = true">Submit</button>
     <button class="w-full bg-[#1a2128] border border-gray-700 text-white py-3 rounded-lg font-semibold">Back</button>
     </div>
     </main>
     </div>
     <MobileBottomNav />
+    <MemberModal v-if="showSuccess" type="success" @confirm="showSuccess = false" @cancel="showSuccess = false" />
   </div>
 </template>
