@@ -126,17 +126,20 @@ const LANGS = [
 ];
 
 function setupHeaderLang() {
-  const btn = [...document.querySelectorAll('#container button')].find((b) => b.querySelector('svg.lucide-globe'));
-  if (!btn) return;
-  const wrap = btn.parentElement;
-  const row = wrap && wrap.parentElement;
-  if (row && row.lastElementChild !== wrap) row.appendChild(wrap); // 移到最右邊
-  const label = btn.querySelector('span');
-  if (label) label.textContent = window._lang || 'EN';
-  btn.dataset.langToggle = '1';
-  if (!btn.querySelector('svg.lucide-chevron-down')) {
-    btn.insertAdjacentHTML('beforeend', '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>');
-  }
+  // 桌機頂列 + 手機 header 的 globe 都接上語言下拉
+  const globes = [...document.querySelectorAll('#container button')].filter((b) => b.querySelector('svg.lucide-globe'));
+  globes.forEach((btn) => {
+    const wrap = btn.parentElement;
+    const row = wrap && wrap.parentElement;
+    // 只有桌機頂列(justify-end)的 globe 需要移到最右邊
+    if (row && /justify-end/.test(row.className) && row.lastElementChild !== wrap) row.appendChild(wrap);
+    const label = btn.querySelector('span');
+    if (label) label.textContent = window._lang || 'EN';
+    btn.dataset.langToggle = '1';
+    if (!btn.querySelector('svg.lucide-chevron-down')) {
+      btn.insertAdjacentHTML('beforeend', '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>');
+    }
+  });
 }
 
 function closeLangMenu() { document.querySelectorAll('.lang-menu').forEach((m) => m.remove()); }

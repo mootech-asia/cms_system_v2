@@ -153,9 +153,30 @@ const mobileOpen = useState<boolean>('ui:mobileMenuOpen', () => false);
       <NuxtLink class="whitespace-nowrap flex-shrink-0" to="/">
         <img src="/logo.png" alt="Casino Logo" class="h-10 mix-blend-lighten">
       </NuxtLink>
-      <button class="text-gray-300 hover:text-white" aria-label="Menu" @click="mobileOpen = true">
-        <AppIcon name="menu" class="w-5 h-5" />
-      </button>
+      <div class="flex items-center gap-3">
+        <div class="relative">
+          <button class="text-gray-300 hover:text-white flex items-center gap-1" @click="langOpen = !langOpen">
+            <AppIcon name="globe" class="w-5 h-5" /><span>{{ lang }}</span><AppIcon name="chevron-down" class="w-3 h-3" />
+          </button>
+          <div v-if="langOpen" class="fixed inset-0 z-[999]" @click="langOpen = false"></div>
+          <div
+            v-if="langOpen"
+            class="absolute right-0 top-full z-[1000]"
+            style="margin-top:6px;background:#1a2128;border:1px solid #2a3441;border-radius:10px;padding:6px;min-width:140px;box-shadow:0 12px 30px rgba(0,0,0,.45)"
+          >
+            <div
+              v-for="l in langs" :key="l.code"
+              class="rounded-md cursor-pointer"
+              style="padding:9px 14px;font-size:14px;white-space:nowrap"
+              :style="{ color: lang === l.code ? '#98E7D2' : '#d1d5db', fontWeight: lang === l.code ? 700 : 400 }"
+              @click="lang = l.code; langOpen = false"
+            >{{ l.label }}</div>
+          </div>
+        </div>
+        <button class="text-gray-300 hover:text-white" aria-label="Menu" @click="mobileOpen = true">
+          <AppIcon name="menu" class="w-5 h-5" />
+        </button>
+      </div>
     </div>
 
     <!-- mobile slide-in menu -->
