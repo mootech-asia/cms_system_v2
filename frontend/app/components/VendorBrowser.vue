@@ -90,10 +90,7 @@ const gameList = computed(() => (tab.value === 'favorites'
       <div v-if="tab === 'favorites' && !favGames.length" class="vnd-empty">No favorites yet - tap the star on a game to add one.</div>
 
       <div v-else-if="tab === 'vendor' && !active" class="vnd-grid">
-        <button v-for="(v, i) in filtered" :key="v" class="vnd-card" @click="openVendor(v)">
-          <span class="vnd-bg" :style="{ backgroundImage: `url(${photo(i)})` }"></span>
-          <span class="vnd-shade"></span>
-          <svg class="vnd-arc" viewBox="0 0 400 200" preserveAspectRatio="none" fill="none"><path d="M-20,210 C120,120 300,150 430,-10" stroke="rgba(152,231,210,.35)" stroke-width="1.5" /><path d="M-20,240 C140,150 320,180 440,20" stroke="rgba(152,231,210,.16)" stroke-width="1.5" /></svg>
+        <button v-for="v in filtered" :key="v" class="vnd-card" @click="openVendor(v)">
           <span class="vnd-name">{{ v }}</span>
         </button>
       </div>
@@ -148,11 +145,10 @@ const gameList = computed(() => (tab.value === 'favorites'
 .vnd-grid{display:grid;grid-template-columns:repeat(1,minmax(0,1fr));gap:16px}
 @media(min-width:640px){.vnd-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(min-width:1024px){.vnd-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
-.vnd-card{position:relative;display:block;height:140px;border-radius:16px;border:1px solid rgba(152,231,210,.4);overflow:hidden;cursor:pointer;transition:border-color .18s ease,transform .18s ease,box-shadow .18s ease;text-align:left}
-.vnd-card:hover{border-color:#98E7D2;transform:translateY(-3px);box-shadow:0 0 0 1px rgba(152,231,210,.5),0 14px 32px rgba(0,0,0,.5)}
-.vnd-card .vnd-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .35s ease}
-.vnd-card:hover .vnd-bg{transform:scale(1.06)}
-.vnd-card .vnd-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(9,14,20,.94) 0%,rgba(9,14,20,.78) 38%,rgba(9,14,20,.28) 72%,rgba(9,14,20,.1) 100%)}
-.vnd-card .vnd-arc{position:absolute;right:0;bottom:0;width:75%;height:100%;pointer-events:none;opacity:.7}
-.vnd-card .vnd-name{position:absolute;left:26px;top:50%;transform:translateY(-50%);z-index:1;max-width:62%;color:#fff;font-size:22px;font-weight:800;line-height:1.2;letter-spacing:.01em;text-shadow:0 2px 14px rgba(0,0,0,.75)}
+.vnd-card{position:relative;display:flex;align-items:center;justify-content:center;height:140px;border-radius:16px;border:1px solid rgba(152,231,210,.32);overflow:hidden;cursor:pointer;background:linear-gradient(135deg,#0c2018 0%,#0e2a1f 45%,#0a1512 100%);transition:border-color .18s ease,transform .18s ease,box-shadow .18s ease}
+.vnd-card::before{content:"";position:absolute;width:190px;height:190px;left:-46px;top:-64px;border-radius:50%;background:radial-gradient(circle,rgba(152,231,210,.22),transparent 65%);pointer-events:none}
+.vnd-card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.06),transparent 42%);pointer-events:none}
+.vnd-card:hover{border-color:#98E7D2;transform:translateY(-3px);box-shadow:0 0 0 1px rgba(152,231,210,.5),0 16px 34px rgba(0,0,0,.55)}
+.vnd-card:hover::before{background:radial-gradient(circle,rgba(152,231,210,.32),transparent 65%)}
+.vnd-card .vnd-name{position:relative;z-index:1;padding:0 18px;text-align:center;color:#fff;font-size:22px;font-weight:800;line-height:1.2;letter-spacing:.01em;text-shadow:0 2px 12px rgba(0,0,0,.55)}
 </style>
