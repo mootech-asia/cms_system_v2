@@ -51,7 +51,7 @@
     rail.appendChild(makeBtn({
       label: 'FAQ',
       inner: HELP,
-      onClick: () => { if (window.openSupportModal) window.openSupportModal(); },
+      onClick: () => { location.hash = '#/about?tab=faq'; },
     }));
 
     document.body.appendChild(rail);

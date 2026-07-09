@@ -3,7 +3,7 @@
 const items = [
   { label: 'Promo Channel', icon: 'logo', to: '/promotion' },
   { label: 'Live Chat', icon: 'send', to: '/support' },
-  { label: 'FAQ', icon: 'help', to: '/support' },
+  { label: 'FAQ', icon: 'help', to: '/about?tab=faq' },
 ];
 </script>
 
