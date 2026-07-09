@@ -154,19 +154,40 @@
     setSub('');
   }
 
-  function renderFavoritesEmpty() {
+  function renderFavorites() {
     const g = grid();
     if (!g) return;
-    g.className = '';
-    g.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#9ca3af;padding:56px 16px">No favorites yet - open a vendor to start playing.</div>';
+    const items = [...favs.values()];
+    if (!items.length) {
+      g.className = '';
+      g.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#9ca3af;padding:56px 16px">No favorites yet - tap the star on a game to add one.</div>';
+      setSub('');
+      return;
+    }
+    g.className = 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4';
+    g.dataset.vndGrid = '1';
+    g.innerHTML = items.map(({ vendor, i }) => gameCard(vendor, i)).join('');
     setSub('');
   }
 
+  // 收藏(session 內記憶):id -> {vendor, i}
+  const favs = new Map();
+  const favId = (vendor, i) => vendor + '||' + i;
+  function favStar(id) {
+    const on = favs.has(id);
+    return `<button class="vnd-fav absolute top-2 right-2 z-10 focus:outline-none bg-black/50 rounded-full p-1.5 transition-colors" data-fav-id="${id}" aria-label="Favourite">
+        <svg class="vnd-star" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${on ? '#98E7D2' : 'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;color:${on ? '#98E7D2' : '#fff'}">
+          <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/>
+        </svg>
+      </button>`;
+  }
+
   function gameCard(vendor, i) {
-    // 原本的遊戲卡設計(圖片 + Game Name + Provider + Play Now),移除最愛星號
+    // 原本的遊戲卡設計(圖片 + Game Name + Provider + Play Now) + 收藏星號
     return `<div class="bg-[#1a2128] border border-gray-800 rounded-lg overflow-hidden hover:border-[#98E7D2] transition-colors cursor-pointer group">
         <div class="aspect-[4/3] relative overflow-hidden">
           <img src="${photo(i)}" alt="Game Name" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+          ${favStar(favId(vendor, i))}
         </div>
         <div class="p-4">
           <h3 class="text-white mb-1 truncate">Game Name</h3>
@@ -200,6 +221,21 @@
     if (e.target.closest('#inner-back button')) { e.preventDefault(); goBack(); return; }
     if (!currentSlug || !VENDOR_PAGES[currentSlug]) return;
 
+    // 收藏星號切換
+    const favBtn = e.target.closest('.vnd-fav');
+    if (favBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      const id = favBtn.dataset.favId;
+      if (favs.has(id)) favs.delete(id);
+      else { const [vendor, i] = id.split('||'); favs.set(id, { vendor, i: Number(i) }); }
+      const on = favs.has(id);
+      const svg = favBtn.querySelector('svg');
+      if (svg) { svg.setAttribute('fill', on ? '#98E7D2' : 'none'); svg.style.color = on ? '#98E7D2' : '#fff'; }
+      if (currentTab === 'favorites') renderFavorites();
+      return;
+    }
+
     const card = e.target.closest('.vnd-card');
     if (card) {
       viewVendor = card.dataset.vendor;
@@ -212,7 +248,7 @@
       currentTab = tab.dataset.tab;
       viewVendor = null;
       document.querySelectorAll('.vnd-tabs button').forEach((b) => b.classList.toggle('active', b === tab));
-      if (currentTab === 'favorites') renderFavoritesEmpty(); else renderVendorGrid();
+      if (currentTab === 'favorites') renderFavorites(); else renderVendorGrid();
       return;
     }
   });
