@@ -62,7 +62,7 @@ const mobileOpen = useState<boolean>('ui:mobileMenuOpen', () => false);
 <template>
   <header class="bg-[#1a2128] border-b border-gray-800 sticky top-0 z-50">
     <!-- desktop -->
-    <div class="hidden md:flex items-stretch px-[70px]">
+    <div class="hidden md:flex items-stretch container mx-auto px-4">
       <NuxtLink class="flex items-center pr-6 flex-shrink-0" to="/">
         <img src="/logo.png" alt="Casino Logo" class="h-10 mix-blend-lighten">
       </NuxtLink>
@@ -115,7 +115,7 @@ const mobileOpen = useState<boolean>('ui:mobileMenuOpen', () => false);
             </div>
           </div>
         </div>
-        <nav class="flex items-center justify-center gap-1.5 py-1.5 border-t border-gray-800 text-sm relative">
+        <nav class="flex items-center justify-end gap-1.5 py-1.5 border-t border-gray-800 text-sm relative">
           <template v-for="item in nav" :key="item.to">
             <div v-if="item.dropdown" class="relative" @mouseenter="showDd(item.label)" @mouseleave="hideDd">
               <NuxtLink :to="item.to" :class="[base, isActive(item.to) ? activeCls : inactiveCls]">
