@@ -21,6 +21,7 @@ const tabCls = (p: string) => (p === provider.value ? 'text-[#98E7D2]' : 'text-g
     </div>
     <section class="py-8 bg-[#0f1419] min-h-[400px]">
     <div class="container mx-auto px-4">
+    <InnerBack />
     <div class="flex items-center gap-8 border-b border-gray-800 mb-8">
     <button v-for="p in ['BTI','SABA','Favorites']" :key="p" class="pb-4 px-2 transition-colors relative" :class="tabCls(p)" @click="provider = p">{{ p }}<div v-if="provider === p" class="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2]"></div></button>
     </div>

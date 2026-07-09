@@ -115,7 +115,7 @@ const mobileOpen = useState<boolean>('ui:mobileMenuOpen', () => false);
             </div>
           </div>
         </div>
-        <nav class="flex items-center justify-end gap-1.5 py-1.5 border-t border-gray-800 text-sm relative">
+        <nav class="flex items-center justify-center gap-1.5 py-1.5 border-t border-gray-800 text-sm relative">
           <template v-for="item in nav" :key="item.to">
             <div v-if="item.dropdown" class="relative" @mouseenter="showDd(item.label)" @mouseleave="hideDd">
               <NuxtLink :to="item.to" :class="[base, isActive(item.to) ? activeCls : inactiveCls]">

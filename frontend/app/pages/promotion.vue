@@ -8,6 +8,7 @@
     </div>
     <section class="py-8 bg-[#0f1419] min-h-[600px]">
     <div class="container mx-auto px-4">
+    <InnerBack />
     <div class="flex flex-col gap-6">
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
     <div class="bg-[#1a2128] border border-gray-800 rounded-lg overflow-hidden hover:border-[#98E7D2] transition-colors">
