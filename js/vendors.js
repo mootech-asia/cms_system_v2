@@ -1,23 +1,30 @@
 // === 內頁:廠商選擇 → 遊戲列表 + 頂部 Back 按鈕 (原生 JS) ===
+// 內容區塊完全由此模組建置,確保所有分類頁(含 live)版面一致。
 (function () {
-  // 走「先選廠商」流程的遊戲分類頁
   const VENDOR_PAGES = {
     slot: 'Slot Games',
-    live: 'Live Games',
-    fish: 'Fish Games',
+    live: 'Live Casino',
+    fish: 'Fishing Games',
     'hot-games': 'Hot Games',
     'mini-games': 'Mini Games',
   };
-  // 需要頂部 Back 按鈕的內頁(含 sport / promotion)
   const BACK_PAGES = new Set([...Object.keys(VENDOR_PAGES), 'sport', 'promotion']);
 
-  const VENDORS = [
+  const SLOT_VENDORS = [
     'Pragmatic Play', 'PG Soft', 'CQ9 Gaming', 'Hacksaw Gaming', 'NetEnt', 'Nolimit City',
     'Big Time Gaming', 'Booongo', 'JILI', 'PlayStar', 'Yggdrasil', 'Evoplay',
     'Skywind', 'Spadegaming', "Play'n GO", 'Microgaming', 'Habanero', 'Playtech',
     'Red Tiger', 'Relax Gaming', 'Push Gaming', 'Wazdan', 'Blueprint', 'Quickspin',
     'Thunderkick', 'ELK Studios', 'Playson', 'Kalamba', 'Fantasma', 'Dragoon Soft',
   ];
+  const LIVE_VENDORS = [
+    'Evolution Gaming', 'Pragmatic Play Live', 'Sexy Gaming', 'Yeebet Live', 'WM Casino', 'Dream Gaming',
+    'SA Gaming', 'Ezugi', 'Playtech Live', 'BG Big Gaming', 'Allbet', 'Asia Gaming',
+    'eBET', 'VIVO Gaming', 'Microgaming Live', 'AE Sexy', 'OG Casino', 'Green Dragon',
+    'N2 Live', 'Ho Gaming', 'Bet Games', 'Skywind Live', 'CQ9 Live', 'PP Live Deluxe',
+    'Royal Gaming', 'Lucky Streak', 'Betradar Live', 'Xpro Gaming', 'Winfinity', 'Atmosfera',
+  ];
+  const vendorsFor = (slug) => (slug === 'live' ? LIVE_VENDORS : SLOT_VENDORS);
 
   const IMG = '_external/images.unsplash.com/';
   const PHOTOS = [
@@ -27,7 +34,17 @@
   ];
   const photo = (i) => IMG + PHOTOS[((i % PHOTOS.length) + PHOTOS.length) % PHOTOS.length];
 
-  const ARC = '<svg class="vnd-arc" viewBox="0 0 400 200" preserveAspectRatio="none" fill="none"><path d="M-20,210 C120,120 300,150 430,-10" stroke="rgba(152,231,210,.35)" stroke-width="1.5"/><path d="M-20,240 C140,150 320,180 440,20" stroke="rgba(152,231,210,.18)" stroke-width="1.5"/></svg>';
+  // 由廠商名產生穩定色相與字母章
+  function hueOf(s) { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) % 360; return h; }
+  function monoOf(name) {
+    const w = name.replace(/[^A-Za-z0-9 ]/g, '').split(/\s+/).filter(Boolean);
+    if (w.length >= 2) return (w[0][0] + w[1][0]).toUpperCase();
+    return name.replace(/[^A-Za-z0-9]/g, '').slice(0, 2).toUpperCase();
+  }
+
+  const BACK_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>';
+  const SEARCH_SVG = '<svg class="s-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>';
+  const ENTER_SVG = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';
 
   function injectStyle() {
     if (document.getElementById('vnd-style')) return;
@@ -38,15 +55,30 @@
       #inner-back button{display:inline-flex;align-items:center;gap:6px;background:none;border:0;color:#fff;font-size:22px;font-weight:700;cursor:pointer;padding:0}
       #inner-back button:hover{color:#98E7D2}
       #inner-back svg{width:24px;height:24px}
+      .vnd-tabs{display:flex;gap:32px;border-bottom:1px solid #263241;margin-bottom:26px}
+      .vnd-tabs button{position:relative;padding:0 0 14px;background:none;border:0;color:#9ca3af;font-weight:600;font-size:15px;cursor:pointer}
+      .vnd-tabs button.active{color:#98E7D2}
+      .vnd-tabs button.active::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;border-radius:2px;background:linear-gradient(90deg,#CBE8E4,#98E7D2)}
+      .vnd-head{display:flex;flex-direction:column;gap:16px;margin-bottom:26px}
+      @media(min-width:768px){.vnd-head{flex-direction:row;align-items:center;justify-content:space-between}}
+      .vnd-head h2{color:#fff;font-size:26px;font-weight:600;margin:0}
+      .vnd-sub{margin:6px 0 0;color:#9ca3af;font-size:14px}
+      .vnd-sub b{color:#98E7D2}
+      .vnd-search{position:relative;display:flex;gap:10px}
+      .vnd-search input{background:#1a2128;border:1px solid #374151;border-radius:10px;padding:11px 14px 11px 38px;color:#fff;outline:none;min-width:220px}
+      .vnd-search input:focus{border-color:#98E7D2}
+      .vnd-search .s-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:#9ca3af;width:16px;height:16px}
+      .vnd-search .s-btn{background:linear-gradient(90deg,#CBE8E4,#98E7D2);color:#0f1622;border:0;border-radius:10px;padding:0 20px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap}
       .vnd-grid{display:grid;grid-template-columns:repeat(1,minmax(0,1fr));gap:16px}
       @media(min-width:640px){.vnd-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
       @media(min-width:1024px){.vnd-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
-      .vnd-card{position:relative;display:block;width:100%;height:130px;overflow:hidden;border-radius:14px;border:1px solid #2a3441;background:radial-gradient(120% 140% at 100% 50%,#243244 0%,#141d2a 45%,#0d1420 100%);cursor:pointer;transition:border-color .18s ease,transform .18s ease}
-      .vnd-card:hover{border-color:#98E7D2;transform:translateY(-2px)}
-      .vnd-card .vnd-bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.16;filter:grayscale(.3)}
-      .vnd-card .vnd-arc{position:absolute;right:0;top:0;width:70%;height:100%;pointer-events:none}
-      .vnd-card .vnd-photo{position:absolute;right:0;bottom:0;height:118%;width:52%;object-fit:cover;object-position:center top;-webkit-mask-image:linear-gradient(90deg,transparent,#000 55%);mask-image:linear-gradient(90deg,transparent,#000 55%);opacity:.85}
-      .vnd-card .vnd-name{position:absolute;left:22px;top:50%;transform:translateY(-50%);max-width:55%;color:#fff;font-size:20px;font-weight:800;letter-spacing:.02em;text-shadow:0 2px 12px rgba(0,0,0,.6);z-index:1}
+      .vnd-card{position:relative;display:block;height:140px;border-radius:16px;border:1px solid rgba(152,231,210,.4);overflow:hidden;cursor:pointer;transition:border-color .18s ease,transform .18s ease,box-shadow .18s ease;text-align:left}
+      .vnd-card:hover{border-color:#98E7D2;transform:translateY(-3px);box-shadow:0 0 0 1px rgba(152,231,210,.5),0 14px 32px rgba(0,0,0,.5)}
+      .vnd-card .vnd-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .35s ease}
+      .vnd-card:hover .vnd-bg{transform:scale(1.06)}
+      .vnd-card .vnd-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(9,14,20,.94) 0%,rgba(9,14,20,.78) 38%,rgba(9,14,20,.28) 72%,rgba(9,14,20,.1) 100%)}
+      .vnd-card .vnd-arc{position:absolute;right:0;bottom:0;width:75%;height:100%;pointer-events:none;opacity:.7}
+      .vnd-card .vnd-name{position:absolute;left:26px;top:50%;transform:translateY(-50%);z-index:1;max-width:62%;color:#fff;font-size:22px;font-weight:800;line-height:1.2;letter-spacing:.01em;text-shadow:0 2px 14px rgba(0,0,0,.75)}
       .vgame-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
       @media(min-width:768px){.vgame-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
       @media(min-width:1024px){.vgame-grid{grid-template-columns:repeat(6,minmax(0,1fr))}}
@@ -54,19 +86,17 @@
       .vgame:hover{border-color:#98E7D2;transform:translateY(-2px)}
       .vgame img{width:100%;height:100%;object-fit:cover;transition:transform .3s ease}
       .vgame:hover img{transform:scale(1.08)}
-      .vnd-sub{margin:0 0 20px;color:#9ca3af;font-size:14px}
-      .vnd-sub b{color:#98E7D2}
-      .vgame-more{display:flex;justify-content:center;margin-top:24px}
+      .vgame-more{display:flex;justify-content:center;margin-top:28px}
       .vgame-more button{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:12px 60px;color:#d1d5db;font-weight:500;cursor:pointer;transition:all .2s}
       .vgame-more button:hover{background:#313E40;color:#AAE5D3;border-color:#AAE5D3}
     `;
     document.head.appendChild(s);
   }
 
-  const BACK_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>';
-
-  // 每頁的狀態:是否正在看某廠商的遊戲列表
-  let viewVendor = null;
+  // ---- 狀態 ----
+  let currentSlug = null;
+  let currentTab = 'vendor';   // 'vendor' | 'favorites'
+  let viewVendor = null;       // 目前檢視的廠商(進遊戲列表)
 
   function goBack() {
     if (viewVendor) { viewVendor = null; renderVendorGrid(); return; }
@@ -74,143 +104,145 @@
     else location.hash = '#/home';
   }
 
-  function injectBack() {
-    // 插進第一個深色內容 <section> 的內層 .container,位在 tabs/title 上方
+  function contentInner() {
     const section = document.querySelector('#container section');
-    const inner = section && section.querySelector(':scope > div');
-    if (!inner) return;
-    const old = document.getElementById('inner-back');
-    if (old) old.remove();
-    const bar = document.createElement('div');
-    bar.id = 'inner-back';
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.innerHTML = BACK_SVG + '<span>Back</span>';
-    btn.addEventListener('click', goBack);
-    bar.appendChild(btn);
-    inner.insertBefore(bar, inner.firstChild);
+    return section && section.querySelector(':scope > div');
   }
 
-  // 找到內容區塊裡的遊戲卡格子
-  function findGrid() {
-    return document.querySelector('#container [data-vnd-grid="1"]')
-      || [...document.querySelectorAll('#container .grid')].find((g) => g.querySelector('.group'));
-  }
-  function findTitleRow() {
-    const h2 = [...document.querySelectorAll('#container h2')].find((h) => /Games$/.test((h.textContent || '').trim()));
-    return h2 ? h2.parentElement : null;
+  const ARC = '<svg class="vnd-arc" viewBox="0 0 400 200" preserveAspectRatio="none" fill="none"><path d="M-20,210 C120,120 300,150 430,-10" stroke="rgba(152,231,210,.35)" stroke-width="1.5"/><path d="M-20,240 C140,150 320,180 440,20" stroke="rgba(152,231,210,.16)" stroke-width="1.5"/></svg>';
+
+  function vendorCard(name, i) {
+    return `<button class="vnd-card" data-vendor="${name}">
+        <span class="vnd-bg" style="background-image:url('${photo(i)}')"></span>
+        <span class="vnd-shade"></span>
+        ${ARC}
+        <span class="vnd-name">${name}</span>
+      </button>`;
   }
 
-  let currentSlug = null;
+  function scaffold(slug) {
+    return `
+      <div id="inner-back"><button type="button">${BACK_SVG}<span>Back</span></button></div>
+      <div class="vnd-tabs">
+        <button data-tab="vendor" class="active">Vendor</button>
+        <button data-tab="favorites">Favorites</button>
+      </div>
+      <div class="vnd-head">
+        <div><h2 data-vnd-title>${VENDOR_PAGES[slug]}</h2><p class="vnd-sub" id="vnd-sub" style="display:none"></p></div>
+        <div class="vnd-search">
+          ${SEARCH_SVG}
+          <input type="text" placeholder="Vendor Name">
+          <button class="s-btn" type="button">${SEARCH_SVG.replace('s-icon', '')}Search</button>
+        </div>
+      </div>
+      <div class="vnd-grid" data-vnd-grid="1"></div>`;
+  }
+
+  function grid() { return document.querySelector('#container [data-vnd-grid="1"]'); }
+  function setSub(html) {
+    const sub = document.getElementById('vnd-sub');
+    if (!sub) return;
+    if (html) { sub.innerHTML = html; sub.style.display = ''; } else { sub.style.display = 'none'; sub.innerHTML = ''; }
+  }
 
   function renderVendorGrid() {
-    const grid = findGrid();
-    if (!grid) return;
-    grid.dataset.vndGrid = '1';
-    grid.className = 'vnd-grid';
-    grid.innerHTML = VENDORS.map((name, i) => `
-      <button class="vnd-card" data-vendor="${name}">
-        <span class="vnd-bg" style="background-image:url('${photo(i + 2)}')"></span>
-        ${ARC}
-        <img class="vnd-photo" src="${photo(i)}" alt="">
-        <span class="vnd-name">${name}</span>
-      </button>`).join('');
-    // 標題還原
-    const h2 = [...document.querySelectorAll('#container h2')].find((h) => h.dataset.vndTitle === '1');
-    if (h2) h2.textContent = VENDOR_PAGES[currentSlug] || h2.textContent;
-    const sub = document.getElementById('vnd-sub');
-    if (sub) sub.remove();
-  }
-
-  function renderGameList(vendor) {
-    const grid = findGrid();
-    if (!grid) return;
-    grid.dataset.vndGrid = '1';
-    grid.className = 'vgame-grid';
-    const n = 24;
-    grid.innerHTML = Array.from({ length: n }, (_, i) => `
-      <div class="vgame" title="${vendor}"><img src="${photo(i)}" alt="${vendor} game"></div>`).join('');
-    // 標題顯示廠商 + 小字
-    const h2 = [...document.querySelectorAll('#container h2')].find((h) => h.dataset.vndTitle === '1');
-    if (h2) {
-      h2.textContent = (VENDOR_PAGES[currentSlug] || 'Games');
-      if (!document.getElementById('vnd-sub')) {
-        const p = document.createElement('p');
-        p.id = 'vnd-sub';
-        p.className = 'vnd-sub';
-        p.innerHTML = `<b>${vendor}</b> — tap Back to choose another vendor`;
-        h2.insertAdjacentElement('afterend', p);
-      } else {
-        document.getElementById('vnd-sub').innerHTML = `<b>${vendor}</b> — tap Back to choose another vendor`;
-      }
-    }
+    const g = grid();
+    if (!g) return;
+    g.className = 'vnd-grid';
+    g.dataset.vndGrid = '1';
+    g.innerHTML = vendorsFor(currentSlug).map((v, i) => vendorCard(v, i)).join('');
+    setSub('');
   }
 
   function renderFavoritesEmpty() {
-    const grid = findGrid();
-    if (!grid) return;
-    grid.dataset.vndGrid = '1';
-    grid.className = '';
-    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#9ca3af;padding:56px 16px">No favorites yet - open a vendor to start playing.</div>';
-    const sub = document.getElementById('vnd-sub');
-    if (sub) sub.remove();
+    const g = grid();
+    if (!g) return;
+    g.className = '';
+    g.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#9ca3af;padding:56px 16px">No favorites yet - open a vendor to start playing.</div>';
+    setSub('');
   }
 
-  function clearStrayLoadMore() {
-    [...document.querySelectorAll('#container button')].forEach((b) => {
-      if (!/load more/i.test((b.textContent || '').trim())) return;
-      const wrap = b.parentElement;
-      if (wrap && wrap.children.length === 1 && !wrap.classList.contains('vgame-more')) wrap.remove();
-    });
+  function gameCard(vendor, i) {
+    // 原本的遊戲卡設計(圖片 + Game Name + Provider + Play Now),移除最愛星號
+    return `<div class="bg-[#1a2128] border border-gray-800 rounded-lg overflow-hidden hover:border-[#98E7D2] transition-colors cursor-pointer group">
+        <div class="aspect-[4/3] relative overflow-hidden">
+          <img src="${photo(i)}" alt="Game Name" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+        </div>
+        <div class="p-4">
+          <h3 class="text-white mb-1 truncate">Game Name</h3>
+          <p class="text-gray-400 text-sm mb-3 truncate">${vendor}</p>
+          <button class="w-full bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2] text-gray-900 px-4 py-2 rounded-lg hover:opacity-90 transition-opacity text-sm">Play Now</button>
+        </div>
+      </div>`;
   }
 
-  function setupVendorPage(slug) {
+  function renderGameList(vendor) {
+    const g = grid();
+    if (!g) return;
+    g.className = 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4';
+    g.dataset.vndGrid = '1';
+    g.innerHTML = Array.from({ length: 24 }, (_, i) => gameCard(vendor, i)).join('');
+    setSub('');
+  }
+
+  function build(slug) {
+    const inner = contentInner();
+    if (!inner) return;
     currentSlug = slug;
+    currentTab = 'vendor';
     viewVendor = null;
-    clearStrayLoadMore();
-    const h2 = [...document.querySelectorAll('#container h2')].find((h) => /Games$/.test((h.textContent || '').trim()));
-    if (h2) h2.dataset.vndTitle = '1';
-    // 搜尋框改成廠商搜尋
-    const search = [...document.querySelectorAll('#container input')].find((i) => /search/i.test(i.getAttribute('placeholder') || ''));
-    if (search) { search.placeholder = 'Vendor Name'; search.dataset.vndSearch = '1'; }
-    // 把 Filter 按鈕文字改成 Search
-    const filterBtn = [...document.querySelectorAll('#container button')].find((b) => (b.textContent || '').trim() === 'Filter');
-    if (filterBtn) filterBtn.querySelector('span') ? (filterBtn.querySelector('span').textContent = 'Search') : (filterBtn.lastChild.textContent = 'Search');
+    inner.innerHTML = scaffold(slug);
     renderVendorGrid();
   }
 
-  // 事件:廠商卡點擊、廠商搜尋、遊戲點擊
+  // ---- 事件委派 ----
   document.addEventListener('click', (e) => {
+    if (e.target.closest('#inner-back button')) { e.preventDefault(); goBack(); return; }
     if (!currentSlug || !VENDOR_PAGES[currentSlug]) return;
-    const card = e.target.closest && e.target.closest('.vnd-card');
+
+    const card = e.target.closest('.vnd-card');
     if (card) {
       viewVendor = card.dataset.vendor;
       renderGameList(viewVendor);
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
-    // Vendor / Favorites 分頁切換
-    const tabBtn = e.target.closest('.border-b button');
-    if (tabBtn) {
-      const t = (tabBtn.textContent || '').trim();
-      if (t === 'Vendor') { viewVendor = null; renderVendorGrid(); }
-      else if (t === 'Favorites') { viewVendor = null; renderFavoritesEmpty(); }
+    const tab = e.target.closest('.vnd-tabs button');
+    if (tab) {
+      currentTab = tab.dataset.tab;
+      viewVendor = null;
+      document.querySelectorAll('.vnd-tabs button').forEach((b) => b.classList.toggle('active', b === tab));
+      if (currentTab === 'favorites') renderFavoritesEmpty(); else renderVendorGrid();
+      return;
     }
   });
+
   document.addEventListener('input', (e) => {
     const input = e.target;
-    if (!input || !input.dataset || input.dataset.vndSearch !== '1' || viewVendor) return;
+    if (!input || input.tagName !== 'INPUT') return;
+    if (!currentSlug || !VENDOR_PAGES[currentSlug] || viewVendor || currentTab !== 'vendor') return;
+    if (!input.closest('.vnd-search')) return;
     const q = input.value.trim().toLowerCase();
     document.querySelectorAll('#container .vnd-card').forEach((c) => {
       c.style.display = (!q || (c.dataset.vendor || '').toLowerCase().includes(q)) ? '' : 'none';
     });
   });
 
+  function injectBackOnly() {
+    const inner = contentInner();
+    if (!inner) return;
+    if (document.getElementById('inner-back')) return;
+    const bar = document.createElement('div');
+    bar.id = 'inner-back';
+    bar.innerHTML = `<button type="button">${BACK_SVG}<span>Back</span></button>`;
+    inner.insertBefore(bar, inner.firstChild);
+  }
+
   document.addEventListener('page:rendered', (e) => {
     const slug = e.detail && e.detail.slug;
-    if (!slug || !BACK_PAGES.has(slug)) return;
+    if (!slug || !BACK_PAGES.has(slug)) { currentSlug = null; return; }
     injectStyle();
-    injectBack();
-    if (VENDOR_PAGES[slug]) setupVendorPage(slug);
+    if (VENDOR_PAGES[slug]) build(slug);
+    else { currentSlug = null; injectBackOnly(); }
   });
 })();
