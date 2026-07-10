@@ -36,10 +36,9 @@ const isActive = (to: string) => (to === '/' ? route.path === '/' : route.path.s
 
 const { loggedIn, open: openAuth, logout } = useAuth();
 
-// language dropdown (EN / 中文 / 한국어)
+// language dropdown (EN / 한국어)
 const langs = [
   { code: 'EN', label: 'English' },
-  { code: '中文', label: '中文' },
   { code: '한국어', label: '한국어' },
 ];
 const lang = useState<string>('ui:lang', () => 'EN');

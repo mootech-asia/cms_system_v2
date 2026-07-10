@@ -118,10 +118,9 @@ function applyLoginState() {
   if (regBtn) regBtn.remove();
 }
 
-// === 語言下拉選單 (英/中/韓) + 登出 ===
+// === 語言下拉選單 (英/韓) + 登出 ===
 const LANGS = [
   { code: 'EN', label: 'English' },
-  { code: '中文', label: '中文' },
   { code: '한국어', label: '한국어' },
 ];
 
