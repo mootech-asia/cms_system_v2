@@ -432,5 +432,5 @@ useMemberPage(root);
 #rk-bar .rk-dot-bronze{background:#f59e0b}
 #rk-bar .rk-next{color:#9ca3af;font-size:14px;white-space:nowrap}
 #rk-bar .rk-next b{color:#f59e0b;font-weight:800}
-@media(max-width:768px){#rk-bar{flex-direction:column;align-items:stretch;gap:16px}#rk-bar .rk-next{align-self:flex-start}}
+@media(max-width:768px){#rk-bar{flex-direction:column;align-items:stretch;gap:14px}#rk-bar .rk-prog{flex:0 0 auto;width:100%;min-width:0}#rk-bar .rk-next{align-self:flex-start}}
 </style>
