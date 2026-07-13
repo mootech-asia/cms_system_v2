@@ -141,13 +141,13 @@ useMemberPage(root);
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8 w-full">
     <div class="lg:col-span-2 relative overflow-hidden rounded-2xl p-4 md:p-6" style="background: linear-gradient(105deg, rgb(22, 63, 52) 0%, rgb(15, 42, 35) 28%, rgb(11, 24, 21) 55%, rgb(10, 14, 18) 100%);">
     <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 1200 320" preserveAspectRatio="none" fill="none">
-    <path d="M0,305 C300,255 620,365 1200,150 L1200,320 L0,320 Z" fill="rgba(152,231,210,0.045)">
+    <path d="M0,305 C300,255 620,365 1200,150 L1200,320 L0,320 Z" fill="rgba(152,231,210,0.02)">
     </path>
-    <path d="M0,255 C340,185 740,325 1200,120 L1200,320 L0,320 Z" fill="rgba(152,231,210,0.06)">
+    <path d="M0,255 C340,185 740,325 1200,120 L1200,320 L0,320 Z" fill="rgba(152,231,210,0.025)">
     </path>
-    <path d="M0,232 C380,162 780,300 1200,92 L1200,150 C780,332 380,205 0,278 Z" fill="rgba(152,231,210,0.07)">
+    <path d="M0,232 C380,162 780,300 1200,92 L1200,150 C780,332 380,205 0,278 Z" fill="rgba(152,231,210,0.03)">
     </path>
-    <path d="M0,232 C380,162 780,300 1200,92" stroke="rgba(190,245,225,0.32)" stroke-width="1.2">
+    <path d="M0,232 C380,162 780,300 1200,92" stroke="rgba(190,245,225,0.05)" stroke-width="1.2">
     </path>
     </svg>
     <div class="relative flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6">
