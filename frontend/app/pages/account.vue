@@ -138,23 +138,6 @@ useMemberPage(root);
     <main class="flex-1 min-w-0 p-4 md:p-8 flex flex-col" style="padding-bottom: 80px;">
     <InnerBack />
     <h1 class="text-white text-2xl md:text-3xl mb-6 md:mb-8 w-full">Account Overview</h1>
-    <div id="rk-bar">
-      <div class="rk-id">
-        <div class="rk-av">
-          <div class="rk-ring"><span>ME</span></div>
-          <svg class="rk-hex" viewBox="0 0 24 24" fill="#98E7D2" stroke="#1a2128" stroke-width="1.5" stroke-linejoin="round"><path d="M12 2l8.66 5v10L12 22l-8.66-5V7z" /></svg>
-        </div>
-        <div><div class="rk-name">meqomcao</div><div class="rk-sub">Rewards · Day 27, 03:26 UTC</div></div>
-      </div>
-      <div class="rk-prog">
-        <div class="rk-track"><div class="rk-fill"></div></div>
-        <div class="rk-meta">
-          <span class="rk-cur">Current: <b>Unranked</b><i class="rk-dot rk-dot-gray"></i></span>
-          <span class="rk-pts">6,200 / 10K</span>
-        </div>
-      </div>
-      <div class="rk-next">Next: <b>Bronze</b><i class="rk-dot rk-dot-bronze"></i></div>
-    </div>
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8 w-full">
     <div class="lg:col-span-2 relative overflow-hidden rounded-2xl p-4 md:p-6" style="background: linear-gradient(105deg, rgb(22, 63, 52) 0%, rgb(15, 42, 35) 28%, rgb(11, 24, 21) 55%, rgb(10, 14, 18) 100%);">
     <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 1200 320" preserveAspectRatio="none" fill="none">
@@ -192,6 +175,11 @@ useMemberPage(root);
     </div>
     </div>
     </div>
+    </div>
+    <div class="rk-rw">
+    <div class="rk-rw-top"><span class="rk-rw-label">Rewards · Day 27, 03:26 UTC</span><span class="rk-rw-next">Next: <b>Bronze</b><i class="rk-dot rk-dot-bronze" /></span></div>
+    <div class="rk-track"><div class="rk-fill" /></div>
+    <div class="rk-meta"><span class="rk-cur">Current: <b>Unranked</b><i class="rk-dot rk-dot-gray" /></span><span class="rk-pts">62%</span></div>
     </div>
     </div>
     <div class="bg-[#1a2128] border border-gray-800 rounded-lg p-4 md:p-6">
@@ -414,23 +402,17 @@ useMemberPage(root);
 </template>
 
 <style scoped>
-#rk-bar{position:relative;background:#1a2128;border:1px solid #1f2937;border-radius:16px;padding:18px 22px;margin-bottom:24px;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
-#rk-bar .rk-id{display:flex;align-items:center;gap:14px}
-#rk-bar .rk-av{position:relative;width:52px;height:52px;flex:0 0 auto}
-#rk-bar .rk-ring{width:52px;height:52px;border-radius:50%;padding:2px;background:linear-gradient(135deg,#CBE8E4,#98E7D2)}
-#rk-bar .rk-ring>span{display:flex;width:100%;height:100%;align-items:center;justify-content:center;border-radius:50%;background:#1a2128;color:#CBE8E4;font-weight:800;font-size:14px}
-#rk-bar .rk-hex{position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);width:18px;height:18px}
-#rk-bar .rk-name{color:#fff;font-size:18px;font-weight:800;line-height:1.15}
-#rk-bar .rk-sub{color:#9ca3af;font-size:12.5px;margin-top:2px}
-#rk-bar .rk-prog{flex:1 1 300px;min-width:220px}
-#rk-bar .rk-track{height:8px;border-radius:99px;background:#0f1419;overflow:hidden}
-#rk-bar .rk-fill{height:100%;width:62%;border-radius:99px;background:linear-gradient(90deg,#CBE8E4,#98E7D2)}
-#rk-bar .rk-meta{display:flex;justify-content:space-between;align-items:center;margin-top:9px;font-size:13px;color:#9ca3af}
-#rk-bar .rk-cur b{color:#98E7D2;font-weight:700}
-#rk-bar .rk-dot{display:inline-block;width:8px;height:8px;border-radius:50%;vertical-align:middle;margin-left:4px}
-#rk-bar .rk-dot-gray{background:#6b7688}
-#rk-bar .rk-dot-bronze{background:#f59e0b}
-#rk-bar .rk-next{color:#9ca3af;font-size:14px;white-space:nowrap}
-#rk-bar .rk-next b{color:#f59e0b;font-weight:800}
-@media(max-width:768px){#rk-bar{flex-direction:column;align-items:stretch;gap:14px}#rk-bar .rk-prog{flex:0 0 auto;width:100%;min-width:0}#rk-bar .rk-next{align-self:flex-start}}
+.rk-rw{position:relative;margin-top:20px;padding-top:18px;border-top:1px solid rgba(152,231,210,.18)}
+.rk-rw .rk-rw-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px}
+.rk-rw .rk-rw-label{color:#c3d0cb;font-size:12.5px}
+.rk-rw .rk-rw-next{color:#c3d0cb;font-size:14px;white-space:nowrap}
+.rk-rw .rk-rw-next b{color:#f0b24a;font-weight:800}
+.rk-rw .rk-track{height:8px;border-radius:99px;background:rgba(255,255,255,.12);overflow:hidden}
+.rk-rw .rk-fill{height:100%;width:62%;border-radius:99px;background:linear-gradient(90deg,#CBE8E4,#98E7D2)}
+.rk-rw .rk-meta{display:flex;justify-content:space-between;align-items:center;margin-top:9px;font-size:13px;color:#c3d0cb}
+.rk-rw .rk-cur b{color:#CBE8E4;font-weight:700}
+.rk-rw .rk-pts{color:#CBE8E4;font-weight:700}
+.rk-rw .rk-dot{display:inline-block;width:8px;height:8px;border-radius:50%;vertical-align:middle;margin-left:4px}
+.rk-rw .rk-dot-gray{background:#8fa39c}
+.rk-rw .rk-dot-bronze{background:#f0b24a}
 </style>
