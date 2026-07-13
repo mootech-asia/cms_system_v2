@@ -55,6 +55,12 @@
     }));
 
     document.body.appendChild(rail);
+
+    // 只在首頁顯示浮動快捷列,其餘頁面隱藏
+    const sync = (slug) => { rail.style.display = slug === 'home' ? '' : 'none'; };
+    const cur = (location.hash.replace(/^#\/?/, '').split('?')[0]) || 'home';
+    sync(cur);
+    document.addEventListener('page:rendered', (e) => { if (e.detail) sync(e.detail.slug); });
   }
 
   if (document.body) build();
