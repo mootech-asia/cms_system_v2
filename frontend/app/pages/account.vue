@@ -138,8 +138,7 @@ useMemberPage(root);
     <main class="flex-1 min-w-0 p-4 md:p-8 flex flex-col" style="padding-bottom: 80px;">
     <InnerBack />
     <h1 class="text-white text-2xl md:text-3xl mb-6 md:mb-8 w-full">Account Overview</h1>
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8 w-full">
-    <div class="lg:col-span-2 relative overflow-hidden rounded-2xl p-4 md:p-6" style="background: linear-gradient(105deg, rgb(22, 63, 52) 0%, rgb(15, 42, 35) 28%, rgb(11, 24, 21) 55%, rgb(10, 14, 18) 100%);">
+    <div class="relative overflow-hidden flex-shrink-0 rounded-2xl p-4 md:p-6 mb-8 w-full" style="background: linear-gradient(105deg, rgb(22, 63, 52) 0%, rgb(15, 42, 35) 28%, rgb(11, 24, 21) 55%, rgb(10, 14, 18) 100%);">
     <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 1200 320" preserveAspectRatio="none" fill="none">
     <path d="M0,305 C300,255 620,365 1200,150 L1200,320 L0,320 Z" fill="rgba(152,231,210,0.02)">
     </path>
@@ -182,56 +181,12 @@ useMemberPage(root);
     <div class="rk-meta"><span class="rk-cur">Current: <b>Unranked</b><i class="rk-dot rk-dot-gray" /></span><span class="rk-pts">62%</span><span class="rk-rw-next">Next: <b>Bronze</b><i class="rk-dot rk-dot-bronze" /></span></div>
     </div>
     </div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 w-full">
     <div class="bg-[#1a2128] border border-gray-800 rounded-lg p-4 md:p-6">
     <h3 class="text-white text-lg font-semibold mb-4">Quick Actions</h3>
     <div class="space-y-3">
     <a class="block w-full bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2] text-gray-900 py-3 rounded-lg hover:opacity-90 transition-opacity font-semibold text-center text-sm md:text-base" href="/deposit">Deposit Now</a>
     <a class="block w-full bg-[#2a3138] text-white py-3 rounded-lg hover:opacity-90 transition-opacity text-center text-sm md:text-base" href="/withdrawal">Withdraw</a>
-    </div>
-    </div>
-    </div>
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 w-full">
-    <div class="bg-[#1a2128] border border-gray-800 rounded-lg p-4 md:p-6">
-    <h3 class="text-white text-lg font-semibold mb-4">Personal Info</h3>
-    <div class="space-y-3">
-    <div class="flex items-center gap-3 text-gray-300 text-sm md:text-base">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail w-5 h-5 text-gray-500 flex-shrink-0">
-    <rect width="20" height="16" x="2" y="4" rx="2">
-    </rect>
-    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7">
-    </path>
-    </svg>
-    <span class="break-all">user@example.com</span>
-    </div>
-    <div class="flex items-center gap-3 text-gray-300 text-sm md:text-base">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone w-5 h-5 text-gray-500 flex-shrink-0">
-    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
-    </path>
-    </svg>
-    <span>+1 234 567 8900</span>
-    </div>
-    <div class="flex items-center gap-3 text-gray-300 text-sm md:text-base">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar w-5 h-5 text-gray-500 flex-shrink-0">
-    <path d="M8 2v4">
-    </path>
-    <path d="M16 2v4">
-    </path>
-    <rect width="18" height="18" x="3" y="4" rx="2">
-    </rect>
-    <path d="M3 10h18">
-    </path>
-    </svg>
-    <span>1990-01-01</span>
-    </div>
-    <div class="flex items-center gap-3 text-gray-300 text-sm md:text-base">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin w-5 h-5 text-gray-500 flex-shrink-0">
-    <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0">
-    </path>
-    <circle cx="12" cy="10" r="3">
-    </circle>
-    </svg>
-    <span>Seoul, South Korea</span>
-    </div>
     </div>
     </div>
     <div class="bg-[#1a2128] border border-gray-800 rounded-lg p-4 md:p-6">
