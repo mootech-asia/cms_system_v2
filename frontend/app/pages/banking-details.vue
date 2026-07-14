@@ -134,7 +134,7 @@ function closeModal(confirmed: boolean) {
 .mf-eye:hover{color:#d1d5db}
 .mf-eye :deep(svg){width:20px;height:20px}
 .mf-submit{display:block;width:100%;padding:15px;border:0;border-radius:10px;background:#4b5563;font-weight:700;font-size:16px;cursor:not-allowed;text-align:center}
-.mf-submit span{color:#e5e7eb}
+.mf-submit span{color:#d1d5db}
 .mf-submit.ready{background:linear-gradient(90deg,#CBE8E4,#98E7D2);cursor:pointer}
 .mf-submit.ready span{color:#0f1622;font-weight:800}
 .mf-section{display:flex;justify-content:center;margin:8px 0 20px}

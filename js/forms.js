@@ -62,7 +62,7 @@ function ensurePaymentMethodStyles() {
     .wm-section-title{display:flex;align-items:center;gap:12px;color:#aae5d3;font-weight:600;font-size:20px;margin:0 0 24px}
     .wm-section-title:before{content:'';width:4px;height:28px;background:#aae5d3}
     .wm-registered-card{box-sizing:border-box;display:flex;align-items:center;gap:16px;width:100%;height:140px;border-radius:10px;background:#0f1419;border:1px solid #374151;padding:24px;color:#d1d5db}
-    .wm-bank-logo{display:flex;align-items:center;justify-content:center;width:80px;height:56px;border-radius:10px;background:#dbeafe;color:#0f172a;font-weight:700}
+    .wm-bank-logo{display:flex;align-items:center;justify-content:center;width:80px;height:56px;border-radius:10px;background:#dbeafe;color:#0f1622;font-weight:700}
     .wm-card-title{color:#fff;font-weight:600;margin-bottom:4px}
     .wm-card-muted{color:#9ca3af;font-size:14px}
     .wm-empty-list{box-sizing:border-box;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;height:140px;text-align:center;color:#9ca3af;border:1px solid #374151;border-radius:10px;background:#0f1419}

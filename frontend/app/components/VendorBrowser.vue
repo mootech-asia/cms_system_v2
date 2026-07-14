@@ -118,7 +118,7 @@ function openVendor(v: string) {
 
 <style scoped>
 #inner-back{padding:0 0 18px}
-#inner-back button{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 14px;border-radius:8px;border:1px solid rgba(152,231,210,.24);background:#1a2128;color:#f9fafb;font-size:15px;font-weight:800;line-height:1;cursor:pointer;box-shadow:none;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease}
+#inner-back button{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 14px;border-radius:8px;border:1px solid rgba(152,231,210,.24);background:#1a2128;color:#fff;font-size:15px;font-weight:800;line-height:1;cursor:pointer;box-shadow:none;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease}
 #inner-back button:hover,#inner-back button:focus-visible{background:linear-gradient(90deg,#CBE8E4,#98E7D2);border-color:transparent;color:#0f1419;transform:translateY(-1px);box-shadow:0 8px 20px rgba(152,231,210,.18);outline:none}
 #inner-back button:active{transform:translateY(0)}
 #inner-back svg{width:18px;height:18px;flex:0 0 auto}

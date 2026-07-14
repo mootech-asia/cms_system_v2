@@ -121,7 +121,7 @@ function toggle(id: string) {
 .ab-tab.active::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;border-radius:2px;background:linear-gradient(90deg,#CBE8E4,#98E7D2)}
 .ab-card{background:#161e2c;border:1px solid #212b3d;border-radius:12px;padding:22px 24px;margin-bottom:18px}
 .ab-card-title{color:#98E7D2;font-size:17px;font-weight:700;margin:0 0 12px}
-.ab-card-body p{color:#c3cbd6;font-size:14px;line-height:1.75;margin:0 0 14px}
+.ab-card-body p{color:#d1d5db;font-size:14px;line-height:1.75;margin:0 0 14px}
 .ab-card-body p:last-child{margin-bottom:0}
 .faq-group{color:#98E7D2;font-size:16px;font-weight:700;margin:26px 0 14px}
 .faq-group:first-child{margin-top:0}
@@ -131,5 +131,5 @@ function toggle(id: string) {
 .faq-item.open .faq-chev{transform:rotate(180deg)}
 .faq-a{max-height:0;overflow:hidden;transition:max-height .25s ease;padding:0 20px}
 .faq-item.open .faq-a{max-height:600px;padding:0 20px 18px}
-.faq-a p{color:#c3cbd6;font-size:14px;line-height:1.75;margin:0}
+.faq-a p{color:#d1d5db;font-size:14px;line-height:1.75;margin:0}
 </style>

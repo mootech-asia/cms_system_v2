@@ -12,7 +12,7 @@ function slugFromHref(href) {
 
 // 片段版本號:每次改版 pages/*.html 或 partials/* 時一併更新,避免 GitHub Pages 的
 // max-age=600 快取讓使用者在部署後最多 10 分鐘內拿到舊頁面
-const PAGES_V = '20260715-1000';
+const PAGES_V = '20260715-1400';
 
 const cache = {};
 async function fetchText(path) {

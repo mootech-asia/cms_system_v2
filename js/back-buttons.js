@@ -27,7 +27,7 @@
         border-radius:8px!important;
         border:1px solid rgba(152,231,210,.24)!important;
         background:#1a2128!important;
-        color:#f9fafb!important;
+        color:#fff!important;
         font-size:15px!important;
         font-weight:800!important;
         line-height:1!important;

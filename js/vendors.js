@@ -51,7 +51,7 @@
     s.id = 'vnd-style';
     s.textContent = `
       #inner-back{padding:0 0 18px}
-      #inner-back button{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 14px;border-radius:8px;border:1px solid rgba(152,231,210,.22);background:#1a2128;color:#f9fafb;font-size:15px;font-weight:800;line-height:1;cursor:pointer;transition:background-color .18s ease,border-color .18s ease,color .18s ease}
+      #inner-back button{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 14px;border-radius:8px;border:1px solid rgba(152,231,210,.22);background:#1a2128;color:#fff;font-size:15px;font-weight:800;line-height:1;cursor:pointer;transition:background-color .18s ease,border-color .18s ease,color .18s ease}
       #inner-back button:hover,#inner-back button:focus-visible{background:#304242;border-color:rgba(170,229,211,.38);color:#AAE5D3;outline:none}
       #inner-back svg{width:18px;height:18px;stroke-width:2.8}
       .vnd-head{display:flex;flex-direction:column;gap:16px;margin-bottom:26px}

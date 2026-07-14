@@ -435,7 +435,7 @@ function closeBankModal(confirmed: boolean) {
 .rk-rw .rk-rw-next{justify-self:end;white-space:nowrap}
 .rk-rw .rk-rw-next b{color:#f0b24a;font-weight:800}
 .rk-rw .rk-dot{display:inline-block;width:8px;height:8px;border-radius:50%;vertical-align:middle;margin-left:4px}
-.rk-rw .rk-dot-gray{background:#8fa39c}
+.rk-rw .rk-dot-gray{background:#9ca3af}
 .rk-rw .rk-dot-bronze{background:#f0b24a}
 @media (prefers-reduced-motion:reduce){.rk-rw .rk-fill{animation:none}}
 </style>

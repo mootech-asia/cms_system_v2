@@ -146,7 +146,7 @@ const cryptoReady = computed(() => Number(cryptoAmount.value.replace(/[^\d]/g, '
 .transfer .tlabel{color:#fff;font-size:18px;font-weight:700}
 .transfer .tamount{color:#fff;font-size:26px;font-weight:800}
 .transfer .tvalue{color:#fff;font-size:16px;font-weight:700}
-.transfer .tnote{color:#c3cbd6;font-size:14px;line-height:1.6;margin:6px 0 16px}
+.transfer .tnote{color:#d1d5db;font-size:14px;line-height:1.6;margin:6px 0 16px}
 .transfer .tcs{text-align:center;margin:0 0 22px}
 .transfer .tcs a{color:#98e7d2;text-decoration:underline;font-weight:600}
 .transfer .complete{display:flex;align-items:center;justify-content:center;width:100%;height:56px;margin-top:8px;border:0;border-radius:10px;background:linear-gradient(90deg,#cbe8e4,#98e7d2);cursor:pointer}

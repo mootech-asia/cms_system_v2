@@ -27,7 +27,7 @@
       .mf-eye svg{width:20px;height:20px}
       .mf-hint{color:#fff;font-size:14px;margin:6px 0 24px}
       .mf-submit{display:block;width:100%;padding:15px;border:0;border-radius:10px;background:#4b5563;font-weight:700;font-size:16px;cursor:not-allowed;text-align:center}
-      .mf-submit span{color:#e5e7eb}
+      .mf-submit span{color:#d1d5db}
       .mf-submit.ready{background:linear-gradient(90deg,#CBE8E4,#98E7D2);cursor:pointer}
       .mf-submit.ready span{color:#0f1622;font-weight:800}
       .mf-section{display:flex;justify-content:center;margin:8px 0 20px}
@@ -67,7 +67,7 @@
       .mf-modal-icon{width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,#CBE8E4,#98E7D2);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
       .mf-modal-icon svg{width:30px;height:30px;color:#0f1622}
       .mf-modal-title{color:#fff;font-size:22px;font-weight:800;margin:0 0 8px}
-      .mf-modal-msg{color:#c3cbd6;font-size:14px;margin:0 0 22px;line-height:1.5;word-break:break-word}
+      .mf-modal-msg{color:#d1d5db;font-size:14px;margin:0 0 22px;line-height:1.5;word-break:break-word}
       .mf-modal-btn{display:block;width:100%;padding:13px;border:0;border-radius:999px;background:linear-gradient(90deg,#CBE8E4,#98E7D2);color:#0f1622;font-weight:800;font-size:15px;cursor:pointer}
       .mf-modal-btn.secondary{background:none;color:#fff;margin-top:6px}
     `;
@@ -310,7 +310,7 @@
           <span style="color:#fff;font-size:16px;font-weight:700;">Deposit Account</span>
           <span style="color:#fff;font-size:16px;font-weight:700;">wururu1234</span>
         </div>
-        <p style="color:#c3cbd6;font-size:14px;line-height:1.6;margin:0 0 18px;">Once the transfer is complete, please click the "Complete" button below. Should you have any questions, please feel free to contact our Customer Service team.</p>
+        <p style="color:#d1d5db;font-size:14px;line-height:1.6;margin:0 0 18px;">Once the transfer is complete, please click the "Complete" button below. Should you have any questions, please feel free to contact our Customer Service team.</p>
         <p style="text-align:center;margin:0 0 22px;"><a href="#/support" style="color:#98E7D2;text-decoration:underline;font-weight:600;">Customer Service</a></p>
         <button type="button" class="mf-submit ready" data-dp-complete><span>Complete</span></button>
       </div>`;

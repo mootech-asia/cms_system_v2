@@ -117,7 +117,7 @@ function openMainMenu() {
     ? `<div style="display:flex;align-items:center;gap:16px;padding:4px 24px 0">
         <div style="width:clamp(52px,7.6dvh,64px);height:clamp(52px,7.6dvh,64px);border-radius:50%;background:linear-gradient(90deg,#CBE8E4,#98E7D2);display:flex;align-items:center;justify-content:center;color:#0f1622;flex-shrink:0">${ic('user', 32)}</div>
         <div style="min-width:0">
-          <div style="display:flex;align-items:center;gap:12px"><span style="color:#fff;font-weight:800;font-size:clamp(20px,2.8dvh,24px);white-space:nowrap">meqomcao</span><span style="background:linear-gradient(90deg,#CBE8E4,#98E7D2);color:#111827;font-size:clamp(14px,1.9dvh,16px);font-weight:800;padding:4px 10px;border-radius:9999px;white-space:nowrap;line-height:1">VIP1</span></div>
+          <div style="display:flex;align-items:center;gap:12px"><span style="color:#fff;font-weight:800;font-size:clamp(20px,2.8dvh,24px);white-space:nowrap">meqomcao</span><span style="background:linear-gradient(90deg,#CBE8E4,#98E7D2);color:#0f1622;font-size:clamp(14px,1.9dvh,16px);font-weight:800;padding:4px 10px;border-radius:9999px;white-space:nowrap;line-height:1">VIP1</span></div>
           <div style="font-size:clamp(16px,2.4dvh,20px);font-weight:700;margin-top:6px;white-space:nowrap"><span style="color:#9ca3af">Balance: </span><span style="color:#98E7D2">₩1,000,000,000</span></div>
           <div style="font-size:clamp(16px,2.4dvh,20px);font-weight:700;margin-top:2px"><span style="color:#9ca3af">Points: </span><span style="color:#98E7D2">0.00</span></div>
         </div>
@@ -128,7 +128,7 @@ function openMainMenu() {
   const inner = `<div style="height:100%;min-height:0;display:flex;flex-direction:column;padding-bottom:clamp(10px,2dvh,24px)">
       <div style="display:flex;align-items:center;justify-content:space-between;height:clamp(76px,10.9dvh,92px);padding:0 24px;border-bottom:1px solid #263241;flex-shrink:0">
         <img src="assets/logo.png" alt="WIN100%" style="height:50px;mix-blend-mode:lighten">
-        <button data-close style="background:none;border:0;color:#cbd5e1;cursor:pointer;padding:0"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+        <button data-close style="background:none;border:0;color:#d1d5db;cursor:pointer;padding:0"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
       </div>
       <div data-main-links style="display:grid;grid-template-rows:repeat(${MAIN_LINKS.length},minmax(0,1fr));flex:1;min-height:0;padding:clamp(8px,1.5dvh,14px) 0">
         ${MAIN_LINKS.map(([t, s, i]) => navRow(t, s, i, !!s && s === slug, 'main')).join('')}
@@ -147,7 +147,7 @@ function openMemberMenu() {
   const inner = `<div style="height:100%;min-height:0;display:flex;flex-direction:column;padding:clamp(10px,1.8dvh,16px) 14px">
       <div style="display:flex;align-items:center;justify-content:space-between;height:clamp(42px,6dvh,54px);flex-shrink:0">
         <span style="color:#fff;font-weight:800;font-size:20px">Menu</span>
-        <button data-close style="background:none;border:0;color:#cbd5e1;cursor:pointer;padding:0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+        <button data-close style="background:none;border:0;color:#d1d5db;cursor:pointer;padding:0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
       </div>
       <div data-member-links style="display:grid;grid-template-rows:repeat(${MEMBER_LINKS.length},minmax(0,1fr));flex:1;min-height:0">
         ${MEMBER_LINKS.map(([t, s, i]) => navRow(t, s, i, s === slug, 'member')).join('')}

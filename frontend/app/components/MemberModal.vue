@@ -38,7 +38,7 @@ const confirmText = computed(() => props.confirmText || (type.value === 'confirm
 .mf-modal-icon{width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,#CBE8E4,#98E7D2);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
 .mf-modal-icon svg{width:30px;height:30px;color:#0f1622}
 .mf-modal-title{color:#fff;font-size:22px;font-weight:800;margin:0 0 8px}
-.mf-modal-msg{color:#c3cbd6;font-size:14px;margin:0 0 22px;line-height:1.5;word-break:break-word}
+.mf-modal-msg{color:#d1d5db;font-size:14px;margin:0 0 22px;line-height:1.5;word-break:break-word}
 .mf-modal-btn{display:block;width:100%;padding:13px;border:0;border-radius:999px;background:linear-gradient(90deg,#CBE8E4,#98E7D2);color:#0f1622;font-weight:800;font-size:15px;cursor:pointer}
 .mf-modal-btn.secondary{background:none;color:#fff;margin-top:6px}
 </style>

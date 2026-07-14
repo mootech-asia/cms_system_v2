@@ -75,7 +75,7 @@ const tabCls = (p: string) => (p === provider.value ? 'text-[#98E7D2]' : 'text-g
     <div class="flex items-center justify-between gap-2 mb-4">
     <div class="flex flex-col items-center gap-1.5 flex-1">
     <div class="w-9 h-9 rounded-full bg-[#0f1419] border border-gray-700 flex items-center justify-center">
-    <span class="text-[9px] text-gray-300 font-semibold">MU</span>
+    <span class="text-[10px] text-gray-300 font-semibold">MU</span>
     </div>
     <span class="text-white text-[10px] text-center leading-tight">Manchester United</span>
     </div>
@@ -85,7 +85,7 @@ const tabCls = (p: string) => (p === provider.value ? 'text-[#98E7D2]' : 'text-g
     </div>
     <div class="flex flex-col items-center gap-1.5 flex-1">
     <div class="w-9 h-9 rounded-full bg-[#0f1419] border border-gray-700 flex items-center justify-center">
-    <span class="text-[9px] text-gray-300 font-semibold">LIV</span>
+    <span class="text-[10px] text-gray-300 font-semibold">LIV</span>
     </div>
     <span class="text-white text-[10px] text-center leading-tight">Liverpool</span>
     </div>
@@ -122,7 +122,7 @@ const tabCls = (p: string) => (p === provider.value ? 'text-[#98E7D2]' : 'text-g
     <div class="flex items-center justify-between gap-2 mb-4">
     <div class="flex flex-col items-center gap-1.5 flex-1">
     <div class="w-9 h-9 rounded-full bg-[#0f1419] border border-gray-700 flex items-center justify-center">
-    <span class="text-[9px] text-gray-300 font-semibold">LAL</span>
+    <span class="text-[10px] text-gray-300 font-semibold">LAL</span>
     </div>
     <span class="text-white text-[10px] text-center leading-tight">Lakers</span>
     </div>
@@ -132,7 +132,7 @@ const tabCls = (p: string) => (p === provider.value ? 'text-[#98E7D2]' : 'text-g
     </div>
     <div class="flex flex-col items-center gap-1.5 flex-1">
     <div class="w-9 h-9 rounded-full bg-[#0f1419] border border-gray-700 flex items-center justify-center">
-    <span class="text-[9px] text-gray-300 font-semibold">GSW</span>
+    <span class="text-[10px] text-gray-300 font-semibold">GSW</span>
     </div>
     <span class="text-white text-[10px] text-center leading-tight">Warriors</span>
     </div>
@@ -169,7 +169,7 @@ const tabCls = (p: string) => (p === provider.value ? 'text-[#98E7D2]' : 'text-g
     <div class="flex items-center justify-between gap-2 mb-4">
     <div class="flex flex-col items-center gap-1.5 flex-1">
     <div class="w-9 h-9 rounded-full bg-[#0f1419] border border-gray-700 flex items-center justify-center">
-    <span class="text-[9px] text-gray-300 font-semibold">RMA</span>
+    <span class="text-[10px] text-gray-300 font-semibold">RMA</span>
     </div>
     <span class="text-white text-[10px] text-center leading-tight">Real Madrid</span>
     </div>
@@ -179,7 +179,7 @@ const tabCls = (p: string) => (p === provider.value ? 'text-[#98E7D2]' : 'text-g
     </div>
     <div class="flex flex-col items-center gap-1.5 flex-1">
     <div class="w-9 h-9 rounded-full bg-[#0f1419] border border-gray-700 flex items-center justify-center">
-    <span class="text-[9px] text-gray-300 font-semibold">FCB</span>
+    <span class="text-[10px] text-gray-300 font-semibold">FCB</span>
     </div>
     <span class="text-white text-[10px] text-center leading-tight">Barcelona</span>
     </div>
@@ -216,7 +216,7 @@ const tabCls = (p: string) => (p === provider.value ? 'text-[#98E7D2]' : 'text-g
     <div class="flex items-center justify-between gap-2 mb-4">
     <div class="flex flex-col items-center gap-1.5 flex-1">
     <div class="w-9 h-9 rounded-full bg-[#0f1419] border border-gray-700 flex items-center justify-center">
-    <span class="text-[9px] text-gray-300 font-semibold">NYY</span>
+    <span class="text-[10px] text-gray-300 font-semibold">NYY</span>
     </div>
     <span class="text-white text-[10px] text-center leading-tight">Yankees</span>
     </div>
@@ -226,7 +226,7 @@ const tabCls = (p: string) => (p === provider.value ? 'text-[#98E7D2]' : 'text-g
     </div>
     <div class="flex flex-col items-center gap-1.5 flex-1">
     <div class="w-9 h-9 rounded-full bg-[#0f1419] border border-gray-700 flex items-center justify-center">
-    <span class="text-[9px] text-gray-300 font-semibold">BOS</span>
+    <span class="text-[10px] text-gray-300 font-semibold">BOS</span>
     </div>
     <span class="text-white text-[10px] text-center leading-tight">Red Sox</span>
     </div>
@@ -263,7 +263,7 @@ const tabCls = (p: string) => (p === provider.value ? 'text-[#98E7D2]' : 'text-g
     <div class="flex items-center justify-between gap-2 mb-4">
     <div class="flex flex-col items-center gap-1.5 flex-1">
     <div class="w-9 h-9 rounded-full bg-[#0f1419] border border-gray-700 flex items-center justify-center">
-    <span class="text-[9px] text-gray-300 font-semibold">PSG</span>
+    <span class="text-[10px] text-gray-300 font-semibold">PSG</span>
     </div>
     <span class="text-white text-[10px] text-center leading-tight">PSG</span>
     </div>
@@ -273,7 +273,7 @@ const tabCls = (p: string) => (p === provider.value ? 'text-[#98E7D2]' : 'text-g
     </div>
     <div class="flex flex-col items-center gap-1.5 flex-1">
     <div class="w-9 h-9 rounded-full bg-[#0f1419] border border-gray-700 flex items-center justify-center">
-    <span class="text-[9px] text-gray-300 font-semibold">FCB</span>
+    <span class="text-[10px] text-gray-300 font-semibold">FCB</span>
     </div>
     <span class="text-white text-[10px] text-center leading-tight">Bayern Munich</span>
     </div>
@@ -310,7 +310,7 @@ const tabCls = (p: string) => (p === provider.value ? 'text-[#98E7D2]' : 'text-g
     <div class="flex items-center justify-between gap-2 mb-4">
     <div class="flex flex-col items-center gap-1.5 flex-1">
     <div class="w-9 h-9 rounded-full bg-[#0f1419] border border-gray-700 flex items-center justify-center">
-    <span class="text-[9px] text-gray-300 font-semibold">BOS</span>
+    <span class="text-[10px] text-gray-300 font-semibold">BOS</span>
     </div>
     <span class="text-white text-[10px] text-center leading-tight">Celtics</span>
     </div>
@@ -320,7 +320,7 @@ const tabCls = (p: string) => (p === provider.value ? 'text-[#98E7D2]' : 'text-g
     </div>
     <div class="flex flex-col items-center gap-1.5 flex-1">
     <div class="w-9 h-9 rounded-full bg-[#0f1419] border border-gray-700 flex items-center justify-center">
-    <span class="text-[9px] text-gray-300 font-semibold">MIA</span>
+    <span class="text-[10px] text-gray-300 font-semibold">MIA</span>
     </div>
     <span class="text-white text-[10px] text-center leading-tight">Heat</span>
     </div>
@@ -357,7 +357,7 @@ const tabCls = (p: string) => (p === provider.value ? 'text-[#98E7D2]' : 'text-g
     <div class="flex items-center justify-between gap-2 mb-4">
     <div class="flex flex-col items-center gap-1.5 flex-1">
     <div class="w-9 h-9 rounded-full bg-[#0f1419] border border-gray-700 flex items-center justify-center">
-    <span class="text-[9px] text-gray-300 font-semibold">ARS</span>
+    <span class="text-[10px] text-gray-300 font-semibold">ARS</span>
     </div>
     <span class="text-white text-[10px] text-center leading-tight">Arsenal</span>
     </div>
@@ -367,7 +367,7 @@ const tabCls = (p: string) => (p === provider.value ? 'text-[#98E7D2]' : 'text-g
     </div>
     <div class="flex flex-col items-center gap-1.5 flex-1">
     <div class="w-9 h-9 rounded-full bg-[#0f1419] border border-gray-700 flex items-center justify-center">
-    <span class="text-[9px] text-gray-300 font-semibold">CHE</span>
+    <span class="text-[10px] text-gray-300 font-semibold">CHE</span>
     </div>
     <span class="text-white text-[10px] text-center leading-tight">Chelsea</span>
     </div>
@@ -404,7 +404,7 @@ const tabCls = (p: string) => (p === provider.value ? 'text-[#98E7D2]' : 'text-g
     <div class="flex items-center justify-between gap-2 mb-4">
     <div class="flex flex-col items-center gap-1.5 flex-1">
     <div class="w-9 h-9 rounded-full bg-[#0f1419] border border-gray-700 flex items-center justify-center">
-    <span class="text-[9px] text-gray-300 font-semibold">JUV</span>
+    <span class="text-[10px] text-gray-300 font-semibold">JUV</span>
     </div>
     <span class="text-white text-[10px] text-center leading-tight">Juventus</span>
     </div>
@@ -414,7 +414,7 @@ const tabCls = (p: string) => (p === provider.value ? 'text-[#98E7D2]' : 'text-g
     </div>
     <div class="flex flex-col items-center gap-1.5 flex-1">
     <div class="w-9 h-9 rounded-full bg-[#0f1419] border border-gray-700 flex items-center justify-center">
-    <span class="text-[9px] text-gray-300 font-semibold">INT</span>
+    <span class="text-[10px] text-gray-300 font-semibold">INT</span>
     </div>
     <span class="text-white text-[10px] text-center leading-tight">Inter Milan</span>
     </div>

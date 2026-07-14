@@ -25,7 +25,7 @@ function slideInner(b) {
           <span class="text-5xl md:text-8xl block leading-none" style="color:${b.accent};text-shadow:0 0 40px ${b.accent}88;font-weight:800">${b.highlight}</span>
         </div>
         <p class="text-gray-400 text-sm md:text-base mb-6 tracking-widest">${b.sub}</p>
-        <button class="px-8 py-3 rounded-lg text-sm md:text-base" style="color:#111827;background:linear-gradient(135deg, ${b.decorColor}, ${b.accent})">${b.cta}</button>
+        <button class="px-8 py-3 rounded-lg text-sm md:text-base" style="color:#0f1622;background:linear-gradient(135deg, ${b.decorColor}, ${b.accent})">${b.cta}</button>
       </div>
     </div>
     <button data-nav="prev" style="position:absolute;z-index:20;left:20px;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;font-size:18px;line-height:1">‹</button>

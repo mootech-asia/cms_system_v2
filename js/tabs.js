@@ -352,7 +352,7 @@ function selectPromotionTab(value, updateUrl = false) {
       'transition:background .18s ease,color .18s ease',
       'cursor:pointer',
       `background:${active ? '#98E7D2' : 'transparent'}`,
-      `color:${active ? '#0f172a' : '#9ca3af'}`,
+      `color:${active ? '#0f1622' : '#9ca3af'}`,
     ].join(';');
   });
 

@@ -22,7 +22,7 @@ const emit = defineEmits<{ close: [] }>();
       <div style="padding: 20px;">
         <h3 style="color: #fff; font-size: 20px; font-weight: 700; margin: 0 0 4px;">{{ data.name }}</h3>
         <p style="color: #9ca3af; font-size: 13px; margin: 0 0 16px;">{{ data.provider }}</p>
-        <button style="width: 100%; padding: 12px; border-radius: 10px; border: 0; cursor: pointer; font-weight: 600; color: #111827; background: linear-gradient(90deg, #CBE8E4, #98E7D2);">Play Now</button>
+        <button style="width: 100%; padding: 12px; border-radius: 10px; border: 0; cursor: pointer; font-weight: 600; color: #0f1622; background: linear-gradient(90deg, #CBE8E4, #98E7D2);">Play Now</button>
       </div>
     </div>
   </div>

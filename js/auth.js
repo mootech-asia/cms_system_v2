@@ -2,7 +2,7 @@
 function closeAuthModal() { const m = document.getElementById('auth-modal'); if (m) m.remove(); }
 
 const A_INPUT = 'width:100%;box-sizing:border-box;background:#0f1622;border:1px solid #2a3441;border-radius:10px;padding:12px 14px;color:#fff;font-size:14px;outline:none';
-const A_LABEL = 'display:block;color:#cbd5e1;font-size:14px;font-weight:600;margin-bottom:8px';
+const A_LABEL = 'display:block;color:#d1d5db;font-size:14px;font-weight:600;margin-bottom:8px';
 const A_BTN = 'width:100%;padding:13px;border:0;border-radius:10px;cursor:pointer;font-weight:700;font-size:15px;color:#0f1622;background:linear-gradient(90deg,#CBE8E4,#98E7D2);margin-top:4px';
 const A_LINK = 'color:#98E7D2;font-weight:700;cursor:pointer;text-decoration:none';
 const EYE_SVG = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>';
@@ -105,7 +105,7 @@ function applyLoginState() {
     <a href="#/account" style="display:flex;align-items:center;gap:10px;color:#d1d5db;text-decoration:none;white-space:nowrap">
       <span style="font-weight:700">ID:</span>
       <span style="color:#fff;font-weight:700">meqomcao</span>
-      <span style="background:linear-gradient(90deg,#CBE8E4,#98E7D2);color:#111827;font-size:13px;font-weight:800;padding:4px 10px;border-radius:9999px;line-height:1">VIP1</span>
+      <span style="background:linear-gradient(90deg,#CBE8E4,#98E7D2);color:#0f1622;font-size:13px;font-weight:800;padding:4px 10px;border-radius:9999px;line-height:1">VIP1</span>
     </a>
     <span style="height:20px;width:1px;background:#374151;display:inline-block"></span>
     <a href="#/account" style="display:flex;align-items:center;gap:6px;color:#d1d5db;text-decoration:none;white-space:nowrap">

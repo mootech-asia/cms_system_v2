@@ -49,7 +49,7 @@ const inp =
             <a style="color:#98E7D2;cursor:pointer">Forgot Password?</a>
           </div>
           <button
-            style="width:100%;padding:12px;border:0;border-radius:10px;cursor:pointer;font-weight:700;color:#111827;background:linear-gradient(90deg,#CBE8E4,#98E7D2)"
+            style="width:100%;padding:12px;border:0;border-radius:10px;cursor:pointer;font-weight:700;color:#0f1622;background:linear-gradient(90deg,#CBE8E4,#98E7D2)"
             @click="submit"
           >{{ isReg ? 'Register Now' : 'Login' }}</button>
         </div>

@@ -15,7 +15,7 @@
       #about-root .ab-panel.active{display:block}
       #about-root .ab-card{background:#161e2c;border:1px solid #212b3d;border-radius:12px;padding:22px 24px;margin-bottom:18px}
       #about-root .ab-card-title{color:#98E7D2;font-size:17px;font-weight:700;margin:0 0 12px}
-      #about-root .ab-card-body p{color:#c3cbd6;font-size:14px;line-height:1.75;margin:0 0 14px}
+      #about-root .ab-card-body p{color:#d1d5db;font-size:14px;line-height:1.75;margin:0 0 14px}
       #about-root .ab-card-body p:last-child{margin-bottom:0}
       #about-root .faq-group{color:#98E7D2;font-size:16px;font-weight:700;margin:26px 0 14px}
       #about-root .faq-group:first-child{margin-top:0}
@@ -25,7 +25,7 @@
       #about-root .faq-item.open .faq-chev{transform:rotate(180deg)}
       #about-root .faq-a{max-height:0;overflow:hidden;transition:max-height .25s ease;padding:0 20px}
       #about-root .faq-item.open .faq-a{max-height:600px;padding:0 20px 18px}
-      #about-root .faq-a p{color:#c3cbd6;font-size:14px;line-height:1.75;margin:0 0 12px}
+      #about-root .faq-a p{color:#d1d5db;font-size:14px;line-height:1.75;margin:0 0 12px}
       #about-root .faq-a p:last-child{margin-bottom:0}
     `;
     document.head.appendChild(s);
