@@ -7,8 +7,8 @@ const BANNERS = [
     cta: "Deposit Now", accent: "#B9DE5A", decorColor: "#B9DE5A",
     bg: "linear-gradient(to right, #0a1f14, #0f2a1a, #0f1419)" },
   { badge: "VIP EXCLUSIVE", title: "Unlock", highlight: "VIP", sub: "CASHBACK · REBATE · PRIORITY SUPPORT",
-    cta: "Join VIP",    accent: "#A78BFA", decorColor: "#A78BFA",
-    bg: "linear-gradient(to right, #160a2a, #1d0f3a, #0f1419)" },
+    cta: "Join VIP",    accent: "#4ADE80", decorColor: "#4ADE80",
+    bg: "linear-gradient(to right, #0a2415, #10331d, #0f1419)" },
 ];
 
 function slideInner(b) {
