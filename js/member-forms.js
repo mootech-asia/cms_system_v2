@@ -120,10 +120,14 @@
   });
 
   // ---------- Change Login Password ----------
-  function initChangePassword() {
+  function initChangePassword(query) {
     const root = document.querySelector('[data-change-password]');
     if (!root || root.dataset.ready === '1') return;
     root.dataset.ready = '1';
+    if (query && query.type === 'txn') {
+      const h1 = document.querySelector('#container main h1');
+      if (h1) h1.textContent = 'Change Transaction Password';
+    }
     const newI = root.querySelector('[data-cp-new]');
     const confI = root.querySelector('[data-cp-confirm]');
     const submit = root.querySelector('[data-cp-submit]');
@@ -147,11 +151,11 @@
   function eyeField(attr, ph, type) {
     return `<div class="mf-field"><input class="mf-input" type="${type || 'text'}" ${attr} placeholder="${ph}">${type === 'password' ? `<button type="button" class="mf-eye">${EYE}</button>` : ''}</div>`;
   }
-  function initBankingDetails() {
+  function initBankingDetails(query) {
     const root = document.querySelector('[data-banking-details]');
     if (!root || root.dataset.ready === '1') return;
     root.dataset.ready = '1';
-    const state = { view: 'empty', accounts: [], bank: '' };
+    const state = { view: query && query.add ? 'form' : 'empty', accounts: [], bank: '' };
 
     function render() {
       let html = '';
@@ -391,8 +395,8 @@
     if (!e.detail) return;
     injectStyle();
     if (MEMBER_SLUGS.has(e.detail.slug)) injectMemberBack();
-    if (e.detail.slug === 'change-password') initChangePassword();
-    if (e.detail.slug === 'banking-details') initBankingDetails();
+    if (e.detail.slug === 'change-password') initChangePassword(e.detail.query);
+    if (e.detail.slug === 'banking-details') initBankingDetails(e.detail.query);
     if (e.detail.slug === 'personal-info') initPersonalInfo();
     if (e.detail.slug === 'deposit') initDeposit();
     if (e.detail.slug === 'withdrawal') initWithdrawal();

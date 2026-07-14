@@ -17,6 +17,8 @@ const bankMenuOpen = ref(false);
 const bankSearch = ref('');
 const modal = ref<Modal>(null);
 
+if (useRoute().query.add) view.value = 'form';
+
 const formReady = computed(() => bank.value !== '' && cardNum.value.trim() !== '' && txnPw.value.trim() !== '');
 const filteredBanks = computed(() => DEMO_BANKS.filter((b) => b.toLowerCase().includes(bankSearch.value.toLowerCase())));
 

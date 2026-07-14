@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 
+const isTxn = useRoute().query.type === 'txn';
 const newPw = ref('');
 const confirmPw = ref('');
 const showNew = ref(false);
@@ -31,7 +32,7 @@ function closeModal() {
       <MemberSidebar active="/security" />
       <main class="flex-1 min-w-0 p-4 md:p-8 pb-24">
         <InnerBack />
-        <h1 class="text-white text-2xl md:text-3xl mb-6 md:mb-8">Change Login Password</h1>
+        <h1 class="text-white text-2xl md:text-3xl mb-6 md:mb-8">{{ isTxn ? 'Change Transaction Password' : 'Change Login Password' }}</h1>
         <div class="mf-card">
           <div class="mf-field">
             <input class="mf-input" :type="showNew ? 'text' : 'password'" v-model="newPw" placeholder="Please enter a new password">

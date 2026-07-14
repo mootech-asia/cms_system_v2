@@ -280,7 +280,7 @@ function deleteBank() {
     </div>
     </template>
     <p v-else class="text-gray-500 text-sm md:text-base">No bank account</p>
-    <button class="text-[#98E7D2] hover:text-[#CBE8E4] text-sm transition-colors">+ Add New Bank Account</button>
+    <a class="text-[#98E7D2] hover:text-[#CBE8E4] text-sm transition-colors" href="/banking-details?add=1">+ Add New Bank Account</a>
     </div>
     </div>
     </div>
