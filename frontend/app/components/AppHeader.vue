@@ -150,7 +150,7 @@ const mobileOpen = useState<boolean>('ui:mobileMenuOpen', () => false);
     </div>
 
     <!-- mobile -->
-    <div class="flex md:hidden items-center justify-between h-14 px-4">
+    <div class="flex md:hidden items-center justify-between h-16 px-4">
       <NuxtLink class="whitespace-nowrap flex-shrink-0" to="/">
         <img src="/logo.png" alt="Casino Logo" class="h-10 mix-blend-lighten">
       </NuxtLink>

@@ -75,7 +75,7 @@
         <div class="relative flex flex-col md:flex-row items-center justify-center md:justify-between px-6 py-10 gap-4">
           <div class="text-center md:text-left">
             <p class="text-gray-400 text-xs tracking-widest uppercase mb-1">The World's Biggest Event</p>
-            <h3 class="text-white text-2xl md:text-4xl mb-1" style="font-weight: 900;">FIFA WORLD CUP</h3>
+            <h3 class="text-white text-2xl md:text-4xl mb-1" style="font-weight:800;">FIFA WORLD CUP</h3>
             <p class="text-[#98E7D2] text-xl md:text-2xl mb-3" style="font-weight: 700;">2026</p>
             <div class="inline-block bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2] text-gray-900 px-4 py-1.5 rounded">
               <span class="text-xs font-semibold">Prize Pool:&nbsp;</span>

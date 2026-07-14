@@ -14,7 +14,7 @@ const tabCls = (p: string) => (p === provider.value ? 'text-[#98E7D2]' : 'text-g
 <template>
   <div ref="root" class="min-h-screen bg-[#0f1419]" style="overflow-x: hidden;">
     <AppHeader />
-    <div class="bg-gradient-to-r from-blue-600 via-green-500 to-yellow-500 py-20">
+    <div class="hero-band py-20">
     <div class="container mx-auto px-4 text-center">
     <h1 class="text-5xl md:text-7xl text-white mb-4">SPORTS BETTING</h1>
     </div>

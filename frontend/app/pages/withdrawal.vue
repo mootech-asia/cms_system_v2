@@ -196,7 +196,7 @@ function submitWithdraw() {
 .accts-nav{background:none;border:0;color:#9ca3af;cursor:pointer;padding:0;line-height:0}
 .accts-nav:hover{color:#fff}
 .accts-title{color:#fff;font-size:17px;font-weight:600}
-.accts-title span{color:#9ca3af;font-weight:500}
+.accts-title span{color:#9ca3af;font-weight:600}
 .bound-card{min-height:150px;background:linear-gradient(105deg,#1b2536 0%,#131c2b 55%,#0d1420 100%);border:1px solid #26324a;padding:22px 26px}
 .bound-inner{display:flex;flex-direction:column;min-height:106px}
 .bound-pill{align-self:flex-start;background:#0f1419;color:#cbd5e1;font-size:12px;font-weight:700;padding:6px 14px;border-radius:8px}

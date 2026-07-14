@@ -58,7 +58,7 @@
       @media(min-width:768px){.vnd-head{flex-direction:row;align-items:center;justify-content:space-between}}
       .vnd-head h2{color:#fff;font-size:26px;font-weight:800;margin:0}
       .vnd-head h2.vnd-title-inline{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-      .vnd-provider-badge{display:inline-flex;align-items:center;justify-content:center;min-height:28px;padding:5px 12px;border-radius:999px;border:1px solid rgba(152,231,210,.3);background:rgba(152,231,210,.1);color:#98E7D2;font-size:14px;font-weight:900;line-height:1}
+      .vnd-provider-badge{display:inline-flex;align-items:center;justify-content:center;min-height:28px;padding:5px 12px;border-radius:999px;border:1px solid rgba(152,231,210,.3);background:rgba(152,231,210,.1);color:#98E7D2;font-size:14px;font-weight:800;line-height:1}
       .vnd-search{position:relative;display:flex;gap:10px}
       .vnd-search input{background:#1a2128;border:1px solid #374151;border-radius:10px;padding:11px 14px 11px 38px;color:#fff;outline:none;min-width:220px}
       .vnd-search input:focus{border-color:#98E7D2}

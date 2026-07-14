@@ -141,14 +141,14 @@ useMemberPage(root);
     <div class="w-full mb-6 flex md:hidden flex-col gap-2">
     <div class="w-full flex gap-3 items-center">
     <input type="date" class="bg-[#1a2128] border border-gray-700 rounded-lg px-4 py-2.5 text-gray-300 text-sm focus:outline-none focus:border-[#98E7D2] transition-colors" value="" style="flex: 1 1 0%; min-width: 0px;">
-    <span class="text-gray-500 font-light" style="flex-shrink: 0;">—</span>
+    <span class="text-gray-500 fw-400" style="flex-shrink: 0;">—</span>
     <input type="date" class="bg-[#1a2128] border border-gray-700 rounded-lg px-4 py-2.5 text-gray-300 text-sm focus:outline-none focus:border-[#98E7D2] transition-colors" value="" style="flex: 1 1 0%; min-width: 0px;">
     </div>
     <button class="bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2] text-gray-900 px-6 py-2.5 rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity" style="align-self: flex-start;">Confirm</button>
     </div>
     <div class="w-full mb-6 hidden md:flex flex-wrap gap-3 items-center">
     <input type="date" class="bg-[#1a2128] border border-gray-700 rounded-lg px-4 py-2.5 text-gray-300 text-sm focus:outline-none focus:border-[#98E7D2] transition-colors" value="">
-    <span class="text-gray-500 font-light">—</span>
+    <span class="text-gray-500 fw-400">—</span>
     <input type="date" class="bg-[#1a2128] border border-gray-700 rounded-lg px-4 py-2.5 text-gray-300 text-sm focus:outline-none focus:border-[#98E7D2] transition-colors" value="">
     <button class="bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2] text-gray-900 px-6 py-2.5 rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity">Confirm</button>
     </div>
@@ -183,7 +183,7 @@ useMemberPage(root);
     <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">20,000</td>
     <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">20,000</td>
     <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">0</td>
-    <td class="px-5 py-4 text-right whitespace-nowrap font-bold" style="color: rgb(239, 68, 68);">-20,000</td>
+    <td class="px-5 py-4 text-right whitespace-nowrap font-bold" style="color: #F87171;">-20,000</td>
     </tr>
     <tr class="border-b border-gray-800/60 bg-[#1a2128] hover:bg-[#1e2730] transition-colors">
     <td class="px-4 py-4 text-gray-300 whitespace-nowrap font-mono text-xs">202508110007</td>
@@ -201,7 +201,7 @@ useMemberPage(root);
     <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">10,000</td>
     <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">10,000</td>
     <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">8,500</td>
-    <td class="px-5 py-4 text-right whitespace-nowrap font-bold" style="color: rgb(239, 68, 68);">-1,500</td>
+    <td class="px-5 py-4 text-right whitespace-nowrap font-bold" style="color: #F87171;">-1,500</td>
     </tr>
     </tbody>
     </table>

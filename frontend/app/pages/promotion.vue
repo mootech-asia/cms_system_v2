@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-[#0f1419]" style="overflow-x: hidden;">
     <AppHeader />
-    <div class="bg-gradient-to-r from-orange-600 via-red-500 to-pink-500 py-16 md:py-20">
+    <div class="hero-band py-16 md:py-20">
     <div class="container mx-auto px-4 text-center">
     <h1 class="text-4xl md:text-7xl text-white mb-4">PROMOTIONS</h1>
     </div>
@@ -14,7 +14,7 @@
     <div class="bg-[#1a2128] border border-gray-800 rounded-lg overflow-hidden hover:border-[#98E7D2] transition-colors">
     <div class="relative h-32 overflow-hidden" style="background: linear-gradient(135deg, rgb(9, 29, 20) 0%, rgb(13, 42, 30) 50%, rgb(10, 26, 18) 100%);">
     <div class="absolute inset-0 flex items-center justify-center">
-    <span class="font-black select-none" style="color: rgb(152, 231, 210); font-size: 54px; letter-spacing: 0.12em; opacity: 0.07;">PROMO!</span>
+    <span class="fw-800 select-none" style="color: rgb(152, 231, 210); font-size: 54px; letter-spacing: 0.12em; opacity: 0.07;">PROMO!</span>
     </div>
     <div class="absolute top-2 right-3 flex flex-col items-end" style="gap: 3px;">
     <div style="width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg, rgb(203, 232, 228), rgb(152, 231, 210)); opacity: 0.85;">
@@ -26,7 +26,7 @@
     </div>
     <div class="absolute inset-0 flex flex-col justify-center px-4">
     <p class="text-xs mb-1.5" style="color: rgb(152, 231, 210); letter-spacing: 0.2em;">SPECIAL OFFER</p>
-    <p class="text-2xl font-black" style="background: linear-gradient(90deg, rgb(203, 232, 228), rgb(152, 231, 210)) text; -webkit-text-fill-color: transparent; letter-spacing: 0.06em;">PROMOTION</p>
+    <p class="text-2xl fw-800" style="background: linear-gradient(90deg, rgb(203, 232, 228), rgb(152, 231, 210)) text; -webkit-text-fill-color: transparent; letter-spacing: 0.06em;">PROMOTION</p>
     </div>
     </div>
     <div class="p-6">
@@ -39,7 +39,7 @@
     <div class="bg-[#1a2128] border border-gray-800 rounded-lg overflow-hidden hover:border-[#98E7D2] transition-colors">
     <div class="relative h-32 overflow-hidden" style="background: linear-gradient(135deg, rgb(9, 29, 20) 0%, rgb(13, 42, 30) 50%, rgb(10, 26, 18) 100%);">
     <div class="absolute inset-0 flex items-center justify-center">
-    <span class="font-black select-none" style="color: rgb(152, 231, 210); font-size: 54px; letter-spacing: 0.12em; opacity: 0.07;">PROMO!</span>
+    <span class="fw-800 select-none" style="color: rgb(152, 231, 210); font-size: 54px; letter-spacing: 0.12em; opacity: 0.07;">PROMO!</span>
     </div>
     <div class="absolute top-2 right-3 flex flex-col items-end" style="gap: 3px;">
     <div style="width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg, rgb(203, 232, 228), rgb(152, 231, 210)); opacity: 0.85;">
@@ -51,7 +51,7 @@
     </div>
     <div class="absolute inset-0 flex flex-col justify-center px-4">
     <p class="text-xs mb-1.5" style="color: rgb(152, 231, 210); letter-spacing: 0.2em;">SPECIAL OFFER</p>
-    <p class="text-2xl font-black" style="background: linear-gradient(90deg, rgb(203, 232, 228), rgb(152, 231, 210)) text; -webkit-text-fill-color: transparent; letter-spacing: 0.06em;">PROMOTION</p>
+    <p class="text-2xl fw-800" style="background: linear-gradient(90deg, rgb(203, 232, 228), rgb(152, 231, 210)) text; -webkit-text-fill-color: transparent; letter-spacing: 0.06em;">PROMOTION</p>
     </div>
     </div>
     <div class="p-6">
@@ -64,7 +64,7 @@
     <div class="bg-[#1a2128] border border-gray-800 rounded-lg overflow-hidden hover:border-[#98E7D2] transition-colors">
     <div class="relative h-32 overflow-hidden" style="background: linear-gradient(135deg, rgb(9, 29, 20) 0%, rgb(13, 42, 30) 50%, rgb(10, 26, 18) 100%);">
     <div class="absolute inset-0 flex items-center justify-center">
-    <span class="font-black select-none" style="color: rgb(152, 231, 210); font-size: 54px; letter-spacing: 0.12em; opacity: 0.07;">PROMO!</span>
+    <span class="fw-800 select-none" style="color: rgb(152, 231, 210); font-size: 54px; letter-spacing: 0.12em; opacity: 0.07;">PROMO!</span>
     </div>
     <div class="absolute top-2 right-3 flex flex-col items-end" style="gap: 3px;">
     <div style="width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg, rgb(203, 232, 228), rgb(152, 231, 210)); opacity: 0.85;">
@@ -76,7 +76,7 @@
     </div>
     <div class="absolute inset-0 flex flex-col justify-center px-4">
     <p class="text-xs mb-1.5" style="color: rgb(152, 231, 210); letter-spacing: 0.2em;">SPECIAL OFFER</p>
-    <p class="text-2xl font-black" style="background: linear-gradient(90deg, rgb(203, 232, 228), rgb(152, 231, 210)) text; -webkit-text-fill-color: transparent; letter-spacing: 0.06em;">PROMOTION</p>
+    <p class="text-2xl fw-800" style="background: linear-gradient(90deg, rgb(203, 232, 228), rgb(152, 231, 210)) text; -webkit-text-fill-color: transparent; letter-spacing: 0.06em;">PROMOTION</p>
     </div>
     </div>
     <div class="p-6">
@@ -89,7 +89,7 @@
     <div class="bg-[#1a2128] border border-gray-800 rounded-lg overflow-hidden hover:border-[#98E7D2] transition-colors">
     <div class="relative h-32 overflow-hidden" style="background: linear-gradient(135deg, rgb(9, 29, 20) 0%, rgb(13, 42, 30) 50%, rgb(10, 26, 18) 100%);">
     <div class="absolute inset-0 flex items-center justify-center">
-    <span class="font-black select-none" style="color: rgb(152, 231, 210); font-size: 54px; letter-spacing: 0.12em; opacity: 0.07;">PROMO!</span>
+    <span class="fw-800 select-none" style="color: rgb(152, 231, 210); font-size: 54px; letter-spacing: 0.12em; opacity: 0.07;">PROMO!</span>
     </div>
     <div class="absolute top-2 right-3 flex flex-col items-end" style="gap: 3px;">
     <div style="width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg, rgb(203, 232, 228), rgb(152, 231, 210)); opacity: 0.85;">
@@ -101,7 +101,7 @@
     </div>
     <div class="absolute inset-0 flex flex-col justify-center px-4">
     <p class="text-xs mb-1.5" style="color: rgb(152, 231, 210); letter-spacing: 0.2em;">SPECIAL OFFER</p>
-    <p class="text-2xl font-black" style="background: linear-gradient(90deg, rgb(203, 232, 228), rgb(152, 231, 210)) text; -webkit-text-fill-color: transparent; letter-spacing: 0.06em;">PROMOTION</p>
+    <p class="text-2xl fw-800" style="background: linear-gradient(90deg, rgb(203, 232, 228), rgb(152, 231, 210)) text; -webkit-text-fill-color: transparent; letter-spacing: 0.06em;">PROMOTION</p>
     </div>
     </div>
     <div class="p-6">
@@ -113,7 +113,7 @@
     </div>
     </div>
     <div class="flex justify-center pt-6 pb-2">
-    <button class="transition-colors" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; padding: 12px 60px; font-size: 15px; font-weight: 500; color: rgb(209, 213, 219); cursor: pointer;">Load more</button>
+    <button class="transition-colors" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; padding: 12px 60px; font-size: 15px; font-weight:600; color: rgb(209, 213, 219); cursor: pointer;">Load more</button>
     </div>
     </div>
     </div>

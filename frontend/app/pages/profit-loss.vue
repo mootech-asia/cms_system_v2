@@ -188,7 +188,7 @@ useMemberPage(root);
     </tr>
     <tr class="border-b border-gray-800/60 bg-[#1a2128] hover:bg-[#1e2730] transition-colors">
     <td class="px-4 py-4 text-gray-300 whitespace-nowrap">Slots</td>
-    <td class="px-3 py-2 text-right whitespace-nowrap font-semibold" style="color: rgb(239, 68, 68);">-65,000</td>
+    <td class="px-3 py-2 text-right whitespace-nowrap font-semibold" style="color: #F87171;">-65,000</td>
     <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">310,000</td>
     <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">310,000</td>
     <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">245,000</td>
@@ -204,7 +204,7 @@ useMemberPage(root);
     </tr>
     <tr class="border-b border-gray-800/60 bg-[#1a2128] hover:bg-[#1e2730] transition-colors">
     <td class="px-4 py-4 text-gray-300 whitespace-nowrap">Mini Games</td>
-    <td class="px-3 py-2 text-right whitespace-nowrap font-semibold" style="color: rgb(239, 68, 68);">-12,000</td>
+    <td class="px-3 py-2 text-right whitespace-nowrap font-semibold" style="color: #F87171;">-12,000</td>
     <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">60,000</td>
     <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">60,000</td>
     <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">48,000</td>

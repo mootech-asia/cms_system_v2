@@ -13,7 +13,7 @@
         background: rgba(255, 255, 255, 0.05);
         border: 1px solid rgba(255, 255, 255, 0.2);
         color: rgb(209, 213, 219);
-        font-weight: 500;
+        font-weight:600;
         cursor: pointer;
         box-shadow: none;
         transition: background-color .18s ease, border-color .18s ease, color .18s ease, box-shadow .18s ease, transform .18s ease;

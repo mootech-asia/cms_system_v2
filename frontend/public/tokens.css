@@ -55,4 +55,16 @@
   --c-card-face-2: #131C2B;
   --c-card-face-3: #0D1420;
   --c-card-border: #26324A;
+
+  /* 類別頁 hero 橫幅:全站唯一一條(取代七條彩虹漸層) */
+  --g-hero: linear-gradient(90deg, #0F766E 0%, #10B981 55%, #B9DE5A 100%);
 }
+
+/* 工具類:hero 橫幅 */
+.hero-band { background: var(--g-hero); }
+
+/* 工具類:字重四階(base.css 缺 800/900 級 utility,統一由此提供) */
+.fw-400 { font-weight: 400; }
+.fw-600 { font-weight: 600; }
+.fw-700 { font-weight: 700; }
+.fw-800 { font-weight: 800; }

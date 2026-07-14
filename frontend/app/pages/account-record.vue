@@ -183,7 +183,7 @@ useMemberPage(root);
     <tr class="border-b border-gray-800/60 bg-[#1a2128] hover:bg-[#1e2730] transition-colors">
     <td class="px-4 py-4 text-gray-300 whitespace-nowrap">Bet</td>
     <td class="px-4 py-4 text-gray-300 whitespace-nowrap">2025-08-12 15:48</td>
-    <td class="px-3 py-2 text-right whitespace-nowrap font-semibold" style="color: rgb(239, 68, 68);">-50,000</td>
+    <td class="px-3 py-2 text-right whitespace-nowrap font-semibold" style="color: #F87171;">-50,000</td>
     <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">1,234,320</td>
     <td class="px-4 py-4 text-gray-300 whitespace-nowrap">BT25081201</td>
     <td class="px-4 py-4 text-gray-300 whitespace-nowrap">Sports — Champions League</td>
@@ -199,7 +199,7 @@ useMemberPage(root);
     <tr class="border-b border-gray-800/60 bg-[#1a2128] hover:bg-[#1e2730] transition-colors">
     <td class="px-4 py-4 text-gray-300 whitespace-nowrap">Withdrawal</td>
     <td class="px-4 py-4 text-gray-300 whitespace-nowrap">2025-08-12 10:45</td>
-    <td class="px-3 py-2 text-right whitespace-nowrap font-semibold" style="color: rgb(239, 68, 68);">-80,000</td>
+    <td class="px-3 py-2 text-right whitespace-nowrap font-semibold" style="color: #F87171;">-80,000</td>
     <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">1,246,820</td>
     <td class="px-4 py-4 text-gray-300 whitespace-nowrap">WD25081201</td>
     <td class="px-4 py-4 text-gray-300 whitespace-nowrap">Bank withdrawal paid</td>
