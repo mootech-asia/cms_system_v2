@@ -34,8 +34,24 @@
     document.head.appendChild(style);
   }
 
+  function loadMoreElements(root) {
+    return [...root.querySelectorAll('button, a')].filter((element) => /load\s*more/i.test((element.textContent || '').trim()));
+  }
+
   function findExistingLoadMore(root) {
-    return [...root.querySelectorAll('button, a')].find((element) => /load\s*more/i.test((element.textContent || '').trim()));
+    return loadMoreElements(root)[0];
+  }
+
+  function removeLoadMore(root) {
+    loadMoreElements(root).forEach((button) => {
+      const parent = button.parentElement;
+      const wrapper = button.closest('.cms-load-more-wrap') || (
+        parent && parent.children.length === 1 && /justify-center|cms-load-more-wrap/.test(parent.className || '')
+          ? parent
+          : null
+      );
+      (wrapper || button).remove();
+    });
   }
 
   function normalizeButton(button) {
@@ -43,7 +59,7 @@
     button.textContent = 'Load More';
     button.className = BUTTON_CLASS;
     button.removeAttribute('style');
-    button.setAttribute('type', 'button');
+    if (button.tagName === 'BUTTON') button.setAttribute('type', 'button');
   }
 
   function createLoadMore() {
@@ -56,11 +72,40 @@
     return wrap;
   }
 
+  function hasContentGrid(target) {
+    if (target.querySelector('.vnd-grid, .vendor-grid, .vendor-browser, [data-vendor-grid]')) return false;
+
+    return [...target.querySelectorAll('.grid')].some((grid) => {
+      const cards = [...grid.children].filter((child) => {
+        const text = (child.textContent || '').trim();
+        return child.nodeType === 1 && !/load\s*more/i.test(text);
+      });
+
+      if (cards.length < 4) return false;
+
+      return cards.some((card) => {
+        const text = card.textContent || '';
+        return card.querySelector('img') || /play\s*now|place\s*bet|detail/i.test(text);
+      });
+    });
+  }
+
   function ensureLoadMore(slug) {
-    if (!ROUTES.has(slug)) return;
     const section = document.querySelector('#container section');
     const target = section && section.querySelector('.container');
     if (!target) return;
+
+    if (slug === 'promotion') {
+      removeLoadMore(target);
+      return;
+    }
+
+    if (!ROUTES.has(slug)) return;
+
+    if (!hasContentGrid(target)) {
+      removeLoadMore(target);
+      return;
+    }
 
     const existing = findExistingLoadMore(target);
     if (existing) {
