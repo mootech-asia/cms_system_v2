@@ -36,7 +36,6 @@ function ensurePaymentMethodStyles() {
     .pm-action{box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;min-width:150px;height:56px;margin-top:24px;padding:0 16px;border:0;border-radius:10px;background:linear-gradient(90deg,#CBE8E4,#98E7D2);color:#0f1622;font-weight:600;font-size:16px;line-height:1;cursor:pointer}
     .pm-submit{display:flex;width:100%;background:#4b5563;color:#fff;cursor:not-allowed}
     .pm-submit.ready{background:linear-gradient(90deg,#CBE8E4,#98E7D2);color:#0f1622;cursor:pointer}
-    .pm-back{box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:100%;height:56px;margin-top:16px;border:1px solid #374151;border-radius:10px;background:#0f1419;color:#fff;font-weight:600;font-size:16px;cursor:pointer}
     .pm-wallet-layout{display:grid;grid-template-columns:minmax(0,1fr);gap:20px}
     .pm-wallet-empty{min-height:292px;border:0;border-radius:16px;background:linear-gradient(105deg,#163f34 0%,#0f2a23 28%,#0b1815 55%,#0a0e12 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#d1d5db;padding:48px}
     .pm-empty-coin{box-sizing:border-box;width:96px;height:96px;border:2px dashed #4b5563;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(26,33,40,.6);color:#9ca3af;font-size:40px;font-weight:600;margin-bottom:16px}
@@ -173,7 +172,6 @@ function withdrawalCryptoPanel() {
           <label>Transaction Password:</label><input class="pm-input" type="password" placeholder="Please fill in the transaction password">
         </div>
         <button class="pm-action pm-submit" type="button" disabled>Submit</button>
-        <button class="pm-back" type="button" data-form-back="bank">Back</button>
       </div>
     </div>`;
 }
@@ -215,7 +213,6 @@ function accountManagementPanel() {
               <label>Transaction Password:</label><input class="pm-input" type="password" placeholder="Please Fill in the Transaction Password">
             </div>
             <button class="pm-action pm-submit" type="button" disabled>Submit</button>
-            <button class="pm-back" type="button" data-form-back="withdraw">Back</button>
           </div>
         </div>
       </div>
@@ -236,7 +233,6 @@ function accountManagementPanel() {
               <label>Transaction Password:</label><input class="pm-input" type="password" placeholder="Please Fill in the Transaction Password">
             </div>
             <button class="pm-action pm-submit" type="button" disabled>Submit</button>
-            <button class="pm-back" type="button" data-form-back="withdraw">Back</button>
           </div>
         </div>
       </div>
@@ -319,12 +315,6 @@ function initPaymentMethods(slug) {
     switchPaymentPanel(main, button.dataset.payTab);
   });
   main.addEventListener('click', (e) => {
-    const back = e.target.closest('[data-form-back]');
-    if (back) {
-      if (back.dataset.formBack === 'bank') switchPaymentPanel(main, 'bank');
-      if (back.dataset.formBack === 'withdraw') switchWithdrawalMode(main, 'withdraw');
-      return;
-    }
     const promo = e.target.closest('.pm-promo');
     if (!promo || !main.contains(promo)) return;
     main.querySelectorAll('.pm-promo').forEach((item) => item.classList.toggle('active', item === promo));

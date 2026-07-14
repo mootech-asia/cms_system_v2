@@ -35,9 +35,6 @@ function openForm() {
   bankMenuOpen.value = false;
   view.value = 'form';
 }
-function back() {
-  view.value = accounts.value.length ? 'list' : 'empty';
-}
 function selectBank(b: string) {
   bank.value = b;
   bankMenuOpen.value = false;
@@ -46,18 +43,6 @@ function submit() {
   if (!formReady.value) return;
   bankStore.accounts.push({ bank: bank.value, num: maskCard(cardNum.value), holder: 'M＊＊＊＊＊＊＊', bindDate: new Date().toISOString().slice(0, 10) });
   modal.value = { type: 'success', onConfirm: () => { view.value = 'list'; } };
-}
-function askDelete(i: number) {
-  const acct = accounts.value[i];
-  modal.value = {
-    type: 'confirm',
-    message: acct ? acct.num + ' ?' : '',
-    onConfirm: () => {
-      bankStore.accounts.splice(i, 1);
-      view.value = accounts.value.length ? 'list' : 'empty';
-      modal.value = { type: 'success' };
-    },
-  };
 }
 function closeModal(confirmed: boolean) {
   const m = modal.value;
@@ -114,13 +99,12 @@ function closeModal(confirmed: boolean) {
                 <button type="button" class="mf-eye" @click="showTxn = !showTxn"><AppIcon name="eye" /></button>
               </div>
               <button type="button" class="mf-submit" :class="{ ready: formReady }" :disabled="!formReady" @click="submit"><span>Submit</span></button>
-              <button type="button" class="mf-back" @click="back"><span>Back</span></button>
             </div>
           </template>
 
           <!-- Account list -->
           <template v-else>
-            <div v-for="(a, i) in accounts" :key="i" class="mf-acct" @click="askDelete(i)">
+            <div v-for="(a, i) in accounts" :key="i" class="mf-acct">
               <span class="mf-acct-check"><AppIcon name="check" /></span>
               <div>
                 <p class="mf-acct-title">Active Bank Account</p>
@@ -154,8 +138,6 @@ function closeModal(confirmed: boolean) {
 .mf-submit span{color:#e5e7eb}
 .mf-submit.ready{background:linear-gradient(90deg,#CBE8E4,#98E7D2);cursor:pointer}
 .mf-submit.ready span{color:#0f1622;font-weight:800}
-.mf-back{display:block;width:100%;margin-top:14px;padding:15px;border:1px solid #374151;border-radius:10px;background:#0f1419;color:#fff;font-weight:700;font-size:16px;text-align:center;cursor:pointer;box-sizing:border-box}
-.mf-back:hover{border-color:#4b5563}
 .mf-section{display:flex;justify-content:center;margin:8px 0 20px}
 .mf-section span{display:inline-block;padding:10px 22px;border-radius:999px;background:#0f1419;color:#aae5d3;font-weight:700;font-size:15px}
 .mf-select-wrap{position:relative;margin-bottom:16px}
@@ -178,8 +160,7 @@ function closeModal(confirmed: boolean) {
 .mf-empty-coin :deep(svg){width:44px;height:44px}
 .mf-empty-title{color:#fff;font-size:18px;font-weight:700;margin:0 0 16px}
 .mf-add-btn{display:inline-flex;align-items:center;gap:8px;padding:9px 22px;border:0;border-radius:999px;background:#313e40;color:#aae5d3;font-weight:700;font-size:15px;cursor:pointer}
-.mf-acct{display:flex;align-items:flex-start;gap:12px;background:#1a2128;border:1px solid #1f2937;border-radius:12px;padding:18px 20px;margin-bottom:14px;cursor:pointer;transition:border-color .15s}
-.mf-acct:hover{border-color:#374151}
+.mf-acct{display:flex;align-items:flex-start;gap:12px;background:#1a2128;border:1px solid #1f2937;border-radius:12px;padding:18px 20px;margin-bottom:14px}
 .mf-acct-check{width:22px;height:22px;flex:0 0 auto;color:#22c55e;margin-top:2px}
 .mf-acct-check :deep(svg){width:22px;height:22px;stroke-width:3}
 .mf-acct-title{color:#fff;font-size:16px;font-weight:800;margin:0 0 6px}

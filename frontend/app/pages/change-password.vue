@@ -45,7 +45,6 @@ function closeModal() {
           </div>
           <p class="mf-hint">★Use 5-16 visible ASCII characters (letters, numbers, symbols)</p>
           <button type="button" class="mf-submit" :class="{ ready }" :disabled="!ready" @click="submit"><span>Submit</span></button>
-          <NuxtLink to="/security" class="mf-back"><span>Back</span></NuxtLink>
         </div>
       </main>
     </div>
@@ -68,6 +67,4 @@ function closeModal() {
 .mf-submit span{color:#e5e7eb}
 .mf-submit.ready{background:linear-gradient(90deg,#CBE8E4,#98E7D2);cursor:pointer}
 .mf-submit.ready span{color:#0f1622;font-weight:800}
-.mf-back{display:block;width:100%;margin-top:14px;padding:15px;border:1px solid #374151;border-radius:10px;background:#0f1419;color:#fff;font-weight:700;font-size:16px;text-align:center;text-decoration:none;cursor:pointer;box-sizing:border-box}
-.mf-back:hover{border-color:#4b5563}
 </style>

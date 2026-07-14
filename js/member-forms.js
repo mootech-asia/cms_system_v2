@@ -30,8 +30,6 @@
       .mf-submit span{color:#e5e7eb}
       .mf-submit.ready{background:linear-gradient(90deg,#CBE8E4,#98E7D2);cursor:pointer}
       .mf-submit.ready span{color:#0f1622;font-weight:800}
-      .mf-back{display:block;width:100%;margin-top:14px;padding:15px;border:1px solid #374151;border-radius:10px;background:#0f1419;color:#fff;font-weight:700;font-size:16px;text-align:center;text-decoration:none;cursor:pointer;box-sizing:border-box}
-      .mf-back:hover{border-color:#4b5563}
       .mf-section{display:flex;justify-content:center;margin:8px 0 20px}
       .mf-section span{display:inline-block;padding:10px 22px;border-radius:999px;background:#0f1419;color:#aae5d3;font-weight:700;font-size:15px}
       .mf-select-wrap{position:relative;margin-bottom:16px}
@@ -53,7 +51,7 @@
       .mf-empty-coin svg{width:44px;height:44px}
       .mf-empty-title{color:#fff;font-size:18px;font-weight:700;margin:0 0 16px}
       .mf-add-btn{display:inline-flex;align-items:center;gap:8px;padding:9px 22px;border:0;border-radius:999px;background:#313e40;color:#aae5d3;font-weight:700;font-size:15px;cursor:pointer}
-      .mf-acct{display:flex;align-items:flex-start;gap:12px;background:#1a2128;border:1px solid #1f2937;border-radius:12px;padding:18px 20px;margin-bottom:14px;cursor:pointer;transition:border-color .15s}
+      .mf-acct{display:flex;align-items:flex-start;gap:12px;background:#1a2128;border:1px solid #1f2937;border-radius:12px;padding:18px 20px;margin-bottom:14px}
       .mf-acct:hover{border-color:#374151}
       .mf-acct-check{width:22px;height:22px;flex:0 0 auto;color:#22c55e;margin-top:2px}
       .mf-acct-check svg{width:22px;height:22px}
@@ -72,10 +70,6 @@
       .mf-modal-msg{color:#c3cbd6;font-size:14px;margin:0 0 22px;line-height:1.5;word-break:break-word}
       .mf-modal-btn{display:block;width:100%;padding:13px;border:0;border-radius:999px;background:linear-gradient(90deg,#CBE8E4,#98E7D2);color:#0f1622;font-weight:800;font-size:15px;cursor:pointer}
       .mf-modal-btn.secondary{background:none;color:#fff;margin-top:6px}
-      #member-back{align-self:flex-start;width:100%;padding:0 0 18px}
-      #member-back button{display:inline-flex;align-items:center;gap:6px;background:none;border:0;color:#fff;font-size:22px;font-weight:700;cursor:pointer;padding:0}
-      #member-back button:hover{color:#98E7D2}
-      #member-back svg{width:24px;height:24px}
     `;
     document.head.appendChild(s);
   }
@@ -177,7 +171,6 @@
             <div class="mf-section"><span>Transaction Password</span></div>
             ${eyeField('data-bd-txn', 'Please  fill in the transaction password', 'password')}
             <button type="button" class="mf-submit" data-bd-submit disabled><span>Submit</span></button>
-            <button type="button" class="mf-back" data-bd-back><span>Back</span></button>
           </div>`;
       } else if (state.view === 'list') {
         html = state.accounts.map((a, i) => `
@@ -243,8 +236,6 @@
       root.querySelectorAll('[data-bd-add]').forEach((b) => b.addEventListener('click', () => { state.view = 'form'; state.bank = ''; render(); }));
       const card = root.querySelector('.mf-card');
       if (card) {
-        const back = card.querySelector('[data-bd-back]');
-        back.addEventListener('click', () => { state.view = state.accounts.length ? 'list' : 'empty'; render(); });
         card.addEventListener('input', () => updateSubmit(card));
         const submit = card.querySelector('[data-bd-submit]');
         submit.addEventListener('click', () => {
@@ -270,22 +261,6 @@
           updateSubmit(card);
         });
       }
-      root.querySelectorAll('[data-acct]').forEach((el) => {
-        el.addEventListener('click', () => {
-          const i = Number(el.dataset.acct);
-          const acct = state.accounts[i];
-          showModal({
-            type: 'confirm',
-            message: acct ? acct.num + ' ?' : '',
-            onConfirm: () => {
-              state.accounts.splice(i, 1);
-              state.view = state.accounts.length ? 'list' : 'empty';
-              render();
-              showModal({ type: 'success' });
-            },
-          });
-        });
-      });
     }
 
     // 點擊其他地方關閉銀行下拉
@@ -338,7 +313,6 @@
         <p style="color:#c3cbd6;font-size:14px;line-height:1.6;margin:0 0 18px;">Once the transfer is complete, please click the "Complete" button below. Should you have any questions, please feel free to contact our Customer Service team.</p>
         <p style="text-align:center;margin:0 0 22px;"><a href="#/support" style="color:#98E7D2;text-decoration:underline;font-weight:600;">Customer Service</a></p>
         <button type="button" class="mf-submit ready" data-dp-complete><span>Complete</span></button>
-        <button type="button" class="mf-back" data-dp-back><span>Back</span></button>
       </div>`;
     shell.parentNode.insertBefore(tv, shell.nextSibling);
 
@@ -358,7 +332,6 @@
     }
     main.addEventListener('click', (e) => {
       if (e.target.closest('[data-dp-next]')) { showTransfer(); return; }
-      if (e.target.closest('[data-dp-back]')) { hideTransfer(); return; }
       if (e.target.closest('[data-dp-complete]')) showModal({ type: 'success', message: 'Deposit request submitted successfully.' });
     });
   }
@@ -413,30 +386,10 @@
     });
   }
 
-  // ---------- 側邊欄內頁:內容上方統一 Back ----------
-  const MEMBER_SLUGS = new Set(['account', 'account-record', 'betting-record', 'banking-details',
-    'change-password', 'deposit', 'deposit-record', 'personal-info', 'profit-loss', 'security',
-    'withdrawal', 'withdrawal-record']);
-  const BACK_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>';
-  function injectMemberBack() {
-    const main = document.querySelector('#container main');
-    if (!main || main.querySelector('#member-back')) return;
-    const bar = document.createElement('div');
-    bar.id = 'member-back';
-    bar.innerHTML = `<button type="button">${BACK_SVG}<span>Back</span></button>`;
-    main.insertBefore(bar, main.firstChild);
-  }
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('#member-back button')) return;
-    e.preventDefault();
-    if (window.history.length > 1) window.history.back();
-    else location.hash = '#/account';
-  });
 
   document.addEventListener('page:rendered', (e) => {
     if (!e.detail) return;
     injectStyle();
-    if (MEMBER_SLUGS.has(e.detail.slug)) injectMemberBack();
     if (e.detail.slug === 'change-password') initChangePassword(e.detail.query);
     if (e.detail.slug === 'banking-details') initBankingDetails(e.detail.query);
     if (e.detail.slug === 'personal-info') initPersonalInfo();

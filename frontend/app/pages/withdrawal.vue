@@ -129,7 +129,6 @@ function submitWithdraw() {
             </div>
             <div class="flex flex-col gap-3 md:gap-4">
               <button class="w-full py-3 md:py-4 rounded-lg font-semibold text-sm md:text-base" :class="withdrawReady ? 'submit-ready' : 'submit-idle'" :disabled="!withdrawReady" @click="submitWithdraw"><span>Submit</span></button>
-              <NuxtLink class="back-flat w-full py-3 md:py-4 rounded-lg transition-colors font-semibold text-sm md:text-base" to="/account">Back</NuxtLink>
             </div>
           </section>
 
@@ -145,7 +144,6 @@ function submitWithdraw() {
               <label>Transaction Password:</label><input v-model="cryptoWithdrawPassword" class="field" type="password" placeholder="Please fill in the transaction password">
             </div>
             <button class="action" :class="{ ready: cryptoWithdrawReady }" :disabled="!cryptoWithdrawReady">Submit</button>
-            <button class="back" @click="method = 'bank'">Back</button>
           </section>
         </template>
 
@@ -181,7 +179,6 @@ function submitWithdraw() {
             </div>
             <button class="action" :class="{ ready: cryptoManagementReady }" :disabled="!cryptoManagementReady">Submit</button>
           </template>
-          <button class="back" @click="mode = 'withdraw'">Back</button>
         </section>
       </main>
     </div>

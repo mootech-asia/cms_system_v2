@@ -132,7 +132,6 @@ const cryptoReady = computed(() => Number(cryptoAmount.value.replace(/[^\d]/g, '
           <p class="tnote">Once the transfer is complete, please click the "Complete" button below. Should you have any questions, please feel free to contact our Customer Service team.</p>
           <p class="tcs"><NuxtLink to="/support">Customer Service</NuxtLink></p>
           <button class="complete" @click="showSuccess = true"><span>Complete</span></button>
-          <button class="back" @click="step = 'form'">Back</button>
         </section>
       </main>
     </div>
