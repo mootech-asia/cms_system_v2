@@ -175,15 +175,16 @@ document.addEventListener('click', (e) => {
 });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMobileMenu(); });
 
-// --- 會員頁 header 補上右上漢堡(手機) ---
-function injectHeaderHamburger() {
+// --- 會員頁 header 補上右上語言選單+漢堡(手機),與完整版 header 一致 ---
+function injectHeaderControls() {
   const row = document.querySelector('#container header .flex.items-center.h-16');
   if (!row || row.querySelector('svg.lucide-menu')) return;
-  const btn = document.createElement('button');
-  btn.className = 'md:hidden text-gray-300 hover:text-white';
-  btn.style.marginLeft = 'auto';
-  btn.setAttribute('aria-label', 'Menu');
-  btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu w-6 h-6"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg>';
-  row.appendChild(btn);
+  const wrap = document.createElement('div');
+  wrap.className = 'md:hidden';
+  wrap.style.cssText = 'margin-left:auto;display:flex;align-items:center;gap:12px';
+  wrap.innerHTML = '<div class="relative"><button class="text-gray-300 hover:text-white flex items-center gap-1" aria-label="Language"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-globe w-5 h-5"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg><span>EN</span></button></div>'
+    + '<button class="text-gray-300 hover:text-white" aria-label="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu w-6 h-6"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button>';
+  row.appendChild(wrap);
+  if (typeof setupHeaderLang === 'function') setupHeaderLang();
 }
-document.addEventListener('page:rendered', injectHeaderHamburger);
+document.addEventListener('page:rendered', injectHeaderControls);
