@@ -9,15 +9,18 @@
     const s = document.createElement('style');
     s.id = 'qr-rail-style';
     s.textContent = `
-      #qr-rail{position:fixed;right:14px;top:50%;transform:translateY(-58%);z-index:9000;display:flex;flex-direction:column;align-items:center;gap:14px;padding:12px 8px;border-radius:44px;background:rgba(20,28,36,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.08);box-shadow:0 10px 30px rgba(0,0,0,.4);opacity:.5;transition:opacity .2s ease}
-      #qr-rail:hover,#qr-rail:focus-within{opacity:1}
-      #qr-rail .qr-btn{position:relative;width:56px;height:56px;border-radius:50%;border:0;cursor:pointer;display:flex;align-items:center;justify-content:center;background:#12233a;color:#cbe8e4;box-shadow:0 6px 18px rgba(0,0,0,.35);transition:transform .15s ease,background .15s ease}
-      #qr-rail .qr-btn:hover{transform:scale(1.06);background:#17304d}
-      #qr-rail .qr-btn img{width:40px;height:40px;object-fit:contain}
-      #qr-rail .qr-btn svg{width:26px;height:26px}
-      #qr-rail .qr-label{position:absolute;right:calc(100% + 14px);top:50%;transform:translateY(-50%) translateX(10px);white-space:nowrap;background:#0f141a;color:#fff;font-weight:700;font-size:16px;padding:12px 22px;border-radius:14px;opacity:0;pointer-events:none;transition:opacity .18s ease,transform .18s ease;box-shadow:0 10px 28px rgba(0,0,0,.45)}
+      #qr-rail{position:fixed;right:18px;top:50%;transform:translateY(-56%);z-index:9000;display:flex;flex-direction:column;align-items:center;gap:12px;padding:12px 8px;border-radius:999px;background:linear-gradient(180deg,rgba(203,232,228,.28),rgba(13,24,33,.92));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1.5px solid rgba(152,231,210,.6);box-shadow:0 0 0 1px rgba(203,232,228,.14),0 16px 36px rgba(0,0,0,.55),0 0 30px rgba(152,231,210,.26);opacity:1;transition:transform .18s ease,box-shadow .18s ease}
+      #qr-rail:before{content:"";position:absolute;inset:4px;border-radius:inherit;border:1px solid rgba(203,232,228,.16);pointer-events:none}
+      #qr-rail:hover,#qr-rail:focus-within{transform:translateY(-56%) translateX(-2px);box-shadow:0 0 0 1px rgba(203,232,228,.22),0 18px 42px rgba(0,0,0,.6),0 0 40px rgba(152,231,210,.38)}
+      #qr-rail .qr-title{position:relative;z-index:1;margin:0 0 2px;padding:5px 9px;border-radius:999px;background:linear-gradient(135deg,#CBE8E4,#98E7D2);color:#09221c;font-size:10px;font-weight:900;line-height:1;letter-spacing:.08em;text-transform:uppercase;box-shadow:0 6px 16px rgba(152,231,210,.22)}
+      #qr-rail .qr-btn{position:relative;z-index:1;width:62px;height:62px;border-radius:50%;border:1px solid rgba(203,232,228,.72);cursor:pointer;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 35% 25%,#e5fff8 0%,#98E7D2 48%,#47bfa6 100%);color:#09221c;box-shadow:0 10px 22px rgba(0,0,0,.42),0 0 18px rgba(152,231,210,.28),inset 0 1px 0 rgba(255,255,255,.55);transition:transform .15s ease,box-shadow .15s ease,filter .15s ease}
+      #qr-rail .qr-btn:hover,#qr-rail .qr-btn:focus-visible{transform:scale(1.08);filter:saturate(1.1);box-shadow:0 12px 26px rgba(0,0,0,.46),0 0 28px rgba(152,231,210,.5),inset 0 1px 0 rgba(255,255,255,.65);outline:none}
+      #qr-rail .qr-btn img{width:44px;height:44px;object-fit:contain;filter:drop-shadow(0 2px 4px rgba(0,0,0,.25))}
+      #qr-rail .qr-btn svg{width:28px;height:28px;stroke-width:2.3}
+      #qr-rail .qr-label{position:absolute;right:calc(100% + 14px);top:50%;transform:translateY(-50%) translateX(10px);white-space:nowrap;background:linear-gradient(135deg,#CBE8E4,#98E7D2);color:#09221c;font-weight:900;font-size:15px;padding:11px 18px;border-radius:14px;opacity:0;pointer-events:none;transition:opacity .18s ease,transform .18s ease;box-shadow:0 12px 30px rgba(0,0,0,.45),0 0 20px rgba(152,231,210,.24)}
+      #qr-rail .qr-label:after{content:"";position:absolute;right:-6px;top:50%;width:12px;height:12px;background:#98E7D2;transform:translateY(-50%) rotate(45deg);border-radius:2px}
       #qr-rail .qr-btn:hover .qr-label,#qr-rail .qr-btn:focus-visible .qr-label{opacity:1;transform:translateY(-50%) translateX(0)}
-      @media(max-width:768px){#qr-rail{right:10px;gap:12px;padding:9px 6px}#qr-rail .qr-btn{width:48px;height:48px}#qr-rail .qr-btn img{width:34px;height:34px}#qr-rail .qr-btn svg{width:22px;height:22px}#qr-rail .qr-label{font-size:14px;padding:10px 16px}}
+      @media(max-width:768px){#qr-rail{right:8px;top:48%;gap:10px;padding:10px 6px}#qr-rail .qr-title{font-size:9px;padding:5px 7px}#qr-rail .qr-btn{width:52px;height:52px}#qr-rail .qr-btn img{width:37px;height:37px}#qr-rail .qr-btn svg{width:24px;height:24px}#qr-rail .qr-label{font-size:14px;padding:10px 15px}}
     `;
     document.head.appendChild(s);
   }
@@ -37,6 +40,11 @@
     injectStyle();
     const rail = document.createElement('div');
     rail.id = 'qr-rail';
+
+    const title = document.createElement('div');
+    title.className = 'qr-title';
+    title.textContent = 'Quick';
+    rail.appendChild(title);
 
     rail.appendChild(makeBtn({
       label: 'Promo Channel',
