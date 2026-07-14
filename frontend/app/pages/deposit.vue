@@ -94,7 +94,6 @@ const cryptoReady = computed(() => Number(cryptoAmount.value.replace(/[^\d]/g, '
             </span>
           </button>
           <button class="action" :class="{ ready: bankReady }" :disabled="!bankReady" @click="step = 'transfer'">Next</button>
-          <NuxtLink class="back" to="/account">Back</NuxtLink>
         </section>
 
         <section v-if="step === 'form' && method === 'crypto'" class="payment-card">
