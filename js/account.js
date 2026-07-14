@@ -62,11 +62,15 @@ document.addEventListener('input', updateDepositNextState);
 document.addEventListener('page:rendered', updateDepositNextState);
 
 // --- Banking Details 簡易編輯(分頁/刪除) ---
-const bankAccounts = [
-  { num: '**** **** **** 1234', name: 'KB Bank' },
-  { num: '**** **** **** 5678', name: 'Shinhan Bank' },
-  { num: '**** **** **** 9012', name: 'Woori Bank' },
-];
+// 與 banking-details 頁(member-forms.js)共用同一份綁定帳戶資料
+window.BANK_STORE = window.BANK_STORE || {
+  accounts: [
+    { bank: 'KB Bank', num: '**** **** **** 1234', holder: 'M＊＊＊＊＊＊＊', bindDate: '2025-08-14' },
+    { bank: 'Shinhan Bank', num: '**** **** **** 5678', holder: 'M＊＊＊＊＊＊＊', bindDate: '2025-09-05' },
+    { bank: 'Woori Bank', num: '**** **** **** 9012', holder: 'M＊＊＊＊＊＊＊', bindDate: '2025-10-02' },
+  ],
+};
+const bankAccounts = window.BANK_STORE.accounts;
 let bankIdx = 0;
 
 function renderBankCard() {
@@ -80,7 +84,7 @@ function renderBankCard() {
   card.querySelector('.bk-empty').style.display = total ? 'none' : '';
   if (total) {
     card.querySelector('.bk-num').textContent = bankAccounts[bankIdx].num;
-    card.querySelector('.bk-name').textContent = bankAccounts[bankIdx].name;
+    card.querySelector('.bk-name').textContent = bankAccounts[bankIdx].bank;
   }
 }
 

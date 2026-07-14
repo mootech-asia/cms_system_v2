@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import { useBankStore } from '~/stores/bank';
 
 const DEMO_BANKS = ['Bank of America', 'Shinhan Bank', 'KB Kookmin Bank', 'Woori Bank', 'NH Nonghyup Bank', 'Hana Bank', '산림조합중앙회 Bank'];
 
-type Account = { bank: string; num: string };
 type Modal = { type: 'success' | 'warning' | 'confirm'; message?: string; onConfirm?: () => void } | null;
 
-const view = ref<'empty' | 'form' | 'list'>('empty');
-const accounts = ref<Account[]>([]);
+const bankStore = useBankStore();
+const accounts = computed(() => bankStore.accounts);
+const view = ref<'empty' | 'form' | 'list'>(accounts.value.length ? 'list' : 'empty');
 const bank = ref('');
 const cardNum = ref('');
 const txnPw = ref('');
@@ -24,7 +25,7 @@ const filteredBanks = computed(() => DEMO_BANKS.filter((b) => b.toLowerCase().in
 
 function maskCard(num: string) {
   const digits = num.replace(/\s/g, '');
-  return '********' + (digits.slice(-4) || '0000');
+  return '**** **** **** ' + (digits.slice(-4) || '0000');
 }
 function openForm() {
   bank.value = '';
@@ -43,7 +44,7 @@ function selectBank(b: string) {
 }
 function submit() {
   if (!formReady.value) return;
-  accounts.value.push({ bank: bank.value, num: maskCard(cardNum.value) });
+  bankStore.accounts.push({ bank: bank.value, num: maskCard(cardNum.value), holder: 'M＊＊＊＊＊＊＊', bindDate: new Date().toISOString().slice(0, 10) });
   modal.value = { type: 'success', onConfirm: () => { view.value = 'list'; } };
 }
 function askDelete(i: number) {
@@ -52,7 +53,7 @@ function askDelete(i: number) {
     type: 'confirm',
     message: acct ? acct.num + ' ?' : '',
     onConfirm: () => {
-      accounts.value.splice(i, 1);
+      bankStore.accounts.splice(i, 1);
       view.value = accounts.value.length ? 'list' : 'empty';
       modal.value = { type: 'success' };
     },

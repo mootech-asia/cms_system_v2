@@ -83,6 +83,8 @@ const mobileOpen = useState<boolean>('ui:mobileMenuOpen', () => false);
             <NuxtLink to="/account" class="flex items-center gap-2 whitespace-nowrap hover:opacity-90 transition-opacity">
               <span class="text-gray-400 font-semibold">Balance:</span>
               <span class="text-white font-bold">₩1,000,000,000</span>
+              <span class="text-gray-400 font-semibold ml-2">Points:</span>
+              <span class="text-white font-bold">0.00</span>
             </NuxtLink>
             <button class="flex text-gray-300 hover:text-white transition-colors" aria-label="Logout" title="Logout" @click="logout">
               <AppIcon name="log-out" class="w-5 h-5" />
@@ -214,6 +216,8 @@ const mobileOpen = useState<boolean>('ui:mobileMenuOpen', () => false);
                   <div class="mt-1 text-sm min-[400px]:text-base font-semibold">
                     <span class="text-gray-400">Balance: </span>
                     <span class="text-[#98E7D2]">₩1,000,000,000</span>
+                    <span class="text-gray-400 ml-3">Points: </span>
+                    <span class="text-[#98E7D2]">0.00</span>
                   </div>
                 </div>
               </div>

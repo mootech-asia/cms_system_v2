@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import { useBankStore } from '~/stores/bank';
 
 type Mode = 'withdraw' | 'management';
 type Method = 'bank' | 'crypto';
@@ -20,13 +21,28 @@ const managementWalletType = ref('');
 const managementWalletAddress = ref('');
 const managementWalletPassword = ref('');
 
+const bankStore = useBankStore();
+const acctIdx = ref(0);
+const boundAccounts = computed(() => bankStore.accounts);
+const boundAcct = computed(() => boundAccounts.value[Math.min(acctIdx.value, Math.max(0, boundAccounts.value.length - 1))]);
+const acctTail = computed(() => (boundAcct.value ? '＊＊＊＊' + (boundAcct.value.num.replace(/\D/g, '').slice(-4) || '0000') : '＊＊＊＊0000'));
+function prevAcct() {
+  const total = boundAccounts.value.length;
+  if (total) acctIdx.value = (Math.min(acctIdx.value, total - 1) - 1 + total) % total;
+}
+function nextAcct() {
+  const total = boundAccounts.value.length;
+  if (total) acctIdx.value = (Math.min(acctIdx.value, total - 1) + 1) % total;
+}
+
+const withdrawReady = computed(() => withdrawalAmount.value.trim() !== '' && withdrawalPassword.value.trim() !== '');
 const cryptoWithdrawReady = computed(() => [walletType.value, walletAddress.value, cryptoWithdrawAmount.value, cryptoWithdrawPassword.value].some(Boolean));
 const bankManagementReady = computed(() => [selectedBank.value, accountNumber.value.trim(), accountPassword.value.trim()].some(Boolean));
 const cryptoManagementReady = computed(() => [managementWalletType.value, managementWalletAddress.value, managementWalletPassword.value].some(Boolean));
 
 const modal = ref<{ type: 'success' | 'warning'; message?: string } | null>(null);
 function submitWithdraw() {
-  if (withdrawalAmount.value.trim() === '') { modal.value = { type: 'warning', message: 'invalid' }; return; }
+  if (!withdrawReady.value) return;
   modal.value = { type: 'success', message: 'Withdrawal request submitted successfully.' };
 }
 </script>
@@ -53,9 +69,9 @@ function submitWithdraw() {
           <section v-if="method === 'bank'" class="payment-card">
             <div class="mb-6 md:mb-8">
               <div class="accts-head">
-                <button type="button" class="accts-nav" aria-label="Previous"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6" /></svg></button>
-                <h2 class="accts-title">My Bank Accounts <span>1 / 5</span></h2>
-                <button type="button" class="accts-nav" aria-label="Next"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6" /></svg></button>
+                <button type="button" class="accts-nav" aria-label="Previous" @click="prevAcct"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6" /></svg></button>
+                <h2 class="accts-title">My Bank Accounts <span>{{ boundAccounts.length ? Math.min(acctIdx, boundAccounts.length - 1) + 1 : 0 }} / {{ boundAccounts.length }}</span></h2>
+                <button type="button" class="accts-nav" aria-label="Next" @click="nextAcct"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6" /></svg></button>
               </div>
               <div class="bound-card relative overflow-hidden rounded-2xl">
                 <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 1200 320" preserveAspectRatio="none" fill="none">
@@ -63,9 +79,9 @@ function submitWithdraw() {
                   <path d="M0,275 C380,205 740,330 1200,120" stroke="rgba(190,245,225,0.10)" stroke-width="1.2" />
                 </svg>
                 <div class="relative bound-inner">
-                  <div class="bound-pill">Bank Name</div>
-                  <div class="bound-num"><p class="bn-label">Account number</p><p class="bn-value">＊＊＊＊5567</p></div>
-                  <div class="bound-foot"><span class="bound-name">M＊＊＊＊＊＊＊</span><span class="bound-date">Bind Date<br><b>2025-09-05</b></span></div>
+                  <div class="bound-pill">{{ boundAcct?.bank || 'Bank Name' }}</div>
+                  <div class="bound-num"><p class="bn-label">Account number</p><p class="bn-value">{{ acctTail }}</p></div>
+                  <div class="bound-foot"><span class="bound-name">{{ boundAcct?.holder || 'M＊＊＊＊＊＊＊' }}</span><span class="bound-date">Bind Date<br><b>{{ boundAcct?.bindDate || '—' }}</b></span></div>
                 </div>
               </div>
               <button class="refresh flex items-center gap-2 mt-4 transition-colors">
@@ -112,7 +128,7 @@ function submitWithdraw() {
               </div>
             </div>
             <div class="flex flex-col gap-3 md:gap-4">
-              <button class="submit-ready w-full py-3 md:py-4 rounded-lg font-semibold text-sm md:text-base" @click="submitWithdraw"><span>Submit</span></button>
+              <button class="w-full py-3 md:py-4 rounded-lg font-semibold text-sm md:text-base" :class="withdrawReady ? 'submit-ready' : 'submit-idle'" :disabled="!withdrawReady" @click="submitWithdraw"><span>Submit</span></button>
               <NuxtLink class="back-flat w-full py-3 md:py-4 rounded-lg transition-colors font-semibold text-sm md:text-base" to="/account">Back</NuxtLink>
             </div>
           </section>
@@ -193,4 +209,6 @@ function submitWithdraw() {
 .bound-date b{color:#e5e7eb;font-size:13px}
 .submit-ready{display:flex;align-items:center;justify-content:center;border:0;background:linear-gradient(90deg,#cbe8e4,#98e7d2);cursor:pointer}
 .submit-ready span{color:#0f1622;font-weight:800}
+.submit-idle{display:flex;align-items:center;justify-content:center;border:0;background:#4b5563;cursor:not-allowed}
+.submit-idle span{color:#fff;font-weight:800}
 </style>

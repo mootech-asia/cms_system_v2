@@ -155,7 +155,13 @@
     const root = document.querySelector('[data-banking-details]');
     if (!root || root.dataset.ready === '1') return;
     root.dataset.ready = '1';
-    const state = { view: query && query.add ? 'form' : 'empty', accounts: [], bank: '' };
+    // 與帳戶總覽卡片(account.js)共用同一份綁定帳戶資料
+    const store = (window.BANK_STORE = window.BANK_STORE || { accounts: [] });
+    const state = {
+      view: query && query.add ? 'form' : (store.accounts.length ? 'list' : 'empty'),
+      accounts: store.accounts,
+      bank: '',
+    };
 
     function render() {
       let html = '';
@@ -203,7 +209,7 @@
     function maskCard(num) {
       const digits = (num || '').replace(/\s/g, '');
       const tail = digits.slice(-4) || '0000';
-      return '********' + tail;
+      return '**** **** **** ' + tail;
     }
 
     function updateSubmit(card) {
@@ -244,7 +250,7 @@
         submit.addEventListener('click', () => {
           if (submit.disabled) return;
           const num = card.querySelector('[data-bd-card]').value;
-          state.accounts.push({ bank: state.bank, num: maskCard(num) });
+          state.accounts.push({ bank: state.bank, num: maskCard(num), holder: 'M＊＊＊＊＊＊＊', bindDate: new Date().toISOString().slice(0, 10) });
           showModal({ type: 'success', onConfirm: () => { state.view = 'list'; render(); } });
         });
         const wrap = card.querySelector('[data-bank-select]');
@@ -357,16 +363,52 @@
     });
   }
 
-  // ---------- Withdrawal:Submit → 成功／警告彈窗 ----------
+  // ---------- Withdrawal:綁定帳戶輪播 + Submit 啟用狀態 ----------
   function initWithdrawal() {
     const main = document.querySelector('#container main');
     if (!main || main.dataset.wdReady === '1') return;
     main.dataset.wdReady = '1';
+
+    // 綁定帳戶輪播(與帳戶總覽/banking-details 共用資料)
+    const store = (window.BANK_STORE = window.BANK_STORE || { accounts: [] });
+    let acctIdx = 0;
+    function renderAcct() {
+      const count = main.querySelector('.wd-count');
+      if (!count) return;
+      const total = store.accounts.length;
+      if (acctIdx >= total) acctIdx = Math.max(0, total - 1);
+      count.textContent = (total ? acctIdx + 1 : 0) + ' / ' + total;
+      const a = store.accounts[acctIdx];
+      if (!a) return;
+      main.querySelector('.wd-bank').textContent = a.bank;
+      main.querySelector('.wd-num').textContent = '＊＊＊＊' + ((a.num || '').replace(/\D/g, '').slice(-4) || '0000');
+      if (a.holder) main.querySelector('.wd-holder').textContent = a.holder;
+      if (a.bindDate) main.querySelector('.wd-date').textContent = a.bindDate;
+    }
+    main.addEventListener('click', (e) => {
+      const total = store.accounts.length;
+      if (!total) return;
+      if (e.target.closest('.wd-prev')) { acctIdx = (acctIdx - 1 + total) % total; renderAcct(); }
+      else if (e.target.closest('.wd-next')) { acctIdx = (acctIdx + 1) % total; renderAcct(); }
+    });
+    renderAcct();
+
+    // Submit:金額與密碼都輸入後才啟用
     const submit = [...main.querySelectorAll('button')].find((b) => b.textContent.trim() === 'Submit');
     if (!submit) return;
-    submit.addEventListener('click', () => {
+    function updateSubmit() {
       const amt = [...main.querySelectorAll('input')].find((i) => /10,000\s*~/.test(i.placeholder || ''));
-      if (!amt || amt.value.trim() === '') { showModal({ type: 'warning', message: 'invalid' }); return; }
+      const pw = [...main.querySelectorAll('input')].find((i) => i.type === 'password');
+      const ready = Boolean(amt && pw && amt.value.trim() !== '' && pw.value.trim() !== '');
+      submit.disabled = !ready;
+      submit.style.background = ready ? 'linear-gradient(90deg,#CBE8E4,#98E7D2)' : '#4b5563';
+      submit.style.color = ready ? '#0f1622' : '#fff';
+      submit.style.cursor = ready ? 'pointer' : 'not-allowed';
+    }
+    main.addEventListener('input', updateSubmit);
+    updateSubmit();
+    submit.addEventListener('click', () => {
+      if (submit.disabled) return;
       showModal({ type: 'success', message: 'Withdrawal request submitted successfully.' });
     });
   }

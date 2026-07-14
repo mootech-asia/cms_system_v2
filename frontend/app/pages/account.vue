@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import { useBankStore } from '~/stores/bank';
 const root = ref<HTMLElement | null>(null);
 useMemberPage(root);
 
-const banks = ref([
-  { num: '**** **** **** 1234', name: 'KB Bank' },
-  { num: '**** **** **** 5678', name: 'Shinhan Bank' },
-  { num: '**** **** **** 9012', name: 'Woori Bank' },
-]);
+const bankStore = useBankStore();
+const banks = computed(() => bankStore.accounts);
 const bankIdx = ref(0);
 function prevBank() {
   if (banks.value.length) bankIdx.value = (bankIdx.value - 1 + banks.value.length) % banks.value.length;
@@ -16,7 +14,7 @@ function nextBank() {
   if (banks.value.length) bankIdx.value = (bankIdx.value + 1) % banks.value.length;
 }
 function deleteBank() {
-  banks.value.splice(bankIdx.value, 1);
+  bankStore.accounts.splice(bankIdx.value, 1);
   if (bankIdx.value >= banks.value.length) bankIdx.value = Math.max(0, banks.value.length - 1);
 }
 </script>
@@ -266,7 +264,7 @@ function deleteBank() {
     <path d="M8 14h.01">
     </path>
     </svg>
-    <span>{{ banks[bankIdx].name }}</span>
+    <span>{{ banks[bankIdx].bank }}</span>
     <button class="ml-auto text-gray-500 hover:text-white transition-colors" aria-label="Delete bank account" @click="deleteBank">
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
     <path d="M3 6h18">

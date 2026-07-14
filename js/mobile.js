@@ -118,7 +118,7 @@ function openMainMenu() {
         <div style="width:clamp(52px,7.6dvh,64px);height:clamp(52px,7.6dvh,64px);border-radius:50%;background:linear-gradient(90deg,#CBE8E4,#98E7D2);display:flex;align-items:center;justify-content:center;color:#0f1622;flex-shrink:0">${ic('user', 32)}</div>
         <div style="min-width:0">
           <div style="display:flex;align-items:center;gap:12px"><span style="color:#fff;font-weight:800;font-size:clamp(20px,2.8dvh,24px);white-space:nowrap">meqomcao</span><span style="background:linear-gradient(90deg,#CBE8E4,#98E7D2);color:#111827;font-size:clamp(14px,1.9dvh,16px);font-weight:800;padding:4px 10px;border-radius:9999px;white-space:nowrap;line-height:1">VIP1</span></div>
-          <div style="font-size:clamp(16px,2.4dvh,20px);font-weight:700;margin-top:6px"><span style="color:#9ca3af">Balance: </span><span style="color:#98E7D2">₩1,000,000,000</span></div>
+          <div style="font-size:clamp(16px,2.4dvh,20px);font-weight:700;margin-top:6px"><span style="color:#9ca3af">Balance: </span><span style="color:#98E7D2">₩1,000,000,000</span><span style="color:#9ca3af;margin-left:12px">Points: </span><span style="color:#98E7D2">0.00</span></div>
         </div>
       </div>
       <a data-mslug="account" href="#/account" style="display:block;text-align:center;padding:9px 18px;border-radius:10px;background:linear-gradient(90deg,#CBE8E4,#98E7D2);color:#0f1622;font-weight:800;font-size:15px;line-height:1.25;text-decoration:none;margin:12px 24px 0">View Account</a>`

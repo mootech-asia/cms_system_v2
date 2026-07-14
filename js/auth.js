@@ -111,6 +111,8 @@ function applyLoginState() {
     <a href="#/account" style="display:flex;align-items:center;gap:6px;color:#d1d5db;text-decoration:none;white-space:nowrap">
       <span style="color:#9ca3af;font-weight:700">Balance:</span>
       <span style="color:#fff;font-weight:800">₩1,000,000,000</span>
+      <span style="color:#9ca3af;font-weight:700;margin-left:8px">Points:</span>
+      <span style="color:#fff;font-weight:800">0.00</span>
     </a>
     <button data-logout aria-label="Logout" title="Logout" style="display:flex;align-items:center;background:none;border:0;color:#d1d5db;cursor:pointer;padding:0">${window.ic ? window.ic('log-out', 20) : ''}</button>`;
   loginBtn.parentElement.insertBefore(w, loginBtn);
