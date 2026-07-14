@@ -230,9 +230,9 @@ const mobileOpen = useState<boolean>('ui:mobileMenuOpen', () => false);
                 @click="mobileOpen = false"
               >View Account</NuxtLink>
             </template>
-            <div v-else class="flex gap-2.5">
-              <button style="flex:1;padding:12px;border-radius:8px;border:1px solid #2a3138;background:#2a3138;color:#fff;cursor:pointer;font-weight:600" @click="mobileOpen = false; openAuth('login')">Login</button>
-              <button style="flex:1;padding:12px;border-radius:8px;border:0;background:linear-gradient(90deg,#CBE8E4,#98E7D2);color:#111827;cursor:pointer;font-weight:700" @click="mobileOpen = false; openAuth('register')">Register</button>
+            <div v-else>
+              <button style="display:block;width:100%;text-align:left;padding:12px 14px;background:none;border:0;color:#fff;cursor:pointer;font-weight:600;font-size:15px" @click="mobileOpen = false; openAuth('login')">Login</button>
+              <button style="width:100%;padding:12px 14px;border-radius:10px;border:0;background:linear-gradient(90deg,#CBE8E4,#98E7D2);color:#0f1622;cursor:pointer;font-weight:700;font-size:15px;margin-top:4px" @click="mobileOpen = false; openAuth('register')">Register</button>
             </div>
           </div>
         </div>

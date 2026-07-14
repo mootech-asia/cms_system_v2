@@ -74,7 +74,7 @@
 - P1 ✅ 會員區收斂。
 - P2 ✅ 行銷/遊戲區 + 共用 chrome 抽成 partials。
 - P3 ✅ Nuxt 對齊（2026-07-14）：22 條路由雙前端逐頁截圖比對。修正 — VendorBrowser 廠商標題改 mint 膠囊徽章（移除粉紅底線 #f033b5 與 #c9ced6/#d9d6d0 灰）、slot 不再預設進 PP、Back 僅在廠商遊戲列表顯示、遊戲格加 Load More；sport 加 Load More；promotion 移除 Load more 並移植詳情視圖（?detail=）；會員頁移除頂部 Back（InnerBack 元件刪除）；MemberHeader 桌機補語言選單+漢堡；change-password 文案/驗證改條件式（login=長度、txn=ASCII）。殘餘像素差來源：靜態會員頁內部捲軸的水平位移與跑馬燈/輪播動畫時序，視覺等同。
-- P4 ⬜ 全站截圖驗收（桌機/手機）+ 部署。
+- P4 ✅ 全站截圖驗收（2026-07-14）：22 路由 + 4 互動狀態 × 桌機/手機 × 雙前端（約 100 張），逐項比對通過；唯一修正 — Nuxt 手機抽屜登出態 Login/Register 版式對齊 mobile.js。詳見 `p4-acceptance.md`。
 
 ## 四、Usage 評估
 
