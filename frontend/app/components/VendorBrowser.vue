@@ -34,15 +34,9 @@ const routeProvider = computed(() => {
   const value = route.query.provider;
   return typeof value === 'string' && value.trim() ? value.trim() : null;
 });
-const defaultProvider = computed(() => (props.kind === 'slot' ? 'PP' : null));
-const selectedProvider = computed(() => active.value || routeProvider.value || defaultProvider.value);
-const titleProvider = computed(() => {
-  const provider = selectedProvider.value;
-  if (!provider) return '';
-  if (/^pragmatic play/i.test(provider)) return 'PP';
-  return provider;
-});
-const showBack = computed(() => Boolean(props.direct || selectedProvider.value));
+const selectedProvider = computed(() => active.value || routeProvider.value);
+// Back 只在「已進入某廠商的遊戲列表」時顯示;direct 頁(hot-games)與頂層廠商格都不顯示
+const showBack = computed(() => !props.direct && Boolean(selectedProvider.value));
 const showingVendors = computed(() => !props.direct && !selectedProvider.value);
 const filteredVendors = computed(() => {
   const s = q.value.trim().toLowerCase();
@@ -53,14 +47,14 @@ const games = computed(() => {
   const list = props.direct
     ? Array.from({ length: 30 }, (_, i) => ({ provider: vendors.value[i % vendors.value.length]!, i }))
     : (provider ? Array.from({ length: 24 }, (_, i) => ({ provider, i })) : []);
-  if (!props.direct) return list;
   const s = q.value.trim().toLowerCase();
   return s ? list.filter((g) => g.provider.toLowerCase().includes(s)) : list;
 });
 
 function back() {
-  if (!props.direct && active.value && !routeProvider.value && !defaultProvider.value) { active.value = null; return; }
-  router.back();
+  // 從遊戲列表回到本分類的廠商格
+  active.value = null;
+  if (routeProvider.value) router.replace({ query: {} });
 }
 function openVendor(v: string) {
   active.value = v;
@@ -78,18 +72,17 @@ function openVendor(v: string) {
         </button>
       </div>
 
-      <div class="vnd-head" :class="{ 'has-provider': titleProvider }">
-        <h2 class="vnd-title" :class="{ 'with-provider': titleProvider }">
-          <template v-if="titleProvider">
-            <span class="title-main">{{ title }}</span>
-            <span class="title-sep">|</span>
-            <span class="title-provider">{{ titleProvider }}</span>
+      <div class="vnd-head">
+        <h2 class="vnd-title" :class="{ 'vnd-title-inline': selectedProvider }">
+          <template v-if="selectedProvider">
+            <span>{{ title }}</span>
+            <span class="vnd-provider-badge">{{ selectedProvider }}</span>
           </template>
           <template v-else>{{ title }}</template>
         </h2>
         <div class="vnd-search">
           <svg class="s-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>
-          <input v-model="q" type="text" :placeholder="direct ? 'Search Game' : 'Vendor Name'">
+          <input v-model="q" type="text" :placeholder="showingVendors ? 'Vendor Name' : 'Search Game'">
           <button class="s-btn" type="button">Search</button>
         </div>
       </div>
@@ -100,7 +93,7 @@ function openVendor(v: string) {
         </button>
       </div>
 
-      <div v-else class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      <div v-if="!showingVendors" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         <div
           v-for="g in games" :key="`${g.provider}-${g.i}`"
           class="bg-[#1a2128] border border-gray-800 rounded-lg overflow-hidden hover:border-[#98E7D2] transition-colors cursor-pointer group"
@@ -115,6 +108,10 @@ function openVendor(v: string) {
           </div>
         </div>
       </div>
+
+      <div v-if="!showingVendors" class="cms-load-more-wrap flex justify-center mt-8">
+        <button type="button" class="cms-load-more-button px-8 py-3 rounded-lg transition-colors">Load More</button>
+      </div>
     </div>
   </section>
 </template>
@@ -126,15 +123,10 @@ function openVendor(v: string) {
 #inner-back button:active{transform:translateY(0)}
 #inner-back svg{width:18px;height:18px;flex:0 0 auto}
 .vnd-head{display:flex;flex-direction:column;gap:16px;margin-bottom:26px}
-.vnd-head.has-provider{border-bottom:3px solid #f033b5;padding-bottom:12px}
-@media(min-width:768px){.vnd-head{flex-direction:row;align-items:center;justify-content:space-between}.vnd-head.has-provider{align-items:flex-end}}
-.vnd-title{color:#fff;font-size:26px;font-weight:600;margin:0;letter-spacing:0}
-.vnd-title.with-provider{display:flex;align-items:baseline;gap:18px;line-height:1}
-.vnd-title.with-provider .title-main{font-size:36px;font-weight:800;background:linear-gradient(90deg,#CBE8E4 0%,#98E7D2 52%,#B9DE5A 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-.vnd-title.with-provider .title-sep{font-size:30px;font-weight:600;color:#c9ced6;opacity:.9}
-.vnd-title.with-provider .title-provider{font-size:28px;font-weight:800;color:#d9d6d0}
-@media(min-width:768px){.vnd-title.with-provider .title-main{font-size:48px}.vnd-title.with-provider .title-sep{font-size:36px}.vnd-title.with-provider .title-provider{font-size:34px}}
-@media(max-width:640px){.vnd-title.with-provider{gap:10px}.vnd-title.with-provider .title-main{font-size:30px}.vnd-title.with-provider .title-sep{font-size:24px}.vnd-title.with-provider .title-provider{font-size:24px}}
+@media(min-width:768px){.vnd-head{flex-direction:row;align-items:center;justify-content:space-between}}
+.vnd-title{color:#fff;font-size:26px;font-weight:800;margin:0}
+.vnd-title.vnd-title-inline{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.vnd-provider-badge{display:inline-flex;align-items:center;justify-content:center;min-height:28px;padding:5px 12px;border-radius:999px;border:1px solid rgba(152,231,210,.3);background:rgba(152,231,210,.1);color:#98E7D2;font-size:14px;font-weight:800;line-height:1}
 .vnd-search{position:relative;display:flex;gap:10px}
 .vnd-search input{background:#1a2128;border:1px solid #374151;border-radius:10px;padding:11px 14px 11px 38px;color:#fff;outline:none;min-width:220px}
 .vnd-search input:focus{border-color:#98E7D2}
@@ -146,4 +138,7 @@ function openVendor(v: string) {
 .vnd-card{position:relative;display:flex;align-items:center;justify-content:center;height:112px;border-radius:14px;border:1px solid #212b3d;overflow:hidden;cursor:pointer;background:#161e2c;transition:border-color .18s ease,transform .18s ease,box-shadow .18s ease}
 .vnd-card:hover{border-color:#98E7D2;transform:translateY(-2px);box-shadow:0 10px 26px rgba(0,0,0,.45)}
 .vnd-card .vnd-name{padding:0 16px;text-align:center;color:#fff;font-size:20px;font-weight:800;line-height:1.2;letter-spacing:.01em}
+.cms-load-more-button{min-width:160px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.2);color:#d1d5db;font-weight:600;cursor:pointer;box-shadow:none;transition:background-color .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease}
+.cms-load-more-button:hover,.cms-load-more-button:focus-visible{background:#304242;border-color:rgba(170,229,211,.22);color:#AAE5D3;box-shadow:inset 0 0 0 1px rgba(170,229,211,.03),0 0 0 1px rgba(41,68,72,.35);transform:translateY(-1px);outline:none}
+.cms-load-more-button:active{transform:translateY(0)}
 </style>

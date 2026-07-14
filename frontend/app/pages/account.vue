@@ -166,7 +166,6 @@ function closeBankModal(confirmed: boolean) {
     </nav>
     </aside>
     <main class="flex-1 min-w-0 p-4 md:p-8 flex flex-col" style="padding-bottom: 80px;">
-    <InnerBack />
     <h1 class="text-white text-2xl md:text-3xl mb-6 md:mb-8 w-full">Account Overview</h1>
     <div class="relative overflow-hidden flex-shrink-0 rounded-2xl p-4 md:p-6 mb-8 w-full" style="background: linear-gradient(105deg, rgb(22, 63, 52) 0%, rgb(15, 42, 35) 28%, rgb(11, 24, 21) 55%, rgb(10, 14, 18) 100%);">
     <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 1200 320" preserveAspectRatio="none" fill="none">

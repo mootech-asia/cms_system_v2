@@ -55,7 +55,6 @@ const cryptoReady = computed(() => Number(cryptoAmount.value.replace(/[^\d]/g, '
     <div class="flex min-h-screen">
       <MemberSidebar />
       <main class="flex-1 min-w-0 p-4 md:p-8 pb-24">
-        <InnerBack />
         <h1 class="text-white text-2xl md:text-3xl mb-6 md:mb-8">Deposit</h1>
         <div v-show="step === 'form'" class="payment-tabs">
           <button :class="{ active: method === 'bank' }" @click="method = 'bank'">

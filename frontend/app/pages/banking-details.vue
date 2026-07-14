@@ -57,7 +57,6 @@ function closeModal(confirmed: boolean) {
     <div class="flex min-h-screen">
       <MemberSidebar active="/security" />
       <main class="flex-1 min-w-0 p-4 md:p-8 pb-24">
-        <InnerBack />
         <h1 class="text-white text-2xl md:text-3xl mb-6 md:mb-8">Banking Details</h1>
         <div class="mf-wrap">
           <!-- Empty -->

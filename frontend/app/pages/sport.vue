@@ -21,7 +21,6 @@ const tabCls = (p: string) => (p === provider.value ? 'text-[#98E7D2]' : 'text-g
     </div>
     <section class="py-8 bg-[#0f1419] min-h-[400px]">
     <div class="container mx-auto px-4">
-    <InnerBack />
     <div class="flex items-center gap-8 border-b border-gray-800 mb-8">
     <button v-for="p in ['BTI','SABA','Favorites']" :key="p" class="pb-4 px-2 transition-colors relative" :class="tabCls(p)" @click="provider = p">{{ p }}<div v-if="provider === p" class="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2]"></div></button>
     </div>
@@ -424,6 +423,9 @@ const tabCls = (p: string) => (p === provider.value ? 'text-[#98E7D2]' : 'text-g
     </div>
     </div>
     </div>
+    <div class="cms-load-more-wrap flex justify-center mt-8">
+    <button type="button" class="cms-load-more-button px-8 py-3 rounded-lg transition-colors">Load More</button>
+    </div>
     </div>
     </section>
     <AppFooter />
@@ -431,3 +433,9 @@ const tabCls = (p: string) => (p === provider.value ? 'text-[#98E7D2]' : 'text-g
     <GamesGameModal :data="modal" @close="modal = null" />
   </div>
 </template>
+
+<style scoped>
+.cms-load-more-button{min-width:160px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.2);color:#d1d5db;font-weight:600;cursor:pointer;box-shadow:none;transition:background-color .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease}
+.cms-load-more-button:hover,.cms-load-more-button:focus-visible{background:#304242;border-color:rgba(170,229,211,.22);color:#AAE5D3;box-shadow:inset 0 0 0 1px rgba(170,229,211,.03),0 0 0 1px rgba(41,68,72,.35);transform:translateY(-1px);outline:none}
+.cms-load-more-button:active{transform:translateY(0)}
+</style>

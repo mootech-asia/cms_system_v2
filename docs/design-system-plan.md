@@ -69,6 +69,13 @@
 
 依賴順序：P0 → P1 → P2 → P3 → P4。P1/P2 內部可再按頁切分，任何切點都可安全部署（tokens 是覆蓋層，未改到的頁面不受影響）。
 
+### 進度
+- P0 ✅ tokens.css 上線（靜態 + Nuxt）。
+- P1 ✅ 會員區收斂。
+- P2 ✅ 行銷/遊戲區 + 共用 chrome 抽成 partials。
+- P3 ✅ Nuxt 對齊（2026-07-14）：22 條路由雙前端逐頁截圖比對。修正 — VendorBrowser 廠商標題改 mint 膠囊徽章（移除粉紅底線 #f033b5 與 #c9ced6/#d9d6d0 灰）、slot 不再預設進 PP、Back 僅在廠商遊戲列表顯示、遊戲格加 Load More；sport 加 Load More；promotion 移除 Load more 並移植詳情視圖（?detail=）；會員頁移除頂部 Back（InnerBack 元件刪除）；MemberHeader 桌機補語言選單+漢堡；change-password 文案/驗證改條件式（login=長度、txn=ASCII）。殘餘像素差來源：靜態會員頁內部捲軸的水平位移與跑馬燈/輪播動畫時序，視覺等同。
+- P4 ⬜ 全站截圖驗收（桌機/手機）+ 部署。
+
 ## 四、Usage 評估
 
 - **一次完成（P0–P4 同一個 session）：不建議。** 逐頁替換需人工判斷 + 逐頁截圖驗證，22 個單行 HTML + 20 個 JS + 34 個 Vue 的總量，加上本 session 已消耗的額度，一次跑完溢出風險高，且中途溢出會留下「改一半」的狀態。

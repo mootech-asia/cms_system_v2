@@ -53,7 +53,6 @@ function submitWithdraw() {
     <div class="flex min-h-screen">
       <MemberSidebar />
       <main class="flex-1 min-w-0 p-4 md:p-8 pb-24">
-        <InnerBack />
         <h1 class="text-white text-2xl md:text-3xl mb-6 md:mb-8">Withdrawl</h1>
         <div class="mode-tabs">
           <button :class="{ active: mode === 'withdraw' }" @click="mode = 'withdraw'">Withdraw</button>
