@@ -191,6 +191,11 @@ function deleteBank() {
     </div>
     </div>
     </div>
+    <div class="text-center md:text-right flex-shrink-0">
+    <p class="text-xl md:text-2xl font-bold mb-1" style="color: #f0b24a">Rollover</p>
+    <p class="text-white text-sm md:text-base font-semibold mb-1">Remaining Turnover Amount:</p>
+    <p class="text-gray-300 text-xl md:text-2xl font-mono">₩16,517.41</p>
+    </div>
     </div>
     <div class="rk-rw" style="--rk-pct: 62%">
     <div class="rk-rw-top"><span class="rk-rw-label">Rewards · Day 27, 03:26 UTC</span></div>
