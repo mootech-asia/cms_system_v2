@@ -176,10 +176,10 @@ useMemberPage(root);
     </div>
     </div>
     </div>
-    <div class="rk-rw">
-    <div class="rk-rw-top"><span class="rk-rw-label">Rewards · Day 27, 03:26 UTC</span><span class="rk-rw-next">Next: <b>Bronze</b><i class="rk-dot rk-dot-bronze" /></span></div>
-    <div class="rk-track"><div class="rk-fill" /></div>
-    <div class="rk-meta"><span class="rk-cur">Current: <b>Unranked</b><i class="rk-dot rk-dot-gray" /></span><span class="rk-pts">62%</span></div>
+    <div class="rk-rw" style="--rk-pct: 62%">
+    <div class="rk-rw-top"><span class="rk-rw-label">Rewards · Day 27, 03:26 UTC</span></div>
+    <div class="rk-track" role="progressbar" aria-label="Rewards progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="62"><div class="rk-fill" /></div>
+    <div class="rk-meta"><span class="rk-cur">Current: <b>Unranked</b><i class="rk-dot rk-dot-gray" /></span><span class="rk-pts">62%</span><span class="rk-rw-next">Next: <b>Bronze</b><i class="rk-dot rk-dot-bronze" /></span></div>
     </div>
     </div>
     <div class="bg-[#1a2128] border border-gray-800 rounded-lg p-4 md:p-6">
@@ -402,17 +402,20 @@ useMemberPage(root);
 </template>
 
 <style scoped>
-.rk-rw{position:relative;margin-top:20px;padding-top:18px;border-top:1px solid rgba(152,231,210,.18)}
+.rk-rw{--rk-pct:62%;position:relative;margin-top:20px;padding-top:18px;border-top:1px solid rgba(152,231,210,.18)}
 .rk-rw .rk-rw-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px}
 .rk-rw .rk-rw-label{color:#c3d0cb;font-size:12.5px}
-.rk-rw .rk-rw-next{color:#c3d0cb;font-size:14px;white-space:nowrap}
-.rk-rw .rk-rw-next b{color:#f0b24a;font-weight:800}
 .rk-rw .rk-track{height:8px;border-radius:99px;background:rgba(255,255,255,.12);overflow:hidden}
-.rk-rw .rk-fill{height:100%;width:62%;border-radius:99px;background:linear-gradient(90deg,#CBE8E4,#98E7D2)}
-.rk-rw .rk-meta{display:flex;justify-content:space-between;align-items:center;margin-top:9px;font-size:13px;color:#c3d0cb}
+.rk-rw .rk-fill{height:100%;width:var(--rk-pct);border-radius:99px;background:linear-gradient(90deg,#CBE8E4,#98E7D2);box-shadow:0 0 10px rgba(152,231,210,.4);animation:rk-grow .9s cubic-bezier(.22,.61,.36,1) both}
+@keyframes rk-grow{from{width:0}to{width:var(--rk-pct)}}
+.rk-rw .rk-meta{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;margin-top:9px;font-size:13px;color:#c3d0cb}
+.rk-rw .rk-cur{justify-self:start;white-space:nowrap}
 .rk-rw .rk-cur b{color:#CBE8E4;font-weight:700}
-.rk-rw .rk-pts{color:#CBE8E4;font-weight:700}
+.rk-rw .rk-pts{justify-self:center;color:#CBE8E4;font-weight:700}
+.rk-rw .rk-rw-next{justify-self:end;white-space:nowrap}
+.rk-rw .rk-rw-next b{color:#f0b24a;font-weight:800}
 .rk-rw .rk-dot{display:inline-block;width:8px;height:8px;border-radius:50%;vertical-align:middle;margin-left:4px}
 .rk-rw .rk-dot-gray{background:#8fa39c}
 .rk-rw .rk-dot-bronze{background:#f0b24a}
+@media (prefers-reduced-motion:reduce){.rk-rw .rk-fill{animation:none}}
 </style>
