@@ -10,6 +10,7 @@
     'personal-info',
     'profit-loss',
     'security',
+    'support',
     'withdrawal',
     'withdrawal-record'
   ]);
