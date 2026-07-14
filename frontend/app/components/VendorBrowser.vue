@@ -2,6 +2,8 @@
 import { ref, computed } from 'vue';
 
 const props = defineProps<{ title: string; kind: string; direct?: boolean }>();
+const route = useRoute();
+const router = useRouter();
 
 const SLOT_VENDORS = [
   'Pragmatic Play', 'PG Soft', 'CQ9 Gaming', 'Hacksaw Gaming', 'NetEnt', 'Nolimit City',
@@ -28,23 +30,36 @@ const vendors = computed(() => (props.kind === 'live' ? LIVE_VENDORS : SLOT_VEND
 const active = ref<string | null>(null);
 const q = ref('');
 
-const showingVendors = computed(() => !props.direct && !active.value);
+const routeProvider = computed(() => {
+  const value = route.query.provider;
+  return typeof value === 'string' && value.trim() ? value.trim() : null;
+});
+const defaultProvider = computed(() => (props.kind === 'slot' ? 'PP' : null));
+const selectedProvider = computed(() => active.value || routeProvider.value || defaultProvider.value);
+const titleProvider = computed(() => {
+  const provider = selectedProvider.value;
+  if (!provider) return '';
+  if (/^pragmatic play/i.test(provider)) return 'PP';
+  return provider;
+});
+const showBack = computed(() => Boolean(props.direct || selectedProvider.value));
+const showingVendors = computed(() => !props.direct && !selectedProvider.value);
 const filteredVendors = computed(() => {
   const s = q.value.trim().toLowerCase();
   return vendors.value.filter((v) => !s || v.toLowerCase().includes(s));
 });
 const games = computed(() => {
+  const provider = selectedProvider.value;
   const list = props.direct
     ? Array.from({ length: 30 }, (_, i) => ({ provider: vendors.value[i % vendors.value.length]!, i }))
-    : (active.value ? Array.from({ length: 24 }, (_, i) => ({ provider: active.value as string, i })) : []);
-  if (!props.direct) return list; // vendor game list is not text-filtered
+    : (provider ? Array.from({ length: 24 }, (_, i) => ({ provider, i })) : []);
+  if (!props.direct) return list;
   const s = q.value.trim().toLowerCase();
   return s ? list.filter((g) => g.provider.toLowerCase().includes(s)) : list;
 });
 
-const router = useRouter();
 function back() {
-  if (!props.direct && active.value) { active.value = null; return; }
+  if (!props.direct && active.value && !routeProvider.value && !defaultProvider.value) { active.value = null; return; }
   router.back();
 }
 function openVendor(v: string) {
@@ -56,15 +71,22 @@ function openVendor(v: string) {
 <template>
   <section class="py-8 bg-[#0f1419] min-h-[400px]">
     <div class="container mx-auto px-4">
-      <div id="inner-back">
+      <div v-if="showBack" id="inner-back">
         <button type="button" @click="back">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6" /></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6" /></svg>
           <span>Back</span>
         </button>
       </div>
 
-      <div class="vnd-head">
-        <h2>{{ title }}</h2>
+      <div class="vnd-head" :class="{ 'has-provider': titleProvider }">
+        <h2 class="vnd-title" :class="{ 'with-provider': titleProvider }">
+          <template v-if="titleProvider">
+            <span class="title-main">{{ title }}</span>
+            <span class="title-sep">|</span>
+            <span class="title-provider">{{ titleProvider }}</span>
+          </template>
+          <template v-else>{{ title }}</template>
+        </h2>
         <div class="vnd-search">
           <svg class="s-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>
           <input v-model="q" type="text" :placeholder="direct ? 'Search Game' : 'Vendor Name'">
@@ -99,12 +121,20 @@ function openVendor(v: string) {
 
 <style scoped>
 #inner-back{padding:0 0 18px}
-#inner-back button{display:inline-flex;align-items:center;gap:6px;background:none;border:0;color:#fff;font-size:22px;font-weight:700;cursor:pointer;padding:0}
-#inner-back button:hover{color:#98E7D2}
-#inner-back svg{width:24px;height:24px}
+#inner-back button{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 16px;border-radius:10px;border:1px solid rgba(152,231,210,.22);background:#1a2128;color:#f9fafb;font-size:15px;font-weight:800;line-height:1;cursor:pointer;box-shadow:0 8px 22px rgba(0,0,0,.24);transition:background-color .18s ease,border-color .18s ease,color .18s ease,transform .18s ease,box-shadow .18s ease}
+#inner-back button:hover,#inner-back button:focus-visible{background:#304242;border-color:rgba(170,229,211,.38);color:#AAE5D3;transform:translateY(-1px);box-shadow:0 10px 26px rgba(0,0,0,.32);outline:none}
+#inner-back button:active{transform:translateY(0)}
+#inner-back svg{width:18px;height:18px;flex:0 0 auto}
 .vnd-head{display:flex;flex-direction:column;gap:16px;margin-bottom:26px}
-@media(min-width:768px){.vnd-head{flex-direction:row;align-items:center;justify-content:space-between}}
-.vnd-head h2{color:#fff;font-size:26px;font-weight:600;margin:0}
+.vnd-head.has-provider{border-bottom:3px solid #f033b5;padding-bottom:12px}
+@media(min-width:768px){.vnd-head{flex-direction:row;align-items:center;justify-content:space-between}.vnd-head.has-provider{align-items:flex-end}}
+.vnd-title{color:#fff;font-size:26px;font-weight:600;margin:0;letter-spacing:0}
+.vnd-title.with-provider{display:flex;align-items:baseline;gap:18px;line-height:1}
+.vnd-title.with-provider .title-main{font-size:36px;font-weight:900;background:linear-gradient(90deg,#f033b5 0%,#ff6b72 52%,#f3a352 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.vnd-title.with-provider .title-sep{font-size:30px;font-weight:500;color:#c9ced6;opacity:.9}
+.vnd-title.with-provider .title-provider{font-size:28px;font-weight:900;color:#d9d6d0}
+@media(min-width:768px){.vnd-title.with-provider .title-main{font-size:48px}.vnd-title.with-provider .title-sep{font-size:36px}.vnd-title.with-provider .title-provider{font-size:34px}}
+@media(max-width:640px){.vnd-title.with-provider{gap:10px}.vnd-title.with-provider .title-main{font-size:30px}.vnd-title.with-provider .title-sep{font-size:24px}.vnd-title.with-provider .title-provider{font-size:24px}}
 .vnd-search{position:relative;display:flex;gap:10px}
 .vnd-search input{background:#1a2128;border:1px solid #374151;border-radius:10px;padding:11px 14px 11px 38px;color:#fff;outline:none;min-width:220px}
 .vnd-search input:focus{border-color:#98E7D2}
