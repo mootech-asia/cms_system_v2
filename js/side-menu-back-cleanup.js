@@ -37,9 +37,18 @@
     setTimeout(() => removeMemberBacks(detail), 60);
   }
 
+  function handleMemberClick(event) {
+    if (activeSlug() === 'banking-details' && event.target.closest('#container [data-acct]')) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      return;
+    }
+    requestAnimationFrame(() => scheduleRemove());
+  }
+
   document.addEventListener('page:rendered', (event) => scheduleRemove(event.detail));
   window.addEventListener('hashchange', () => requestAnimationFrame(() => scheduleRemove()));
-  document.addEventListener('click', () => requestAnimationFrame(() => scheduleRemove()), true);
+  document.addEventListener('click', handleMemberClick, true);
 
   const observer = new MutationObserver(() => scheduleRemove());
   function startObserver() {
