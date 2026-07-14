@@ -21,23 +21,36 @@
     return hash || 'home';
   }
 
-  function removeMemberBack() {
-    document.querySelectorAll('#container #member-back').forEach((node) => node.remove());
+  function isMemberPage(detail) {
+    return MEMBER_SLUGS.has(activeSlug(detail));
+  }
+
+  function removeMemberBacks(detail) {
+    if (!isMemberPage(detail)) return;
+    document.querySelectorAll('#container #member-back, #container .mf-back').forEach((node) => node.remove());
   }
 
   function scheduleRemove(detail) {
-    if (!MEMBER_SLUGS.has(activeSlug(detail))) return;
-    removeMemberBack();
-    requestAnimationFrame(removeMemberBack);
-    setTimeout(removeMemberBack, 60);
+    if (!isMemberPage(detail)) return;
+    removeMemberBacks(detail);
+    requestAnimationFrame(() => removeMemberBacks(detail));
+    setTimeout(() => removeMemberBacks(detail), 60);
   }
 
   document.addEventListener('page:rendered', (event) => scheduleRemove(event.detail));
   window.addEventListener('hashchange', () => requestAnimationFrame(() => scheduleRemove()));
+  document.addEventListener('click', () => requestAnimationFrame(() => scheduleRemove()), true);
+
+  const observer = new MutationObserver(() => scheduleRemove());
+  function startObserver() {
+    const container = document.getElementById('container');
+    if (container) observer.observe(container, { childList: true, subtree: true });
+    scheduleRemove();
+  }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => scheduleRemove());
+    document.addEventListener('DOMContentLoaded', startObserver);
   } else {
-    scheduleRemove();
+    startObserver();
   }
 })();
