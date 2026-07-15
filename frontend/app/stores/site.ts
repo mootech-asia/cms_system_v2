@@ -1,0 +1,52 @@
+import { defineStore } from 'pinia';
+import type { SectionConfig } from '~/config/blocks';
+
+/**
+ * 站點組態 store — R5 設計後台/R6 客戶後台調整的目標。
+ * 頁面 = sections 陣列(順序即渲染順序);skin 供 R3 換膚。
+ * 儲存為占位:目前只留在記憶體,持久化 API 由工程師接。
+ */
+export const useSiteStore = defineStore('site', {
+  state: () => ({
+    skin: 'win100',
+    pages: {
+      home: {
+        sections: [
+          { id: 'banner', block: 'home-banner' },
+          { id: 'ticker', block: 'home-ticker' },
+          { id: 'live-sport', block: 'home-live-sport' },
+          { id: 'hot-games', block: 'home-hot-games' },
+          { id: 'mini-games', block: 'home-mini-games' },
+          { id: 'promotion', block: 'home-promotion' },
+        ] as SectionConfig[],
+      },
+    } as Record<string, { sections: SectionConfig[] }>,
+  }),
+  getters: {
+    sectionsFor: (state) => (page: string): SectionConfig[] =>
+      state.pages[page]?.sections ?? [],
+  },
+  actions: {
+    /** 後台:調整區塊順序 */
+    moveSection(page: string, from: number, to: number) {
+      const list = this.pages[page]?.sections;
+      if (!list || !list[from]) return;
+      const [s] = list.splice(from, 1);
+      list.splice(to, 0, s!);
+    },
+    /** 後台:切換區塊變體 */
+    setVariant(page: string, id: string, variant: string) {
+      const s = this.pages[page]?.sections.find((x) => x.id === id);
+      if (s) s.variant = variant;
+    },
+    /** 後台:顯示開關 */
+    toggleSection(page: string, id: string, enabled?: boolean) {
+      const s = this.pages[page]?.sections.find((x) => x.id === id);
+      if (s) s.enabled = enabled ?? !(s.enabled !== false);
+    },
+    /** 後台:換膚(R3 接 themes/*.css) */
+    setSkin(skin: string) {
+      this.skin = skin;
+    },
+  },
+});

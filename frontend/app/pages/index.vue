@@ -1,10 +1,9 @@
+<script setup lang="ts">
+const site = useSiteStore();
+</script>
+
 <template>
   <div>
-    <AppBanner />
-    <HomeTicker />
-    <HomeSportsPromo />
-    <HomeHotGamesRail />
-    <HomeMiniGamesGrid />
-    <HomePromotion />
+    <BlockRenderer :sections="site.sectionsFor('home')" />
   </div>
 </template>

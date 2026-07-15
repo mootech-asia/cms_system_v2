@@ -38,4 +38,6 @@ export interface SectionConfig {
   variant?: string;
   /** 缺省 = true;後台的顯示開關 */
   enabled?: boolean;
+  /** 傳給元件的 props(頁面級參數,如 hero 標題) */
+  props?: Record<string, unknown>;
 }
