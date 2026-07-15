@@ -1,4 +1,5 @@
 <script setup lang="ts">
+definePageMeta({ layout: 'member' });
 import { computed, ref } from 'vue';
 import { useBankStore } from '~/stores/bank';
 
@@ -52,11 +53,7 @@ function closeModal(confirmed: boolean) {
 </script>
 
 <template>
-  <div class="min-h-screen bg-[#0f1419] overflow-x-hidden">
-    <MemberHeader />
-    <div class="flex min-h-screen">
-      <MemberSidebar active="/security" />
-      <main class="flex-1 min-w-0 p-4 md:p-8 pb-24">
+  <div>
         <h1 class="text-white text-2xl md:text-3xl mb-6 md:mb-8">Banking Details</h1>
         <div class="mf-wrap">
           <!-- Empty -->
@@ -114,9 +111,6 @@ function closeModal(confirmed: boolean) {
             <button type="button" class="mf-fab" @click="openForm"><AppIcon name="plus" /></button>
           </template>
         </div>
-      </main>
-    </div>
-    <MobileBottomNav />
     <MemberModal v-if="modal" :type="modal.type" :message="modal.message" @confirm="closeModal(true)" @cancel="closeModal(false)" />
   </div>
 </template>

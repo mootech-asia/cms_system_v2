@@ -1,7 +1,12 @@
 <script setup lang="ts">
 const props = defineProps<{ active?: string }>();
 const route = useRoute();
-const current = computed(() => props.active || route.path);
+/* 子頁歸屬:安全中心的兩個子頁在側欄上仍高亮 Security Center */
+const PARENT: Record<string, string> = {
+  '/change-password': '/security',
+  '/banking-details': '/security',
+};
+const current = computed(() => props.active || PARENT[route.path] || route.path);
 const links = [
   ['Account Overview', '/account', 'grid'],
   ['Deposit', '/deposit', 'download'],
@@ -17,7 +22,7 @@ const links = [
 </script>
 
 <template>
-  <aside class="hidden md:block w-64 flex-shrink-0 bg-[#1a2128] border-r border-gray-800 sticky top-0 h-screen">
+  <aside class="hidden md:block w-64 flex-shrink-0 bg-[#1a2128] border-r border-gray-800 sticky top-0 h-screen overflow-y-auto">
     <nav class="p-4 space-y-2">
       <NuxtLink
         v-for="[label, to, icon] in links"

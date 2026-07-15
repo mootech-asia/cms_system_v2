@@ -34,8 +34,7 @@ function loadMore() {
 </script>
 
 <template>
-  <div ref="root" class="min-h-screen bg-[#0f1419]" style="overflow-x: hidden;">
-    <AppHeader />
+  <div ref="root">
     <div class="hero-band py-20">
     <div class="container mx-auto px-4 text-center">
     <h1 class="text-5xl md:text-7xl text-white mb-4">SPORTS BETTING</h1>
@@ -121,8 +120,6 @@ function loadMore() {
     </div>
     </div>
     </section>
-    <AppFooter />
-    <MobileBottomNav />
     <GamesGameModal :data="modal" @close="modal = null" />
   </div>
 </template>

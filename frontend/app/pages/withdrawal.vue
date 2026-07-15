@@ -1,4 +1,5 @@
 <script setup lang="ts">
+definePageMeta({ layout: 'member' });
 import { computed, ref } from 'vue';
 import { useBankStore } from '~/stores/bank';
 
@@ -48,11 +49,7 @@ function submitWithdraw() {
 </script>
 
 <template>
-  <div class="min-h-screen bg-[#0f1419] overflow-x-hidden">
-    <MemberHeader />
-    <div class="flex min-h-screen">
-      <MemberSidebar />
-      <main class="flex-1 min-w-0 p-4 md:p-8 pb-24">
+  <div>
         <h1 class="text-white text-2xl md:text-3xl mb-6 md:mb-8">Withdrawl</h1>
         <div class="mode-tabs">
           <button :class="{ active: mode === 'withdraw' }" @click="mode = 'withdraw'">Withdraw</button>
@@ -179,9 +176,6 @@ function submitWithdraw() {
             <button class="action" :class="{ ready: cryptoManagementReady }" :disabled="!cryptoManagementReady">Submit</button>
           </template>
         </section>
-      </main>
-    </div>
-    <MobileBottomNav />
     <MemberModal v-if="modal" :type="modal.type" :message="modal.message" @confirm="modal = null" @cancel="modal = null" />
   </div>
 </template>

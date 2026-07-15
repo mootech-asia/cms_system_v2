@@ -72,8 +72,7 @@ function toggle(id: string) {
 </script>
 
 <template>
-  <div class="min-h-screen bg-[#0f1419]" style="overflow-x: hidden;">
-    <AppHeader />
+  <div>
     <section class="py-8 bg-[#0f1419] min-h-[600px]">
       <div class="container mx-auto px-4" style="max-width:64rem">
         <h1 class="ab-heading">ABOUT US</h1>
@@ -107,8 +106,6 @@ function toggle(id: string) {
         </template>
       </div>
     </section>
-    <AppFooter />
-    <MobileBottomNav />
   </div>
 </template>
 

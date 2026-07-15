@@ -24,8 +24,7 @@ function backToList() {
 </script>
 
 <template>
-  <div class="min-h-screen bg-[#0f1419]" style="overflow-x: hidden;">
-    <AppHeader />
+  <div>
     <div v-if="!detail" class="hero-band py-16 md:py-20">
       <div class="container mx-auto px-4 text-center">
         <h1 class="text-4xl md:text-7xl text-white mb-4">PROMOTIONS</h1>
@@ -118,8 +117,6 @@ function backToList() {
         </div>
       </div>
     </section>
-    <AppFooter />
-    <MobileBottomNav />
   </div>
 </template>
 

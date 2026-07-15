@@ -1,4 +1,5 @@
 <script setup lang="ts">
+definePageMeta({ layout: false });
 /**
  * UI Kit 視驗頁:基礎元件層(components/ui/*)全數展示。
  * 工程師以此頁確認元件外觀與 API;所有樣式來自 theme token,

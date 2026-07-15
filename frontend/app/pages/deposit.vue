@@ -1,4 +1,5 @@
 <script setup lang="ts">
+definePageMeta({ layout: 'member' });
 import { computed, ref } from 'vue';
 
 type Method = 'bank' | 'crypto';
@@ -50,11 +51,7 @@ const cryptoReady = computed(() => Number(cryptoAmount.value.replace(/[^\d]/g, '
 </script>
 
 <template>
-  <div class="min-h-screen bg-[#0f1419] overflow-x-hidden">
-    <MemberHeader />
-    <div class="flex min-h-screen">
-      <MemberSidebar />
-      <main class="flex-1 min-w-0 p-4 md:p-8 pb-24">
+  <div>
         <h1 class="text-white text-2xl md:text-3xl mb-6 md:mb-8">Deposit</h1>
         <div v-show="step === 'form'" class="payment-tabs">
           <button :class="{ active: method === 'bank' }" @click="method = 'bank'">
@@ -132,9 +129,6 @@ const cryptoReady = computed(() => Number(cryptoAmount.value.replace(/[^\d]/g, '
           <p class="tcs"><NuxtLink to="/support">Customer Service</NuxtLink></p>
           <button class="complete" @click="showSuccess = true"><span>Complete</span></button>
         </section>
-      </main>
-    </div>
-    <MobileBottomNav />
     <MemberModal v-if="showSuccess" type="success" message="Deposit request submitted successfully." @confirm="showSuccess = false" @cancel="showSuccess = false" />
   </div>
 </template>

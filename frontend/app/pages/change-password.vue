@@ -1,4 +1,5 @@
 <script setup lang="ts">
+definePageMeta({ layout: 'member' });
 import { computed, ref } from 'vue';
 
 const isTxn = useRoute().query.type === 'txn';
@@ -32,11 +33,7 @@ function closeModal() {
 </script>
 
 <template>
-  <div class="min-h-screen bg-[#0f1419] overflow-x-hidden">
-    <MemberHeader />
-    <div class="flex min-h-screen">
-      <MemberSidebar active="/security" />
-      <main class="flex-1 min-w-0 p-4 md:p-8 pb-24">
+  <div>
         <h1 class="text-white text-2xl md:text-3xl mb-6 md:mb-8">{{ isTxn ? 'Change Transaction Password' : 'Change Login Password' }}</h1>
         <div class="mf-card">
           <div class="mf-field">
@@ -50,9 +47,6 @@ function closeModal() {
           <p class="mf-hint">{{ HINT }}</p>
           <button type="button" class="mf-submit" :class="{ ready }" :disabled="!ready" @click="submit"><span>Submit</span></button>
         </div>
-      </main>
-    </div>
-    <MobileBottomNav />
     <MemberModal v-if="modal" :type="modal.type" :message="modal.message" @confirm="closeModal" @cancel="closeModal" />
   </div>
 </template>
