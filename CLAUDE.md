@@ -16,6 +16,18 @@
 6. 每完成一個 R 階段:commit + push + 一行報告,**建議開新 session 接續下一階段**
    (rebuild-plan.md 即交接文件),避免舊上下文複利計費。
 
+## 模型調度(必守)
+> 主對話本身用哪個模型由使用者用 `/model` 決定,這裡管的是**分派給 subagent(Agent/Workflow)時要不要指定 model 參數**。
+
+1. **機械/批次型任務一律指定 `model: 'sonnet'`**,不要繼承主對話模型:
+   - 整批頁面/元件改寫(如 R2a 的 chrome 去重複、R2d 的 scoped CSS 遷移)
+   - 大量檔案的搜尋替換、格式轉換、逐頁驗證截圖/curl 比對
+   - 這類任務已驗證 Sonnet 5 品質足夠,不需要 Fable 5/Opus 等級推理,強行用高階模型只是燒額度。
+2. **架構/設計/判斷型任務不降級**:省略 `model` 參數讓其繼承主對話模型(如 R2b 的 config 設計、R3 皮膚層架構、後台資料結構設計、任何需要跟使用者原文逐字核對的驗收)。
+3. **純機械檢查(grep 結果分類、簡單格式檢查)可用 `model: 'haiku'`**,若該任務明顯不需要理解上下文。
+4. 一次要平行開多個 subagent 前,先估算是否可能撞到主模型的額度上限;可能撞到就整批用 `sonnet`,不要等額度耗盡才切。
+5. 上述規則只管 subagent 分派;絕不擅自建議或暗示使用者切換主對話模型,那是使用者的選擇。
+
 ## 慣例
 - 分支:依 session 指定分支開發;commit message 英文、聚焦動機。
 - 樣式:只用 theme token(tailwind.config.ts),禁任意值色碼;共用視覺進 `assets/css/main.css` @layer components。
