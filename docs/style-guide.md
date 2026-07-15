@@ -100,6 +100,15 @@
 - `.vnd-provider-badge`:pill、`rgba(152,231,210,.1)` 底、`.3` 邊、文字 `#98E7D2` 14px/800
 - 標題列:`標題 26px/800 + 徽章`,**不用漸層大標/底線**
 
+### 紀錄表格 rec-table(規格源頭:`css/tokens.css`)
+- 適用:betting/deposit/withdrawal/account record、profit-loss(靜態 + Nuxt 同一份 markup)
+- 對齊規則:文字靠左、數字靠右(`td.num`,tabular-nums)、狀態置中(`td.ctr`)— **th 與 td 必須同對齊**
+- 表頭:`thead tr` 一條 `--g-primary` 漸層,th 12px/800 大寫、字距 `--ls-wide`
+- 儲存格類別:`rec-mono`(編號)/`rec-strong`(主要文字)/`rec-dim`(時間等次要)/`rec-pos`/`rec-neg`(±金額綠紅)
+- 狀態膠囊 `.rec-pill`:`ok`(success)/`warn`(gold)/`bad`(danger);膠囊內文字要保留 Approved/Pending/Rejected 原字,records 篩選靠它比對
+- 篩選列 Confirm 用 `.rec-confirm`(40px、圓角 10、`--g-primary`,即全站標準 CTA)
+- 注意:base.css 缺的 `text-right`/`py-2.5`/`py-5`/`tracking-wide` 已在 tokens.css 補齊,新表格一律直接用 rec-* 類別
+
 ### 表單欄位錯誤(auth modal)
 - 欄位紅框 `#F87171` + 下方 13px `#F87171` 訊息,聚焦第一個錯誤欄位
 - 文案與會員區一致:密碼「Length must be 5-16 characters.」、「The two passwords do not match.」

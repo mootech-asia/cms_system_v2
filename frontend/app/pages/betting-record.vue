@@ -143,67 +143,17 @@ useMemberPage(root);
     <span class="text-gray-500 fw-400" style="flex-shrink: 0;">—</span>
     <input type="date" class="bg-[#1a2128] border border-gray-700 rounded-lg px-4 py-2.5 text-gray-300 text-sm focus:outline-none focus:border-[#98E7D2] transition-colors" value="" style="flex: 1 1 0%; min-width: 0px;">
     </div>
-    <button class="bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2] text-gray-900 px-6 py-2.5 rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity" style="align-self: flex-start;">Confirm</button>
+    <button class="rec-confirm" style="align-self: flex-start;">Confirm</button>
     </div>
     <div class="w-full mb-6 hidden md:flex flex-wrap gap-3 items-center">
     <input type="date" class="bg-[#1a2128] border border-gray-700 rounded-lg px-4 py-2.5 text-gray-300 text-sm focus:outline-none focus:border-[#98E7D2] transition-colors" value="">
     <span class="text-gray-500 fw-400">—</span>
     <input type="date" class="bg-[#1a2128] border border-gray-700 rounded-lg px-4 py-2.5 text-gray-300 text-sm focus:outline-none focus:border-[#98E7D2] transition-colors" value="">
-    <button class="bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2] text-gray-900 px-6 py-2.5 rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity">Confirm</button>
+    <button class="rec-confirm">Confirm</button>
     </div>
     <div class="w-full rounded-xl border border-gray-800 overflow-hidden">
     <div class="overflow-x-auto">
-    <table class="w-full text-sm">
-    <thead>
-    <tr style="background: linear-gradient(90deg, rgb(203, 232, 228), rgb(152, 231, 210));">
-    <th class="px-4 py-5 text-left text-gray-900 font-bold whitespace-nowrap tracking-wide">Order No</th>
-    <th class="px-4 py-5 text-left text-gray-900 font-bold whitespace-nowrap tracking-wide">Game</th>
-    <th class="px-4 py-5 text-left text-gray-900 font-bold whitespace-nowrap tracking-wide">Settlement Time</th>
-    <th class="px-4 py-5 text-right text-gray-900 font-bold whitespace-nowrap tracking-wide">Bet Amount</th>
-    <th class="px-4 py-5 text-right text-gray-900 font-bold whitespace-nowrap tracking-wide">Valid Bet</th>
-    <th class="px-4 py-5 text-right text-gray-900 font-bold whitespace-nowrap tracking-wide">Winnings</th>
-    <th class="px-4 py-5 text-right text-gray-900 font-bold whitespace-nowrap tracking-wide">Bet P&amp;L</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr class="border-b border-gray-800/60 bg-[#1a2128] hover:bg-[#1e2730] transition-colors">
-    <td class="px-4 py-4 text-gray-300 whitespace-nowrap font-mono text-xs">202508120001</td>
-    <td class="px-4 py-4 text-white whitespace-nowrap">Sports</td>
-    <td class="px-4 py-4 text-gray-400 whitespace-nowrap">2025-08-12 15:48</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">50,000</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">50,000</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">92,500</td>
-    <td class="px-5 py-4 text-right whitespace-nowrap font-bold" style="color: rgb(34, 197, 94);">+42,500</td>
-    </tr>
-    <tr class="border-b border-gray-800/60 bg-[#0f1419] hover:bg-[#1e2730] transition-colors">
-    <td class="px-4 py-4 text-gray-300 whitespace-nowrap font-mono text-xs">202508120002</td>
-    <td class="px-4 py-4 text-white whitespace-nowrap">Slots</td>
-    <td class="px-4 py-4 text-gray-400 whitespace-nowrap">2025-08-12 14:30</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">20,000</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">20,000</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">0</td>
-    <td class="px-5 py-4 text-right whitespace-nowrap font-bold" style="color: #F87171;">-20,000</td>
-    </tr>
-    <tr class="border-b border-gray-800/60 bg-[#1a2128] hover:bg-[#1e2730] transition-colors">
-    <td class="px-4 py-4 text-gray-300 whitespace-nowrap font-mono text-xs">202508110007</td>
-    <td class="px-4 py-4 text-white whitespace-nowrap">Live Casino</td>
-    <td class="px-4 py-4 text-gray-400 whitespace-nowrap">2025-08-11 18:20</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">35,000</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">35,000</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">78,000</td>
-    <td class="px-5 py-4 text-right whitespace-nowrap font-bold" style="color: rgb(34, 197, 94);">+43,000</td>
-    </tr>
-    <tr class="bg-[#0f1419] hover:bg-[#1e2730] transition-colors">
-    <td class="px-4 py-4 text-gray-300 whitespace-nowrap font-mono text-xs">202508110003</td>
-    <td class="px-4 py-4 text-white whitespace-nowrap">Sports</td>
-    <td class="px-4 py-4 text-gray-400 whitespace-nowrap">2025-08-11 12:15</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">10,000</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">10,000</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">8,500</td>
-    <td class="px-5 py-4 text-right whitespace-nowrap font-bold" style="color: #F87171;">-1,500</td>
-    </tr>
-    </tbody>
-    </table>
+    <table class="rec-table"><thead><tr><th>Order No</th><th>Game</th><th>Settlement Time</th><th class="num">Bet Amount</th><th class="num">Valid Bet</th><th class="num">Winnings</th><th class="num">Bet P&amp;L</th></tr></thead><tbody><tr><td class="rec-mono">202508120001</td><td class="rec-strong">Sports</td><td class="rec-dim">2025-08-12 15:48</td><td class="num">50,000</td><td class="num">50,000</td><td class="num">92,500</td><td class="num rec-pos">+42,500</td></tr><tr><td class="rec-mono">202508120002</td><td class="rec-strong">Slots</td><td class="rec-dim">2025-08-12 14:30</td><td class="num">20,000</td><td class="num">20,000</td><td class="num">0</td><td class="num rec-neg">-20,000</td></tr><tr><td class="rec-mono">202508110007</td><td class="rec-strong">Live Casino</td><td class="rec-dim">2025-08-11 18:20</td><td class="num">35,000</td><td class="num">35,000</td><td class="num">78,000</td><td class="num rec-pos">+43,000</td></tr><tr><td class="rec-mono">202508110003</td><td class="rec-strong">Sports</td><td class="rec-dim">2025-08-11 12:15</td><td class="num">10,000</td><td class="num">10,000</td><td class="num">8,500</td><td class="num rec-neg">-1,500</td></tr></tbody></table>
     </div>
     </div>
     </main>

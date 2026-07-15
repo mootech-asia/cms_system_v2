@@ -68,3 +68,40 @@
 .fw-600 { font-weight: 600; }
 .fw-700 { font-weight: 700; }
 .fw-800 { font-weight: 800; }
+
+/* ============================================================
+   補齊 base.css 缺少的 Tailwind utilities(值與 Tailwind 一致)
+   base.css 是編譯產物,缺 text-right / py-2.5 / py-5 / tracking-wide,
+   造成表頭掉回瀏覽器預設置中、按鈕失去垂直 padding。
+   ============================================================ */
+.text-right{text-align:right}
+.py-2\.5{padding-top:.625rem;padding-bottom:.625rem}
+.py-5{padding-top:1.25rem;padding-bottom:1.25rem}
+.tracking-wide{letter-spacing:.025em}
+
+/* ============================================================
+   紀錄表格 rec-*(betting/deposit/withdrawal/account record、profit-loss)
+   對齊規則:文字靠左、數字靠右(tabular-nums)、狀態置中
+   ============================================================ */
+.rec-table{width:100%;border-collapse:collapse;font-size:14px}
+.rec-table thead tr{background:linear-gradient(90deg,var(--c-primary-soft),var(--c-primary))}
+.rec-table thead th{color:var(--c-on-primary);font-size:12px;font-weight:800;letter-spacing:var(--ls-wide);text-transform:uppercase;padding:13px 16px;white-space:nowrap;text-align:left}
+.rec-table th.num,.rec-table td.num{text-align:right}
+.rec-table th.ctr,.rec-table td.ctr{text-align:center}
+.rec-table tbody td{padding:14px 16px;color:var(--c-text-2);white-space:nowrap;border-top:1px solid #1f2937;font-variant-numeric:tabular-nums}
+.rec-table tbody tr:nth-child(even) td{background:rgba(255,255,255,.02)}
+.rec-table tbody tr:hover td{background:var(--c-bg)}
+.rec-table td.num{color:var(--c-text)}
+.rec-table .rec-strong{color:var(--c-text);font-weight:600}
+.rec-table .rec-mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;color:var(--c-text-3);letter-spacing:.04em}
+.rec-table .rec-dim{color:var(--c-text-3)}
+.rec-table td.rec-pos{color:var(--c-success);font-weight:700}
+.rec-table td.rec-neg{color:var(--c-danger);font-weight:700}
+.rec-pill{display:inline-block;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700;line-height:1}
+.rec-pill.ok{color:var(--c-success);background:rgba(74,222,128,.12)}
+.rec-pill.warn{color:var(--c-gold);background:rgba(240,178,74,.12)}
+.rec-pill.bad{color:var(--c-danger);background:rgba(248,113,113,.12)}
+
+/* 紀錄頁篩選列的 Confirm:對齊全站標準 CTA(40px、圓角10、mint 漸層) */
+.rec-confirm{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 24px;border:0;border-radius:10px;background:var(--g-primary);color:var(--c-on-primary);font-size:14px;font-weight:700;cursor:pointer;transition:opacity .15s ease}
+.rec-confirm:hover,.rec-confirm:focus-visible{opacity:.9;outline:none}

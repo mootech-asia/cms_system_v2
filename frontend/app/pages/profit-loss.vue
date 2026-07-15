@@ -144,7 +144,7 @@ useMemberPage(root);
     <input type="date" class="bg-[#1a2128] border border-gray-700 rounded-lg px-3 py-2 text-gray-300 text-sm" value="" style="flex: 1 1 0%; min-width: 0px;">
     </div>
     <div class="flex items-center justify-between">
-    <button class="bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2] text-gray-900 px-6 py-2.5 rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity">Confirm</button>
+    <button class="rec-confirm">Confirm</button>
     <div class="flex items-center gap-1 text-gray-400 text-sm" style="white-space: nowrap;">
     <span>Auto refresh in 10 s</span>
     <span class="cursor-pointer text-blue-400 ml-1">↺</span>
@@ -156,7 +156,7 @@ useMemberPage(root);
     <input type="date" class="bg-[#1a2128] border border-gray-700 rounded-lg px-3 py-2 text-gray-300 text-sm" value="">
     <span class="text-gray-400">~</span>
     <input type="date" class="bg-[#1a2128] border border-gray-700 rounded-lg px-3 py-2 text-gray-300 text-sm" value="">
-    <button class="bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2] text-gray-900 px-6 py-2.5 rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity">Confirm</button>
+    <button class="rec-confirm">Confirm</button>
     </div>
     <div class="flex items-center gap-1 text-gray-400 text-sm">
     <span>Auto refresh in 10 s</span>
@@ -165,68 +165,7 @@ useMemberPage(root);
     </div>
     <div class="w-full rounded-xl border border-gray-800 overflow-hidden">
     <div class="overflow-x-auto">
-    <table class="w-full text-sm">
-    <thead>
-    <tr style="background: linear-gradient(90deg, rgb(203, 232, 228), rgb(152, 231, 210));">
-    <th class="px-4 py-5 text-left text-gray-900 font-bold whitespace-nowrap tracking-wide">Game Type</th>
-    <th class="px-4 py-5 text-right text-gray-900 font-bold whitespace-nowrap tracking-wide">Total P&amp;L</th>
-    <th class="px-4 py-5 text-right text-gray-900 font-bold whitespace-nowrap tracking-wide">Betting</th>
-    <th class="px-4 py-5 text-right text-gray-900 font-bold whitespace-nowrap tracking-wide">Valid Bet</th>
-    <th class="px-4 py-5 text-right text-gray-900 font-bold whitespace-nowrap tracking-wide">Win Amount</th>
-    <th class="px-4 py-5 text-right text-gray-900 font-bold whitespace-nowrap tracking-wide">Rebate</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr class="border-b border-gray-800/60 bg-[#1a2128] hover:bg-[#1e2730] transition-colors">
-    <td class="px-4 py-4 text-gray-300 whitespace-nowrap">Sports</td>
-    <td class="px-3 py-2 text-right whitespace-nowrap font-semibold" style="color: rgb(34, 197, 94);">+128,500</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">420,000</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">420,000</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">548,500</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">4,200</td>
-    </tr>
-    <tr class="border-b border-gray-800/60 bg-[#1a2128] hover:bg-[#1e2730] transition-colors">
-    <td class="px-4 py-4 text-gray-300 whitespace-nowrap">Slots</td>
-    <td class="px-3 py-2 text-right whitespace-nowrap font-semibold" style="color: #F87171;">-65,000</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">310,000</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">310,000</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">245,000</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">3,100</td>
-    </tr>
-    <tr class="border-b border-gray-800/60 bg-[#1a2128] hover:bg-[#1e2730] transition-colors">
-    <td class="px-4 py-4 text-gray-300 whitespace-nowrap">Live Casino</td>
-    <td class="px-3 py-2 text-right whitespace-nowrap font-semibold" style="color: rgb(34, 197, 94);">+92,000</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">180,000</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">180,000</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">272,000</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">1,800</td>
-    </tr>
-    <tr class="border-b border-gray-800/60 bg-[#1a2128] hover:bg-[#1e2730] transition-colors">
-    <td class="px-4 py-4 text-gray-300 whitespace-nowrap">Mini Games</td>
-    <td class="px-3 py-2 text-right whitespace-nowrap font-semibold" style="color: #F87171;">-12,000</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">60,000</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">60,000</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">48,000</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">600</td>
-    </tr>
-    <tr class="border-b border-gray-800/60 bg-[#1a2128] hover:bg-[#1e2730] transition-colors">
-    <td class="px-4 py-4 text-gray-300 whitespace-nowrap">Originals</td>
-    <td class="px-3 py-2 text-right whitespace-nowrap font-semibold" style="color: rgb(34, 197, 94);">+33,500</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">95,000</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">95,000</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">128,500</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">950</td>
-    </tr>
-    <tr class="border-b border-gray-800/60 bg-[#1a2128] hover:bg-[#1e2730] transition-colors">
-    <td class="px-4 py-4 text-gray-300 whitespace-nowrap">Fish</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">0</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">0</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">0</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">0</td>
-    <td class="px-4 py-4 text-gray-300 text-right whitespace-nowrap">0</td>
-    </tr>
-    </tbody>
-    </table>
+    <table class="rec-table"><thead><tr><th>Game Type</th><th class="num">Total P&amp;L</th><th class="num">Betting</th><th class="num">Valid Bet</th><th class="num">Win Amount</th><th class="num">Rebate</th></tr></thead><tbody><tr><td class="rec-strong">Sports</td><td class="num rec-pos">+128,500</td><td class="num">420,000</td><td class="num">420,000</td><td class="num">548,500</td><td class="num">4,200</td></tr><tr><td class="rec-strong">Slots</td><td class="num rec-neg">-65,000</td><td class="num">310,000</td><td class="num">310,000</td><td class="num">245,000</td><td class="num">3,100</td></tr><tr><td class="rec-strong">Live Casino</td><td class="num rec-pos">+92,000</td><td class="num">180,000</td><td class="num">180,000</td><td class="num">272,000</td><td class="num">1,800</td></tr><tr><td class="rec-strong">Mini Games</td><td class="num rec-neg">-12,000</td><td class="num">60,000</td><td class="num">60,000</td><td class="num">48,000</td><td class="num">600</td></tr><tr><td class="rec-strong">Originals</td><td class="num rec-pos">+33,500</td><td class="num">95,000</td><td class="num">95,000</td><td class="num">128,500</td><td class="num">950</td></tr><tr><td class="rec-strong">Fish</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td></tr></tbody></table>
     </div>
     </div>
     </main>
