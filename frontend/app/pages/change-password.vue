@@ -51,18 +51,3 @@ function closeModal() {
   </div>
 </template>
 
-<style scoped>
-.mf-card{background:#1a2128;border:1px solid #1f2937;border-radius:12px;padding:24px;max-width:56rem;margin:0 auto;width:100%;box-sizing:border-box}
-.mf-field{position:relative;margin-bottom:16px}
-.mf-input{box-sizing:border-box;width:100%;min-height:52px;background:#0f1419;border:1px solid #374151;border-radius:10px;padding:14px 46px 14px 16px;color:#fff;font-size:15px;outline:none}
-.mf-input::placeholder{color:#6b7280}
-.mf-input:focus{border-color:#98E7D2}
-.mf-eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:0;color:#9ca3af;cursor:pointer;padding:0;line-height:0}
-.mf-eye:hover{color:#d1d5db}
-.mf-eye :deep(svg){width:20px;height:20px}
-.mf-hint{color:#fff;font-size:14px;margin:6px 0 24px}
-.mf-submit{display:block;width:100%;padding:15px;border:0;border-radius:10px;background:#4b5563;font-weight:700;font-size:16px;cursor:not-allowed;text-align:center}
-.mf-submit span{color:#d1d5db}
-.mf-submit.ready{background:linear-gradient(90deg,#CBE8E4,#98E7D2);cursor:pointer}
-.mf-submit.ready span{color:#0f1622;font-weight:800}
-</style>

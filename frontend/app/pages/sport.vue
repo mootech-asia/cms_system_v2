@@ -8,7 +8,7 @@ const provider = ref(providers.includes(String(route.query.tab)) ? String(route.
 watch(() => route.query.tab, (tab) => {
   if (providers.includes(String(tab))) provider.value = String(tab);
 });
-const tabCls = (p: string) => (p === provider.value ? 'text-[#98E7D2]' : 'text-gray-400 hover:text-gray-300');
+const tabCls = (p: string) => (p === provider.value ? 'text-primary' : 'text-gray-400 hover:text-gray-300');
 
 // 賽事卡資料(與靜態版 pages/sport.html 相同 8 筆);Load More 每次循環補 8 張、最多 3 次
 const MATCHES = [
@@ -40,10 +40,10 @@ function loadMore() {
     <h1 class="text-5xl md:text-7xl text-white mb-4">SPORTS BETTING</h1>
     </div>
     </div>
-    <section class="py-8 bg-[#0f1419] min-h-[400px]">
+    <section class="py-8 bg-surface-deep min-h-[400px]">
     <div class="container mx-auto px-4">
     <div class="flex items-center gap-8 border-b border-gray-800 mb-8">
-    <button v-for="p in ['BTI','SABA','Favorites']" :key="p" class="pb-4 px-2 transition-colors relative" :class="tabCls(p)" @click="provider = p">{{ p }}<div v-if="provider === p" class="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2]"></div></button>
+    <button v-for="p in ['BTI','SABA','Favorites']" :key="p" class="pb-4 px-2 transition-colors relative" :class="tabCls(p)" @click="provider = p">{{ p }}<div v-if="provider === p" class="absolute bottom-0 left-0 right-0 h-0.5 bg-g-primary"></div></button>
     </div>
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
     <h2 class="text-white text-2xl md:text-3xl">Live Matches</h2>
@@ -55,9 +55,9 @@ function loadMore() {
     <path d="m21 21-4.3-4.3">
     </path>
     </svg>
-    <input type="text" placeholder="Search" class="w-full bg-[#1a2128] border border-gray-700 rounded-lg pl-10 pr-4 py-2 text-white placeholder-gray-400 focus:outline-none focus:border-[#98E7D2]">
+    <input type="text" placeholder="Search" class="w-full bg-surface border border-gray-700 rounded-lg pl-10 pr-4 py-2 text-white placeholder-gray-400 focus:outline-none focus:border-primary">
     </div>
-    <button class="bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2] text-gray-900 px-6 py-2 rounded-lg hover:opacity-90 transition-opacity flex items-center gap-2">
+    <button class="bg-g-primary text-gray-900 px-6 py-2 rounded-lg hover:opacity-90 transition-opacity flex items-center gap-2">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-funnel w-4 h-4">
     <path d="M10 20a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341L21.74 4.67A1 1 0 0 0 21 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14z">
     </path>
@@ -67,13 +67,13 @@ function loadMore() {
     </div>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-    <div v-for="(m, mi) in shownMatches" :key="mi" class="cursor-pointer bg-[#1a2128] border border-gray-800 rounded-xl hover:border-[#98E7D2] transition-colors">
+    <div v-for="(m, mi) in shownMatches" :key="mi" class="cursor-pointer bg-surface border border-gray-800 rounded-xl hover:border-primary transition-colors">
     <div class="p-4">
     <div class="flex items-center justify-between mb-3">
     <span class="text-gray-500 text-[10px] truncate max-w-[120px]">{{ m.league }}</span>
     <div class="flex items-center gap-2">
     <button class="focus:outline-none transition-colors">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star w-3.5 h-3.5" style="color: rgb(75, 85, 99);">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star w-3.5 h-3.5 text-gray-600">
     <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
     </path>
     </svg>
@@ -95,23 +95,23 @@ function loadMore() {
     </div>
     <div class="flex items-center justify-between gap-2 mb-4">
     <div class="flex flex-col items-center gap-1.5 flex-1">
-    <div class="w-9 h-9 rounded-full bg-[#0f1419] border border-gray-700 flex items-center justify-center">
+    <div class="w-9 h-9 rounded-full bg-surface-deep border border-gray-700 flex items-center justify-center">
     <span class="text-[10px] text-gray-300 font-semibold">{{ m.home.abbr }}</span>
     </div>
     <span class="text-white text-[10px] text-center leading-tight">{{ m.home.name }}</span>
     </div>
     <div class="text-center flex-shrink-0">
-    <div class="text-[#98E7D2] text-xl font-bold leading-none">{{ m.score }}</div>
+    <div class="text-primary text-xl font-bold leading-none">{{ m.score }}</div>
     <div class="text-gray-500 text-[10px] mt-0.5">{{ m.time }}</div>
     </div>
     <div class="flex flex-col items-center gap-1.5 flex-1">
-    <div class="w-9 h-9 rounded-full bg-[#0f1419] border border-gray-700 flex items-center justify-center">
+    <div class="w-9 h-9 rounded-full bg-surface-deep border border-gray-700 flex items-center justify-center">
     <span class="text-[10px] text-gray-300 font-semibold">{{ m.away.abbr }}</span>
     </div>
     <span class="text-white text-[10px] text-center leading-tight">{{ m.away.name }}</span>
     </div>
     </div>
-    <button class="w-full py-1.5 rounded-lg text-xs text-gray-900 transition-opacity hover:opacity-90 bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2]">Place Bet</button>
+    <button class="w-full py-1.5 rounded-lg text-xs text-gray-900 transition-opacity hover:opacity-90 bg-g-primary">Place Bet</button>
     </div>
     </div>
     </div>
@@ -123,9 +123,3 @@ function loadMore() {
     <GamesGameModal :data="modal" @close="modal = null" />
   </div>
 </template>
-
-<style scoped>
-.cms-load-more-button{min-width:160px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.2);color:#d1d5db;font-weight:600;cursor:pointer;box-shadow:none;transition:background-color .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease}
-.cms-load-more-button:hover,.cms-load-more-button:focus-visible{background:#304242;border-color:rgba(170,229,211,.22);color:#AAE5D3;box-shadow:inset 0 0 0 1px rgba(170,229,211,.03),0 0 0 1px rgba(41,68,72,.35);transform:translateY(-1px);outline:none}
-.cms-load-more-button:active{transform:translateY(0)}
-</style>

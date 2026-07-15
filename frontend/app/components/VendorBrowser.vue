@@ -73,9 +73,9 @@ function openVendor(v: string) {
 </script>
 
 <template>
-  <section class="py-8 bg-[#0f1419] min-h-[400px]">
+  <section class="py-8 bg-surface-deep min-h-[400px]">
     <div class="container mx-auto px-4">
-      <div v-if="showBack" id="inner-back">
+      <div v-if="showBack" class="pb-[18px]">
         <button type="button" class="cms-back-button" @click="back">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6" /></svg>
           <span>Back</span>
@@ -106,45 +106,22 @@ function openVendor(v: string) {
       <div v-if="!showingVendors" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         <div
           v-for="g in games" :key="`${g.provider}-${g.i}`"
-          class="bg-[#1a2128] border border-gray-800 rounded-lg overflow-hidden hover:border-[#98E7D2] transition-colors cursor-pointer group"
+          class="group cursor-pointer overflow-hidden rounded-lg border border-line-soft bg-surface transition-colors hover:border-primary"
         >
           <div class="aspect-[4/3] relative overflow-hidden">
-            <img :src="photo(g.i)" alt="Game Name" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+            <img :src="photo(g.i)" alt="Game Name" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
           </div>
           <div class="p-4">
-            <h3 class="text-white mb-1 truncate">Game Name</h3>
-            <p class="text-gray-400 text-sm mb-3 truncate">{{ g.provider }}</p>
-            <button class="w-full bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2] text-gray-900 px-4 py-2 rounded-lg hover:opacity-90 transition-opacity text-sm">Play Now</button>
+            <h3 class="mb-1 truncate text-ink">Game Name</h3>
+            <p class="mb-3 truncate text-note text-ink-3">{{ g.provider }}</p>
+            <button class="btn-primary btn-sm w-full">Play Now</button>
           </div>
         </div>
       </div>
 
-      <div v-if="!showingVendors && loads < MAX_LOADS" class="cms-load-more-wrap flex justify-center mt-8">
-        <button type="button" class="cms-load-more-button px-8 py-3 rounded-lg transition-colors" @click="loadMore">Load More</button>
+      <div v-if="!showingVendors && loads < MAX_LOADS" class="cms-load-more-wrap mt-8 flex justify-center">
+        <button type="button" class="cms-load-more-button rounded-lg px-8 py-3 transition-colors" @click="loadMore">Load More</button>
       </div>
     </div>
   </section>
 </template>
-
-<style scoped>
-#inner-back{padding:0 0 18px}
-.vnd-head{display:flex;flex-direction:column;gap:16px;margin-bottom:26px}
-@media(min-width:768px){.vnd-head{flex-direction:row;align-items:center;justify-content:space-between}}
-.vnd-title{color:#fff;font-size:26px;font-weight:800;margin:0}
-.vnd-title.vnd-title-inline{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.vnd-provider-badge{display:inline-flex;align-items:center;justify-content:center;min-height:28px;padding:5px 12px;border-radius:999px;border:1px solid rgba(152,231,210,.3);background:rgba(152,231,210,.1);color:#98E7D2;font-size:14px;font-weight:800;line-height:1}
-.vnd-search{position:relative;display:flex;gap:10px}
-.vnd-search input{background:#1a2128;border:1px solid #374151;border-radius:10px;padding:11px 14px 11px 38px;color:#fff;outline:none;min-width:220px}
-.vnd-search input:focus{border-color:#98E7D2}
-.vnd-search .s-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:#9ca3af;width:16px;height:16px}
-.vnd-search .s-btn{background:linear-gradient(90deg,#CBE8E4,#98E7D2);color:#0f1622;border:0;border-radius:10px;padding:0 20px;font-weight:700;cursor:pointer;white-space:nowrap}
-.vnd-grid{display:grid;grid-template-columns:repeat(1,minmax(0,1fr));gap:16px}
-@media(min-width:640px){.vnd-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(min-width:1024px){.vnd-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
-.vnd-card{position:relative;display:flex;align-items:center;justify-content:center;height:112px;border-radius:14px;border:1px solid #212b3d;overflow:hidden;cursor:pointer;background:#161e2c;transition:border-color .18s ease,transform .18s ease,box-shadow .18s ease}
-.vnd-card:hover{border-color:#98E7D2;transform:translateY(-2px);box-shadow:0 10px 26px rgba(0,0,0,.45)}
-.vnd-card .vnd-name{padding:0 16px;text-align:center;color:#fff;font-size:20px;font-weight:800;line-height:1.2;letter-spacing:.01em}
-.cms-load-more-button{min-width:160px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.2);color:#d1d5db;font-weight:600;cursor:pointer;box-shadow:none;transition:background-color .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease}
-.cms-load-more-button:hover,.cms-load-more-button:focus-visible{background:#304242;border-color:rgba(170,229,211,.22);color:#AAE5D3;box-shadow:inset 0 0 0 1px rgba(170,229,211,.03),0 0 0 1px rgba(41,68,72,.35);transform:translateY(-1px);outline:none}
-.cms-load-more-button:active{transform:translateY(0)}
-</style>

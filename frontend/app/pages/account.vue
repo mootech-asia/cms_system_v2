@@ -38,7 +38,7 @@ function closeBankModal(confirmed: boolean) {
 <template>
   <div ref="root" class="flex flex-col">
     <h1 class="text-white text-2xl md:text-3xl mb-6 md:mb-8 w-full">Account Overview</h1>
-    <div class="relative overflow-hidden flex-shrink-0 rounded-2xl p-4 md:p-6 mb-8 w-full" style="background: linear-gradient(105deg, rgb(22, 63, 52) 0%, rgb(15, 42, 35) 28%, rgb(11, 24, 21) 55%, rgb(10, 14, 18) 100%);">
+    <div class="relative overflow-hidden flex-shrink-0 rounded-2xl p-4 md:p-6 mb-8 w-full account-hero-bg">
     <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 1200 320" preserveAspectRatio="none" fill="none">
     <path d="M0,305 C300,255 620,365 1200,150 L1200,320 L0,320 Z" fill="rgba(152,231,210,0.02)">
     </path>
@@ -50,7 +50,7 @@ function closeBankModal(confirmed: boolean) {
     </path>
     </svg>
     <div class="relative flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6">
-    <div class="w-20 h-20 rounded-full bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2] flex items-center justify-center flex-shrink-0">
+    <div class="w-20 h-20 rounded-full bg-g-primary flex items-center justify-center flex-shrink-0">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user w-10 h-10 text-gray-900">
     <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2">
     </path>
@@ -61,12 +61,12 @@ function closeBankModal(confirmed: boolean) {
     <div class="flex-1 text-center md:text-left w-full">
     <div class="flex flex-col md:flex-row items-center md:items-center gap-2 md:gap-3 mb-2">
     <h2 class="text-white text-xl md:text-2xl font-semibold">meqomcao</h2>
-    <span class="bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2] text-gray-900 px-3 py-1 rounded-full text-xs font-semibold">VIP1</span>
+    <span class="bg-g-primary text-gray-900 px-3 py-1 rounded-full text-xs font-semibold">VIP1</span>
     </div>
     <div class="grid grid-cols-1 gap-4 mt-4">
     <div>
     <p class="text-gray-400 text-sm mb-1">Current Balance</p>
-    <p class="text-[#98E7D2] text-xl md:text-2xl font-bold">₩1,000,000,000</p>
+    <p class="text-primary text-xl md:text-2xl font-bold">₩1,000,000,000</p>
     </div>
     <div>
     <p class="text-gray-400 text-sm mb-1">Member Since</p>
@@ -75,37 +75,37 @@ function closeBankModal(confirmed: boolean) {
     </div>
     </div>
     <div class="text-center md:text-right flex-shrink-0">
-    <p class="text-xl md:text-2xl font-bold mb-1" style="color: #f0b24a">Rollover</p>
+    <p class="text-xl md:text-2xl font-bold mb-1 text-gold">Rollover</p>
     <p class="text-white text-sm md:text-base font-semibold mb-1">Remaining Turnover Amount:</p>
     <p class="text-gray-300 text-xl md:text-2xl font-mono">₩16,517.41</p>
     </div>
     </div>
-    <div class="rk-rw" style="--rk-pct: 62%">
+    <div class="rewards-bar" style="--rk-pct: 62%">
     <div class="rk-rw-top"><span class="rk-rw-label">Rewards · Day 27, 03:26 UTC</span></div>
     <div class="rk-track" role="progressbar" aria-label="Rewards progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="62"><div class="rk-fill" /></div>
     <div class="rk-meta"><span class="rk-cur">Current: <b>Unranked</b><i class="rk-dot rk-dot-gray" /></span><span class="rk-pts">62%</span><span class="rk-rw-next">Next: <b>Bronze</b><i class="rk-dot rk-dot-bronze" /></span></div>
     </div>
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 w-full">
-    <div class="bg-[#1a2128] border border-gray-800 rounded-lg p-4 md:p-6">
+    <div class="bg-surface border border-gray-800 rounded-lg p-4 md:p-6">
     <h3 class="text-white text-lg font-semibold mb-4">Quick Actions</h3>
     <div class="space-y-3">
-    <a class="block w-full bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2] text-gray-900 py-3 rounded-lg hover:opacity-90 transition-opacity font-semibold text-center text-sm md:text-base" href="/deposit">Deposit Now</a>
-    <a class="block w-full bg-[#2a3138] text-white py-3 rounded-lg hover:opacity-90 transition-opacity text-center text-sm md:text-base" href="/withdrawal">Withdraw</a>
+    <a class="block w-full bg-g-primary text-gray-900 py-3 rounded-lg hover:opacity-90 transition-opacity font-semibold text-center text-sm md:text-base" href="/deposit">Deposit Now</a>
+    <a class="block w-full bg-surface-2 text-white py-3 rounded-lg hover:opacity-90 transition-opacity text-center text-sm md:text-base" href="/withdrawal">Withdraw</a>
     </div>
     </div>
-    <div class="bg-[#1a2128] border border-gray-800 rounded-lg p-4 md:p-6">
+    <div class="bg-surface border border-gray-800 rounded-lg p-4 md:p-6">
     <div class="flex items-center justify-between mb-4">
     <h3 class="text-white text-lg font-semibold">Banking Details</h3>
     <div class="flex items-center gap-2">
-    <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-[#2a3138] text-gray-400 hover:text-white transition-colors" aria-label="Previous bank account" @click="prevBank">
+    <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-surface-2 text-gray-400 hover:text-white transition-colors" aria-label="Previous bank account" @click="prevBank">
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
     <path d="m15 18-6-6 6-6">
     </path>
     </svg>
     </button>
     <span class="text-gray-400 text-sm">{{ banks.length ? bankIdx + 1 : 0 }}/{{ banks.length }}</span>
-    <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-[#2a3138] text-gray-400 hover:text-white transition-colors" aria-label="Next bank account" @click="nextBank">
+    <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-surface-2 text-gray-400 hover:text-white transition-colors" aria-label="Next bank account" @click="nextBank">
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
     <path d="m9 18 6-6-6-6">
     </path>
@@ -163,17 +163,17 @@ function closeBankModal(confirmed: boolean) {
     </div>
     </template>
     <p v-else class="text-gray-500 text-sm md:text-base">No bank account</p>
-    <a class="text-[#98E7D2] hover:text-[#CBE8E4] text-sm transition-colors" href="/banking-details?add=1">+ Add New Bank Account</a>
+    <a class="text-primary hover:text-primary-soft text-sm transition-colors" href="/banking-details?add=1">+ Add New Bank Account</a>
     </div>
     </div>
     </div>
-    <div class="bg-[#1a2128] border border-gray-800 rounded-lg p-4 md:p-6 w-full">
+    <div class="bg-surface border border-gray-800 rounded-lg p-4 md:p-6 w-full">
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
     <h3 class="text-white text-lg font-semibold">Recent Transactions</h3>
-    <button class="text-[#98E7D2] hover:text-[#CBE8E4] text-sm transition-colors text-left md:text-right">View More Records →</button>
+    <button class="text-primary hover:text-primary-soft text-sm transition-colors text-left md:text-right">View More Records →</button>
     </div>
     <div class="md:hidden space-y-4">
-    <div class="bg-[#0f1419] border border-gray-800 rounded-lg p-4">
+    <div class="bg-surface-deep border border-gray-800 rounded-lg p-4">
     <div class="flex justify-between items-start mb-2">
     <div>
     <p class="text-white font-semibold">SABA Bet Started</p>
@@ -183,7 +183,7 @@ function closeBankModal(confirmed: boolean) {
     </div>
     <p class="text-lg font-semibold text-green-400">+₩ 1,000</p>
     </div>
-    <div class="bg-[#0f1419] border border-gray-800 rounded-lg p-4">
+    <div class="bg-surface-deep border border-gray-800 rounded-lg p-4">
     <div class="flex justify-between items-start mb-2">
     <div>
     <p class="text-white font-semibold">SABA Bet Started</p>
@@ -193,7 +193,7 @@ function closeBankModal(confirmed: boolean) {
     </div>
     <p class="text-lg font-semibold text-red-400">-₩ 500</p>
     </div>
-    <div class="bg-[#0f1419] border border-gray-800 rounded-lg p-4">
+    <div class="bg-surface-deep border border-gray-800 rounded-lg p-4">
     <div class="flex justify-between items-start mb-2">
     <div>
     <p class="text-white font-semibold">SABA Bet Started</p>
@@ -203,7 +203,7 @@ function closeBankModal(confirmed: boolean) {
     </div>
     <p class="text-lg font-semibold text-green-400">+₩ 2,500</p>
     </div>
-    <div class="bg-[#0f1419] border border-gray-800 rounded-lg p-4">
+    <div class="bg-surface-deep border border-gray-800 rounded-lg p-4">
     <div class="flex justify-between items-start mb-2">
     <div>
     <p class="text-white font-semibold">SABA Bet Started</p>
@@ -213,7 +213,7 @@ function closeBankModal(confirmed: boolean) {
     </div>
     <p class="text-lg font-semibold text-red-400">-₩ 1,000</p>
     </div>
-    <div class="bg-[#0f1419] border border-gray-800 rounded-lg p-4">
+    <div class="bg-surface-deep border border-gray-800 rounded-lg p-4">
     <div class="flex justify-between items-start mb-2">
     <div>
     <p class="text-white font-semibold">SABA Bet Started</p>
@@ -236,7 +236,7 @@ function closeBankModal(confirmed: boolean) {
     </tr>
     </thead>
     <tbody>
-    <tr class="border-b border-gray-800 hover:bg-[#0f1419] transition-colors">
+    <tr class="border-b border-gray-800 hover:bg-surface-deep transition-colors">
     <td class="text-white py-4 px-4">SABA Bet Started</td>
     <td class="py-4 px-4 font-semibold text-green-400">+₩ 1,000</td>
     <td class="text-gray-300 py-4 px-4">2025-08-12</td>
@@ -245,7 +245,7 @@ function closeBankModal(confirmed: boolean) {
     <span class="bg-green-400 text-gray-900 px-3 py-1 rounded-full text-xs font-semibold">Completed</span>
     </td>
     </tr>
-    <tr class="border-b border-gray-800 hover:bg-[#0f1419] transition-colors">
+    <tr class="border-b border-gray-800 hover:bg-surface-deep transition-colors">
     <td class="text-white py-4 px-4">SABA Bet Started</td>
     <td class="py-4 px-4 font-semibold text-red-400">-₩ 500</td>
     <td class="text-gray-300 py-4 px-4">2025-08-12</td>
@@ -254,7 +254,7 @@ function closeBankModal(confirmed: boolean) {
     <span class="bg-green-400 text-gray-900 px-3 py-1 rounded-full text-xs font-semibold">Completed</span>
     </td>
     </tr>
-    <tr class="border-b border-gray-800 hover:bg-[#0f1419] transition-colors">
+    <tr class="border-b border-gray-800 hover:bg-surface-deep transition-colors">
     <td class="text-white py-4 px-4">SABA Bet Started</td>
     <td class="py-4 px-4 font-semibold text-green-400">+₩ 2,500</td>
     <td class="text-gray-300 py-4 px-4">2025-08-11</td>
@@ -263,7 +263,7 @@ function closeBankModal(confirmed: boolean) {
     <span class="bg-green-400 text-gray-900 px-3 py-1 rounded-full text-xs font-semibold">Completed</span>
     </td>
     </tr>
-    <tr class="border-b border-gray-800 hover:bg-[#0f1419] transition-colors">
+    <tr class="border-b border-gray-800 hover:bg-surface-deep transition-colors">
     <td class="text-white py-4 px-4">SABA Bet Started</td>
     <td class="py-4 px-4 font-semibold text-red-400">-₩ 1,000</td>
     <td class="text-gray-300 py-4 px-4">2025-08-11</td>
@@ -272,7 +272,7 @@ function closeBankModal(confirmed: boolean) {
     <span class="bg-green-400 text-gray-900 px-3 py-1 rounded-full text-xs font-semibold">Completed</span>
     </td>
     </tr>
-    <tr class="border-b border-gray-800 hover:bg-[#0f1419] transition-colors">
+    <tr class="border-b border-gray-800 hover:bg-surface-deep transition-colors">
     <td class="text-white py-4 px-4">SABA Bet Started</td>
     <td class="py-4 px-4 font-semibold text-green-400">+₩ 750</td>
     <td class="text-gray-300 py-4 px-4">2025-08-10</td>
@@ -288,22 +288,3 @@ function closeBankModal(confirmed: boolean) {
     <MemberModal v-if="bankModal" :type="bankModal.type" :message="bankModal.message" @confirm="closeBankModal(true)" @cancel="closeBankModal(false)" />
   </div>
 </template>
-
-<style scoped>
-.rk-rw{--rk-pct:62%;position:relative;margin-top:20px;padding-top:18px;border-top:1px solid rgba(152,231,210,.18)}
-.rk-rw .rk-rw-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px}
-.rk-rw .rk-rw-label{color:#c3d0cb;font-size:12.5px}
-.rk-rw .rk-track{height:8px;border-radius:99px;background:rgba(255,255,255,.12);overflow:hidden}
-.rk-rw .rk-fill{height:100%;width:var(--rk-pct);border-radius:99px;background:linear-gradient(90deg,#CBE8E4,#98E7D2);box-shadow:0 0 10px rgba(152,231,210,.4);animation:rk-grow .9s cubic-bezier(.22,.61,.36,1) both}
-@keyframes rk-grow{from{width:0}to{width:var(--rk-pct)}}
-.rk-rw .rk-meta{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;margin-top:9px;font-size:13px;color:#c3d0cb}
-.rk-rw .rk-cur{justify-self:start;white-space:nowrap}
-.rk-rw .rk-cur b{color:#CBE8E4;font-weight:700}
-.rk-rw .rk-pts{justify-self:center;color:#CBE8E4;font-weight:700}
-.rk-rw .rk-rw-next{justify-self:end;white-space:nowrap}
-.rk-rw .rk-rw-next b{color:#f0b24a;font-weight:800}
-.rk-rw .rk-dot{display:inline-block;width:8px;height:8px;border-radius:50%;vertical-align:middle;margin-left:4px}
-.rk-rw .rk-dot-gray{background:#9ca3af}
-.rk-rw .rk-dot-bronze{background:#f0b24a}
-@media (prefers-reduced-motion:reduce){.rk-rw .rk-fill{animation:none}}
-</style>

@@ -73,32 +73,46 @@ function toggle(id: string) {
 
 <template>
   <div>
-    <section class="py-8 bg-[#0f1419] min-h-[600px]">
-      <div class="container mx-auto px-4" style="max-width:64rem">
-        <h1 class="ab-heading">ABOUT US</h1>
-        <div class="ab-tabs">
-          <button v-for="t in tabs" :key="t.key" class="ab-tab" :class="{ active: active === t.key }" @click="active = t.key">{{ t.label }}</button>
+    <section class="py-8 bg-surface-deep min-h-[600px]">
+      <div class="container mx-auto px-4 max-w-5xl">
+        <h1 class="relative mb-[22px] pb-3.5 text-[28px] font-extrabold uppercase tracking-[0.04em] text-ink after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-0.5 after:bg-g-primary">ABOUT US</h1>
+        <div class="flex flex-wrap gap-x-[26px] gap-y-2 border-b border-line-soft mb-7">
+          <button
+            v-for="t in tabs" :key="t.key"
+            class="relative pb-3.5 bg-transparent border-0 text-[15px] font-semibold cursor-pointer"
+            :class="active === t.key
+              ? 'text-primary after:content-[\'\'] after:absolute after:left-0 after:right-0 after:-bottom-px after:h-0.5 after:rounded-sm after:bg-g-primary'
+              : 'text-ink-3 hover:text-ink-2'"
+            @click="active = t.key"
+          >{{ t.label }}</button>
         </div>
 
         <template v-for="t in tabs" :key="t.key">
           <div v-show="active === t.key">
             <template v-if="t.key !== 'faq'">
-              <div v-for="(c, i) in cards[t.key]" :key="i" class="ab-card">
-                <h3 v-if="c.title" class="ab-card-title">{{ c.title }}</h3>
-                <div class="ab-card-body">
-                  <p v-for="(p, pi) in paras(c.body)" :key="pi" style="white-space:pre-line">{{ p }}</p>
+              <div v-for="(c, i) in cards[t.key]" :key="i" class="card-ui px-6 py-[22px] mb-[18px]">
+                <h3 v-if="c.title" class="mb-3 text-[17px] font-bold text-primary">{{ c.title }}</h3>
+                <div>
+                  <p v-for="(p, pi) in paras(c.body)" :key="pi" class="mb-3.5 whitespace-pre-line text-body leading-[1.75] text-ink-2 last:mb-0">{{ p }}</p>
                 </div>
               </div>
             </template>
             <template v-else>
               <template v-for="(grp, gi) in faq" :key="gi">
-                <h3 class="faq-group">{{ grp.group }}</h3>
-                <div v-for="(it, ii) in grp.items" :key="ii" class="faq-item" :class="{ open: open.has(`${gi}-${ii}`) }">
-                  <button class="faq-q" type="button" @click="toggle(`${gi}-${ii}`)">
+                <h3 class="mb-3.5 mt-[26px] text-base font-bold text-primary" :class="{ 'mt-0': gi === 0 }">{{ grp.group }}</h3>
+                <div v-for="(it, ii) in grp.items" :key="ii" class="card-ui mb-3.5 overflow-hidden">
+                  <button class="flex w-full cursor-pointer items-center justify-between gap-4 border-0 bg-transparent px-5 py-[18px] text-left text-[15px] font-bold text-ink" type="button" @click="toggle(`${gi}-${ii}`)">
                     <span>{{ it.q }}</span>
-                    <svg class="faq-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+                    <svg
+                      class="h-5 w-5 shrink-0 text-ink-3 transition-transform duration-200"
+                      :class="{ 'rotate-180': open.has(`${gi}-${ii}`) }"
+                      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    ><path d="m6 9 6 6 6-6" /></svg>
                   </button>
-                  <div class="faq-a"><p style="white-space:pre-line">{{ it.a }}</p></div>
+                  <div
+                    class="overflow-hidden px-5 transition-[max-height] duration-[250ms] ease-in-out"
+                    :class="open.has(`${gi}-${ii}`) ? 'max-h-[600px] pb-[18px]' : 'max-h-0'"
+                  ><p class="whitespace-pre-line text-body leading-[1.75] text-ink-2">{{ it.a }}</p></div>
                 </div>
               </template>
             </template>
@@ -108,25 +122,3 @@ function toggle(id: string) {
     </section>
   </div>
 </template>
-
-<style scoped>
-.ab-heading{color:#fff;font-size:28px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding-bottom:14px;margin:0 0 22px;border-bottom:2px solid transparent;border-image:linear-gradient(90deg,#CBE8E4,#98E7D2) 1}
-.ab-tabs{display:flex;flex-wrap:wrap;gap:8px 26px;border-bottom:1px solid #263241;margin-bottom:28px}
-.ab-tab{position:relative;padding:0 0 14px;background:none;border:0;color:#9ca3af;font-weight:600;font-size:15px;cursor:pointer}
-.ab-tab:hover{color:#d1d5db}
-.ab-tab.active{color:#98E7D2}
-.ab-tab.active::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;border-radius:2px;background:linear-gradient(90deg,#CBE8E4,#98E7D2)}
-.ab-card{background:#161e2c;border:1px solid #212b3d;border-radius:12px;padding:22px 24px;margin-bottom:18px}
-.ab-card-title{color:#98E7D2;font-size:17px;font-weight:700;margin:0 0 12px}
-.ab-card-body p{color:#d1d5db;font-size:14px;line-height:1.75;margin:0 0 14px}
-.ab-card-body p:last-child{margin-bottom:0}
-.faq-group{color:#98E7D2;font-size:16px;font-weight:700;margin:26px 0 14px}
-.faq-group:first-child{margin-top:0}
-.faq-item{background:#161e2c;border:1px solid #212b3d;border-radius:12px;margin-bottom:14px;overflow:hidden}
-.faq-q{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;text-align:left;padding:18px 20px;background:none;border:0;color:#fff;font-size:15px;font-weight:700;cursor:pointer}
-.faq-chev{width:20px;height:20px;flex-shrink:0;color:#9ca3af;transition:transform .2s ease}
-.faq-item.open .faq-chev{transform:rotate(180deg)}
-.faq-a{max-height:0;overflow:hidden;transition:max-height .25s ease;padding:0 20px}
-.faq-item.open .faq-a{max-height:600px;padding:0 20px 18px}
-.faq-a p{color:#d1d5db;font-size:14px;line-height:1.75;margin:0}
-</style>

@@ -142,4 +142,654 @@
       bottom: 0;
     }
   }
+
+  /* ============================================================
+     R2:5 頁 scoped CSS 歸零遷入(account/banking-details/change-password/
+     deposit/withdrawal)。顏色一律對照 tailwind.config.ts token;
+     少數色碼查無對應 token,刻意保留原色碼(已加註)。
+     ============================================================ */
+
+  /* account.vue:歡迎卡深綠漸層背景(也用於 withdrawal 的 wallet-empty) */
+  .account-hero-bg,
+  .wallet-empty {
+    background: linear-gradient(105deg, rgb(22 63 52) 0%, rgb(15 42 35) 28%, rgb(11 24 21) 55%, rgb(10 14 18) 100%);
+  }
+
+  /* account.vue:Rewards 進度條(取代 .rk-rw scoped 區塊,--rk-pct 由 inline style 逐例設定) */
+  .rewards-bar {
+    --rk-pct: 62%;
+    position: relative;
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid rgb(152 231 210 / 0.18); /* primary */
+  }
+  .rewards-bar .rk-rw-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .rewards-bar .rk-rw-label { color: #c3d0cb; font-size: 12.5px; } /* 查無對應 token,保留原色 */
+  .rewards-bar .rk-track { height: 8px; border-radius: 99px; background: rgb(255 255 255 / 0.12); overflow: hidden; }
+  .rewards-bar .rk-fill {
+    height: 100%;
+    width: var(--rk-pct);
+    border-radius: 99px;
+    background: linear-gradient(90deg, #CBE8E4, #98E7D2); /* = bg-g-primary */
+    box-shadow: 0 0 10px rgb(152 231 210 / 0.4);
+    animation: rk-grow 0.9s cubic-bezier(.22,.61,.36,1) both;
+  }
+  @keyframes rk-grow {
+    from { width: 0; }
+    to { width: var(--rk-pct); }
+  }
+  .rewards-bar .rk-meta { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 10px; margin-top: 9px; font-size: 13px; color: #c3d0cb; }
+  .rewards-bar .rk-cur { justify-self: start; white-space: nowrap; }
+  .rewards-bar .rk-cur b { @apply text-primary-soft; font-weight: 700; }
+  .rewards-bar .rk-pts { justify-self: center; @apply text-primary-soft; font-weight: 700; }
+  .rewards-bar .rk-rw-next { justify-self: end; white-space: nowrap; }
+  .rewards-bar .rk-rw-next b { @apply text-gold; font-weight: 800; }
+  .rewards-bar .rk-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; vertical-align: middle; margin-left: 4px; }
+  .rewards-bar .rk-dot-gray { @apply bg-ink-3; }
+  .rewards-bar .rk-dot-bronze { @apply bg-gold; }
+  @media (prefers-reduced-motion: reduce) {
+    .rewards-bar .rk-fill { animation: none; }
+  }
+
+  /* banking-details.vue + change-password.vue 共用「會員表單卡」(取代兩頁 mf-* scoped 區塊) */
+  .mf-wrap { max-width: 56rem; margin: 0 auto; width: 100%; }
+  .mf-card { @apply card-ui w-full; padding: 24px; max-width: 56rem; margin: 0 auto; box-sizing: border-box; }
+  .mf-field { position: relative; margin-bottom: 16px; }
+  .mf-input { @apply w-full rounded-ui border border-line bg-surface-deep text-ink; box-sizing: border-box; min-height: 52px; padding: 14px 46px 14px 16px; font-size: 15px; outline: none; }
+  .mf-input.plain { padding-right: 16px; }
+  .mf-input::placeholder { @apply text-ink-4; }
+  .mf-input:focus { @apply border-primary; }
+  .mf-input:disabled { background: #232b36; @apply text-ink-4; cursor: not-allowed; } /* 查無對應 token,保留原色 */
+  .mf-eye { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: 0; @apply text-ink-3; cursor: pointer; padding: 0; line-height: 0; }
+  .mf-eye:hover { @apply text-ink-2; }
+  .mf-eye svg { width: 20px; height: 20px; }
+  .mf-submit { display: block; width: 100%; padding: 15px; border: 0; border-radius: 10px; background: #4b5563; font-weight: 700; font-size: 16px; cursor: not-allowed; text-align: center; } /* 查無對應 token,保留原色 */
+  .mf-submit span { @apply text-ink-2; }
+  .mf-submit.ready { @apply bg-g-primary; cursor: pointer; }
+  .mf-submit.ready span { @apply text-on-primary; font-weight: 800; }
+  .mf-section { display: flex; justify-content: center; margin: 8px 0 20px; }
+  .mf-section span { display: inline-block; padding: 10px 22px; border-radius: 999px; @apply bg-surface-deep text-accent; font-weight: 700; font-size: 15px; }
+  .mf-select-wrap { position: relative; margin-bottom: 16px; }
+  .mf-select { @apply bg-surface-deep border-line text-ink; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 52px; border-width: 1px; border-style: solid; border-radius: 10px; padding: 12px 16px; font-size: 15px; cursor: pointer; text-align: left; }
+  .mf-select.placeholder { @apply text-ink-4; }
+  .mf-select:hover { border-color: #4b5563; } /* 查無對應 token,保留原色 */
+  .mf-select svg { width: 18px; height: 18px; @apply text-ink-3; flex: 0 0 auto; }
+  .mf-select-back { position: fixed; inset: 0; z-index: 20; }
+  .mf-select-menu { position: absolute; left: 0; right: 0; top: calc(100% + 6px); z-index: 30; @apply bg-surface border-line; border-width: 1px; border-style: solid; border-radius: 10px; overflow: hidden; box-shadow: 0 16px 40px rgb(0 0 0 / 0.5); }
+  .mf-select-search { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-bottom: 1px solid #263241; } /* 查無對應 token,保留原色 */
+  .mf-select-search svg { width: 18px; height: 18px; @apply text-ink-3; flex: 0 0 auto; }
+  .mf-select-search input { flex: 1; border: 0; outline: none; font-size: 15px; @apply text-ink; background: none; }
+  .mf-select-search input::placeholder { @apply text-ink-4; }
+  .mf-select-opts { max-height: 220px; overflow-y: auto; }
+  .mf-select-opt { padding: 13px 16px; @apply text-ink-2; font-size: 15px; cursor: pointer; border-bottom: 1px solid #232b36; } /* 查無對應 token,保留原色 */
+  .mf-select-opt:last-child { border-bottom: 0; }
+  .mf-select-opt:hover { @apply bg-surface-deep text-ink; }
+  .mf-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: #151b24; @apply border-line-soft; border-width: 1px; border-style: solid; border-radius: 14px; padding: 44px 24px; } /* 查無對應 token,保留原色 */
+  .mf-empty-coin { width: 92px; height: 92px; border: 2px dashed #4b5563; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgb(26 33 40 / 0.6); @apply text-ink-3; margin-bottom: 16px; } /* 查無對應 token,保留原色 */
+  .mf-empty-coin svg { width: 44px; height: 44px; }
+  .mf-empty-title { @apply text-ink; font-size: 18px; font-weight: 700; margin: 0 0 16px; }
+  .mf-add-btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 22px; border: 0; border-radius: 999px; @apply bg-primary-faint text-accent; font-weight: 700; font-size: 15px; cursor: pointer; }
+  .mf-acct { @apply card-ui; display: flex; align-items: flex-start; gap: 12px; padding: 18px 20px; margin-bottom: 14px; }
+  .mf-acct-check { width: 22px; height: 22px; flex: 0 0 auto; color: #22c55e; margin-top: 2px; } /* 查無對應 token,保留原色 */
+  .mf-acct-check svg { width: 22px; height: 22px; stroke-width: 3; }
+  .mf-acct-title { @apply text-ink; font-size: 16px; font-weight: 800; margin: 0 0 6px; }
+  .mf-acct-bank { @apply text-accent; font-size: 13px; font-weight: 600; margin: 0 0 2px; }
+  .mf-acct-num { @apply text-ink-3; font-size: 13px; letter-spacing: .04em; margin: 0; }
+  .mf-fab { position: fixed; right: 22px; bottom: 88px; z-index: 60; width: 54px; height: 54px; border-radius: 50%; @apply border-primary text-primary bg-surface-deep; border-width: 2px; border-style: solid; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 8px 24px rgb(0 0 0 / 0.4); }
+  .mf-fab svg { width: 26px; height: 26px; }
+  @media (min-width: 768px) {
+    .mf-fab { bottom: 32px; right: 32px; }
+  }
+  .mf-hint { @apply text-ink; font-size: 14px; margin: 6px 0 24px; }
+
+  /* deposit.vue + withdrawal.vue 共用「入出金頁」(取代兩頁 payment-、mode-tabs、... scoped 區塊) */
+  .payment-tabs { display: flex; gap: 12px; width: 100%; max-width: 56rem; margin: 0 auto 24px; }
+  .payment-tabs.inner { margin: 0 0 24px; }
+  .payment-tabs button { @apply border-line bg-surface-deep text-ink-2; display: flex; align-items: center; justify-content: center; gap: 10px; min-width: 170px; border-width: 1px; border-style: solid; border-radius: 10px; padding: 12px 18px; font-weight: 600; }
+  .payment-tabs svg { width: 22px; height: 22px; }
+  .payment-tabs button.active { @apply border-primary bg-g-primary text-on-primary; }
+  .payment-card { @apply border-line-soft bg-surface; width: 100%; max-width: 56rem; margin: 0 auto; padding: 32px; border-width: 1px; border-style: solid; border-radius: 10px; }
+  .pay-section-title { display: flex; align-items: center; gap: 8px; padding-left: 12px; border-left: 4px solid; @apply border-accent text-accent; font-size: 20px; font-weight: 600; }
+  .pay-section-title span { @apply text-ink-2; }
+  .mode-tabs { display: flex; gap: 32px; width: 100%; max-width: 56rem; margin: 0 auto 24px; border-bottom: 1px solid #263241; } /* 查無對應 token,保留原色 */
+  .mode-tabs button { position: relative; padding: 0 0 12px; background: none; border: 0; @apply text-ink-3; font-weight: 600; }
+  .mode-tabs button.active { @apply text-primary; }
+  .mode-tabs button.active:after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; border-radius: 99px; @apply bg-primary; }
+  .amount-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin: 24px 0; }
+  .amount-grid button { @apply border-line bg-surface-deep text-ink; min-height: 58px; border-width: 1px; border-style: solid; border-radius: 10px; font-weight: 600; }
+  .amount-grid button.selected { @apply bg-primary-faint text-accent; border-color: transparent; }
+  .pay-field { @apply w-full rounded-ui border border-line bg-surface-deep text-ink-2; min-height: 50px; padding: 12px 16px; outline: none; }
+  .pay-field:focus { @apply border-primary; }
+  select.pay-field { appearance: none; padding-right: 36px; }
+  .pay-note { margin-top: 8px; @apply text-danger; font-size: 14px; }
+  .promo-card, .crypto-promo { @apply border-line bg-surface-deep text-ink-2; display: flex; width: 100%; gap: 14px; margin-top: 16px; padding: 20px; border-width: 1px; border-style: solid; border-radius: 10px; }
+  .crypto-promo { padding: 24px; align-items: center; text-align: left; }
+  .promo-card.selected, .crypto-promo.selected { @apply border-primary; }
+  .pay-radio { display: flex; align-items: center; justify-content: center; width: 20px; height: 20px; flex: 0 0 auto; border: 2px solid; @apply border-ink-4; border-radius: 50%; }
+  .pay-radio span { width: 10px; height: 10px; border-radius: 50%; @apply bg-primary; }
+  .promo-card.selected .pay-radio { @apply border-primary; }
+  .crypto-promo.selected .pay-radio { @apply border-primary bg-primary; box-shadow: inset 0 0 0 4px theme('colors.surface.deep'); }
+  .crypto-promo.selected .pay-radio span { display: none; }
+  .crypto-method { @apply bg-primary-faint text-accent; display: flex; align-items: center; gap: 10px; min-width: 170px; width: max-content; margin: 24px 0; padding: 12px 16px; border: 1px solid transparent; border-radius: 10px; font-weight: 600; }
+  .crypto-method span { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: #12a97b; color: white; font-weight: 700; } /* 查無對應 token,保留原色 */
+  .pay-form-grid { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 16px 20px; align-items: center; @apply text-ink-2; }
+  .pay-form-grid label { font-weight: 600; }
+  .converted { display: flex; align-items: center; gap: 16px; }
+  .converted strong { @apply text-ink-2; font-weight: 600; }
+  .rate { margin: 8px 0 32px; @apply text-ink-2; font-size: 14px; }
+  .crypto-promo .amount { margin-left: auto; @apply text-accent; font-size: 14px; font-weight: 600; white-space: nowrap; }
+  .pay-action { display: flex; align-items: center; justify-content: center; width: 100%; height: 56px; margin-top: 24px; border-radius: 10px; font-weight: 600; border: 0; background: #4b5563; color: white; cursor: not-allowed; } /* 查無對應 token,保留原色 */
+  .pay-action.ready { @apply bg-g-primary text-on-primary; cursor: pointer; }
+  .transfer-pill { display: block; width: max-content; margin: 0 auto 24px; padding: 10px 22px; border-radius: 999px; @apply bg-surface-deep text-accent; font-weight: 700; font-size: 15px; }
+  .transfer .trow { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .transfer .tlabel { @apply text-ink; font-size: 18px; font-weight: 700; }
+  .transfer .tamount { @apply text-ink; font-size: 26px; font-weight: 800; }
+  .transfer .tvalue { @apply text-ink; font-size: 16px; font-weight: 700; }
+  .transfer .tnote { @apply text-ink-2; font-size: 14px; line-height: 1.6; margin: 6px 0 16px; }
+  .transfer .tcs { text-align: center; margin: 0 0 22px; }
+  .transfer .tcs a { @apply text-primary; text-decoration: underline; font-weight: 600; }
+  .transfer .complete { display: flex; align-items: center; justify-content: center; width: 100%; height: 56px; margin-top: 8px; border: 0; border-radius: 10px; @apply bg-g-primary; cursor: pointer; }
+  .transfer .complete span { @apply text-on-primary; font-weight: 800; font-size: 16px; }
+  .coin-empty { background: rgb(26 33 40 / 0.6); } /* 查無對應 token,保留原色 */
+  .refresh { background: none; border: 0; @apply text-ink-3; }
+  .refresh:hover { @apply text-ink; }
+  .add-wallet { display: inline-flex; align-items: center; gap: 8px; margin-top: 16px; padding: 8px 24px; border-radius: 10px; border: 0; @apply bg-primary-faint text-accent; font-weight: 600; font-size: 16px; cursor: pointer; }
+  .balance-grid { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 8px 20px; margin-top: 24px; @apply text-ink-2; }
+  .balance-grid strong { @apply text-accent; font-size: 20px; font-weight: 600; }
+  .account-summary { margin-bottom: 32px; }
+  .registered-card { @apply border-line bg-surface-deep text-ink-2; display: flex; align-items: center; gap: 16px; width: 100%; height: 140px; margin-top: 24px; padding: 24px; border-width: 1px; border-style: solid; border-radius: 10px; }
+  .registered-card .bank-logo { display: grid; place-items: center; width: 80px; height: 56px; border-radius: 10px; background: #dbeafe; @apply text-on-primary; font-weight: 700; } /* 查無對應 token,保留原色 */
+  .registered-card div:last-child { display: flex; flex-direction: column; gap: 4px; }
+  .registered-card strong { color: white; }
+  .registered-card span { @apply text-ink-3; font-size: 14px; }
+  .bound-wallet { @apply border-line bg-surface-deep text-ink-3; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 140px; margin-top: 24px; text-align: center; border-width: 1px; border-style: solid; border-radius: 10px; }
+  .wallet-empty .coin-lg, .bound-wallet .coin-md { display: flex; align-items: center; justify-content: center; border: 2px dashed #4b5563; border-radius: 50%; background: rgb(26 33 40 / 0.6); @apply text-ink-3; font-weight: 600; } /* 查無對應 token,保留原色 */
+  .wallet-empty { display: flex; min-height: 292px; margin-top: 24px; flex-direction: column; align-items: center; justify-content: center; text-align: center; border: 0; border-radius: 16px; @apply text-ink-2; padding: 48px; }
+  .wallet-empty .coin-lg { width: 96px; height: 96px; font-size: 40px; margin-bottom: 16px; }
+  .bound-wallet .coin-md { width: 72px; height: 72px; margin-bottom: 12px; font-size: 32px; }
+  .accts-head { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 16px; }
+  .accts-nav { background: none; border: 0; @apply text-ink-3; cursor: pointer; padding: 0; line-height: 0; }
+  .accts-nav:hover { @apply text-ink; }
+  .accts-title { @apply text-ink; font-size: 17px; font-weight: 600; }
+  .accts-title span { @apply text-ink-3; font-weight: 600; }
+  .bound-card { min-height: 150px; background: linear-gradient(105deg, #1B2536 0%, #131C2B 55%, #0D1420 100%); @apply border-card-line; border-width: 1px; border-style: solid; padding: 22px 26px; } /* card-1/2/3 銀行卡擬物卡面 */
+  .bound-inner { display: flex; flex-direction: column; min-height: 106px; }
+  .bound-pill { align-self: flex-start; @apply bg-surface-deep text-ink-2; font-size: 12px; font-weight: 700; padding: 6px 14px; border-radius: 8px; }
+  .bound-num { text-align: center; margin-top: -4px; }
+  .bound-num .bn-label { @apply text-ink-3; font-size: 13px; margin: 0; }
+  .bound-num .bn-value { @apply text-ink; font-size: 24px; font-weight: 800; letter-spacing: .12em; margin: 2px 0 0; }
+  .bound-foot { display: flex; justify-content: space-between; align-items: flex-end; margin-top: auto; padding-top: 14px; }
+  .bound-name { color: #eab308; font-weight: 700; letter-spacing: .08em; } /* 查無對應 token,保留原色 */
+  .bound-date { text-align: right; @apply text-ink-3; font-size: 12px; }
+  .bound-date b { @apply text-ink-2; font-size: 13px; }
+  .submit-ready { display: flex; align-items: center; justify-content: center; border: 0; @apply bg-g-primary; cursor: pointer; }
+  .submit-ready span { @apply text-on-primary; font-weight: 800; }
+  .submit-idle { display: flex; align-items: center; justify-content: center; border: 0; background: #4b5563; cursor: not-allowed; } /* 查無對應 token,保留原色 */
+  .submit-idle span { color: #fff; font-weight: 800; }
+  @media (max-width: 700px) {
+    .mode-tabs { gap: 24px; margin-bottom: 16px; }
+    .mode-tabs button { font-size: 14px; }
+    .payment-tabs { gap: 8px; margin-bottom: 16px; }
+    .payment-tabs button { flex: 1; min-width: 0; padding: 10px 12px; font-size: 14px; }
+    .payment-card { padding: 16px; }
+    .pay-section-title { font-size: 17px; }
+    .amount-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 16px 0; }
+    .amount-grid button { min-height: 48px; font-size: 14px; }
+    .pay-form-grid { grid-template-columns: 1fr; gap: 8px; }
+    .pay-form-grid label { font-size: 14px; }
+    .pay-field { min-height: 48px; font-size: 14px; }
+    .pay-note { font-size: 12px; }
+    .promo-card, .crypto-promo { padding: 16px; font-size: 14px; line-height: 1.45; }
+    .crypto-promo { align-items: flex-start; flex-wrap: wrap; }
+    .crypto-promo .amount { width: 100%; margin-left: 34px; }
+    .rate { font-size: 13px; }
+    .pay-action { height: 48px; font-size: 14px; }
+    .wallet-empty { min-height: 220px; padding: 24px; }
+    .wallet-empty .coin-lg { width: 80px; height: 80px; font-size: 34px; }
+    .add-wallet { font-size: 14px; }
+    .balance-grid { grid-template-columns: 1fr; gap: 8px; }
+    .registered-card, .bound-wallet { height: 140px; padding: 16px; }
+    .registered-card .bank-logo { width: 72px; }
+  }
+
+  /* ============================================================
+     R2:about/promotion/sport 頁 scoped CSS 歸零遷入。
+     ============================================================ */
+
+  /* Load More 按鈕(sport.vue 與 VendorBrowser 共用視覺,取代兩處逐頁 scoped 定義) */
+  .cms-load-more-button {
+    min-width: 160px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: theme('colors.ink.2');
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: none;
+    transition: background-color .18s ease, border-color .18s ease, color .18s ease, box-shadow .18s ease, transform .18s ease;
+  }
+  .cms-load-more-button:hover,
+  .cms-load-more-button:focus-visible {
+    background: #304242; /* 查無對應 token,保留原色 */
+    border-color: rgb(170 229 211 / 0.22);
+    color: theme('colors.accent');
+    box-shadow: inset 0 0 0 1px rgb(170 229 211 / 0.03), 0 0 0 1px rgba(41, 68, 72, .35);
+    transform: translateY(-1px);
+    outline: none;
+  }
+  .cms-load-more-button:active {
+    transform: translateY(0);
+  }
+
+  /* 漸層文字裁切(promotion.vue 促銷卡標題 + 詳情頁大標共用同一份定義) */
+  .text-gradient-primary {
+    background: linear-gradient(90deg, theme('colors.primary.soft'), theme('colors.primary.DEFAULT'));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* 促銷卡片頂部裝飾底(深綠三階漸層,無對應 token 色) */
+  .promo-card-art {
+    background: linear-gradient(135deg, #091d14 0%, #0d2a1e 50%, #0a1a12 100%);
+  }
+  /* 裝飾光點中間那顆的漸層終點色非 token(其餘兩顆用 primary-soft/primary utility) */
+  .promo-card-art-dot-mid {
+    background: linear-gradient(135deg, theme('colors.primary.DEFAULT'), #6dd5bd);
+  }
+
+  /* 促銷詳情頁海報卡背景(深綠黑三階漸層,無對應 token 色) */
+  .promotion-detail-poster-bg {
+    background: linear-gradient(180deg, #1a2128 0%, #141c24 58%, #101820 100%);
+  }
+
+  /* AuthModal 輸入框/按鈕/連結(登入/註冊/忘記密碼共用) */
+  .a-input {
+    @apply w-full rounded-ui border border-line-soft bg-surface-deep px-3.5 py-3 text-body text-ink outline-none box-border;
+  }
+  .a-btn {
+    @apply mt-1 block w-full rounded-ui border-0 bg-g-primary py-3.5 text-center text-[15px] font-bold text-on-primary cursor-pointer;
+  }
+  .a-link {
+    @apply cursor-pointer font-bold text-primary no-underline;
+  }
+
+  /* 首頁浮動快捷列(Promo Channel / Live Chat / FAQ) */
+  .qr-rail {
+    position: fixed;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-58%);
+    z-index: 9000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 8px;
+    border-radius: 44px;
+    background: rgb(20 28 36 / 0.55);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgb(255 255 255 / 0.08);
+    box-shadow: 0 10px 30px rgb(0 0 0 / 0.4);
+    opacity: 0.5;
+    transition: opacity 0.2s ease;
+  }
+  .qr-rail:hover,
+  .qr-rail:focus-within {
+    opacity: 1;
+  }
+  .qr-btn {
+    @apply bg-surface-2 text-primary-soft;
+    position: relative;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 18px rgb(0 0 0 / 0.35);
+    transition: transform 0.15s ease, background 0.15s ease;
+    text-decoration: none;
+  }
+  .qr-btn:hover {
+    transform: scale(1.06);
+    background: #374151;
+  }
+  .qr-btn img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+  }
+  .qr-btn svg {
+    width: 26px;
+    height: 26px;
+  }
+  .qr-label {
+    @apply bg-surface-deep text-ink;
+    position: absolute;
+    right: calc(100% + 14px);
+    top: 50%;
+    transform: translateY(-50%) translateX(10px);
+    white-space: nowrap;
+    font-weight: 700;
+    font-size: 16px;
+    padding: 12px 22px;
+    border-radius: 14px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    box-shadow: 0 10px 28px rgb(0 0 0 / 0.45);
+  }
+  .qr-btn:hover .qr-label,
+  .qr-btn:focus-visible .qr-label {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+  @media (max-width: 768px) {
+    .qr-rail {
+      right: 10px;
+      gap: 12px;
+      padding: 9px 6px;
+    }
+    .qr-btn {
+      width: 48px;
+      height: 48px;
+    }
+    .qr-btn img {
+      width: 34px;
+      height: 34px;
+    }
+    .qr-btn svg {
+      width: 22px;
+      height: 22px;
+    }
+    .qr-label {
+      font-size: 14px;
+      padding: 10px 16px;
+    }
+  }
+
+  /* 手機版「Browse」會員選單左抽屜(對齊靜態版 js/mobile.js openMemberMenu) */
+  .mmd-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10001;
+    background: rgb(0 0 0 / 0.6);
+    transition: background 0.2s;
+  }
+  .mmd-panel {
+    @apply border-line-soft bg-surface;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 86%;
+    max-width: 340px;
+    border-right-width: 1px;
+    overflow-y: hidden;
+    overscroll-behavior: contain;
+    box-shadow: 0 0 24px rgb(0 0 0 / 0.6);
+    transition: transform 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    padding: clamp(10px, 1.8dvh, 16px) 14px;
+  }
+  .mmd-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: clamp(42px, 6dvh, 54px);
+    flex-shrink: 0;
+  }
+  .mmd-head span {
+    @apply text-ink;
+    font-weight: 800;
+    font-size: 20px;
+  }
+  .mmd-head button {
+    @apply text-ink-2;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    padding: 0;
+    line-height: 0;
+  }
+  .mmd-links {
+    display: grid;
+    flex: 1;
+    min-height: 0;
+  }
+  .mmd-row {
+    @apply text-ink-2;
+    display: flex;
+    align-items: center;
+    gap: clamp(10px, 2dvh, 16px);
+    min-height: 0;
+    padding: 0 18px;
+    border-radius: 11px;
+    text-decoration: none;
+    font-size: clamp(15px, 2.1dvh, 18px);
+    line-height: 1.15;
+    font-weight: 700;
+    cursor: pointer;
+    margin: 1px 0;
+  }
+  .mmd-row.active {
+    @apply bg-g-primary text-on-primary;
+  }
+  .mmd-icon {
+    width: 22px;
+    height: 22px;
+    flex: 0 0 auto;
+  }
+  .mmd-enter-active,
+  .mmd-leave-active {
+    transition: background 0.2s;
+  }
+  .mmd-enter-active .mmd-panel,
+  .mmd-leave-active .mmd-panel {
+    transition: transform 0.25s ease;
+  }
+  .mmd-enter-from,
+  .mmd-leave-to {
+    background: rgb(0 0 0 / 0);
+  }
+  .mmd-enter-from .mmd-panel,
+  .mmd-leave-to .mmd-panel {
+    transform: translateX(-100%);
+  }
+
+  /* 會員頁共用訊息彈窗(success/warning/confirm) */
+  .mf-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgb(0 0 0 / 0.55);
+    padding: 20px;
+  }
+  .mf-modal {
+    @apply bg-surface;
+    position: relative;
+    width: 340px;
+    max-width: calc(100vw - 40px);
+    border-radius: 22px;
+    padding: 34px 28px 24px;
+    text-align: center;
+    box-shadow: 0 24px 60px rgb(0 0 0 / 0.5);
+  }
+  .mf-modal::before {
+    @apply bg-g-primary;
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 22px;
+    padding: 2px;
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+  .mf-modal-icon {
+    @apply bg-g-primary;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+  }
+  .mf-modal-icon svg {
+    @apply text-on-primary;
+    width: 30px;
+    height: 30px;
+  }
+  .mf-modal-title {
+    @apply text-ink;
+    font-size: 22px;
+    font-weight: 800;
+    margin: 0 0 8px;
+  }
+  .mf-modal-msg {
+    @apply text-ink-2;
+    font-size: 14px;
+    margin: 0 0 22px;
+    line-height: 1.5;
+    word-break: break-word;
+  }
+  .mf-modal-btn {
+    @apply bg-g-primary text-on-primary;
+    display: block;
+    width: 100%;
+    padding: 13px;
+    border: 0;
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 15px;
+    cursor: pointer;
+  }
+  .mf-modal-btn.secondary {
+    @apply text-ink;
+    background: none;
+    margin-top: 6px;
+  }
+
+  /* VendorBrowser:分類頁廠商牆 + 遊戲列表共用標題列/搜尋/卡片 */
+  .vnd-head {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 26px;
+  }
+  @media (min-width: 768px) {
+    .vnd-head {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+  .vnd-title {
+    @apply text-ink;
+    font-size: 26px;
+    font-weight: 800;
+    margin: 0;
+  }
+  .vnd-title.vnd-title-inline {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .vnd-provider-badge {
+    @apply border-primary/30 bg-primary/10 text-primary;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 28px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    border-width: 1px;
+    font-size: 14px;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .vnd-search {
+    position: relative;
+    display: flex;
+    gap: 10px;
+  }
+  .vnd-search input {
+    @apply border-line bg-surface text-ink;
+    border-width: 1px;
+    border-radius: 10px;
+    padding: 11px 14px 11px 38px;
+    outline: none;
+    min-width: 220px;
+  }
+  .vnd-search input:focus {
+    @apply border-primary;
+  }
+  .vnd-search .s-icon {
+    @apply text-ink-3;
+    position: absolute;
+    left: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+  }
+  .vnd-search .s-btn {
+    @apply bg-g-primary text-on-primary;
+    border: 0;
+    border-radius: 10px;
+    padding: 0 20px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .vnd-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 16px;
+  }
+  @media (min-width: 640px) {
+    .vnd-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 1024px) {
+    .vnd-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  .vnd-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 112px;
+    border-radius: 14px;
+    border: 1px solid #212b3d;
+    overflow: hidden;
+    cursor: pointer;
+    background: #161e2c;
+    transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .vnd-card:hover {
+    @apply border-primary;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 26px rgb(0 0 0 / 0.45);
+  }
+  .vnd-card .vnd-name {
+    @apply text-ink;
+    padding: 0 16px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+  }
 }

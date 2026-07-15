@@ -101,14 +101,14 @@ function submitWithdraw() {
                 </div>
               </div>
               <div class="mb-4">
-                <h2 class="section-title">Withdrawal Amount &amp; Password</h2>
+                <h2 class="pay-section-title">Withdrawal Amount &amp; Password</h2>
               </div>
               <div class="mb-4">
-                <input v-model="withdrawalAmount" class="field" type="text" placeholder="₩ 10,000 ~ ₩ 9,000,000">
+                <input v-model="withdrawalAmount" class="pay-field" type="text" placeholder="₩ 10,000 ~ ₩ 9,000,000">
               </div>
               <div class="mb-4 relative">
-                <input v-model="withdrawalPassword" class="field" :type="showPassword ? 'text' : 'password'" placeholder="* * * * * *">
-                <button type="button" class="eye absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-300" @click="showPassword = !showPassword">
+                <input v-model="withdrawalPassword" class="pay-field" :type="showPassword ? 'text' : 'password'" placeholder="* * * * * *">
+                <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 bg-transparent border-0 text-gray-400 hover:text-gray-300" @click="showPassword = !showPassword">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" /><circle cx="12" cy="12" r="3" /></svg>
                 </button>
               </div>
@@ -129,17 +129,17 @@ function submitWithdraw() {
           </section>
 
           <section v-else class="payment-card">
-            <h2 class="section-title">Crypto Wallet</h2>
+            <h2 class="pay-section-title">Crypto Wallet</h2>
             <div class="wallet-empty"><div class="coin-empty coin-lg">₿</div><div>Empty wallet list</div><button class="add-wallet"><span style="font-size:20px;line-height:1">+</span>Add wallet</button></div>
             <div class="balance-grid"><span>Central Wallet:</span><strong>0.00</strong><span>Available Amount:</span><strong>0.00</strong></div>
-            <h2 class="section-title mt-6">Withdrawal Amount &amp; Password</h2>
-            <div class="form-grid mt-6">
-              <label>Wallet type:</label><select v-model="walletType" class="field"><option value="">Please select wallet type</option><option>USDT TRC20</option></select>
-              <label>Wallet address:</label><input v-model="walletAddress" class="field" placeholder="Please fill in wallet address">
-              <label>Withdrawal Amount:</label><input v-model="cryptoWithdrawAmount" class="field" placeholder="100,000 ~ 20,000,000">
-              <label>Transaction Password:</label><input v-model="cryptoWithdrawPassword" class="field" type="password" placeholder="Please fill in the transaction password">
+            <h2 class="pay-section-title mt-6">Withdrawal Amount &amp; Password</h2>
+            <div class="pay-form-grid mt-6">
+              <label>Wallet type:</label><select v-model="walletType" class="pay-field"><option value="">Please select wallet type</option><option>USDT TRC20</option></select>
+              <label>Wallet address:</label><input v-model="walletAddress" class="pay-field" placeholder="Please fill in wallet address">
+              <label>Withdrawal Amount:</label><input v-model="cryptoWithdrawAmount" class="pay-field" placeholder="100,000 ~ 20,000,000">
+              <label>Transaction Password:</label><input v-model="cryptoWithdrawPassword" class="pay-field" type="password" placeholder="Please fill in the transaction password">
             </div>
-            <button class="action" :class="{ ready: cryptoWithdrawReady }" :disabled="!cryptoWithdrawReady">Submit</button>
+            <button class="pay-action" :class="{ ready: cryptoWithdrawReady }" :disabled="!cryptoWithdrawReady">Submit</button>
           </section>
         </template>
 
@@ -151,54 +151,32 @@ function submitWithdraw() {
 
           <template v-if="accountMethod === 'bank'">
             <div class="account-summary">
-              <h2 class="section-title">Registered Withdrawal Accounts <span>(1/5)</span></h2>
+              <h2 class="pay-section-title">Registered Withdrawal Accounts <span>(1/5)</span></h2>
               <div class="registered-card"><div class="bank-logo">신한은행</div><div><strong>Shinhan Bank</strong><span>********5123</span><span>2025-01-08 21:22:25</span></div></div>
             </div>
-            <div class="form-grid">
-              <label>Select Bank:</label><select v-model="selectedBank" class="field"><option value="">Please Select a Bank</option><option>Shinhan Bank</option><option>KB Bank</option></select>
-              <label>Name on Card:</label><input class="field" value="T***" disabled>
-              <label>Account Number:</label><input v-model="accountNumber" class="field" placeholder="Please Enter Account/Card/Phone number">
-              <label>Transaction Password:</label><input v-model="accountPassword" class="field" type="password" placeholder="Please Fill in the Transaction Password">
+            <div class="pay-form-grid">
+              <label>Select Bank:</label><select v-model="selectedBank" class="pay-field"><option value="">Please Select a Bank</option><option>Shinhan Bank</option><option>KB Bank</option></select>
+              <label>Name on Card:</label><input class="pay-field" value="T***" disabled>
+              <label>Account Number:</label><input v-model="accountNumber" class="pay-field" placeholder="Please Enter Account/Card/Phone number">
+              <label>Transaction Password:</label><input v-model="accountPassword" class="pay-field" type="password" placeholder="Please Fill in the Transaction Password">
             </div>
-            <button class="action" :class="{ ready: bankManagementReady }" :disabled="!bankManagementReady">Submit</button>
+            <button class="pay-action" :class="{ ready: bankManagementReady }" :disabled="!bankManagementReady">Submit</button>
           </template>
 
           <template v-else>
             <div class="account-summary">
-              <h2 class="section-title">Bound wallet <span>(0/1)</span></h2>
+              <h2 class="pay-section-title">Bound wallet <span>(0/1)</span></h2>
               <div class="bound-wallet"><div class="coin-empty coin-md">₿</div><div>Empty wallet list</div></div>
             </div>
-            <div class="form-grid">
-              <label>Wallet type:</label><select v-model="managementWalletType" class="field"><option value="">Please select wallet type</option><option>USDT TRC20</option></select>
-              <label>Wallet address:</label><input v-model="managementWalletAddress" class="field" placeholder="Please fill in wallet address">
-              <label>Transaction Password:</label><input v-model="managementWalletPassword" class="field" type="password" placeholder="Please Fill in the Transaction Password">
+            <div class="pay-form-grid">
+              <label>Wallet type:</label><select v-model="managementWalletType" class="pay-field"><option value="">Please select wallet type</option><option>USDT TRC20</option></select>
+              <label>Wallet address:</label><input v-model="managementWalletAddress" class="pay-field" placeholder="Please fill in wallet address">
+              <label>Transaction Password:</label><input v-model="managementWalletPassword" class="pay-field" type="password" placeholder="Please Fill in the Transaction Password">
             </div>
-            <button class="action" :class="{ ready: cryptoManagementReady }" :disabled="!cryptoManagementReady">Submit</button>
+            <button class="pay-action" :class="{ ready: cryptoManagementReady }" :disabled="!cryptoManagementReady">Submit</button>
           </template>
         </section>
     <MemberModal v-if="modal" :type="modal.type" :message="modal.message" @confirm="modal = null" @cancel="modal = null" />
   </div>
 </template>
 
-<style scoped>
-.mode-tabs{display:flex;gap:32px;width:100%;max-width:56rem;margin:0 auto 24px;border-bottom:1px solid #263241}.mode-tabs button{position:relative;padding:0 0 12px;background:none;border:0;color:#9ca3af;font-weight:600}.mode-tabs button.active{color:#98e7d2}.mode-tabs button.active:after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:3px;border-radius:99px;background:#98e7d2}.payment-tabs{display:flex;gap:12px;width:100%;max-width:56rem;margin:0 auto 24px}.payment-tabs.inner{margin:0 0 24px}.payment-tabs button{display:flex;align-items:center;justify-content:center;gap:10px;min-width:170px;padding:12px 18px;border:1px solid #374151;border-radius:10px;background:#0f1419;color:#d1d5db;font-weight:600}.payment-tabs svg{width:22px;height:22px}.payment-tabs button.active{border-color:#98e7d2;background:linear-gradient(90deg,#cbe8e4,#98e7d2);color:#0f1622}.payment-card{width:100%;max-width:56rem;margin:0 auto;padding:32px;background:#1a2128;border:1px solid #1f2937;border-radius:10px}.section-title{display:flex;align-items:center;gap:8px;padding-left:12px;border-left:4px solid #aae5d3;color:#aae5d3;font-size:20px;font-weight:600}.section-title span{color:#d1d5db}.bank-empty{background:linear-gradient(105deg,rgb(22,63,52) 0%,rgb(15,42,35) 28%,rgb(11,24,21) 55%,rgb(10,14,18) 100%)}.coin-empty{background:rgba(26,33,40,.6)}.add-account{border:0;background:#313e40;color:#aae5d3}.refresh{background:none;border:0;color:#9ca3af}.refresh:hover{color:#fff}.field{width:100%;min-height:50px;padding:12px 16px;border:1px solid #374151;border-radius:10px;background:#0f1419;color:#d1d5db;outline:none}.field:focus{border-color:#98e7d2}select.field{appearance:none;padding-right:36px}.eye{background:none;border:0}.submit-gray{border:0;background:#4b5563;color:#fff}.back-flat{display:flex;align-items:center;justify-content:center;border:1px solid #374151;background:#0f1419;color:#fff;text-decoration:none}.back-flat:hover{border-color:#4b5563}.wallet-empty{display:flex;min-height:292px;margin-top:24px;flex-direction:column;align-items:center;justify-content:center;text-align:center;border:0;border-radius:16px;background:linear-gradient(105deg,#163f34 0%,#0f2a23 28%,#0b1815 55%,#0a0e12 100%);color:#d1d5db;padding:48px}.wallet-empty .coin-lg,.bound-wallet .coin-md{display:flex;align-items:center;justify-content:center;border:2px dashed #4b5563;border-radius:50%;background:rgba(26,33,40,.6);color:#9ca3af;font-weight:600}.wallet-empty .coin-lg{width:96px;height:96px;font-size:40px;margin-bottom:16px}.add-wallet{display:inline-flex;align-items:center;gap:8px;margin-top:16px;padding:8px 24px;border-radius:10px;border:0;background:#313e40;color:#aae5d3;font-weight:600;font-size:16px;cursor:pointer}.balance-grid{display:grid;grid-template-columns:190px minmax(0,1fr);gap:8px 20px;margin-top:24px;color:#d1d5db}.balance-grid strong{color:#aae5d3;font-size:20px;font-weight:600}.form-grid{display:grid;grid-template-columns:190px minmax(0,1fr);gap:16px 20px;align-items:center;color:#d1d5db}.form-grid label{font-weight:600}.account-summary{margin-bottom:32px}.registered-card{display:flex;align-items:center;gap:16px;width:100%;height:140px;margin-top:24px;padding:24px;border:1px solid #374151;border-radius:10px;background:#0f1419;color:#d1d5db}.registered-card .bank-logo{display:grid;place-items:center;width:80px;height:56px;border-radius:10px;background:#dbeafe;color:#0f1622;font-weight:700}.registered-card div:last-child{display:flex;flex-direction:column;gap:4px}.registered-card strong{color:white}.registered-card span{color:#9ca3af;font-size:14px}.bound-wallet{display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;height:140px;margin-top:24px;text-align:center;color:#9ca3af;border:1px solid #374151;border-radius:10px;background:#0f1419}.bound-wallet .coin-md{width:72px;height:72px;margin-bottom:12px;font-size:32px}.action,.back{display:flex;align-items:center;justify-content:center;width:100%;height:56px;margin-top:24px;border-radius:10px;font-weight:600}.action{border:0;background:#4b5563;color:white;cursor:not-allowed}.action.ready{background:linear-gradient(90deg,#cbe8e4,#98e7d2);color:#0f1622;cursor:pointer}.back{border:1px solid #374151;background:#0f1419;color:white;text-decoration:none}.back:hover{border-color:#4b5563}@media(max-width:700px){.mode-tabs{gap:24px;margin-bottom:16px}.mode-tabs button{font-size:14px}.payment-tabs{gap:8px;margin-bottom:16px}.payment-tabs button{flex:1;min-width:0;padding:10px 12px;font-size:14px}.payment-card{padding:16px}.section-title{font-size:17px}.wallet-empty{min-height:220px;padding:24px}.wallet-empty .coin-lg{width:80px;height:80px;font-size:34px}.add-wallet{font-size:14px}.form-grid,.balance-grid{grid-template-columns:1fr;gap:8px}.form-grid label{margin-top:8px;font-size:14px}.field{min-height:48px;font-size:14px}.registered-card,.bound-wallet{height:140px;padding:16px}.registered-card .bank-logo{width:72px}.action,.back{height:48px;font-size:14px}}
-.accts-head{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:16px}
-.accts-nav{background:none;border:0;color:#9ca3af;cursor:pointer;padding:0;line-height:0}
-.accts-nav:hover{color:#fff}
-.accts-title{color:#fff;font-size:17px;font-weight:600}
-.accts-title span{color:#9ca3af;font-weight:600}
-.bound-card{min-height:150px;background:linear-gradient(105deg,#1b2536 0%,#131c2b 55%,#0d1420 100%);border:1px solid #26324a;padding:22px 26px}
-.bound-inner{display:flex;flex-direction:column;min-height:106px}
-.bound-pill{align-self:flex-start;background:#0f1419;color:#d1d5db;font-size:12px;font-weight:700;padding:6px 14px;border-radius:8px}
-.bound-num{text-align:center;margin-top:-4px}
-.bound-num .bn-label{color:#9ca3af;font-size:13px;margin:0}
-.bound-num .bn-value{color:#fff;font-size:24px;font-weight:800;letter-spacing:.12em;margin:2px 0 0}
-.bound-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:auto;padding-top:14px}
-.bound-name{color:#eab308;font-weight:700;letter-spacing:.08em}
-.bound-date{text-align:right;color:#9ca3af;font-size:12px}
-.bound-date b{color:#d1d5db;font-size:13px}
-.submit-ready{display:flex;align-items:center;justify-content:center;border:0;background:linear-gradient(90deg,#cbe8e4,#98e7d2);cursor:pointer}
-.submit-ready span{color:#0f1622;font-weight:800}
-.submit-idle{display:flex;align-items:center;justify-content:center;border:0;background:#4b5563;cursor:not-allowed}
-.submit-idle span{color:#fff;font-weight:800}
-</style>

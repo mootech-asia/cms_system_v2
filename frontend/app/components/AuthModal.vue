@@ -95,67 +95,60 @@ function goto(m: 'login' | 'register' | 'forgot') {
   <Teleport to="body">
     <div
       v-if="mode"
-      style="position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.72);display:flex;align-items:flex-start;justify-content:center;padding:24px 16px;overflow-y:auto"
+      class="fixed inset-0 z-[10000] flex items-start justify-center overflow-y-auto bg-black/70 px-4 py-6"
       @click.self="close"
     >
-      <div style="background:#1a2330;border:1px solid #2a3441;border-radius:16px;max-width:400px;width:100%;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.5);margin:auto">
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid #2a3441">
-          <h3 style="color:#fff;font-size:18px;font-weight:700;margin:0">{{ title }}</h3>
-          <button style="background:none;border:0;color:#9ca3af;cursor:pointer;font-size:22px;line-height:1;padding:0" @click="close">×</button>
+      <div class="relative m-auto w-full max-w-[400px] rounded-2xl border border-line-soft bg-surface shadow-2xl">
+        <div class="flex items-center justify-between border-b border-line-soft px-[22px] py-[18px]">
+          <h3 class="m-0 text-lg font-bold text-ink">{{ title }}</h3>
+          <button class="border-0 bg-transparent p-0 text-[22px] leading-none text-ink-3" @click="close">×</button>
         </div>
-        <div style="padding:22px">
+        <div class="p-[22px]">
           <!-- 忘記密碼:送出後狀態 -->
           <template v-if="resetSent">
-            <p style="text-align:center;color:#98E7D2;font-size:15px;font-weight:600;margin:8px 0 6px">Reset link sent</p>
-            <p style="text-align:center;color:#9ca3af;font-size:14px;line-height:1.5;margin:0 0 20px">If the account exists, password reset instructions have been sent to your email.</p>
+            <p class="mb-1.5 mt-2 text-center text-[15px] font-semibold text-primary">Reset link sent</p>
+            <p class="mb-5 text-center text-body text-ink-3">If the account exists, password reset instructions have been sent to your email.</p>
             <button class="a-btn" type="button" @click="goto('login')">Back to Login</button>
           </template>
 
           <template v-else>
-            <p v-if="mode === 'forgot'" style="color:#9ca3af;font-size:14px;line-height:1.5;margin:0 0 20px">Enter your username and email address to receive password reset instructions.</p>
+            <p v-if="mode === 'forgot'" class="mb-5 text-body text-ink-3">Enter your username and email address to receive password reset instructions.</p>
 
             <template v-for="f in fields" :key="f.name">
-              <label class="a-label">{{ f.label }}</label>
-              <div style="position:relative;margin-bottom:16px">
+              <label class="mb-2 block text-body font-semibold text-ink-2">{{ f.label }}</label>
+              <div class="relative mb-4">
                 <input
                   v-model="values[f.name]"
                   :type="f.eye && shown[f.name] ? 'text' : f.type"
                   :placeholder="f.placeholder"
                   class="a-input"
-                  :style="{ paddingRight: f.eye ? '44px' : undefined, borderColor: errors[f.name] ? '#F87171' : undefined }"
+                  :class="[f.eye ? 'pr-11' : '', errors[f.name] ? 'input-ui-invalid' : '']"
                 >
                 <button
                   v-if="f.eye" type="button"
-                  style="position:absolute;top:50%;right:12px;transform:translateY(-50%);background:none;border:0;cursor:pointer;padding:0;display:flex"
-                  :style="{ color: shown[f.name] ? '#98E7D2' : '#9ca3af' }"
+                  class="absolute right-3 top-1/2 flex -translate-y-1/2 border-0 bg-transparent p-0"
+                  :class="shown[f.name] ? 'text-primary' : 'text-ink-3'"
                   @click="shown[f.name] = !shown[f.name]"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" /><circle cx="12" cy="12" r="3" /></svg>
                 </button>
               </div>
-              <p v-if="errors[f.name]" style="color:#F87171;font-size:13px;margin:-10px 0 12px">{{ errors[f.name] }}</p>
+              <p v-if="errors[f.name]" class="-mt-2.5 mb-3 text-note text-danger">{{ errors[f.name] }}</p>
             </template>
 
-            <div v-if="mode === 'login'" style="display:flex;justify-content:space-between;align-items:center;margin:-2px 0 18px;font-size:14px">
-              <label style="color:#9ca3af;display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" style="accent-color:#98E7D2">Remember me</label>
-              <a class="a-link" style="font-weight:600" @click="goto('forgot')">Forgot Password?</a>
+            <div v-if="mode === 'login'" class="-mt-0.5 mb-[18px] flex items-center justify-between text-body">
+              <label class="flex cursor-pointer items-center gap-2 text-ink-3"><input type="checkbox" class="accent-primary">Remember me</label>
+              <a class="a-link font-semibold" @click="goto('forgot')">Forgot Password?</a>
             </div>
 
             <button class="a-btn" type="button" @click="onSubmit">{{ mode === 'register' ? 'Next Step' : mode === 'forgot' ? 'Send Reset Link' : 'Login' }}</button>
 
-            <p v-if="mode === 'login'" style="text-align:center;color:#9ca3af;font-size:14px;margin:16px 0 2px">Don't have an account? <a class="a-link" @click="goto('register')">Register</a></p>
-            <p v-else-if="mode === 'register'" style="text-align:center;color:#9ca3af;font-size:14px;margin:16px 0 2px">Already have an account? <a class="a-link" @click="goto('login')">Login</a></p>
-            <p v-else style="text-align:center;color:#9ca3af;font-size:14px;margin:16px 0 2px">Remember your password? <a class="a-link" @click="goto('login')">Back to Login</a></p>
+            <p v-if="mode === 'login'" class="mb-0.5 mt-4 text-center text-body text-ink-3">Don't have an account? <a class="a-link" @click="goto('register')">Register</a></p>
+            <p v-else-if="mode === 'register'" class="mb-0.5 mt-4 text-center text-body text-ink-3">Already have an account? <a class="a-link" @click="goto('login')">Login</a></p>
+            <p v-else class="mb-0.5 mt-4 text-center text-body text-ink-3">Remember your password? <a class="a-link" @click="goto('login')">Back to Login</a></p>
           </template>
         </div>
       </div>
     </div>
   </Teleport>
 </template>
-
-<style scoped>
-.a-input{width:100%;box-sizing:border-box;background:#0f1622;border:1px solid #2a3441;border-radius:10px;padding:12px 14px;color:#fff;font-size:14px;outline:none}
-.a-label{display:block;color:#d1d5db;font-size:14px;font-weight:600;margin-bottom:8px}
-.a-btn{width:100%;padding:13px;border:0;border-radius:10px;cursor:pointer;font-weight:700;font-size:15px;color:#0f1622;background:linear-gradient(90deg,#CBE8E4,#98E7D2);margin-top:4px}
-.a-link{color:#98E7D2;font-weight:700;cursor:pointer;text-decoration:none}
-</style>

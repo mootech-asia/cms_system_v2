@@ -46,19 +46,3 @@ const isActive = (to: string) => route.path === to;
     </Transition>
   </Teleport>
 </template>
-
-<style scoped>
-.mmd-overlay{position:fixed;inset:0;z-index:10001;background:rgba(0,0,0,.6);transition:background .2s}
-.mmd-panel{position:absolute;top:0;left:0;bottom:0;width:86%;max-width:340px;border-right:1px solid #1f2937;background:#1a2128;overflow-y:hidden;overscroll-behavior:contain;box-shadow:0 0 24px rgba(0,0,0,.6);transition:transform .25s ease;display:flex;flex-direction:column;padding:clamp(10px,1.8dvh,16px) 14px}
-.mmd-head{display:flex;align-items:center;justify-content:space-between;height:clamp(42px,6dvh,54px);flex-shrink:0}
-.mmd-head span{color:#fff;font-weight:800;font-size:20px}
-.mmd-head button{background:none;border:0;color:#d1d5db;cursor:pointer;padding:0;line-height:0}
-.mmd-links{display:grid;flex:1;min-height:0}
-.mmd-row{display:flex;align-items:center;gap:clamp(10px,2dvh,16px);min-height:0;padding:0 18px;border-radius:11px;text-decoration:none;font-size:clamp(15px,2.1dvh,18px);line-height:1.15;font-weight:700;cursor:pointer;margin:1px 0;color:#d1d5db}
-.mmd-row.active{background:linear-gradient(90deg,#CBE8E4,#98E7D2);color:#0f1622}
-.mmd-icon{width:22px;height:22px;flex:0 0 auto}
-.mmd-enter-active,.mmd-leave-active{transition:background .2s}
-.mmd-enter-active .mmd-panel,.mmd-leave-active .mmd-panel{transition:transform .25s ease}
-.mmd-enter-from,.mmd-leave-to{background:rgba(0,0,0,0)}
-.mmd-enter-from .mmd-panel,.mmd-leave-to .mmd-panel{transform:translateX(-100%)}
-</style>
