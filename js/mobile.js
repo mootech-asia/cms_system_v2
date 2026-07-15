@@ -175,13 +175,19 @@ document.addEventListener('click', (e) => {
 });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMobileMenu(); });
 
-// --- 會員頁 header 補上右上語言選單+漢堡(手機),與完整版 header 一致 ---
+// --- 會員頁 header 補上右上語言選單+漢堡(僅手機;PC 版不顯示) ---
 function injectHeaderControls() {
   const row = document.querySelector('#container header .flex.items-center.h-16');
   if (!row || row.querySelector('svg.lucide-menu')) return;
+  // display 交給 CSS 控制:inline display 會蓋掉 md:hidden,不能寫在 cssText
+  if (!document.getElementById('member-header-controls-style')) {
+    const s = document.createElement('style');
+    s.id = 'member-header-controls-style';
+    s.textContent = '.member-header-controls{margin-left:auto;display:flex;align-items:center;gap:12px}@media(min-width:768px){.member-header-controls{display:none}}';
+    document.head.appendChild(s);
+  }
   const wrap = document.createElement('div');
-  wrap.className = 'md:hidden';
-  wrap.style.cssText = 'margin-left:auto;display:flex;align-items:center;gap:12px';
+  wrap.className = 'member-header-controls';
   wrap.innerHTML = '<div class="relative"><button class="text-gray-300 hover:text-white flex items-center gap-1" aria-label="Language"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-globe w-5 h-5"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg><span>EN</span></button></div>'
     + '<button class="text-gray-300 hover:text-white" aria-label="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu w-6 h-6"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button>';
   row.appendChild(wrap);

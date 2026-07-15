@@ -29,7 +29,7 @@ const isActive = (to: string) => (to === '/' ? route.path === '/' : route.path.s
         <NuxtLink class="flex items-center gap-3 text-gray-300 hover:text-white transition-colors" to="/">
           <img src="/logo.png" alt="Casino Logo" class="h-10 mix-blend-lighten">
         </NuxtLink>
-        <div class="ml-auto flex items-center gap-3">
+        <div class="md:hidden ml-auto flex items-center gap-3">
           <div class="relative">
             <button class="text-gray-300 hover:text-white flex items-center gap-1" @click="langOpen = !langOpen">
               <AppIcon name="globe" class="w-5 h-5" /><span>{{ lang }}</span><AppIcon name="chevron-down" class="w-3 h-3" />
