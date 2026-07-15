@@ -1,6 +1,6 @@
-# 全面重整計劃(R0–R5)— 驗收基準文件
+# 萬用設計系統計劃(R0–R7)— 驗收基準文件
 
-> 本文件是唯一驗收基準。所有「完成」宣告必須逐字對照 §1 的三份原文,
+> 本文件是唯一驗收基準。所有「完成」宣告必須逐字對照 §1 的原文,
 > 不得對照任何衍生清單。**任何項目不得由執行者自行省略、降級或延後;
 > 需要調整範圍時必須回頭取得使用者同意。**
 
@@ -28,7 +28,7 @@
 > 4. 如果某些功能適合使用primevue,請儘量使用primevue component來實作,並讓組件的樣式方便後續調整
 > 5. 這是一個純UI的網站,目標是讓工程師可快速將nuxt組件拿去使用,不用再調整CSS樣式
 
-### 1-C. 執行原則指令(本次)
+### 1-C. 執行原則指令
 
 > 我需要你在這個專案製作完後。建立一個未來我需要做其他模板的規範
 > 並且由你來直接給我範本模板
@@ -41,12 +41,25 @@
 > 這個session不夠我們可以分階段把它完美執行完畢
 > 絕對不准再給我自行省略貨或是忽略我要做的事情
 
+### 1-D. 模板產品線指令(2026-07-15 新增,共四條)
+
+> １．根據目前的網站所有內容,給我一個網站的結構路線圖wirframe,以一張圖完整呈現目前的結構圖給我
+
+> ２．我要求的整個網站的style要幫我能夠獨立拆分出來,除了style的寫法與排列要讓人類看得懂之外,未來我會以這隻style去做變體,來切換整體網站的skin,根據我這個目的,你去看看對現在的重構有沒有要修改計劃的,所以我要求的要你做樣式整理就是要達成這樣的目的
+
+> ３．我要求網站的每一個區塊主要區塊都要做３－５種變體,並且以目前的內容去做一個控制後台,因為我是要幫公司設計不同模板去賣系統,所以我需要盡可能地去變換網站創意,以及區塊的排列順序調整都要能在後台去控制變換
+
+> ４．以後的開發留成順序是 , 我會利用設計後台 來做一個新版面,然後根據目前的版面再去編成能讓工程師接手的代碼, 根據目前給工程師的設計, 我還要做一個給客戶用的後台控制系統, 以上所有的規劃 , 我知道這是一個巨大的改變以及大工程,幫我設定一個完整的階段性規劃, 我們來分階段的打造出這個萬用的設計系統。以上
+
+2026-07-15:1-D 的解讀(模板產品線:皮膚層/變體層/組合層/雙後台/產線工作流)已向使用者覆述並獲確認(「好的開始」)。
+1-D-1 已交付(結構圖 PNG + artifact)。
+
 ---
 
 ## 2. 目標定義(由 §1 逐字導出)
 
 1. 交付物 = `frontend/` 的 Nuxt 4 專案:純 UI、元件可直接被工程師取用、不需再調 CSS(1-B.5)。
-2. 樣式規則層 = `tailwind.config`(品牌 theme)+ `@layer components` + PrimeVue brand preset;**同一視覺只允許一份定義,多處套用**(1-B.1、1-C)。
+2. 樣式規則層 = theme token + `@layer components` + PrimeVue brand preset;**同一視覺只允許一份定義,多處套用**(1-B.1、1-C)。
 3. 重複 UI 一律抽成元件;頁面 = 資料 + 元件組合(1-B.2)。
 4. 邏輯分層:Pinia store(占位 action)→ composable → 元件;mock 資料集中管理(1-B.3、1-C「邏輯要有層次」)。
 5. 適用場景一律使用 PrimeVue 元件,樣式由 preset 集中調(1-B.4)。
@@ -54,30 +67,38 @@
 7. 版面維持:與現行正式站視覺一致(PrimeVue 替換容許 1–2px 級容差,逐頁截圖比對留證)(1-A)。
 8. 手機版 + PC 版皆驗收(1-A)。
 9. 完成後產出:未來模板開發規範 + 可直接複用的範本模板(1-C)。
+10. **皮膚層**:全站視覺參數(色彩/字體/字距/行高/圓角/漸層/陰影)收斂為獨立、人類可讀的 `themes/*.css`(CSS 變數);`tailwind.config` 與 PrimeVue preset 改讀同一組變數(單一來源、不得重複定義);複製檔案改值 = 新皮膚,整站換裝(1-D-2)。
+11. **區塊變體**:每個主要區塊 3–5 種變體,吃同一份內容與皮膚;頁面 = 設定檔(放哪些區塊/各用哪個變體/順序/開關)驅動渲染,不寫死(1-D-3)。
+12. **設計後台**:換膚、選變體、拖拉排序、區塊開關、即時預覽,輸出工程師可接手的模板包(Nuxt 專案 + page-config);儲存為占位(1-D-3、1-D-4)。
+13. **客戶後台**:終端客戶控制系統(內容文案/促銷/區塊開關與排序/換膚),可控範圍由模板定義;純 UI + 占位 API(1-D-4)。
 
 ## 3. 階段計劃
 
 | 階段 | 內容 | 完成定義 |
 |---|---|---|
-| R0 | `tailwind.config.ts` 品牌 theme(色彩/字級/字距/行高/圓角全階梯)、`assets/css/main.css` @layer components、PrimeVue brand preset、規範對照文件 | 設定上線、build 通過、既有頁面零視覺變化 |
-| R1 | 基礎元件層:PV 包裝(UiButton/UiInput/UiSelect/UiDatePicker/UiDialog/UiTag/UiTabs/UiAccordion)+ SectionTitle/UiCard;`/ui-kit` 展示頁 | 元件齊備、ui-kit 頁可視驗、皆用 theme token |
-| R2 | `layouts/default` + `layouts/member`;RecordPage(PV DataTable)套 5 個紀錄頁;會員頁瘦身;首頁區塊元件化;遊戲/promotion/about 頁元件化 | 所有頁面無重複 chrome、無頁內複製貼上結構、scoped 原生 CSS 清零(允許 @apply) |
-| R3 | Pinia store 占位 action 補齊、mock 資料集中至 stores;移除 figma.css/tokens.css 依賴;全站雙視口截圖驗收;交接索引(元件/類→用途→定義處) | 5 條工程規範逐字覆核通過、§1-A 逐句覆核通過 |
-| R4 | 《模板開發規範》:資料夾結構、theme 建立流程、元件抽取規則、PV preset 流程、命名、驗收清單 | 文件可讓工程師/未來模板直接遵循 |
-| R5 | 從完成品抽出 starter 範本模板(去內容、留骨架:theme、基礎元件、layouts、store 骨架、ui-kit、文件) | 使用者可直接以此起新模板 |
+| R0 ✅ | `tailwind.config.ts` 品牌 theme、`assets/css/main.css` @layer components、PrimeVue brand preset、規範對照文件 | 設定上線、build 通過、既有頁面零視覺變化 |
+| R1 ✅ | 基礎元件層:PV 包裝(UiButton/UiInput/UiSelect/UiDatePicker/UiDialog/UiTag/UiTabs/UiAccordion)+ SectionTitle/UiCard;`/ui-kit` 展示頁 | 元件齊備、ui-kit 頁可視驗、皆用 theme token |
+| R2(修訂) | `layouts/default` + `layouts/member`;區塊全面元件化;**頁面 = 區塊登錄表(registry)+ page-config 驅動渲染**(排序/開關架構在此打底);RecordPage(PV DataTable)套 5 個紀錄頁;會員頁瘦身;遊戲/promotion/about 頁元件化 | 無重複 chrome、無頁內複製貼上結構、scoped 原生 CSS 清零(允許 @apply)、頁面主區塊皆經 config 渲染 |
+| R3(修訂) | **皮膚層獨立**:`themes/win100.css`(CSS 變數,人類可讀,唯一 token 來源)、tailwind.config 與 PV preset 改讀變數、第二套示範皮驗證整站換膚、移除 figma.css/tokens.css;Pinia 占位 action 補齊、mock 集中;全站雙視口截圖驗收;交接索引 | 改一支 theme 檔 = 整站換皮;5 條工程規範 + §1-A 逐字覆核通過 |
+| R4 | **區塊變體庫**:主要區塊各 3–5 變體(banner/跑馬燈/賽事區/hero/遊戲牆/促銷區/會員卡/header/footer…);variant 命名規範;`/ui-kit` 擴為變體型錄 | 每主要區塊 ≥3 變體、型錄可視驗、變體皆吃同一 config 與皮膚 |
+| R5 | **設計後台**(`/studio`):皮膚切換、每區塊變體選擇、拖拉排序、顯示開關、即時預覽、匯出模板包(page-config + theme 檔) | 可純後台操作組出新版面,輸出工程師可接手的模板包 |
+| R6 | **客戶後台**:內容文案/促銷管理、區塊開關與排序(限模板授權範圍)、換膚;純 UI + 占位儲存 | 以 win100 內容可完整走完客戶操作流程 |
+| R7 | 《模板開發規範》(資料夾結構/theme 建立流程/元件與變體抽取規則/config schema/命名/雙後台/驗收清單)+ starter 範本模板(去內容留骨架:theme、基礎元件、layouts、config、studio、文件) | 文件 + 範本可直接起新模板、工程師可直接遵循 |
 
 ## 4. 靜態站處置
 
 Nuxt 為交付物;根目錄靜態站在 R3 驗收通過後由 `nuxt generate` 產物取代(或凍結為預覽),
-終結雙前端重複維護。切換時點由使用者決定。
+終結雙前端重複維護。切換時點由使用者決定。變體/皮膚/雙後台一律只做在 Nuxt。
 
 ## 5. 進度紀錄
 
 - [x] R0(2026-07-15:theme/@layer/preset 上線,46 路由 build 通過,5 頁 pixel-diff ≤0.3%(跑馬燈雜訊))
-- [ ] R1
+- [x] R1(2026-07-15:PV 包裝元件 ×10 + `/ui-kit` 型錄頁,139788f)
 - [ ] R2
 - [ ] R3
 - [ ] R4
 - [ ] R5
+- [ ] R6
+- [ ] R7
 
 每階段完成:commit + 部署 + 一行報告(做了什麼/比對結果/下一步),不冗述。
