@@ -105,3 +105,14 @@
 /* 紀錄頁篩選列的 Confirm:對齊全站標準 CTA(40px、圓角10、mint 漸層) */
 .rec-confirm{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 24px;border:0;border-radius:10px;background:var(--g-primary);color:var(--c-on-primary);font-size:14px;font-weight:700;cursor:pointer;transition:opacity .15s ease}
 .rec-confirm:hover,.rec-confirm:focus-visible{opacity:.9;outline:none}
+
+/* 第二批補齊(全站 class 掃描 2026-07-14):h-screen/mb-1.5/mb-5/w-24/
+   placeholder-gray-600 缺失造成 personal-info 欄寬塌陷等問題;
+   pt-16/pb-10 供首頁 Live Sport 主卡使用 */
+.h-screen{height:100vh}
+.mb-1\.5{margin-bottom:.375rem}
+.mb-5{margin-bottom:1.25rem}
+.w-24{width:6rem}
+.pt-16{padding-top:4rem}
+.pb-10{padding-bottom:2.5rem}
+.placeholder-gray-600::placeholder{color:#4B5563}

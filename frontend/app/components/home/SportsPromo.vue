@@ -72,7 +72,7 @@
             <p class="text-gray-400 text-[10px]">World Cup</p>
           </div>
         </div>
-        <div class="relative flex flex-col md:flex-row items-center justify-center md:justify-between px-6 py-10 gap-4">
+        <div class="relative flex flex-col md:flex-row items-center justify-center md:justify-between px-6 pt-16 pb-10 gap-4">
           <div class="text-center md:text-left">
             <p class="text-gray-400 text-xs tracking-widest uppercase mb-1">The World's Biggest Event</p>
             <h3 class="text-white text-2xl md:text-4xl mb-1" style="font-weight:800;">FIFA WORLD CUP</h3>
