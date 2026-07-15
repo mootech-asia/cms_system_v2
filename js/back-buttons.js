@@ -7,13 +7,7 @@
     const style = document.createElement('style');
     style.id = 'cms-back-button-style';
     style.textContent = `
-      #container .cms-back-button,
-      #container a.cms-back-button,
-      #container button.cms-back-button,
-      #container #inner-back button.cms-back-button,
-      #container #member-back button.cms-back-button,
-      #container .mf-back.cms-back-button,
-      #container .promotion-detail-back.cms-back-button {
+      #container .cms-back-button {
         display:inline-flex!important;
         align-items:center!important;
         justify-content:center!important;
