@@ -95,4 +95,51 @@
   .pill-neutral {
     @apply inline-block rounded-full px-2.5 py-1 text-note font-bold leading-none bg-surface-2 text-ink-3;
   }
+
+  /* 紀錄頁 DataTable 皮膚(RecordPage 專用):
+     以較高 specificity 蓋過 PrimeVue 主題,對齊靜態站 .rec-table 視覺 */
+  .record-table .p-datatable-table {
+    @apply w-full border-collapse text-body;
+  }
+  .record-table .p-datatable-thead > tr {
+    @apply bg-g-primary;
+  }
+  .record-table .p-datatable-thead > tr > th {
+    @apply whitespace-nowrap border-0 bg-transparent px-4 py-3 text-left text-note font-extrabold uppercase tracking-wide2 text-on-primary;
+  }
+  .record-table .p-datatable-tbody > tr {
+    @apply bg-transparent text-ink-2;
+  }
+  .record-table .p-datatable-tbody > tr:nth-child(even) > td {
+    background: rgb(255 255 255 / 0.02);
+  }
+  .record-table .p-datatable-tbody > tr:hover > td {
+    @apply bg-surface-deep;
+  }
+  .record-table .p-datatable-tbody > tr > td {
+    @apply whitespace-nowrap border-x-0 border-b-0 border-t border-solid border-line-soft px-4 py-3.5 text-body tabular-nums;
+  }
+
+  /* 紀錄頁底部合計列(取代 5 頁 inline .total-bar;琥珀/藏青為刻意保留的原色) */
+  .record-total-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 64px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 24px;
+    background: rgb(13 27 42);
+    border-top: 1px solid rgb(245 158 11 / 0.3);
+    color: rgb(245 158 11);
+    font-weight: 600;
+  }
+  @media (min-width: 768px) {
+    .record-total-bar {
+      left: 256px;
+      bottom: 0;
+    }
+  }
 }
