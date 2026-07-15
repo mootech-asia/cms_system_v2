@@ -51,3 +51,36 @@ document.addEventListener('click', (e) => {
   // 點別處關閉
   if (!e.target.closest('.rb-status-menu')) rbCloseMenus();
 });
+
+// === Auto refresh 倒數(deposit-record / withdrawal-record / profit-loss) ===
+const RB_REFRESH_SLUGS = new Set(['deposit-record', 'withdrawal-record', 'profit-loss']);
+const RB_REFRESH_INTERVAL = 30;
+let rbRefreshTimer = null;
+let rbRefreshLeft = RB_REFRESH_INTERVAL;
+
+function rbRefreshSpans() {
+  return [...document.querySelectorAll('#container span')]
+    .filter((s) => /^Auto refresh in \d+ s$/.test((s.textContent || '').trim()));
+}
+function rbPaintRefresh() {
+  rbRefreshSpans().forEach((s) => { s.textContent = `Auto refresh in ${rbRefreshLeft} s`; });
+}
+function rbStartRefresh(slug) {
+  if (rbRefreshTimer) { clearInterval(rbRefreshTimer); rbRefreshTimer = null; }
+  if (!RB_REFRESH_SLUGS.has(slug)) return;
+  rbRefreshLeft = RB_REFRESH_INTERVAL;
+  rbPaintRefresh();
+  rbRefreshTimer = setInterval(() => {
+    // 歸零即重置;實站接 API 後在歸零時重新取數
+    rbRefreshLeft = rbRefreshLeft > 0 ? rbRefreshLeft - 1 : RB_REFRESH_INTERVAL;
+    rbPaintRefresh();
+  }, 1000);
+}
+document.addEventListener('page:rendered', (e) => rbStartRefresh(e.detail && e.detail.slug));
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('span.cursor-pointer');
+  if (btn && (btn.textContent || '').trim() === '↺') {
+    rbRefreshLeft = RB_REFRESH_INTERVAL;
+    rbPaintRefresh();
+  }
+});

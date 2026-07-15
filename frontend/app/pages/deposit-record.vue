@@ -148,10 +148,7 @@ useMemberPage(root);
     </div>
     <div class="flex items-center justify-between">
     <button class="rec-confirm">Confirm</button>
-    <div class="flex items-center gap-1 text-gray-400 text-sm" style="white-space: nowrap;">
-    <span>Auto refresh in 16 s</span>
-    <span class="cursor-pointer text-blue-400 ml-1">↺</span>
-    </div>
+    <AutoRefreshTimer />
     </div>
     </div>
     <div class="w-full mb-4 hidden md:flex flex-wrap gap-2 items-center justify-between">
@@ -164,10 +161,7 @@ useMemberPage(root);
     <input type="date" class="bg-[#1a2128] border border-gray-700 rounded-lg px-3 py-2 text-gray-300 text-sm" value="">
     <button class="rec-confirm">Confirm</button>
     </div>
-    <div class="flex items-center gap-1 text-gray-400 text-sm">
-    <span>Auto refresh in 16 s</span>
-    <span class="cursor-pointer text-blue-400 ml-1">↺</span>
-    </div>
+    <AutoRefreshTimer />
     </div>
     <div class="w-full rounded-xl border border-gray-800 overflow-hidden">
     <div class="overflow-x-auto">
