@@ -2,8 +2,10 @@
 // Browse 開會員選單左抽屜(與靜態版一致);右上漢堡才是行銷主選單
 const memberMenuOpen = useState<boolean>('ui:memberMenuOpen', () => false);
 const route = useRoute();
-const activeClass = (path: string) =>
-  route.path === path ? 'text-primary' : 'text-ink-3';
+const activeClass = (path: string) => {
+  const current = route.path === '/change-nickname' ? '/account' : route.path;
+  return current === path ? 'text-primary' : 'text-ink-3';
+};
 </script>
 
 <template>
