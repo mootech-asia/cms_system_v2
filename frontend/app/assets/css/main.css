@@ -40,16 +40,10 @@
     @apply border-ink-4 outline-none;
   }
 
-  /* Back 按鈕(= 靜態站 .cms-back-button 規格) */
+  /* 返回鈕 — 視覺與 Load More 是同一份定義(見下方 .cms-load-more-button 區塊),
+     這裡只留尺寸/排列(2026-07-16 使用者要求 Back 對齊 Load More 樣式) */
   .btn-back {
-    @apply inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-primary/25 bg-surface px-3.5 text-[15px] font-extrabold leading-none text-ink transition;
-  }
-  .btn-back:hover,
-  .btn-back:focus-visible {
-    @apply -translate-y-px border-transparent bg-g-primary text-surface-deep shadow-mint outline-none;
-  }
-  .btn-back:active {
-    @apply translate-y-0 shadow-none;
+    @apply inline-flex h-10 items-center justify-center gap-2 rounded-lg px-3.5 text-[15px] leading-none;
   }
   .btn-back svg {
     @apply h-[18px] w-[18px] flex-none;
@@ -370,9 +364,13 @@
      R2:about/promotion/sport 頁 scoped CSS 歸零遷入。
      ============================================================ */
 
-  /* Load More 按鈕(sport.vue 與 VendorBrowser 共用視覺,取代兩處逐頁 scoped 定義) */
+  /* Load More 按鈕(sport.vue 與 VendorBrowser 共用視覺,取代兩處逐頁 scoped 定義;
+     2026-07-16 起 .btn-back 併用同一份視覺,只有 min-width 是 Load More 專屬) */
   .cms-load-more-button {
     min-width: 160px;
+  }
+  .cms-load-more-button,
+  .btn-back {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.2);
     color: theme('colors.ink.2');
@@ -382,7 +380,9 @@
     transition: background-color .18s ease, border-color .18s ease, color .18s ease, box-shadow .18s ease, transform .18s ease;
   }
   .cms-load-more-button:hover,
-  .cms-load-more-button:focus-visible {
+  .cms-load-more-button:focus-visible,
+  .btn-back:hover,
+  .btn-back:focus-visible {
     background: #304242; /* 查無對應 token,保留原色 */
     border-color: rgb(170 229 211 / 0.22);
     color: theme('colors.accent');
@@ -390,7 +390,8 @@
     transform: translateY(-1px);
     outline: none;
   }
-  .cms-load-more-button:active {
+  .cms-load-more-button:active,
+  .btn-back:active {
     transform: translateY(0);
   }
 
