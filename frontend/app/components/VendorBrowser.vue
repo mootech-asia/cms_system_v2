@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { LIVE_CASINO_OPERATION_MEDIA } from '~/config/operational-media';
 
 const props = defineProps<{ title: string; kind: string; direct?: boolean }>();
 const route = useRoute();
@@ -25,6 +26,24 @@ const PHOTOS = [
   'photo-1771775606196-70dccc0d9bde__w-400', 'photo-1525018667593-176858caed6a__w-400',
 ];
 const photo = (i: number) => `/_external/images.unsplash.com/${PHOTOS[((i % PHOTOS.length) + PHOTOS.length) % PHOTOS.length]}`;
+
+const LIVE_GAME_NAMES = [
+  'Lightning Roulette', 'VIP Baccarat', 'Speed Blackjack', 'Dragon Tiger',
+  'Casino Hold’em', 'Immersive Roulette', 'No Commission Baccarat', 'Sic Bo Live',
+  'Power Blackjack', 'Golden Roulette', 'Baccarat Control Squeeze', 'Three Card Poker',
+];
+const isLive = computed(() => props.kind === 'live');
+const liveMedia = (i: number) => {
+  const list = LIVE_CASINO_OPERATION_MEDIA.tables;
+  return list[((i % list.length) + list.length) % list.length]!;
+};
+const gameTitle = (i: number) => isLive.value ? LIVE_GAME_NAMES[i % LIVE_GAME_NAMES.length]! : 'Game Name';
+const gameImage = (i: number) => isLive.value ? liveMedia(i).image : photo(i);
+const gameFocalPoint = (i: number) => isLive.value ? liveMedia(i).focalPoint : 'center';
+const mediaSrc = (src: string) => /^(https?:)?\/\//.test(src) ? src : withBase(src);
+const hideBrokenMedia = (event: Event) => {
+  (event.currentTarget as HTMLImageElement).hidden = true;
+};
 
 const vendors = computed(() => (props.kind === 'live' ? LIVE_VENDORS : SLOT_VENDORS));
 const active = ref<string | null>(null);
@@ -98,8 +117,34 @@ function openVendor(v: string) {
       </div>
 
       <div v-if="showingVendors" class="vnd-grid">
-        <button v-for="v in filteredVendors" :key="v" class="vnd-card" @click="openVendor(v)">
-          <span class="vnd-name">{{ v }}</span>
+        <button
+          v-for="(v, i) in filteredVendors"
+          :key="v"
+          class="vnd-card group relative isolate min-h-[136px] overflow-hidden"
+          @click="openVendor(v)"
+        >
+          <template v-if="isLive">
+            <img
+              :src="mediaSrc(liveMedia(i).image)"
+              alt=""
+              aria-hidden="true"
+              class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              :style="{ objectPosition: liveMedia(i).focalPoint }"
+              loading="lazy"
+              @error="hideBrokenMedia"
+            >
+            <div class="absolute inset-0 bg-gradient-to-t from-surface-deep via-surface-deep/70 to-surface-deep/10" />
+          </template>
+          <span class="relative z-[1] flex h-full w-full flex-col items-center justify-end gap-2 p-4">
+            <span class="vnd-name">{{ v }}</span>
+            <span
+              v-if="isLive"
+              class="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface-deep/85 px-2.5 py-1 text-[10px] font-extrabold tracking-[0.14em] text-ink-2"
+            >
+              <span class="h-1.5 w-1.5 rounded-full bg-danger animate-pulse" />
+              LIVE STUDIO
+            </span>
+          </span>
         </button>
       </div>
 
@@ -109,10 +154,25 @@ function openVendor(v: string) {
           class="group cursor-pointer overflow-hidden rounded-lg border border-line-soft bg-surface transition-colors hover:border-primary"
         >
           <div class="aspect-[4/3] relative overflow-hidden">
-            <img :src="withBase(photo(g.i))" alt="Game Name" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
+            <img
+              :src="mediaSrc(gameImage(g.i))"
+              :alt="gameTitle(g.i)"
+              class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              :style="{ objectPosition: gameFocalPoint(g.i) }"
+              loading="lazy"
+              @error="hideBrokenMedia"
+            >
+            <div v-if="isLive" class="absolute inset-0 bg-gradient-to-t from-surface-deep/65 via-transparent to-transparent" />
+            <span
+              v-if="isLive"
+              class="absolute left-2 top-2 inline-flex items-center gap-1.5 rounded-full border border-line bg-surface-deep/90 px-2 py-1 text-[10px] font-extrabold tracking-[0.12em] text-ink"
+            >
+              <span class="h-1.5 w-1.5 rounded-full bg-danger animate-pulse" />
+              LIVE DEALER
+            </span>
           </div>
           <div class="p-4">
-            <h3 class="mb-1 truncate text-ink">Game Name</h3>
+            <h3 class="mb-1 truncate text-ink">{{ gameTitle(g.i) }}</h3>
             <p class="mb-3 truncate text-note text-ink-3">{{ g.provider }}</p>
             <button class="btn-primary btn-sm w-full">Play Now</button>
           </div>
