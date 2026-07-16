@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 
 const menuOpen = ref(false);
+const nickname = useState<string>('member:nickname', () => 'meqomcao');
 const langs = [
   { code: 'EN', label: 'English' },
   { code: '한국어', label: '한국어' },
@@ -82,7 +83,7 @@ const isActive = (to: string) => (to === '/' ? route.path === '/' : route.path.s
               </div>
               <div class="min-w-0">
                 <div class="flex items-center gap-3">
-                  <span class="text-ink text-lg min-[400px]:text-xl font-bold truncate">meqomcao</span>
+                  <span class="text-ink text-lg min-[400px]:text-xl font-bold truncate">{{ nickname }}</span>
                   <span class="bg-g-primary text-on-primary text-xs min-[400px]:text-sm font-bold px-2.5 py-1 rounded-full leading-none">VIP1</span>
                 </div>
                 <div class="mt-1 text-sm min-[400px]:text-base font-semibold whitespace-nowrap">
