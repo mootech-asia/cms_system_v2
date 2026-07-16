@@ -1,4 +1,4 @@
-import type { Component } from 'vue';
+import { defineComponent, h, mergeProps, type Component } from 'vue';
 import AppBanner from '~/components/AppBanner.vue';
 import AppBannerV2 from '~/components/AppBannerV2.vue';
 import AppBannerV3 from '~/components/AppBannerV3.vue';
@@ -36,8 +36,10 @@ import HomePromotionV3 from '~/components/home/PromotionV3.vue';
  *
  * 變體命名規範(R4):
  * - registry key `v1` 一律是「現行/預設版面」,不得刪除或改變視覺(既有頁面的相容性基準)。
- * - `v2`/`v3`(/`v4`/`v5`)是額外版面,每個主要區塊至少 3 個(v1+2 新)。
- * - 元件檔名 = 該區塊 v1 檔名 + `V2`/`V3` 後綴,與 v1 同目錄(如 `AppBanner.vue` → `AppBannerV2.vue`)。
+ * - 每個主要區塊固定提供 v1-v10；v1-v3 保留既有獨立元件，v4-v10 由
+ *   tenVariants() 將既有內容模板套入共用 Web3 layout system，避免複製 70 份邏輯。
+ * - v4-v10 依序交錯使用三種既有資訊結構，再由 layout class 改變框架、密度、
+ *   導覽排列與裝飾，因此功能、事件、slot 與 props 都會完整向下傳遞。
  * - 變體必須吃同一份內容(`config/mock/*.ts` 或呼叫端傳入的 props)與同一套皮膚 token,
  *   只能改版面/排列/裝飾,不得新增內容欄位或色碼(色碼只能用 tailwind.config 的語意 token)。
  */
@@ -48,17 +50,96 @@ export interface BlockDef {
   variants: Record<string, Component>;
 }
 
+/**
+ * 將 v4-v10 綁定到既有內容模板。wrapper 不宣告 props，所有 attrs 與 slots
+ * 原樣傳給底層元件；class 只負責選擇 app/assets/css/main.css 的版面系統。
+ */
+function web3Variant(
+  block: string,
+  version: string,
+  base: Component,
+): Component {
+  return defineComponent({
+    name: `Web3${block.replace(/(^|-)(\\w)/g, (_match, _dash, letter: string) => letter.toUpperCase())}${version.toUpperCase()}`,
+    inheritAttrs: false,
+    setup(_props, { attrs, slots }) {
+      return () => h(
+        base,
+        mergeProps(attrs, {
+          class: [
+            'web3-module',
+            `web3-module--${block}`,
+            `web3-layout--${version}`,
+          ],
+          'data-web3-layout': version,
+        }),
+        slots,
+      );
+    },
+  });
+}
+
+function tenVariants(
+  block: string,
+  v1: Component,
+  v2: Component,
+  v3: Component,
+): Record<string, Component> {
+  return {
+    v1,
+    v2,
+    v3,
+    v4: web3Variant(block, 'v4', v1),
+    v5: web3Variant(block, 'v5', v2),
+    v6: web3Variant(block, 'v6', v3),
+    v7: web3Variant(block, 'v7', v1),
+    v8: web3Variant(block, 'v8', v2),
+    v9: web3Variant(block, 'v9', v3),
+    v10: web3Variant(block, 'v10', v1),
+  };
+}
+
 export const BLOCKS = {
-  'home-banner': { label: '首頁 Banner 輪播', variants: { v1: AppBanner, v2: AppBannerV2, v3: AppBannerV3 } },
-  'home-ticker': { label: '中獎跑馬燈', variants: { v1: HomeTicker, v2: HomeTickerV2, v3: HomeTickerV3 } },
-  'home-live-sport': { label: 'Live Sport 即時賽事', variants: { v1: HomeSportsPromo, v2: HomeSportsPromoV2, v3: HomeSportsPromoV3 } },
-  'home-hot-games': { label: 'Hot Games 熱門遊戲', variants: { v1: HomeHotGamesRail, v2: HomeHotGamesRailV2, v3: HomeHotGamesRailV3 } },
-  'home-mini-games': { label: '遊戲速覽(Mini/Slot/Live)', variants: { v1: HomeMiniGamesGrid, v2: HomeMiniGamesGridV2, v3: HomeMiniGamesGridV3 } },
-  'home-promotion': { label: '促銷區', variants: { v1: HomePromotion, v2: HomePromotionV2, v3: HomePromotionV3 } },
-  'category-hero': { label: '類別頁 Hero 橫幅', variants: { v1: CategoryHero, v2: CategoryHeroV2, v3: CategoryHeroV3 } },
-  'member-card': { label: '會員銀行卡', variants: { v1: MemberCard, v2: MemberCardV2, v3: MemberCardV3 } },
-  'site-header': { label: '全站頂部導覽', variants: { v1: AppHeader, v2: AppHeaderV2, v3: AppHeaderV3 } },
-  'site-footer': { label: '全站頁尾', variants: { v1: AppFooter, v2: AppFooterV2, v3: AppFooterV3 } },
+  'home-banner': {
+    label: '首頁 Banner 輪播',
+    variants: tenVariants('home-banner', AppBanner, AppBannerV2, AppBannerV3),
+  },
+  'home-ticker': {
+    label: '中獎跑馬燈',
+    variants: tenVariants('home-ticker', HomeTicker, HomeTickerV2, HomeTickerV3),
+  },
+  'home-live-sport': {
+    label: 'Live Sport 即時賽事',
+    variants: tenVariants('home-live-sport', HomeSportsPromo, HomeSportsPromoV2, HomeSportsPromoV3),
+  },
+  'home-hot-games': {
+    label: 'Hot Games 熱門遊戲',
+    variants: tenVariants('home-hot-games', HomeHotGamesRail, HomeHotGamesRailV2, HomeHotGamesRailV3),
+  },
+  'home-mini-games': {
+    label: '遊戲速覽(Mini/Slot/Live)',
+    variants: tenVariants('home-mini-games', HomeMiniGamesGrid, HomeMiniGamesGridV2, HomeMiniGamesGridV3),
+  },
+  'home-promotion': {
+    label: '促銷區',
+    variants: tenVariants('home-promotion', HomePromotion, HomePromotionV2, HomePromotionV3),
+  },
+  'category-hero': {
+    label: '類別頁 Hero 橫幅',
+    variants: tenVariants('category-hero', CategoryHero, CategoryHeroV2, CategoryHeroV3),
+  },
+  'member-card': {
+    label: '會員銀行卡',
+    variants: tenVariants('member-card', MemberCard, MemberCardV2, MemberCardV3),
+  },
+  'site-header': {
+    label: '全站頂部導覽',
+    variants: tenVariants('site-header', AppHeader, AppHeaderV2, AppHeaderV3),
+  },
+  'site-footer': {
+    label: '全站頁尾',
+    variants: tenVariants('site-footer', AppFooter, AppFooterV2, AppFooterV3),
+  },
 } satisfies Record<string, BlockDef>;
 
 export type BlockKey = keyof typeof BLOCKS;
