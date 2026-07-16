@@ -23,7 +23,7 @@ const links = [
 </script>
 
 <template>
-  <aside class="hidden md:block w-64 flex-shrink-0 bg-surface border-r border-line-soft sticky top-0 h-screen overflow-y-auto">
+  <aside class="fixed bottom-0 left-0 top-16 z-40 hidden w-64 overflow-y-auto border-r border-line-soft bg-surface md:block">
     <nav class="p-4 space-y-2">
       <NuxtLink
         v-for="[label, to, icon] in links"
