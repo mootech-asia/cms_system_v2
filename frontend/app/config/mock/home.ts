@@ -48,19 +48,19 @@ export const miniGamesTabs: MiniGamesTab[] = [
     key: 'mini',
     label: 'Mini Game',
     route: '/mini-games',
-    names: ['Mega Fortune', 'Starburst', 'Limbo', 'Mines', 'Plinko', 'Dice', 'Tower', 'Keno', 'Hilo', 'Wheel', 'Crash', 'Coin Flip', 'Rocket', 'Caves', 'Video Poker', 'Scratch Card'],
+    names: ['Mega Fortune', 'Starburst', 'Limbo', 'Mines', 'Plinko', 'Dice', 'Tower', 'Keno', 'Hilo', 'Wheel', 'Crash', 'Coin Flip', 'Rocket', 'Caves', 'Video Poker', 'Scratch Card', 'Aviator', 'Spaceman', 'JetX', 'Balloon', 'Penalty Shoot-out', 'Goal Rush', 'Cricket Crash', 'Zeppelin', 'Magic Keno', 'Turbo Mines', 'Royal Dice', 'Lucky Wheel', 'Neon Tower', 'Bomb Squad', 'Cave Dash', 'Gem Flip', 'Star Rocket', 'Hyper Plinko', 'Double Hilo', 'Quantum Crash', 'Aqua Dice', 'Vegas Coin', 'Sky Drop', 'Loot Box', 'Chicken Road', 'Fortune Rings', 'Blast Off', 'Mine Runner', 'Pixel Keno', 'Flip Master', 'Rocket Queen', 'Cosmic Caves', 'Turbo Tower', 'Golden Plinko'],
   },
   {
     key: 'slot',
     label: 'Slot Game',
     route: '/slot',
-    names: ['Gates of Olympus', 'Sweet Bonanza', 'Book of Dead', 'Starburst', 'Wolf Gold', 'Mega Moolah', 'Gonzo Quest', 'Dead or Alive', 'Sugar Rush', 'Big Bass', 'Money Train', 'Wild West Gold'],
+    names: ['Gates of Olympus', 'Sweet Bonanza', 'Book of Dead', 'Starburst', 'Wolf Gold', 'Mega Moolah', 'Gonzo Quest', 'Dead or Alive', 'Sugar Rush', 'Big Bass', 'Money Train', 'Wild West Gold', 'Gates of Valhalla', 'Big Bass Bonanza', 'Sugar Rush 1000', 'Fruit Party', 'The Dog House', 'Madame Destiny', 'Wild Wild Riches', 'Floating Dragon', 'Buffalo King', 'Great Rhino', 'John Hunter', 'Aztec Gems', 'Fire Strike', 'Chilli Heat', 'Mustang Gold', 'Wolf Legend', 'Book of Ra', 'Legacy of Dead', 'Rise of Olympus', 'Moon Princess', 'Reactoonz', 'Fire Joker', 'Golden Ticket', 'Honey Rush', 'Gemix', 'Jammin Jars', 'Razor Shark', 'Wild Flower', 'Money Cart', 'Stormforged', 'Book of Shadows', 'San Quentin', 'Mental', 'Tombstone', 'Fire in the Hole', 'Punk Rocker', 'Warrior Graveyard', 'Das xBoot'],
   },
   {
     key: 'live',
     label: 'Live Game',
     route: '/live',
-    names: ['Lightning Roulette', 'Crazy Time', 'Mega Wheel', 'Baccarat', 'Dragon Tiger', 'Monopoly Live', 'Blackjack VIP', 'Sic Bo', 'Dream Catcher', 'Speed Roulette', 'Football Studio', 'Andar Bahar'],
+    names: ['Lightning Roulette', 'Crazy Time', 'Mega Wheel', 'Baccarat', 'Dragon Tiger', 'Monopoly Live', 'Blackjack VIP', 'Sic Bo', 'Dream Catcher', 'Speed Roulette', 'Football Studio', 'Andar Bahar', 'Crazy Coin Flip', 'XXXtreme Lightning', 'Gold Bar Roulette', 'Red Door Roulette', 'Funky Time', 'Video Poker Live', 'Bac Bo', 'Super Sic Bo', 'Cash or Crash', 'Gonzo Treasure Hunt', 'Deal or No Deal', 'Monopoly Big Baller', 'Sweet Bonanza CandyLand', 'Adventures Beyond', 'Immersive Roulette', 'Auto Roulette', 'Speed Baccarat', 'No Commission Bac', 'Dragon Roulette', 'Emperor Baccarat', 'Golden Wealth', 'Lightning Baccarat', 'Lightning Dice', 'Lightning Storm', 'Peek Baccarat', 'Prosperity Tree', 'Fortune Baccarat', 'Super Andar Bahar', 'Teen Patti Live', 'Casino Hold\'em', 'Three Card Poker', 'Ultimate Texas', 'Caribbean Stud', 'Side Bet City', 'Football Studio Dice', 'Fan Tan Live', 'Extreme Texas', 'Power Blackjack'],
   },
 ];
 

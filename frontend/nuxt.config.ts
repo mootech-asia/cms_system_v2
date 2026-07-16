@@ -73,8 +73,9 @@ export default defineNuxtConfig({
        套到 Vite base(import.meta.env.BASE_URL,withBase() 依賴它)。 */
     baseURL: process.env.NUXT_APP_BASE_URL || '/',
     head: {
-      /* 分頁名稱:前台固定 WIN100;後台頁各自 useHead 覆寫(客戶後台/設計後台) */
-      title: 'WIN100',
+      /* 分頁名稱(業主定名 2026-07-17,不得更動):前台 CMS_前台_v2;
+         後台頁各自 useHead 覆寫(CMS_後台_v2 / CMS_設計後台_v2) */
+      title: 'CMS_前台_v2',
       /* 全站固定深色;PrimeVue preset 的 darkModeSelector 綁定此 class。
          data-theme 預設 win100,由 app.vue 綁定 site store 的 skin 即時切換。 */
       htmlAttrs: { class: 'dark-mode', 'data-theme': 'win100' },

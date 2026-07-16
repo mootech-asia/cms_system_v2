@@ -10,7 +10,7 @@ import { TEMPLATE } from '~/config/template';
  * 變體選擇/新增區塊/匯出模板包是設計師工具(/studio),這裡刻意不提供。
  */
 definePageMeta({ layout: false });
-useHead({ title: 'WIN100 客戶後台' });
+useHead({ title: 'CMS_後台_v2' });
 
 const scope = TEMPLATE.client;
 const siteStore = useSiteStore();

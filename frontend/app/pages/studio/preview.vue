@@ -8,7 +8,7 @@ import { type DraftConfig, STUDIO_DRAFT_KEY, readDraft } from '~/utils/studio-dr
  * 獨立 document = 真實視口,手機寬 iframe 的 RWD 行為是真的。
  */
 definePageMeta({ layout: false });
-useHead({ title: 'WIN100 設計後台 — 預覽' });
+useHead({ title: 'CMS_設計後台_v2 — 預覽' });
 
 const route = useRoute();
 const page = computed(() => (route.query.page as string) || 'home');
