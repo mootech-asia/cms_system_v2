@@ -45,6 +45,18 @@ const skins = THEME_KEYS.map((key) => ({ key, label: themeLabel(key) }))
 /** R4 變體型錄:每區塊目前選中的 variant key(缺省 v1) */
 import { BLOCKS, type BlockKey } from '~/config/blocks'
 const variantPick = reactive<Record<string, string>>({})
+const VARIANT_NAMES: Record<string, string> = {
+  v1: 'Original',
+  v2: 'Alternate',
+  v3: 'Compact',
+  v4: 'Glass ledger',
+  v5: 'Signal rail',
+  v6: 'Chain grid',
+  v7: 'Layered stack',
+  v8: 'Terminal strip',
+  v9: 'Protocol frame',
+  v10: 'Network console',
+}
 /** 需要 props 的區塊在型錄中的示範值 */
 const VARIANT_DEMO_PROPS: Partial<Record<BlockKey, Record<string, unknown>>> = {
   'category-hero': { title: 'HOT GAMES' },
@@ -194,8 +206,12 @@ const VARIANT_DEMO_PROPS: Partial<Record<BlockKey, Record<string, unknown>>> = {
           v-for="(comp, vk) in def.variants" :key="vk" type="button"
           class="seg-btn"
           :class="{ active: (variantPick[key] ?? 'v1') === vk }"
+          :title="VARIANT_NAMES[vk] ?? vk"
           @click="variantPick[key] = vk"
         >{{ vk }}</button>
+        <span class="ml-auto text-note text-primary">
+          {{ VARIANT_NAMES[variantPick[key] ?? 'v1'] }}
+        </span>
       </div>
       <div class="overflow-hidden rounded-xl border border-line-soft bg-surface-deep">
         <component :is="def.variants[variantPick[key] ?? 'v1']" v-bind="VARIANT_DEMO_PROPS[key]" />
