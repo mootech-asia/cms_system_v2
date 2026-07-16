@@ -1,13 +1,58 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { CATEGORY_HERO_MEDIA, PROMOTION_OPERATION_MEDIA } from '~/config/operational-media';
 
 // 與靜態版 js/promotion-detail.js 相同的資料
 const PROMOS = [
-  { id: 'riobet-casino', title: 'RioBet Casino', headline: 'Unlimited Daily Bonus', primary: 'Sports / Slots', primaryRate: '5%', secondary: 'Casino / Mini Games', secondaryRate: '3%' },
-  { id: 'bitstarz-casino', title: 'BitStarz Casino', headline: 'Weekly Reload Bonus', primary: 'Slots', primaryRate: '50%', secondary: 'Live Casino', secondaryRate: '10%' },
-  { id: 'icecasino', title: 'IceCasino', headline: 'Member Exclusive Bonus', primary: 'Hot Games', primaryRate: '30%', secondary: 'Mini Games', secondaryRate: '8%' },
-  { id: 'gamdom-casino', title: 'Gamdom Casino', headline: 'Daily Cashback Boost', primary: 'Sports', primaryRate: '15%', secondary: 'Fish Games', secondaryRate: '6%' },
+  {
+    id: 'riobet-casino',
+    title: 'RioBet Casino',
+    headline: 'Unlimited Daily Bonus',
+    primary: 'Sports / Slots',
+    primaryRate: '5%',
+    secondary: 'Casino / Mini Games',
+    secondaryRate: '3%',
+    img: PROMOTION_OPERATION_MEDIA['riobet-casino'].image,
+    focalPoint: PROMOTION_OPERATION_MEDIA['riobet-casino'].focalPoint,
+  },
+  {
+    id: 'bitstarz-casino',
+    title: 'BitStarz Casino',
+    headline: 'Weekly Reload Bonus',
+    primary: 'Slots',
+    primaryRate: '50%',
+    secondary: 'Live Casino',
+    secondaryRate: '10%',
+    img: PROMOTION_OPERATION_MEDIA['bitstarz-casino'].image,
+    focalPoint: PROMOTION_OPERATION_MEDIA['bitstarz-casino'].focalPoint,
+  },
+  {
+    id: 'icecasino',
+    title: 'IceCasino',
+    headline: 'Member Exclusive Bonus',
+    primary: 'Hot Games',
+    primaryRate: '30%',
+    secondary: 'Mini Games',
+    secondaryRate: '8%',
+    img: PROMOTION_OPERATION_MEDIA.icecasino.image,
+    focalPoint: PROMOTION_OPERATION_MEDIA.icecasino.focalPoint,
+  },
+  {
+    id: 'gamdom-casino',
+    title: 'Gamdom Casino',
+    headline: 'Daily Cashback Boost',
+    primary: 'Sports',
+    primaryRate: '15%',
+    secondary: 'Fish Games',
+    secondaryRate: '6%',
+    img: PROMOTION_OPERATION_MEDIA['gamdom-casino'].image,
+    focalPoint: PROMOTION_OPERATION_MEDIA['gamdom-casino'].focalPoint,
+  },
 ];
+
+const hideBrokenMedia = (event: Event) => {
+  (event.currentTarget as HTMLImageElement).hidden = true;
+};
 
 const route = useRoute();
 const router = useRouter();
@@ -25,7 +70,13 @@ function backToList() {
 
 <template>
   <div>
-    <CategoryHero v-if="!detail" title="PROMOTIONS" />
+    <CategoryHero
+      v-if="!detail"
+      title="PROMOTIONS"
+      :image="CATEGORY_HERO_MEDIA.promotion.image"
+      :focal-point="CATEGORY_HERO_MEDIA.promotion.focalPoint"
+      :eyebrow="CATEGORY_HERO_MEDIA.promotion.eyebrow"
+    />
 
     <section
       class="bg-surface-deep"
@@ -45,6 +96,15 @@ function backToList() {
             @keydown.space.prevent="openDetail(p.id)"
           >
             <div class="promo-card-art relative h-32 overflow-hidden">
+              <img
+                :src="p.img"
+                :alt="p.title"
+                class="operation-promo-media absolute inset-0 h-full w-full object-cover"
+                :style="{ objectPosition: p.focalPoint }"
+                loading="lazy"
+                @error="hideBrokenMedia"
+              >
+              <div class="operation-promo-scrim absolute inset-0" />
               <div class="absolute inset-0 flex items-center justify-center">
                 <span class="font-extrabold select-none text-primary text-[54px] tracking-[0.12em] opacity-[0.07]">PROMO!</span>
               </div>
@@ -82,6 +142,15 @@ function backToList() {
             <div
               class="promotion-detail-poster-bg relative w-full max-w-[760px] overflow-hidden rounded-lg border border-primary/[0.26] shadow-[0_24px_70px_rgba(0,0,0,0.34)] px-[22px] pt-9 pb-8 text-center md:px-[54px] md:pt-[46px] md:pb-[42px] before:content-[''] before:pointer-events-none before:absolute before:inset-3 before:rounded-md before:border before:border-primary/[0.12] md:before:inset-5"
             >
+              <img
+                :src="detail.img"
+                alt=""
+                aria-hidden="true"
+                class="operation-promo-poster-media absolute inset-0 h-full w-full object-cover"
+                :style="{ objectPosition: detail.focalPoint }"
+                @error="hideBrokenMedia"
+              >
+              <div class="operation-promo-poster-scrim absolute inset-0" />
               <div class="relative z-[1] flex min-h-[640px] flex-col items-center justify-between gap-[26px] md:min-h-[680px]">
                 <img class="h-[42px] object-contain mix-blend-lighten" :src="withBase('/logo.png')" alt="WIN100%">
                 <div>
