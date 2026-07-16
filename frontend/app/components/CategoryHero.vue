@@ -1,15 +1,46 @@
 <script setup lang="ts">
 /**
- * 類別頁 hero 橫幅 v1(取代 mini-games/sport/fish/hot-games/slot/promotion
- * 六頁重複貼上的同一段 markup)。變體登錄於 app/config/blocks.ts 的 `category-hero`。
+ * 類別頁 Hero v1：置中主標。圖片只負責營運主視覺，標題與眉標保留為
+ * HTML，確保多語系、SEO 與行動版可讀性。
  */
-defineProps<{ title?: string }>();
+const props = withDefaults(defineProps<{
+  title?: string;
+  image?: string;
+  focalPoint?: string;
+  eyebrow?: string;
+}>(), {
+  focalPoint: 'center',
+});
+
+const mediaSrc = (src?: string) => {
+  if (!src) return '';
+  return /^(https?:)?\/\//.test(src) ? src : withBase(src);
+};
+const hideBrokenMedia = (event: Event) => {
+  (event.currentTarget as HTMLImageElement).hidden = true;
+};
 </script>
 
 <template>
-  <div class="bg-g-hero py-16 md:py-20">
-    <div class="container mx-auto px-4 text-center">
-      <h1 class="mb-4 text-4xl text-ink md:text-7xl"><slot>{{ title }}</slot></h1>
+  <section class="category-hero-media relative overflow-hidden bg-g-hero py-16 md:py-20">
+    <img
+      v-if="props.image"
+      :src="mediaSrc(props.image)"
+      alt=""
+      aria-hidden="true"
+      class="category-hero-image absolute inset-0 h-full w-full object-cover"
+      :style="{ objectPosition: props.focalPoint }"
+      fetchpriority="high"
+      @error="hideBrokenMedia"
+    >
+    <div v-if="props.image" class="category-hero-scrim absolute inset-0" />
+    <div class="category-hero-content container relative z-10 mx-auto px-4 text-center">
+      <p v-if="props.eyebrow" class="mb-3 text-note font-bold tracking-wide2 text-primary">
+        {{ props.eyebrow }}
+      </p>
+      <h1 class="text-4xl font-extrabold text-ink md:text-7xl">
+        <slot>{{ props.title }}</slot>
+      </h1>
     </div>
-  </div>
+  </section>
 </template>
