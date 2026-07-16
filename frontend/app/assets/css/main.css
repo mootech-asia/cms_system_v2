@@ -889,3 +889,436 @@
     letter-spacing: 0.01em;
   }
 }
+
+
+/* ============================================================
+   WEB3 BLOCK LAYOUT SYSTEM (v4-v10)
+   v1-v3 remain untouched. These seven systems are attached by
+   config/blocks.ts and only use the existing semantic skin tokens.
+   ============================================================ */
+@layer components {
+  .web3-module {
+    isolation: isolate;
+    transition:
+      border-color 180ms ease,
+      box-shadow 180ms ease,
+      background-color 180ms ease;
+  }
+
+  .web3-module > .container {
+    position: relative;
+  }
+
+  /* v4 / Glass ledger: restrained translucent rails and soft depth. */
+  .web3-layout--v4 {
+    border-block: 1px solid rgb(var(--c-primary) / 0.24);
+    box-shadow:
+      inset 0 1px 0 rgb(var(--c-ink) / 0.04),
+      inset 0 -1px 0 rgb(var(--c-primary) / 0.08);
+  }
+
+  .web3-layout--v4 > .container {
+    background: rgb(var(--c-surface-2) / 0.22);
+  }
+
+  .web3-layout--v4 :is(.rounded-xl, .rounded-2xl) {
+    border-color: rgb(var(--c-primary) / 0.24);
+  }
+
+  /* v5 / Signal rail: asymmetric accent and compact panel geometry. */
+  .web3-layout--v5 {
+    box-shadow:
+      inset 4px 0 0 rgb(var(--c-primary) / 0.72),
+      inset 0 1px 0 rgb(var(--c-line) / 0.7);
+  }
+
+  .web3-layout--v5 :is(.rounded-lg, .rounded-xl, .rounded-2xl) {
+    border-radius: 6px;
+  }
+
+  .web3-layout--v5 :is(button, a):focus-visible {
+    outline: 2px solid rgb(var(--c-primary) / 0.8);
+    outline-offset: 2px;
+  }
+
+  /* v6 / Chain grid: precise data-grid surface and squared cards. */
+  .web3-layout--v6 {
+    border-block: 1px solid rgb(var(--c-line) / 0.9);
+    background-image:
+      linear-gradient(rgb(var(--c-primary) / 0.055) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--c-primary) / 0.055) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  .web3-layout--v6 :is(.rounded, .rounded-lg, .rounded-xl, .rounded-2xl) {
+    border-radius: 2px;
+  }
+
+  .web3-layout--v6 :is(h1, h2, h3) {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* v7 / Layered stack: elevated content plane with clear hierarchy. */
+  .web3-layout--v7 {
+    border-top: 2px solid rgb(var(--c-primary) / 0.7);
+    box-shadow: inset 0 18px 36px rgb(var(--c-scrim) / 0.12);
+  }
+
+  .web3-layout--v7 > .container {
+    border-inline: 1px solid rgb(var(--c-line) / 0.55);
+  }
+
+  .web3-layout--v7 :is(.rounded-xl, .rounded-2xl) {
+    box-shadow: 0 14px 34px rgb(var(--c-scrim) / 0.24);
+  }
+
+  /* v8 / Terminal strip: dense, work-focused, sharp information bands. */
+  .web3-layout--v8 {
+    border-block: 1px dashed rgb(var(--c-primary) / 0.42);
+  }
+
+  .web3-layout--v8 :is(.rounded, .rounded-lg, .rounded-xl, .rounded-2xl, .rounded-full) {
+    border-radius: 4px;
+  }
+
+  .web3-layout--v8 :is(h1, h2, h3) {
+    text-transform: uppercase;
+  }
+
+  .web3-layout--v8 :is(button, a) {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* v9 / Protocol frame: double-line containment for premium surfaces. */
+  .web3-layout--v9 {
+    box-shadow:
+      inset 0 0 0 1px rgb(var(--c-primary) / 0.24),
+      inset 0 0 0 5px rgb(var(--c-line) / 0.2);
+  }
+
+  .web3-layout--v9 > .container {
+    border-inline: 1px solid rgb(var(--c-primary) / 0.16);
+  }
+
+  .web3-layout--v9 :is(.rounded-xl, .rounded-2xl) {
+    border-color: rgb(var(--c-primary) / 0.34);
+  }
+
+  /* v10 / Network console: confident top/bottom rails and wide spacing. */
+  .web3-layout--v10 {
+    border-block: 2px solid rgb(var(--c-primary) / 0.45);
+    box-shadow:
+      inset 0 8px 0 rgb(var(--c-primary) / 0.045),
+      inset 0 -8px 0 rgb(var(--c-primary) / 0.045);
+  }
+
+  .web3-layout--v10 > .container {
+    border-inline: 1px dashed rgb(var(--c-line) / 0.7);
+  }
+
+  .web3-layout--v10 :is(.rounded-xl, .rounded-2xl) {
+    border-radius: 8px;
+  }
+
+  /* Banner: full-bleed media remains primary; layouts alter framing and copy axis. */
+  .web3-module--home-banner.web3-layout--v4 .banner-art {
+    border: 1px solid rgb(var(--c-primary) / 0.28);
+    box-shadow: inset 0 0 0 1px rgb(var(--c-ink) / 0.025);
+  }
+
+  .web3-module--home-banner.web3-layout--v5 .banner-art {
+    border-left: 4px solid rgb(var(--c-primary) / 0.75);
+  }
+
+  .web3-module--home-banner.web3-layout--v6 .banner-art {
+    border: 1px solid rgb(var(--c-line) / 0.9);
+    background-color: rgb(var(--c-surface-deep) / 0.92);
+  }
+
+  .web3-module--home-banner.web3-layout--v7 .banner-art {
+    border: 1px solid rgb(var(--c-primary) / 0.2);
+    box-shadow: 0 18px 40px rgb(var(--c-scrim) / 0.28);
+  }
+
+  .web3-module--home-banner.web3-layout--v8 .banner-art {
+    border-block: 1px dashed rgb(var(--c-primary) / 0.5);
+  }
+
+  .web3-module--home-banner.web3-layout--v9 .banner-art {
+    box-shadow:
+      inset 0 0 0 1px rgb(var(--c-primary) / 0.3),
+      inset 0 0 0 6px rgb(var(--c-surface) / 0.22);
+  }
+
+  .web3-module--home-banner.web3-layout--v10 .banner-art {
+    border-block: 3px solid rgb(var(--c-primary) / 0.45);
+  }
+
+  /* Ticker: seven readable market-feed treatments. */
+  .web3-module--home-ticker.web3-layout--v4 {
+    padding-block: 10px;
+    background-color: rgb(var(--c-surface-2) / 0.84);
+  }
+
+  .web3-module--home-ticker.web3-layout--v5 {
+    padding-left: 12px;
+  }
+
+  .web3-module--home-ticker.web3-layout--v6 {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+
+  .web3-module--home-ticker.web3-layout--v7 {
+    padding-block: 12px;
+  }
+
+  .web3-module--home-ticker.web3-layout--v8 {
+    text-transform: uppercase;
+  }
+
+  .web3-module--home-ticker.web3-layout--v9 {
+    padding-block: 8px;
+    background-color: rgb(var(--c-surface) / 0.94);
+  }
+
+  .web3-module--home-ticker.web3-layout--v10 {
+    padding-block: 14px;
+  }
+
+  /* Sports: live data stays scannable while the event art changes emphasis. */
+  .web3-module--home-live-sport.web3-layout--v4 .media-hero-art {
+    border: 1px solid rgb(var(--c-primary) / 0.3);
+  }
+
+  .web3-module--home-live-sport.web3-layout--v5 .media-hero-art {
+    border-left: 5px solid rgb(var(--c-primary) / 0.8);
+  }
+
+  .web3-module--home-live-sport.web3-layout--v6 .media-hero-art {
+    border-radius: 2px;
+    background-image:
+      linear-gradient(rgb(var(--c-primary) / 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--c-primary) / 0.06) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+
+  .web3-module--home-live-sport.web3-layout--v7 .media-hero-art {
+    box-shadow: 0 16px 38px rgb(var(--c-scrim) / 0.28);
+  }
+
+  .web3-module--home-live-sport.web3-layout--v8 .media-hero-art {
+    border-block: 1px dashed rgb(var(--c-primary) / 0.5);
+  }
+
+  .web3-module--home-live-sport.web3-layout--v9 .media-hero-art {
+    box-shadow: inset 0 0 0 2px rgb(var(--c-primary) / 0.24);
+  }
+
+  .web3-module--home-live-sport.web3-layout--v10 .media-hero-art {
+    border-block: 3px solid rgb(var(--c-primary) / 0.38);
+  }
+
+  /* Game and promotion surfaces: consistent Web3 cards across three modules. */
+  .web3-module--home-hot-games.web3-layout--v4 .group > div:first-child,
+  .web3-module--home-mini-games.web3-layout--v4 .group > div:first-child,
+  .web3-module--home-promotion.web3-layout--v4 .group {
+    border-color: rgb(var(--c-primary) / 0.3);
+    box-shadow: inset 0 1px 0 rgb(var(--c-ink) / 0.04);
+  }
+
+  .web3-module--home-hot-games.web3-layout--v5 .group > div:first-child,
+  .web3-module--home-mini-games.web3-layout--v5 .group > div:first-child,
+  .web3-module--home-promotion.web3-layout--v5 .group {
+    border-left: 3px solid rgb(var(--c-primary) / 0.72);
+  }
+
+  .web3-module--home-hot-games.web3-layout--v6 .group > div:first-child,
+  .web3-module--home-mini-games.web3-layout--v6 .group > div:first-child,
+  .web3-module--home-promotion.web3-layout--v6 .group {
+    border-color: rgb(var(--c-line) / 0.95);
+    box-shadow: none;
+  }
+
+  .web3-module--home-hot-games.web3-layout--v7 .group > div:first-child,
+  .web3-module--home-mini-games.web3-layout--v7 .group > div:first-child,
+  .web3-module--home-promotion.web3-layout--v7 .group {
+    border-color: rgb(var(--c-primary) / 0.2);
+    box-shadow: 0 12px 28px rgb(var(--c-scrim) / 0.26);
+  }
+
+  .web3-module--home-hot-games.web3-layout--v8 .group > div:first-child,
+  .web3-module--home-mini-games.web3-layout--v8 .group > div:first-child,
+  .web3-module--home-promotion.web3-layout--v8 .group {
+    border-style: dashed;
+  }
+
+  .web3-module--home-hot-games.web3-layout--v9 .group > div:first-child,
+  .web3-module--home-mini-games.web3-layout--v9 .group > div:first-child,
+  .web3-module--home-promotion.web3-layout--v9 .group {
+    box-shadow: inset 0 0 0 1px rgb(var(--c-primary) / 0.24);
+  }
+
+  .web3-module--home-hot-games.web3-layout--v10 .group > div:first-child,
+  .web3-module--home-mini-games.web3-layout--v10 .group > div:first-child,
+  .web3-module--home-promotion.web3-layout--v10 .group {
+    border-block-width: 2px;
+    border-block-color: rgb(var(--c-primary) / 0.4);
+  }
+
+  /* Category hero: title composition changes without adding marketing copy. */
+  .web3-module--category-hero.web3-layout--v4 > .container {
+    text-align: left;
+    border-left: 3px solid rgb(var(--c-primary) / 0.7);
+  }
+
+  .web3-module--category-hero.web3-layout--v5 > .container {
+    text-align: right;
+    border-right: 3px solid rgb(var(--c-primary) / 0.7);
+  }
+
+  .web3-module--category-hero.web3-layout--v6 > .container h1 {
+    display: inline-block;
+    padding-inline: 18px;
+    border-inline: 1px solid rgb(var(--c-primary) / 0.45);
+  }
+
+  .web3-module--category-hero.web3-layout--v7 > .container {
+    text-align: left;
+    box-shadow: inset 0 -1px 0 rgb(var(--c-primary) / 0.35);
+  }
+
+  .web3-module--category-hero.web3-layout--v8 > .container h1 {
+    display: inline-block;
+    padding-block: 8px;
+    border-block: 1px dashed rgb(var(--c-primary) / 0.55);
+  }
+
+  .web3-module--category-hero.web3-layout--v9 > .container {
+    box-shadow: inset 0 0 0 1px rgb(var(--c-primary) / 0.2);
+  }
+
+  .web3-module--category-hero.web3-layout--v10 > .container h1 {
+    display: inline-block;
+    border-bottom: 4px solid rgb(var(--c-primary) / 0.62);
+  }
+
+  /* Member card: account data receives seven distinct, stable containers. */
+  .web3-module--member-card.web3-layout--v4 {
+    border-color: rgb(var(--c-primary) / 0.34);
+    box-shadow: inset 0 1px 0 rgb(var(--c-ink) / 0.06);
+  }
+
+  .web3-module--member-card.web3-layout--v5 {
+    border-left: 5px solid rgb(var(--c-primary) / 0.8);
+  }
+
+  .web3-module--member-card.web3-layout--v6 {
+    background-image:
+      linear-gradient(rgb(var(--c-primary) / 0.055) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--c-primary) / 0.055) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .web3-module--member-card.web3-layout--v7 {
+    border-color: rgb(var(--c-primary) / 0.22);
+    box-shadow: 0 16px 36px rgb(var(--c-scrim) / 0.3);
+  }
+
+  .web3-module--member-card.web3-layout--v8 {
+    border-style: dashed;
+    border-radius: 4px;
+  }
+
+  .web3-module--member-card.web3-layout--v9 {
+    box-shadow:
+      inset 0 0 0 1px rgb(var(--c-primary) / 0.34),
+      inset 0 0 0 6px rgb(var(--c-surface) / 0.18);
+  }
+
+  .web3-module--member-card.web3-layout--v10 {
+    border-block: 3px solid rgb(var(--c-primary) / 0.42);
+    border-radius: 8px;
+  }
+
+  /* Header: sticky behavior and every existing interaction remain intact. */
+  .web3-module--site-header.web3-layout--v4 {
+    border-bottom-color: rgb(var(--c-primary) / 0.36);
+    box-shadow: 0 10px 26px rgb(var(--c-scrim) / 0.2);
+  }
+
+  .web3-module--site-header.web3-layout--v5 {
+    border-left: 0;
+    border-top: 3px solid rgb(var(--c-primary) / 0.64);
+    box-shadow: inset 0 -1px 0 rgb(var(--c-primary) / 0.18);
+  }
+
+  .web3-module--site-header.web3-layout--v6 {
+    background-image:
+      linear-gradient(90deg, rgb(var(--c-primary) / 0.045) 1px, transparent 1px);
+    background-size: 32px 100%;
+  }
+
+  .web3-module--site-header.web3-layout--v7 > .container {
+    border-inline: 1px solid rgb(var(--c-line) / 0.6);
+  }
+
+  .web3-module--site-header.web3-layout--v8 nav a {
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+
+  .web3-module--site-header.web3-layout--v9 {
+    border-bottom-color: rgb(var(--c-primary) / 0.45);
+    box-shadow:
+      inset 0 -1px 0 rgb(var(--c-primary) / 0.3),
+      0 8px 24px rgb(var(--c-scrim) / 0.18);
+  }
+
+  .web3-module--site-header.web3-layout--v10 {
+    border-block-width: 2px;
+    border-block-color: rgb(var(--c-primary) / 0.35);
+  }
+
+  /* Footer: compact trust area with seven matching protocol treatments. */
+  .web3-module--site-footer.web3-layout--v4 {
+    border-top-color: rgb(var(--c-primary) / 0.34);
+    background-color: rgb(var(--c-surface-2) / 0.72);
+  }
+
+  .web3-module--site-footer.web3-layout--v5 {
+    border-left: 0;
+    box-shadow: inset 4px 0 0 rgb(var(--c-primary) / 0.55);
+  }
+
+  .web3-module--site-footer.web3-layout--v6 {
+    background-image:
+      linear-gradient(rgb(var(--c-primary) / 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--c-primary) / 0.04) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  .web3-module--site-footer.web3-layout--v7 > .container {
+    border-inline: 1px solid rgb(var(--c-line) / 0.55);
+  }
+
+  .web3-module--site-footer.web3-layout--v8 {
+    text-transform: uppercase;
+  }
+
+  .web3-module--site-footer.web3-layout--v9 {
+    box-shadow: inset 0 1px 0 rgb(var(--c-primary) / 0.36);
+  }
+
+  .web3-module--site-footer.web3-layout--v10 {
+    border-block: 2px solid rgb(var(--c-primary) / 0.38);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .web3-module,
+    .web3-module * {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+    }
+  }
+}
