@@ -4,7 +4,7 @@
  * 吃同一份 config/mock/home.ts banners 內容與皮膚 token,只換版面。
  */
 import { ref, computed, onMounted, onUnmounted } from 'vue';
-import { banners } from '~/config/mock/home';
+const { banners } = useContentStore();
 
 const idx = ref(0);
 const b = computed(() => banners[idx.value]!);

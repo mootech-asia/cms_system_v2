@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { promoCards } from '~/config/mock/home';
+const { promoCards } = useContentStore();
 
 // Detail → promotion 詳情頁(id 對應 js/promotion-detail.js 的 PROMOS)
 const router = useRouter();

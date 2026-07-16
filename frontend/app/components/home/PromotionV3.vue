@@ -4,7 +4,7 @@
  * 每列 icon/徽章 + 名稱 + View CTA,直向堆疊,適合側欄或折疊線以下的密集版位。
  * 吃同一份 config/mock/home.ts promoCards 內容與皮膚 token。
  */
-import { promoCards } from '~/config/mock/home';
+const { promoCards } = useContentStore();
 
 const router = useRouter();
 function goDetail(id: string) {

@@ -3,7 +3,7 @@
  * Promotion 變體 v2:單一 2x2 固定網格(取代 v1 的桌面 grid + 行動版橫向捲動雙重版面),
  * 一份會自動 reflow 的 responsive 區塊。吃同一份 config/mock/home.ts promoCards 內容與皮膚 token。
  */
-import { promoCards } from '~/config/mock/home';
+const { promoCards } = useContentStore();
 
 const router = useRouter();
 function goDetail(id: string) {

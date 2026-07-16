@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue';
-import { banners } from '~/config/mock/home';
+const { banners } = useContentStore();
 
 const idx = ref(0);
 const b = computed(() => banners[idx.value]!);
