@@ -40,10 +40,7 @@ const removeSection = (i: number) => { sections.value.splice(i, 1); };
 /** 可加入頁面的區塊(chrome 由下方獨立控制) */
 const ADDABLE = (Object.keys(BLOCKS) as BlockKey[]).filter((k) => !k.startsWith('site-'));
 /** 需要 props 的區塊,加入時給示範值(內容編輯屬 R6 客戶後台) */
-const DEFAULT_PROPS: Partial<Record<BlockKey, Record<string, unknown>>> = {
-  'category-hero': { title: 'NEW SECTION' },
-  'member-card': { bank: 'KB Bank', accountTail: '＊＊＊＊1234', holder: 'M＊＊＊＊＊＊＊', bindDate: '2025-08-14' },
-};
+const DEFAULT_PROPS: Partial<Record<BlockKey, Record<string, unknown>>> = {};
 const addPick = ref<BlockKey | null>(null);
 const addSection = () => {
   if (!addPick.value) return;
@@ -93,7 +90,7 @@ const exportPack = async () => {
     return;
   }
   const config = JSON.stringify(draft, null, 2);
-  const readme = `# WIN100 模板包(/studio 匯出)
+  const readme = `# 模板包(/studio 匯出)
 
 匯出時間:${new Date().toISOString()}
 皮膚:${draft.skin}
@@ -101,16 +98,16 @@ const exportPack = async () => {
 ## 內容
 - \`page-config.json\` — 站點組態:skin、chrome(header/footer 變體)、
   各頁 sections(順序 = 渲染順序;block/variant/enabled/props,
-  schema 見 frontend/app/config/blocks.ts 的 SectionConfig)。
+  schema 見 app/config/blocks.ts 的 SectionConfig)。
 - \`themes/${draft.skin}.css\` — 皮膚檔(CSS 變數,全站視覺唯一來源)。
 
 ## 工程接手方式
-1. 皮膚:放到 \`frontend/app/assets/css/themes/\`(檔名即 skin key;
+1. 皮膚:放到 \`app/assets/css/themes/\`(檔名即 skin key;
    選擇器 \`:root[data-theme="<key>"]\`,預設皮用 \`:root\`)。
 2. 組態:把 page-config.json 的內容載入 site store
-   (\`frontend/app/stores/site.ts\`)— 目前為記憶體占位,
+   (\`app/stores/site.ts\`)— 目前為記憶體占位,
    正式環境改為 API 載入/儲存即可,渲染端(BlockRenderer/layout)不用動。
-3. 區塊/變體對應表在 \`frontend/app/config/blocks.ts\`;
+3. 區塊/變體對應表在 \`app/config/blocks.ts\`;
    變體規範(v1 不可動、同內容同皮膚)見該檔註解與 docs/style-guide.md。
 `;
   const blob = makeZip([
