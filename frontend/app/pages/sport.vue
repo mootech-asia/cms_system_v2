@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
+import { CATEGORY_HERO_MEDIA } from '~/config/operational-media';
 const root = ref<HTMLElement | null>(null);
 const { modal } = useGamesPage(root);
 const route = useRoute();
@@ -35,7 +36,12 @@ function loadMore() {
 
 <template>
   <div ref="root">
-    <CategoryHero title="SPORTS BETTING" />
+    <CategoryHero
+      title="SPORTS BETTING"
+      :image="CATEGORY_HERO_MEDIA.sport.image"
+      :focal-point="CATEGORY_HERO_MEDIA.sport.focalPoint"
+      :eyebrow="CATEGORY_HERO_MEDIA.sport.eyebrow"
+    />
     <section class="py-8 bg-surface-deep min-h-[400px]">
     <div class="container mx-auto px-4">
     <div class="flex items-center gap-8 border-b border-line-soft mb-8">
