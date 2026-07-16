@@ -1,0 +1,1 @@
+import{_ as n}from"./jTwMBP8x.js";import{_ as r}from"./CVMdcMAz.js";import{_}from"./DlAUqK2U.js";import{c,b as o,o as s}from"./Rv3r5_MA.js";const m={};function a(i,f){const e=n,t=r;return s(),c("div",null,[o(e,{title:"FISHING GAMES"}),o(t,{title:"Fishing Games",kind:"fish"})])}const x=_(m,[["render",a]]);export{x as default};

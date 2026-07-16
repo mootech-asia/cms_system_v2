@@ -1,0 +1,1 @@
+import{_ as n}from"./jTwMBP8x.js";import{_ as r}from"./CVMdcMAz.js";import{_}from"./DlAUqK2U.js";import{c,b as o,o as s}from"./Rv3r5_MA.js";const m={};function a(i,p){const t=n,e=r;return s(),c("div",null,[o(t,{title:"HOT GAMES"}),o(e,{title:"Hot Games",kind:"hot-games",direct:""})])}const x=_(m,[["render",a]]);export{x as default};
