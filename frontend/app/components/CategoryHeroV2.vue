@@ -1,18 +1,48 @@
 <script setup lang="ts">
-/**
- * 類別頁 hero 橫幅 v2:左靠 + 裝飾圖示徽章(取代 v1 的置中大字),
- * 吃同一個 title prop/預設 slot 與 bg-g-hero token,只換版面。
- */
-defineProps<{ title?: string }>();
+/** 類別頁 Hero v2：左靠識別徽章，沿用同一份營運圖片與文案。 */
+const props = withDefaults(defineProps<{
+  title?: string;
+  image?: string;
+  focalPoint?: string;
+  eyebrow?: string;
+}>(), {
+  focalPoint: 'center',
+});
+
+const mediaSrc = (src?: string) => {
+  if (!src) return '';
+  return /^(https?:)?\/\//.test(src) ? src : withBase(src);
+};
+const hideBrokenMedia = (event: Event) => {
+  (event.currentTarget as HTMLImageElement).hidden = true;
+};
 </script>
 
 <template>
-  <div class="bg-g-hero py-16 md:py-20">
-    <div class="container mx-auto flex items-center gap-4 px-4">
-      <div class="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full border border-line-soft bg-surface/40 md:h-20 md:w-20">
-        <AppIcon name="grid" class="h-7 w-7 text-ink md:h-10 md:w-10" />
+  <section class="category-hero-media relative overflow-hidden bg-g-hero py-16 md:py-20">
+    <img
+      v-if="props.image"
+      :src="mediaSrc(props.image)"
+      alt=""
+      aria-hidden="true"
+      class="category-hero-image absolute inset-0 h-full w-full object-cover"
+      :style="{ objectPosition: props.focalPoint }"
+      fetchpriority="high"
+      @error="hideBrokenMedia"
+    >
+    <div v-if="props.image" class="category-hero-scrim absolute inset-0" />
+    <div class="category-hero-content container relative z-10 mx-auto flex items-center gap-4 px-4">
+      <div class="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full border border-primary/30 bg-surface/60 md:h-20 md:w-20">
+        <AppIcon name="grid" class="h-7 w-7 text-primary md:h-10 md:w-10" />
       </div>
-      <h1 class="text-4xl text-ink md:text-7xl"><slot>{{ title }}</slot></h1>
+      <div>
+        <p v-if="props.eyebrow" class="mb-2 text-note font-bold tracking-wide2 text-primary">
+          {{ props.eyebrow }}
+        </p>
+        <h1 class="text-4xl font-extrabold text-ink md:text-7xl">
+          <slot>{{ props.title }}</slot>
+        </h1>
+      </div>
     </div>
-  </div>
+  </section>
 </template>
