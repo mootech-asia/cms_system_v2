@@ -34,7 +34,7 @@ function closeModal() {
 
 <template>
   <div>
-        <h1 class="text-white text-2xl md:text-3xl mb-6 md:mb-8">{{ isTxn ? 'Change Transaction Password' : 'Change Login Password' }}</h1>
+        <h1 class="text-ink text-2xl md:text-3xl mb-6 md:mb-8">{{ isTxn ? 'Change Transaction Password' : 'Change Login Password' }}</h1>
         <div class="mf-card">
           <div class="mf-field">
             <input class="mf-input" :type="showNew ? 'text' : 'password'" v-model="newPw" placeholder="Please enter a new password">

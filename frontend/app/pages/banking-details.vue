@@ -54,7 +54,7 @@ function closeModal(confirmed: boolean) {
 
 <template>
   <div>
-        <h1 class="text-white text-2xl md:text-3xl mb-6 md:mb-8">Banking Details</h1>
+        <h1 class="text-ink text-2xl md:text-3xl mb-6 md:mb-8">Banking Details</h1>
         <div class="mf-wrap">
           <!-- Empty -->
           <template v-if="view === 'empty'">

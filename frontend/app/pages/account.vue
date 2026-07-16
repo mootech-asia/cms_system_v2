@@ -37,7 +37,7 @@ function closeBankModal(confirmed: boolean) {
 
 <template>
   <div ref="root" class="flex flex-col">
-    <h1 class="text-white text-2xl md:text-3xl mb-6 md:mb-8 w-full">Account Overview</h1>
+    <h1 class="text-ink text-2xl md:text-3xl mb-6 md:mb-8 w-full">Account Overview</h1>
     <div class="relative overflow-hidden flex-shrink-0 rounded-2xl p-4 md:p-6 mb-8 w-full account-hero-bg">
     <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 1200 320" preserveAspectRatio="none" fill="none">
     <path d="M0,305 C300,255 620,365 1200,150 L1200,320 L0,320 Z" fill="rgba(152,231,210,0.02)">
@@ -51,7 +51,7 @@ function closeBankModal(confirmed: boolean) {
     </svg>
     <div class="relative flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6">
     <div class="w-20 h-20 rounded-full bg-g-primary flex items-center justify-center flex-shrink-0">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user w-10 h-10 text-gray-900">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user w-10 h-10 text-on-primary">
     <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2">
     </path>
     <circle cx="12" cy="7" r="4">
@@ -60,24 +60,24 @@ function closeBankModal(confirmed: boolean) {
     </div>
     <div class="flex-1 text-center md:text-left w-full">
     <div class="flex flex-col md:flex-row items-center md:items-center gap-2 md:gap-3 mb-2">
-    <h2 class="text-white text-xl md:text-2xl font-semibold">meqomcao</h2>
-    <span class="bg-g-primary text-gray-900 px-3 py-1 rounded-full text-xs font-semibold">VIP1</span>
+    <h2 class="text-ink text-xl md:text-2xl font-semibold">meqomcao</h2>
+    <span class="bg-g-primary text-on-primary px-3 py-1 rounded-full text-xs font-semibold">VIP1</span>
     </div>
     <div class="grid grid-cols-1 gap-4 mt-4">
     <div>
-    <p class="text-gray-400 text-sm mb-1">Current Balance</p>
+    <p class="text-ink-3 text-sm mb-1">Current Balance</p>
     <p class="text-primary text-xl md:text-2xl font-bold">₩1,000,000,000</p>
     </div>
     <div>
-    <p class="text-gray-400 text-sm mb-1">Member Since</p>
-    <p class="text-white text-base md:text-lg">August 2025</p>
+    <p class="text-ink-3 text-sm mb-1">Member Since</p>
+    <p class="text-ink text-base md:text-lg">August 2025</p>
     </div>
     </div>
     </div>
     <div class="text-center md:text-right flex-shrink-0">
     <p class="text-xl md:text-2xl font-bold mb-1 text-gold">Rollover</p>
-    <p class="text-white text-sm md:text-base font-semibold mb-1">Remaining Turnover Amount:</p>
-    <p class="text-gray-300 text-xl md:text-2xl font-mono">₩16,517.41</p>
+    <p class="text-ink text-sm md:text-base font-semibold mb-1">Remaining Turnover Amount:</p>
+    <p class="text-ink-2 text-xl md:text-2xl font-mono">₩16,517.41</p>
     </div>
     </div>
     <div class="rewards-bar" style="--rk-pct: 62%">
@@ -87,25 +87,25 @@ function closeBankModal(confirmed: boolean) {
     </div>
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 w-full">
-    <div class="bg-surface border border-gray-800 rounded-lg p-4 md:p-6">
-    <h3 class="text-white text-lg font-semibold mb-4">Quick Actions</h3>
+    <div class="bg-surface border border-line-soft rounded-lg p-4 md:p-6">
+    <h3 class="text-ink text-lg font-semibold mb-4">Quick Actions</h3>
     <div class="space-y-3">
-    <a class="block w-full bg-g-primary text-gray-900 py-3 rounded-lg hover:opacity-90 transition-opacity font-semibold text-center text-sm md:text-base" href="/deposit">Deposit Now</a>
-    <a class="block w-full bg-surface-2 text-white py-3 rounded-lg hover:opacity-90 transition-opacity text-center text-sm md:text-base" href="/withdrawal">Withdraw</a>
+    <a class="block w-full bg-g-primary text-on-primary py-3 rounded-lg hover:opacity-90 transition-opacity font-semibold text-center text-sm md:text-base" href="/deposit">Deposit Now</a>
+    <a class="block w-full bg-surface-2 text-ink py-3 rounded-lg hover:opacity-90 transition-opacity text-center text-sm md:text-base" href="/withdrawal">Withdraw</a>
     </div>
     </div>
-    <div class="bg-surface border border-gray-800 rounded-lg p-4 md:p-6">
+    <div class="bg-surface border border-line-soft rounded-lg p-4 md:p-6">
     <div class="flex items-center justify-between mb-4">
-    <h3 class="text-white text-lg font-semibold">Banking Details</h3>
+    <h3 class="text-ink text-lg font-semibold">Banking Details</h3>
     <div class="flex items-center gap-2">
-    <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-surface-2 text-gray-400 hover:text-white transition-colors" aria-label="Previous bank account" @click="prevBank">
+    <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-surface-2 text-ink-3 hover:text-ink transition-colors" aria-label="Previous bank account" @click="prevBank">
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
     <path d="m15 18-6-6 6-6">
     </path>
     </svg>
     </button>
-    <span class="text-gray-400 text-sm">{{ banks.length ? bankIdx + 1 : 0 }}/{{ banks.length }}</span>
-    <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-surface-2 text-gray-400 hover:text-white transition-colors" aria-label="Next bank account" @click="nextBank">
+    <span class="text-ink-3 text-sm">{{ banks.length ? bankIdx + 1 : 0 }}/{{ banks.length }}</span>
+    <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-surface-2 text-ink-3 hover:text-ink transition-colors" aria-label="Next bank account" @click="nextBank">
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
     <path d="m9 18 6-6-6-6">
     </path>
@@ -115,8 +115,8 @@ function closeBankModal(confirmed: boolean) {
     </div>
     <div class="space-y-3">
     <template v-if="banks.length">
-    <div class="flex items-center gap-3 text-gray-300 text-sm md:text-base">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-credit-card w-5 h-5 text-gray-500 flex-shrink-0">
+    <div class="flex items-center gap-3 text-ink-2 text-sm md:text-base">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-credit-card w-5 h-5 text-ink-4 flex-shrink-0">
     <rect width="20" height="14" x="2" y="5" rx="2">
     </rect>
     <line x1="2" x2="22" y1="10" y2="10">
@@ -124,8 +124,8 @@ function closeBankModal(confirmed: boolean) {
     </svg>
     <span>{{ banks[bankIdx].num }}</span>
     </div>
-    <div class="flex items-center gap-3 text-gray-300 text-sm md:text-base">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-building w-5 h-5 text-gray-500 flex-shrink-0">
+    <div class="flex items-center gap-3 text-ink-2 text-sm md:text-base">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-building w-5 h-5 text-ink-4 flex-shrink-0">
     <rect width="16" height="20" x="4" y="2" rx="2" ry="2">
     </rect>
     <path d="M9 22v-4h6v4">
@@ -150,7 +150,7 @@ function closeBankModal(confirmed: boolean) {
     </path>
     </svg>
     <span>{{ banks[bankIdx].bank }}</span>
-    <button class="ml-auto text-gray-500 hover:text-white transition-colors" aria-label="Delete bank account" @click="deleteBank">
+    <button class="ml-auto text-ink-4 hover:text-ink transition-colors" aria-label="Delete bank account" @click="deleteBank">
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
     <path d="M3 6h18">
     </path>
@@ -162,123 +162,123 @@ function closeBankModal(confirmed: boolean) {
     </button>
     </div>
     </template>
-    <p v-else class="text-gray-500 text-sm md:text-base">No bank account</p>
+    <p v-else class="text-ink-4 text-sm md:text-base">No bank account</p>
     <a class="text-primary hover:text-primary-soft text-sm transition-colors" href="/banking-details?add=1">+ Add New Bank Account</a>
     </div>
     </div>
     </div>
-    <div class="bg-surface border border-gray-800 rounded-lg p-4 md:p-6 w-full">
+    <div class="bg-surface border border-line-soft rounded-lg p-4 md:p-6 w-full">
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-    <h3 class="text-white text-lg font-semibold">Recent Transactions</h3>
+    <h3 class="text-ink text-lg font-semibold">Recent Transactions</h3>
     <button class="text-primary hover:text-primary-soft text-sm transition-colors text-left md:text-right">View More Records →</button>
     </div>
     <div class="md:hidden space-y-4">
-    <div class="bg-surface-deep border border-gray-800 rounded-lg p-4">
+    <div class="bg-surface-deep border border-line-soft rounded-lg p-4">
     <div class="flex justify-between items-start mb-2">
     <div>
-    <p class="text-white font-semibold">SABA Bet Started</p>
-    <p class="text-gray-400 text-sm">2025-08-12 15:48</p>
+    <p class="text-ink font-semibold">SABA Bet Started</p>
+    <p class="text-ink-3 text-sm">2025-08-12 15:48</p>
     </div>
-    <span class="bg-green-400 text-gray-900 px-3 py-1 rounded-full text-xs font-semibold">Completed</span>
+    <span class="bg-success text-on-primary px-3 py-1 rounded-full text-xs font-semibold">Completed</span>
     </div>
-    <p class="text-lg font-semibold text-green-400">+₩ 1,000</p>
+    <p class="text-lg font-semibold text-success">+₩ 1,000</p>
     </div>
-    <div class="bg-surface-deep border border-gray-800 rounded-lg p-4">
+    <div class="bg-surface-deep border border-line-soft rounded-lg p-4">
     <div class="flex justify-between items-start mb-2">
     <div>
-    <p class="text-white font-semibold">SABA Bet Started</p>
-    <p class="text-gray-400 text-sm">2025-08-12 14:30</p>
+    <p class="text-ink font-semibold">SABA Bet Started</p>
+    <p class="text-ink-3 text-sm">2025-08-12 14:30</p>
     </div>
-    <span class="bg-green-400 text-gray-900 px-3 py-1 rounded-full text-xs font-semibold">Completed</span>
+    <span class="bg-success text-on-primary px-3 py-1 rounded-full text-xs font-semibold">Completed</span>
     </div>
-    <p class="text-lg font-semibold text-red-400">-₩ 500</p>
+    <p class="text-lg font-semibold text-danger">-₩ 500</p>
     </div>
-    <div class="bg-surface-deep border border-gray-800 rounded-lg p-4">
+    <div class="bg-surface-deep border border-line-soft rounded-lg p-4">
     <div class="flex justify-between items-start mb-2">
     <div>
-    <p class="text-white font-semibold">SABA Bet Started</p>
-    <p class="text-gray-400 text-sm">2025-08-11 18:20</p>
+    <p class="text-ink font-semibold">SABA Bet Started</p>
+    <p class="text-ink-3 text-sm">2025-08-11 18:20</p>
     </div>
-    <span class="bg-green-400 text-gray-900 px-3 py-1 rounded-full text-xs font-semibold">Completed</span>
+    <span class="bg-success text-on-primary px-3 py-1 rounded-full text-xs font-semibold">Completed</span>
     </div>
-    <p class="text-lg font-semibold text-green-400">+₩ 2,500</p>
+    <p class="text-lg font-semibold text-success">+₩ 2,500</p>
     </div>
-    <div class="bg-surface-deep border border-gray-800 rounded-lg p-4">
+    <div class="bg-surface-deep border border-line-soft rounded-lg p-4">
     <div class="flex justify-between items-start mb-2">
     <div>
-    <p class="text-white font-semibold">SABA Bet Started</p>
-    <p class="text-gray-400 text-sm">2025-08-11 12:15</p>
+    <p class="text-ink font-semibold">SABA Bet Started</p>
+    <p class="text-ink-3 text-sm">2025-08-11 12:15</p>
     </div>
-    <span class="bg-green-400 text-gray-900 px-3 py-1 rounded-full text-xs font-semibold">Completed</span>
+    <span class="bg-success text-on-primary px-3 py-1 rounded-full text-xs font-semibold">Completed</span>
     </div>
-    <p class="text-lg font-semibold text-red-400">-₩ 1,000</p>
+    <p class="text-lg font-semibold text-danger">-₩ 1,000</p>
     </div>
-    <div class="bg-surface-deep border border-gray-800 rounded-lg p-4">
+    <div class="bg-surface-deep border border-line-soft rounded-lg p-4">
     <div class="flex justify-between items-start mb-2">
     <div>
-    <p class="text-white font-semibold">SABA Bet Started</p>
-    <p class="text-gray-400 text-sm">2025-08-10 16:45</p>
+    <p class="text-ink font-semibold">SABA Bet Started</p>
+    <p class="text-ink-3 text-sm">2025-08-10 16:45</p>
     </div>
-    <span class="bg-green-400 text-gray-900 px-3 py-1 rounded-full text-xs font-semibold">Completed</span>
+    <span class="bg-success text-on-primary px-3 py-1 rounded-full text-xs font-semibold">Completed</span>
     </div>
-    <p class="text-lg font-semibold text-green-400">+₩ 750</p>
+    <p class="text-lg font-semibold text-success">+₩ 750</p>
     </div>
     </div>
     <div class="hidden md:block overflow-x-auto">
     <table class="w-full">
     <thead>
-    <tr class="border-b border-gray-800">
-    <th class="text-left text-gray-400 text-sm py-3 px-4">Type</th>
-    <th class="text-left text-gray-400 text-sm py-3 px-4">Amount</th>
-    <th class="text-left text-gray-400 text-sm py-3 px-4">Date</th>
-    <th class="text-left text-gray-400 text-sm py-3 px-4">Time</th>
-    <th class="text-left text-gray-400 text-sm py-3 px-4">Status</th>
+    <tr class="border-b border-line-soft">
+    <th class="text-left text-ink-3 text-sm py-3 px-4">Type</th>
+    <th class="text-left text-ink-3 text-sm py-3 px-4">Amount</th>
+    <th class="text-left text-ink-3 text-sm py-3 px-4">Date</th>
+    <th class="text-left text-ink-3 text-sm py-3 px-4">Time</th>
+    <th class="text-left text-ink-3 text-sm py-3 px-4">Status</th>
     </tr>
     </thead>
     <tbody>
-    <tr class="border-b border-gray-800 hover:bg-surface-deep transition-colors">
-    <td class="text-white py-4 px-4">SABA Bet Started</td>
-    <td class="py-4 px-4 font-semibold text-green-400">+₩ 1,000</td>
-    <td class="text-gray-300 py-4 px-4">2025-08-12</td>
-    <td class="text-gray-300 py-4 px-4">15:48</td>
+    <tr class="border-b border-line-soft hover:bg-surface-deep transition-colors">
+    <td class="text-ink py-4 px-4">SABA Bet Started</td>
+    <td class="py-4 px-4 font-semibold text-success">+₩ 1,000</td>
+    <td class="text-ink-2 py-4 px-4">2025-08-12</td>
+    <td class="text-ink-2 py-4 px-4">15:48</td>
     <td class="py-4 px-4">
-    <span class="bg-green-400 text-gray-900 px-3 py-1 rounded-full text-xs font-semibold">Completed</span>
+    <span class="bg-success text-on-primary px-3 py-1 rounded-full text-xs font-semibold">Completed</span>
     </td>
     </tr>
-    <tr class="border-b border-gray-800 hover:bg-surface-deep transition-colors">
-    <td class="text-white py-4 px-4">SABA Bet Started</td>
-    <td class="py-4 px-4 font-semibold text-red-400">-₩ 500</td>
-    <td class="text-gray-300 py-4 px-4">2025-08-12</td>
-    <td class="text-gray-300 py-4 px-4">14:30</td>
+    <tr class="border-b border-line-soft hover:bg-surface-deep transition-colors">
+    <td class="text-ink py-4 px-4">SABA Bet Started</td>
+    <td class="py-4 px-4 font-semibold text-danger">-₩ 500</td>
+    <td class="text-ink-2 py-4 px-4">2025-08-12</td>
+    <td class="text-ink-2 py-4 px-4">14:30</td>
     <td class="py-4 px-4">
-    <span class="bg-green-400 text-gray-900 px-3 py-1 rounded-full text-xs font-semibold">Completed</span>
+    <span class="bg-success text-on-primary px-3 py-1 rounded-full text-xs font-semibold">Completed</span>
     </td>
     </tr>
-    <tr class="border-b border-gray-800 hover:bg-surface-deep transition-colors">
-    <td class="text-white py-4 px-4">SABA Bet Started</td>
-    <td class="py-4 px-4 font-semibold text-green-400">+₩ 2,500</td>
-    <td class="text-gray-300 py-4 px-4">2025-08-11</td>
-    <td class="text-gray-300 py-4 px-4">18:20</td>
+    <tr class="border-b border-line-soft hover:bg-surface-deep transition-colors">
+    <td class="text-ink py-4 px-4">SABA Bet Started</td>
+    <td class="py-4 px-4 font-semibold text-success">+₩ 2,500</td>
+    <td class="text-ink-2 py-4 px-4">2025-08-11</td>
+    <td class="text-ink-2 py-4 px-4">18:20</td>
     <td class="py-4 px-4">
-    <span class="bg-green-400 text-gray-900 px-3 py-1 rounded-full text-xs font-semibold">Completed</span>
+    <span class="bg-success text-on-primary px-3 py-1 rounded-full text-xs font-semibold">Completed</span>
     </td>
     </tr>
-    <tr class="border-b border-gray-800 hover:bg-surface-deep transition-colors">
-    <td class="text-white py-4 px-4">SABA Bet Started</td>
-    <td class="py-4 px-4 font-semibold text-red-400">-₩ 1,000</td>
-    <td class="text-gray-300 py-4 px-4">2025-08-11</td>
-    <td class="text-gray-300 py-4 px-4">12:15</td>
+    <tr class="border-b border-line-soft hover:bg-surface-deep transition-colors">
+    <td class="text-ink py-4 px-4">SABA Bet Started</td>
+    <td class="py-4 px-4 font-semibold text-danger">-₩ 1,000</td>
+    <td class="text-ink-2 py-4 px-4">2025-08-11</td>
+    <td class="text-ink-2 py-4 px-4">12:15</td>
     <td class="py-4 px-4">
-    <span class="bg-green-400 text-gray-900 px-3 py-1 rounded-full text-xs font-semibold">Completed</span>
+    <span class="bg-success text-on-primary px-3 py-1 rounded-full text-xs font-semibold">Completed</span>
     </td>
     </tr>
-    <tr class="border-b border-gray-800 hover:bg-surface-deep transition-colors">
-    <td class="text-white py-4 px-4">SABA Bet Started</td>
-    <td class="py-4 px-4 font-semibold text-green-400">+₩ 750</td>
-    <td class="text-gray-300 py-4 px-4">2025-08-10</td>
-    <td class="text-gray-300 py-4 px-4">16:45</td>
+    <tr class="border-b border-line-soft hover:bg-surface-deep transition-colors">
+    <td class="text-ink py-4 px-4">SABA Bet Started</td>
+    <td class="py-4 px-4 font-semibold text-success">+₩ 750</td>
+    <td class="text-ink-2 py-4 px-4">2025-08-10</td>
+    <td class="text-ink-2 py-4 px-4">16:45</td>
     <td class="py-4 px-4">
-    <span class="bg-green-400 text-gray-900 px-3 py-1 rounded-full text-xs font-semibold">Completed</span>
+    <span class="bg-success text-on-primary px-3 py-1 rounded-full text-xs font-semibold">Completed</span>
     </td>
     </tr>
     </tbody>

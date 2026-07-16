@@ -59,8 +59,10 @@
 ### 狀態/強調
 - `--c-danger`(`#F87171`)— 錯誤/警示/LIVE 標籤(唯一的紅;**不要用 `red-400`/`red-600` 等
   Tailwind 內建紅**,已知等值:`red-400` = `--c-danger`)
-- `--c-success`(`#4ADE80`)— 成功
+- `--c-success`(`#4ADE80`)— 成功(等值:`green-400`,不要用內建綠)
 - `--c-gold`(`#F0B24A`)— 金色強調(VIP、bind holder)
+- `--c-scrim`(`0 0 0`)— 媒體遮罩/彈窗 backdrop,搭配透明度使用
+  (`bg-scrim/70` 彈窗、`bg-scrim/40` 圖上標籤;取代 `bg-black/NN`,跟膚可調)
 
 ### 類別頁 hero 橫幅
 - `--g-hero` — 全站唯一一條(`bg-g-hero` 工具類,取代舊 `.hero-band`),**不要再造新漸層**。

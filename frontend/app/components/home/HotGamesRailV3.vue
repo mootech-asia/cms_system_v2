@@ -31,7 +31,7 @@ import { hotGames } from '~/config/mock/home'
               <p class="text-ink text-sm truncate">{{ g.title }}</p>
               <p class="text-ink-4 text-[11px] truncate">{{ g.provider }}</p>
             </div>
-            <span class="flex-shrink-0 bg-black/40 text-primary text-[10px] px-2 py-0.5 rounded">{{ g.bonus }}</span>
+            <span class="flex-shrink-0 bg-scrim/40 text-primary text-[10px] px-2 py-0.5 rounded">{{ g.bonus }}</span>
           </div>
         </div>
       </div>

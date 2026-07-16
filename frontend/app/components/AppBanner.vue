@@ -34,12 +34,12 @@ const arrow = 'width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.4
             <span class="text-xs tracking-widest" :style="{ color: b.accent }">{{ b.badge }}</span>
           </div>
           <div class="mb-2">
-            <span class="text-white text-3xl md:text-5xl block leading-tight">{{ b.title }}</span>
+            <span class="text-ink text-3xl md:text-5xl block leading-tight">{{ b.title }}</span>
             <span class="text-5xl md:text-8xl block leading-none" :style="{ color: b.accent, textShadow: `0 0 40px ${b.accent}88`, fontWeight: 900 }">{{ b.highlight }}</span>
           </div>
-          <p class="text-gray-400 text-sm md:text-base mb-6 tracking-widest">{{ b.sub }}</p>
+          <p class="text-ink-3 text-sm md:text-base mb-6 tracking-widest">{{ b.sub }}</p>
           <button
-            class="px-8 py-3 rounded-lg text-gray-900 text-sm md:text-base transition-opacity hover:opacity-90"
+            class="px-8 py-3 rounded-lg text-on-primary text-sm md:text-base transition-opacity hover:opacity-90"
             :style="{ background: `linear-gradient(135deg, ${b.accent}, ${b.accent})` }"
           >{{ b.cta }}</button>
         </div>

@@ -27,6 +27,7 @@ export default <Partial<Config>>{
         ink: { DEFAULT: rgbVar('--c-text'), 2: rgbVar('--c-text-2'), 3: rgbVar('--c-text-3'), 4: rgbVar('--c-text-4') },
         /* 狀態/強調 */
         danger: rgbVar('--c-danger'),
+        scrim: rgbVar('--c-scrim'),
         success: rgbVar('--c-success'),
         gold: rgbVar('--c-gold'),
         accent: rgbVar('--c-accent'),

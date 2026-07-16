@@ -52,7 +52,7 @@ const cryptoReady = computed(() => Number(cryptoAmount.value.replace(/[^\d]/g, '
 
 <template>
   <div>
-        <h1 class="text-white text-2xl md:text-3xl mb-6 md:mb-8">Deposit</h1>
+        <h1 class="text-ink text-2xl md:text-3xl mb-6 md:mb-8">Deposit</h1>
         <div v-show="step === 'form'" class="payment-tabs">
           <button :class="{ active: method === 'bank' }" @click="method = 'bank'">
             <AppIcon name="card" /><span>Bank Card</span>
@@ -86,7 +86,7 @@ const cryptoReady = computed(() => Number(cryptoAmount.value.replace(/[^\d]/g, '
             <span class="pay-radio"><span v-if="promotion === index" /></span>
             <span class="min-w-0 text-left">
               <strong>{{ promo.title }}</strong>
-              <span v-for="line in promo.notes" :key="line" class="block mt-1 text-xs md:text-sm text-gray-300">• {{ line }}</span>
+              <span v-for="line in promo.notes" :key="line" class="block mt-1 text-xs md:text-sm text-ink-2">• {{ line }}</span>
             </span>
           </button>
           <button class="pay-action" :class="{ ready: bankReady }" :disabled="!bankReady" @click="step = 'transfer'">Next</button>

@@ -8,14 +8,14 @@ const emit = defineEmits<{ close: [] }>();
 <template>
   <div
     v-if="data"
-    class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 p-4"
+    class="fixed inset-0 z-[9999] flex items-center justify-center bg-scrim/70 p-4"
     @click.self="emit('close')"
   >
     <div class="w-full max-w-[420px] overflow-hidden rounded-2xl border border-line-soft bg-surface shadow-[0_20px_60px_rgba(0,0,0,.5)]">
       <div class="relative">
         <img :src="data.src" :alt="data.name" class="h-[200px] w-full object-cover">
         <button
-          class="absolute right-2.5 top-2.5 flex h-8 w-8 items-center justify-center rounded-full border-0 bg-black/60 text-lg leading-none text-ink"
+          class="absolute right-2.5 top-2.5 flex h-8 w-8 items-center justify-center rounded-full border-0 bg-scrim/60 text-lg leading-none text-ink"
           @click="emit('close')"
         >×</button>
       </div>

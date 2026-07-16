@@ -261,7 +261,7 @@ const exportPack = async () => {
             >{{ w === 'desktop' ? '桌機' : '手機 390' }}</button>
           </span>
         </div>
-        <div class="flex min-h-0 flex-1 justify-center overflow-auto bg-black/30 p-4">
+        <div class="flex min-h-0 flex-1 justify-center overflow-auto bg-scrim/30 p-4">
           <iframe
             ref="iframeEl"
             :src="previewSrc"

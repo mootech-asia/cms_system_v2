@@ -50,7 +50,7 @@ function submitWithdraw() {
 
 <template>
   <div>
-        <h1 class="text-white text-2xl md:text-3xl mb-6 md:mb-8">Withdrawl</h1>
+        <h1 class="text-ink text-2xl md:text-3xl mb-6 md:mb-8">Withdrawl</h1>
         <div class="mode-tabs">
           <button :class="{ active: mode === 'withdraw' }" @click="mode = 'withdraw'">Withdraw</button>
           <button :class="{ active: mode === 'management' }" @click="mode = 'management'">Account Management</button>
@@ -81,18 +81,18 @@ function submitWithdraw() {
               </button>
             </div>
             <div class="mb-6 md:mb-8">
-              <h2 class="text-white text-lg md:text-xl font-semibold mb-4 text-center">Main Wallet</h2>
+              <h2 class="text-ink text-lg md:text-xl font-semibold mb-4 text-center">Main Wallet</h2>
               <div class="text-center mb-4">
-                <p class="text-white text-2xl md:text-4xl font-bold">₩ 0.00</p>
+                <p class="text-ink text-2xl md:text-4xl font-bold">₩ 0.00</p>
               </div>
               <div class="flex flex-col md:flex-row justify-center gap-4 md:gap-8 mb-6">
                 <div class="text-center">
-                  <p class="text-red-400 text-sm">*Rollover Achieved</p>
-                  <p class="text-red-400 font-semibold text-sm md:text-base">amount: ₩0.00</p>
+                  <p class="text-danger text-sm">*Rollover Achieved</p>
+                  <p class="text-danger font-semibold text-sm md:text-base">amount: ₩0.00</p>
                 </div>
                 <div class="text-center">
-                  <p class="text-red-400 text-sm">Target amount:</p>
-                  <p class="text-red-400 font-semibold text-sm md:text-base">₩0.00</p>
+                  <p class="text-danger text-sm">Target amount:</p>
+                  <p class="text-danger font-semibold text-sm md:text-base">₩0.00</p>
                 </div>
               </div>
               <div class="mb-4">
@@ -103,18 +103,18 @@ function submitWithdraw() {
               </div>
               <div class="mb-4 relative">
                 <input v-model="withdrawalPassword" class="pay-field" :type="showPassword ? 'text' : 'password'" placeholder="* * * * * *">
-                <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 bg-transparent border-0 text-gray-400 hover:text-gray-300" @click="showPassword = !showPassword">
+                <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 bg-transparent border-0 text-ink-3 hover:text-ink-2" @click="showPassword = !showPassword">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" /><circle cx="12" cy="12" r="3" /></svg>
                 </button>
               </div>
               <div class="flex justify-center gap-8 mb-6">
                 <div class="text-center">
-                  <p class="text-red-400 text-sm">*Rollover Achieved</p>
-                  <p class="text-red-400 font-semibold">amount: ₩0.00</p>
+                  <p class="text-danger text-sm">*Rollover Achieved</p>
+                  <p class="text-danger font-semibold">amount: ₩0.00</p>
                 </div>
                 <div class="text-center">
-                  <p class="text-red-400 text-sm">Target amount:</p>
-                  <p class="text-red-400 font-semibold">₩0.00</p>
+                  <p class="text-danger text-sm">Target amount:</p>
+                  <p class="text-danger font-semibold">₩0.00</p>
                 </div>
               </div>
             </div>

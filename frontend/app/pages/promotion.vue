@@ -38,7 +38,7 @@ function backToList() {
         <div v-if="!detail" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           <div
             v-for="p in PROMOS" :key="p.id"
-            class="cursor-pointer bg-surface border border-gray-800 rounded-lg overflow-hidden hover:border-primary transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-[3px]"
+            class="cursor-pointer bg-surface border border-line-soft rounded-lg overflow-hidden hover:border-primary transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-[3px]"
             role="button" tabindex="0"
             @click="openDetail(p.id)"
             @keydown.enter.prevent="openDetail(p.id)"
@@ -59,11 +59,11 @@ function backToList() {
               </div>
             </div>
             <div class="p-6">
-              <h3 class="text-white text-xl mb-4 text-center">{{ p.title }}</h3>
+              <h3 class="text-ink text-xl mb-4 text-center">{{ p.title }}</h3>
               <div class="space-y-3">
                 <button
                   type="button"
-                  class="w-full bg-g-primary text-gray-900 px-4 py-3 rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center font-semibold"
+                  class="w-full bg-g-primary text-on-primary px-4 py-3 rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center font-semibold"
                   @click.stop="openDetail(p.id)"
                 >Detail</button>
               </div>

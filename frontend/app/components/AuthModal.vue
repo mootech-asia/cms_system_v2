@@ -95,7 +95,7 @@ function goto(m: 'login' | 'register' | 'forgot') {
   <Teleport to="body">
     <div
       v-if="mode"
-      class="fixed inset-0 z-[10000] flex items-start justify-center overflow-y-auto bg-black/70 px-4 py-6"
+      class="fixed inset-0 z-[10000] flex items-start justify-center overflow-y-auto bg-scrim/70 px-4 py-6"
       @click.self="close"
     >
       <div class="relative m-auto w-full max-w-[400px] rounded-2xl border border-line-soft bg-surface shadow-2xl">

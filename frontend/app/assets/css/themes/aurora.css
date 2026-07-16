@@ -30,6 +30,7 @@
 
   /* ---- 狀態/強調 ---- */
   --c-danger: 255 133 133; /* #FF8585 */
+  --c-scrim: 0 0 0; /* 媒體遮罩/彈窗 backdrop(bg-scrim/NN) */
   --c-success: 110 231 168; /* #6EE7A8 */
   --c-gold: 255 198 92;    /* #FFC65C */
 
