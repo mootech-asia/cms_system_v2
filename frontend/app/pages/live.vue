@@ -1,10 +1,15 @@
+<script setup lang="ts">
+import { CATEGORY_HERO_MEDIA } from '~/config/operational-media';
+</script>
+
 <template>
   <div>
-    <div class="py-20" style="background: var(--g-hero);">
-    <div class="container mx-auto px-4 text-center">
-    <h1 class="text-5xl md:text-7xl text-ink mb-4">LIVE CASINO GAMES</h1>
-    </div>
-    </div>
+    <CategoryHero
+      title="LIVE CASINO GAMES"
+      :image="CATEGORY_HERO_MEDIA.live.image"
+      :focal-point="CATEGORY_HERO_MEDIA.live.focalPoint"
+      :eyebrow="CATEGORY_HERO_MEDIA.live.eyebrow"
+    />
     <VendorBrowser title="Live Casino" kind="live" />
   </div>
 </template>
