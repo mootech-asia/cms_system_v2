@@ -4,6 +4,11 @@
 - 本 repo = **WIN100 模板交付版**:`frontend/`(Nuxt 4 + PrimeVue + Tailwind + Pinia,純 UI、邏輯占位)。
 - **工廠已整併回本 repo(業主 2026-07-17)**:`templates/starter/`(起新模板骨架)與
   `docs/template-guide.md`(模板開發規範)都在這裡;`mootech-asia/cms_system` 已廢除待刪。
+- **定位鐵則(業主 2026-07-17,寫入 DNA)**:業主做的是**整個生成系統**,
+  全部資產屬於業主個人、不屬於公司;**一個交付出去的版型 = 一個獨立專案**
+  (例:`cms_system_v3`),交付後各自演進。工廠整併回本 repo 看似走回頭路,
+  實際是先前沒有工廠概念 — 現在才是把生成系統立起來;理解本 repo 時一律以
+  「生成系統母體(工廠+示範交付版)」看待,而非單一站台專案。
 - GitHub Pages 正式站由 `gh-pages` 分支提供(mootech-asia.github.io/cms_system_v2);
   `main` 先建置到 `pages-candidate`,完成驗證後才可升級正式分支;不得刪除既有備份分支。
 - **最新接手入口:**`docs/CLAUDE-HANDOFF-LATEST.md`(先讀;含目前正式站、分支 SHA、部署流程與最新驗證)。
