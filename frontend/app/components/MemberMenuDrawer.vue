@@ -17,7 +17,8 @@ const links = [
   { label: 'Customer Service', to: '/support', icon: 'chat' },
 ] as const;
 
-const isActive = (to: string) => route.path === to;
+const PARENT: Record<string, string> = { '/change-nickname': '/account' };
+const isActive = (to: string) => (PARENT[route.path] || route.path) === to;
 </script>
 
 <template>
