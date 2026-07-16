@@ -6,6 +6,7 @@ const root = ref<HTMLElement | null>(null);
 useMemberPage(root);
 
 const bankStore = useBankStore();
+const nickname = useState<string>('member:nickname', () => 'meqomcao');
 const banks = computed(() => bankStore.accounts);
 const bankIdx = ref(0);
 function prevBank() {
@@ -14,17 +15,17 @@ function prevBank() {
 function nextBank() {
   if (banks.value.length) bankIdx.value = (bankIdx.value + 1) % banks.value.length;
 }
-type BankModal = { type: 'confirm' | 'success'; message?: string; onConfirm?: () => void } | null;
+type BankModal = { type: 'danger' | 'success'; message?: string; subject?: string; onConfirm?: () => void } | null;
 const bankModal = ref<BankModal>(null);
 function deleteBank() {
   const acct = banks.value[bankIdx.value];
   bankModal.value = {
-    type: 'confirm',
-    message: acct ? acct.num + ' ?' : 'Delete this bank account?',
+    type: 'danger',
+    subject: acct?.bank || 'this bank account',
     onConfirm: () => {
-      bankStore.accounts.splice(bankIdx.value, 1);
+      bankStore.removeAccount(bankIdx.value);
       if (bankIdx.value >= banks.value.length) bankIdx.value = Math.max(0, banks.value.length - 1);
-      bankModal.value = { type: 'success' };
+      bankModal.value = { type: 'success', message: 'Bank account deleted successfully.' };
     },
   };
 }
@@ -60,7 +61,17 @@ function closeBankModal(confirmed: boolean) {
     </div>
     <div class="flex-1 text-center md:text-left w-full">
     <div class="flex flex-col md:flex-row items-center md:items-center gap-2 md:gap-3 mb-2">
-    <h2 class="text-ink text-xl md:text-2xl font-semibold">meqomcao</h2>
+    <div class="flex items-center gap-2">
+    <h2 class="text-ink text-xl md:text-2xl font-semibold">{{ nickname }}</h2>
+    <NuxtLink
+      to="/change-nickname"
+      class="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-primary/20 bg-primary/10 text-primary transition-colors hover:bg-primary/20"
+      aria-label="Change nickname"
+      title="Change nickname"
+    >
+    <AppIcon name="pencil" class="h-4 w-4" />
+    </NuxtLink>
+    </div>
     <span class="bg-g-primary text-on-primary px-3 py-1 rounded-full text-xs font-semibold">VIP1</span>
     </div>
     <div class="grid grid-cols-1 gap-4 mt-4">
@@ -285,6 +296,6 @@ function closeBankModal(confirmed: boolean) {
     </table>
     </div>
     </div>
-    <MemberModal v-if="bankModal" :type="bankModal.type" :message="bankModal.message" @confirm="closeBankModal(true)" @cancel="closeBankModal(false)" />
+    <MemberModal v-if="bankModal" :type="bankModal.type" :message="bankModal.message" :subject="bankModal.subject" @confirm="closeBankModal(true)" @cancel="closeBankModal(false)" />
   </div>
 </template>
