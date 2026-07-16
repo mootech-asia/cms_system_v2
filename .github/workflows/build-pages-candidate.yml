@@ -37,7 +37,7 @@ jobs:
       - name: Generate GitHub Pages site
         working-directory: frontend
         env:
-          NUXT_APP_BASE_URL: /cms_v2/
+          NUXT_APP_BASE_URL: /cms_system_v2/
         run: npm run generate
 
       - name: Verify generated routes and base path
@@ -48,7 +48,7 @@ jobs:
           test -f admin/index.html
           test -f studio/index.html
           test -f studio/preview/index.html
-          grep -q '/cms_v2/' index.html
+          grep -q '/cms_system_v2/' index.html
           if grep -Eq '(src|href)="/_nuxt/' index.html; then
             echo 'Found root-relative Nuxt asset path; refusing candidate.'
             exit 1
