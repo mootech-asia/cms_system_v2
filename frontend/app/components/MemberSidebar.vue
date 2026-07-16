@@ -5,6 +5,7 @@ const route = useRoute();
 const PARENT: Record<string, string> = {
   '/change-password': '/security',
   '/banking-details': '/security',
+  '/change-nickname': '/account',
 };
 const current = computed(() => props.active || PARENT[route.path] || route.path);
 const links = [
