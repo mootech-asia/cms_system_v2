@@ -36,30 +36,30 @@
   --radius-ui: 10px;
 
   /* ---- 主色(R G B) ---- */
-  --c-primary: 152 231 210;      /* #98E7D2 */
-  --c-primary-soft: 203 232 228; /* #CBE8E4 */
-  --c-primary-faint: 49 62 64;   /* #313E40 */
-  --c-on-primary: 15 22 34;      /* #0F1622 */
-  --c-accent: 170 229 211;       /* #AAE5D3 */
+  --c-primary: 63 232 177;       /* #3FE8B1 鮮明翡翠綠 */
+  --c-primary-soft: 176 255 226; /* #B0FFE2 高亮薄荷 */
+  --c-primary-faint: 20 71 60;   /* #14473C 深翡翠 */
+  --c-on-primary: 4 25 21;       /* #041915 */
+  --c-accent: 194 255 87;        /* #C2FF57 亮萊姆 */
 
   /* ---- 面板(綠黑系) ---- */
-  --c-bg: 15 20 25;         /* #0F1419 */
-  --c-surface: 26 33 40;    /* #1A2128 */
-  --c-surface-2: 42 49 56;  /* #2A3138 */
-  --c-border: 55 65 81;     /* #374151 */
-  --c-border-soft: 31 41 55; /* #1F2937 */
-  --c-disabled: 75 85 99;   /* #4B5563 */
+  --c-bg: 7 14 16;           /* #070E10 */
+  --c-surface: 15 27 30;     /* #0F1B1E */
+  --c-surface-2: 26 44 47;   /* #1A2C2F */
+  --c-border: 60 91 90;      /* #3C5B5A */
+  --c-border-soft: 28 48 50; /* #1C3032 */
+  --c-disabled: 76 99 101;   /* #4C6365 */
 
   /* ---- 文字四階 ---- */
   --c-text: 255 255 255;   /* #FFFFFF */
-  --c-text-2: 209 213 219; /* #D1D5DB */
-  --c-text-3: 156 163 175; /* #9CA3AF */
-  --c-text-4: 107 114 128; /* #6B7280 */
+  --c-text-2: 226 234 232; /* #E2EAE8 */
+  --c-text-3: 164 181 177; /* #A4B5B1 */
+  --c-text-4: 117 137 134; /* #758986 */
 
   /* ---- 狀態/強調 ---- */
   --c-danger: 248 113 113; /* #F87171 */
   --c-scrim: 0 0 0; /* 媒體遮罩/彈窗 backdrop(bg-scrim/NN) */
-  --c-success: 74 222 128; /* #4ADE80 */
+  --c-success: 83 214 142; /* #53D68E */
   --c-gold: 240 178 74;    /* #F0B24A */
 
   /* ---- 銀行卡擬物卡面(全站唯一保留的藍黑系,刻意不隨皮膚變動的例外) ---- */
@@ -70,34 +70,34 @@
 
   /* ---- 漸層 / 陰影:由上面的 R G B 變數組成,換膚會一併跟著換 ---- */
   --g-primary: linear-gradient(90deg, rgb(var(--c-primary-soft)), rgb(var(--c-primary)));
-  --g-hero: linear-gradient(90deg, #0F766E 0%, #10B981 55%, #B9DE5A 100%); /* 全站唯一一條,刻意固定 */
-  --shadow-mint: 0 8px 20px rgb(var(--c-primary) / .18);
+  --g-hero: linear-gradient(90deg, #006B58 0%, #00D995 55%, #C2FF57 100%);
+  --shadow-mint: 0 8px 24px rgb(var(--c-primary) / .26);
 
   /* ---- PrimeVue ramp:primary 50–950(styled 元件 hover/active/focus 用,
        換皮時與 --c-primary 一併調整,見 nuxt.config.ts Win100 preset) ---- */
-  --c-primary-50: 240 251 248;
-  --c-primary-100: 220 245 238;
-  --c-primary-200: 203 232 228;
-  --c-primary-300: 178 237 220;
-  --c-primary-400: 165 234 215;
-  --c-primary-500: 152 231 210;
-  --c-primary-600: 127 223 196;
-  --c-primary-700: 94 208 175;
-  --c-primary-800: 61 189 152;
-  --c-primary-900: 42 150 120;
-  --c-primary-950: 28 100 80;
+  --c-primary-50: 236 255 247;
+  --c-primary-100: 210 255 236;
+  --c-primary-200: 176 255 226;
+  --c-primary-300: 128 248 205;
+  --c-primary-400: 82 240 187;
+  --c-primary-500: 63 232 177;
+  --c-primary-600: 33 209 151;
+  --c-primary-700: 19 174 125;
+  --c-primary-800: 16 139 103;
+  --c-primary-900: 15 111 84;
+  --c-primary-950: 5 63 49;
 
   /* ---- PrimeVue ramp:surface 0–950(dark colorScheme) ---- */
   --c-surface-0: 255 255 255;
-  --c-surface-50: 209 213 219;
-  --c-surface-100: 156 163 175;
-  --c-surface-200: 107 114 128;
-  --c-surface-300: 75 85 99;
-  --c-surface-400: 55 65 81;
-  --c-surface-500: 42 49 56;
-  --c-surface-600: 35 43 54;
-  --c-surface-700: 31 41 55;
-  --c-surface-800: 26 33 40;
-  --c-surface-900: 15 20 25;
-  --c-surface-950: 10 14 18;
+  --c-surface-50: 226 234 232;
+  --c-surface-100: 164 181 177;
+  --c-surface-200: 117 137 134;
+  --c-surface-300: 76 99 101;
+  --c-surface-400: 60 91 90;
+  --c-surface-500: 26 44 47;
+  --c-surface-600: 21 36 39;
+  --c-surface-700: 28 48 50;
+  --c-surface-800: 15 27 30;
+  --c-surface-900: 7 14 16;
+  --c-surface-950: 3 8 9;
 }
