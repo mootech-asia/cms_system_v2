@@ -15,6 +15,7 @@ export const THEME_LABELS: Record<string, string> = {
   win100: 'Emerald',
   aurora: 'Aurora',
   noir: 'Noir Gold',
+  'fashion-blue': 'Fashion Blue',
 };
 export const themeLabel = (key: string) => THEME_LABELS[key] ?? key;
 
