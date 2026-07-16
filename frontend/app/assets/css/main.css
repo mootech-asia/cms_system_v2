@@ -692,6 +692,102 @@
     margin-top: 6px;
   }
 
+  /* 帳戶刪除專用危險確認彈窗:深色卡片 + 紅色刪除動作 */
+  .mf-modal.mf-modal-danger {
+    width: 540px;
+    max-width: calc(100vw - 32px);
+    padding: 48px 42px 38px;
+    border: 1px solid rgb(94 116 142 / 0.42);
+    border-radius: 24px;
+    background: rgb(9 16 28);
+  }
+  .mf-modal.mf-modal-danger::before {
+    background: rgb(94 116 142 / 0.18);
+    padding: 1px;
+  }
+  .mf-modal-danger .mf-modal-icon {
+    width: 72px;
+    height: 72px;
+    margin-bottom: 28px;
+    border: 1px solid rgb(255 92 104 / 0.55);
+    background: rgb(255 92 104 / 0.12);
+  }
+  .mf-modal-danger .mf-modal-icon svg {
+    width: 34px;
+    height: 34px;
+    color: rgb(255 102 112);
+  }
+  .mf-modal-danger .mf-modal-title {
+    margin-bottom: 20px;
+    font-size: 30px;
+    line-height: 1.15;
+  }
+  .mf-modal-danger-msg {
+    margin-bottom: 34px;
+    font-size: 18px;
+    line-height: 1.55;
+  }
+  .mf-modal-danger-msg strong {
+    @apply text-ink;
+  }
+  .mf-modal-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .mf-modal-btn.danger-cancel,
+  .mf-modal-btn.danger-confirm {
+    min-height: 56px;
+    border-radius: 14px;
+    font-size: 17px;
+  }
+  .mf-modal-btn.danger-cancel {
+    @apply border-line bg-surface-deep text-ink-2;
+    border-width: 1px;
+    border-style: solid;
+  }
+  .mf-modal-btn.danger-cancel:hover,
+  .mf-modal-btn.danger-cancel:focus-visible {
+    @apply border-ink-4 text-ink;
+    outline: none;
+  }
+  .mf-modal-btn.danger-confirm {
+    color: white;
+    background: linear-gradient(135deg, rgb(255 101 112), rgb(239 51 64));
+    box-shadow: 0 12px 28px rgb(239 51 64 / 0.26);
+  }
+  .mf-modal-btn.danger-confirm:hover,
+  .mf-modal-btn.danger-confirm:focus-visible {
+    filter: brightness(1.06);
+    outline: none;
+  }
+  @media (max-width: 560px) {
+    .mf-modal.mf-modal-danger {
+      padding: 34px 22px 24px;
+    }
+    .mf-modal-danger .mf-modal-icon {
+      width: 62px;
+      height: 62px;
+      margin-bottom: 20px;
+    }
+    .mf-modal-danger .mf-modal-title {
+      font-size: 24px;
+      margin-bottom: 14px;
+    }
+    .mf-modal-danger-msg {
+      margin-bottom: 24px;
+      font-size: 15px;
+    }
+    .mf-modal-actions {
+      gap: 10px;
+    }
+    .mf-modal-btn.danger-cancel,
+    .mf-modal-btn.danger-confirm {
+      min-height: 50px;
+      font-size: 15px;
+    }
+  }
+
   /* VendorBrowser:分類頁廠商牆 + 遊戲列表共用標題列/搜尋/卡片 */
   .vnd-head {
     display: flex;
