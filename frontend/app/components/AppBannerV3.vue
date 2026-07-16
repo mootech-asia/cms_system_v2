@@ -8,6 +8,13 @@ const { banners } = useContentStore();
 
 const idx = ref(0);
 const b = computed(() => banners[idx.value]!);
+const mediaSrc = (src?: string) => {
+  if (!src) return '';
+  return /^(https?:)?\/\//.test(src) ? src : withBase(src);
+};
+const hideBrokenMedia = (event: Event) => {
+  (event.currentTarget as HTMLImageElement).hidden = true;
+};
 let timer: ReturnType<typeof setInterval> | null = null;
 
 const next = () => { idx.value = (idx.value + 1) % banners.length; };
@@ -26,8 +33,8 @@ onUnmounted(() => { if (timer) clearInterval(timer); });
         class="relative flex min-h-[240px] items-center overflow-hidden rounded-xl border border-line-soft md:col-span-2 banner-art"
       >
         <template v-if="b.img">
-          <img :src="withBase(b.img)" :alt="b.title" class="absolute inset-0 h-full w-full object-cover">
-          <div class="absolute inset-0 bg-scrim/40" />
+          <img :src="mediaSrc(b.img)" :alt="b.title" class="operation-banner-media absolute inset-0 h-full w-full object-cover" :style="{ objectPosition: b.focalPoint || 'center' }" fetchpriority="high" @error="hideBrokenMedia">
+          <div class="operation-banner-scrim absolute inset-0" />
         </template>
         <div class="relative z-10 px-6 py-8 md:px-10">
           <div
@@ -53,7 +60,7 @@ onUnmounted(() => { if (timer) clearInterval(timer); });
           @click="go(i)"
         >
           <template v-if="s.img">
-            <img :src="withBase(s.img)" :alt="s.title" class="absolute inset-0 h-full w-full object-cover">
+            <img :src="mediaSrc(s.img)" :alt="s.title" class="operation-banner-media absolute inset-0 h-full w-full object-cover" :style="{ objectPosition: s.focalPoint || 'center' }" loading="lazy" @error="hideBrokenMedia">
             <div class="absolute inset-0 bg-scrim/50" />
           </template>
           <span class="relative z-10 text-h2 font-black leading-none text-primary">{{ s.highlight }}</span>
