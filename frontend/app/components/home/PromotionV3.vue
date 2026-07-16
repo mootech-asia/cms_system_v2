@@ -33,7 +33,8 @@ function goDetail(id: string) {
           class="flex items-center gap-3 px-4 py-3 bg-surface-deep hover:bg-surface-2 transition-colors cursor-pointer"
           @click="goDetail(p.id)"
         >
-          <div class="flex-shrink-0 w-9 h-9 rounded-lg bg-g-primary flex items-center justify-center">
+          <img v-if="p.img" :src="withBase(p.img)" :alt="p.name" class="h-9 w-9 flex-shrink-0 rounded-lg object-cover">
+          <div v-else class="flex-shrink-0 w-9 h-9 rounded-lg bg-g-primary flex items-center justify-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-gift w-4 h-4 text-on-primary">
               <rect x="3" y="8" width="18" height="4" rx="1" />
               <path d="M12 8v13" />

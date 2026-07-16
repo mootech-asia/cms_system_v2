@@ -30,6 +30,8 @@
   (main.css @layer components 的共用 class / Ui 元件),**禁止新增等價樣式**;
   需要新視覺時先抽成一份共用定義再使用,發現等價的舊寫法要一併改用同一份
   (現有共用件例:btn-*/input-ui/card-ui/pill-*/mode-tabs/dd-panel/seg-btn/mf-modal)。
+- **頁簽規範(2026-07-17)**:頁簽一律用 `.mode-tabs`(唯一定義:底線式、單行、
+  溢出時橫向捲動),不得 wrap 換行、不得另創頁簽樣式或加覆寫打破層級。
 - 分支:主線 = `main`;依 session 指定分支開發後併回;commit message 英文、聚焦動機。
 - 樣式:只用 theme token(tailwind.config.ts 讀 `themes/*.css`),禁任意值色碼、禁 Tailwind 內建色、
   禁 scoped CSS;共用視覺進 `assets/css/main.css` @layer components(同一視覺 = 一份定義)。

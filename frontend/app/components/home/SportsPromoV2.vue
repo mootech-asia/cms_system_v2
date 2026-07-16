@@ -33,7 +33,7 @@ import { sportsMatches } from '~/config/mock/home'
       </div>
 
       <div class="media-hero-art relative mb-4 overflow-hidden rounded-xl" style="min-height: 150px;">
-        <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle, rgba(185, 222, 90, 0.4) 1px, transparent 1px); background-size: 20px 20px;" />
+        <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle, rgb(var(--c-primary) / 0.4) 1px, transparent 1px); background-size: 20px 20px;" />
         <div class="absolute left-4 top-4 flex items-center gap-2">
           <div class="flex h-8 w-8 items-center justify-center rounded-full bg-g-primary">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 text-on-primary">

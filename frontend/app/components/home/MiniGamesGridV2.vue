@@ -2,16 +2,12 @@
 /**
  * MiniGamesGrid 變體 v2:分頁改為藥丸按鈕(取代 v1 的底線指示器),
  * 遊戲縮圖改為自動換行的網格(取代水平捲動軌道)。
- * 吃同一份 config/mock/home.ts miniGamesTabs 內容與皮膚 token。
+ * 吃同一份 content store(miniCategories)內容與皮膚 token。
  */
 import { ref, computed } from 'vue';
-import { miniGamesImgs, miniGamesTabs } from '~/config/mock/home';
 
-const IMG = '/_external/images.unsplash.com/';
-const pic = (i: number) => IMG + miniGamesImgs[i % miniGamesImgs.length];
-const mk = (names: string[]) => names.map((title, i) => ({ title, img: pic(i) }));
 
-const tabs = miniGamesTabs.map((t) => ({ ...t, games: mk(t.names) }));
+const tabs = useContentStore().miniCategories;
 
 const active = ref('mini');
 const games = computed(() => tabs.find((t) => t.key === active.value)!.games);

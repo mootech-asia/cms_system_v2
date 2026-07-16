@@ -2,15 +2,11 @@
 /**
  * MiniGamesGrid 變體 v3:不使用分頁,三個分類(Mini/Slot/Live)直向堆疊、
  * 各自以標籤 + 小型水平縮圖列呈現,訪客不需點擊即可同時看到三類遊戲。
- * 吃同一份 config/mock/home.ts miniGamesTabs 內容與皮膚 token。
+ * 吃同一份 content store(miniCategories)內容與皮膚 token。
  */
-import { miniGamesImgs, miniGamesTabs } from '~/config/mock/home';
 
-const IMG = '/_external/images.unsplash.com/';
-const pic = (i: number) => IMG + miniGamesImgs[i % miniGamesImgs.length];
-const mk = (names: string[]) => names.map((title, i) => ({ title, img: pic(i) }));
 
-const sections = miniGamesTabs.map((t) => ({ ...t, games: mk(t.names) }));
+const sections = useContentStore().miniCategories;
 </script>
 
 <template>

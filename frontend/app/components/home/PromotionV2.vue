@@ -29,6 +29,7 @@ function goDetail(id: string) {
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div v-for="p in promoCards" :key="p.id" class="bg-surface-deep border border-line-soft rounded-xl overflow-hidden hover:border-primary transition-colors cursor-pointer group">
           <div class="promo-card-art relative h-28 overflow-hidden">
+            <img v-if="p.img" :src="withBase(p.img)" :alt="p.name" class="absolute inset-0 h-full w-full object-cover">
             <div class="absolute inset-0 flex items-center justify-center">
               <span class="font-extrabold select-none text-primary" style="font-size: 54px; letter-spacing: 0.12em; opacity: 0.07;">PROMO!</span>
             </div>

@@ -112,7 +112,7 @@ const cryptoReady = computed(() => Number(cryptoAmount.value.replace(/[^\d]/g, '
     <h1 class="text-ink text-2xl md:text-3xl mb-6 md:mb-8">Deposit</h1>
 
     <!-- 閘道商選擇:底線頁簽(與 withdrawal 的 .mode-tabs 同一份定義) -->
-    <div v-show="step === 'form'" class="mode-tabs flex-wrap gap-x-6 gap-y-1 md:gap-x-8">
+    <div v-show="step === 'form'" class="mode-tabs">
       <button
         v-for="item in gateways"
         :key="item.id"

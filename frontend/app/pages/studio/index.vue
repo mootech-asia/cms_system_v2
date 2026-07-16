@@ -13,6 +13,7 @@ import { makeZip } from '~/utils/zip';
  * 「套用到本站」才寫回 site store;持久化 API 為占位。
  */
 definePageMeta({ layout: false });
+useHead({ title: 'WIN100 設計後台' });
 
 const siteStore = useSiteStore();
 

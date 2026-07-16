@@ -46,20 +46,15 @@ const confirmText = computed(() => props.confirmText || (
         <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /><line x1="12" y1="17" x2="12.01" y2="17" /></svg>
       </div>
       <h3 class="mf-modal-title">{{ title }}</h3>
-      <p v-if="type === 'danger'" class="mf-modal-msg mf-modal-danger-msg">
+      <p v-if="type === 'danger'" class="mf-modal-msg">
         Are you sure you want to remove <strong>{{ subject || 'this bank account' }}</strong>?<br>
         This action cannot be undone.
       </p>
       <p v-else-if="message" class="mf-modal-msg">{{ message }}</p>
 
-      <div v-if="type === 'danger'" class="mf-modal-actions">
-        <button type="button" class="mf-modal-btn danger-cancel" @click="$emit('cancel')">{{ cancelText || 'Cancel' }}</button>
-        <button type="button" class="mf-modal-btn danger-confirm" @click="$emit('confirm')">{{ confirmText }}</button>
-      </div>
-      <template v-else>
-        <button type="button" class="mf-modal-btn" @click="$emit('confirm')">{{ confirmText }}</button>
-        <button v-if="type === 'confirm'" type="button" class="mf-modal-btn secondary" @click="$emit('cancel')">{{ cancelText || 'No' }}</button>
-      </template>
+      <!-- danger 與 confirm 同一套按鈕形式(鐵則):主鈕 + .secondary,danger 只換語意色 -->
+      <button type="button" class="mf-modal-btn" :class="{ 'danger-confirm': type === 'danger' }" @click="$emit('confirm')">{{ confirmText }}</button>
+      <button v-if="type === 'confirm' || type === 'danger'" type="button" class="mf-modal-btn secondary" @click="$emit('cancel')">{{ cancelText || (type === 'danger' ? 'Cancel' : 'No') }}</button>
     </div>
   </div>
 </template>

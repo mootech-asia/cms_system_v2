@@ -10,6 +10,7 @@ import { TEMPLATE } from '~/config/template';
  * 變體選擇/新增區塊/匯出模板包是設計師工具(/studio),這裡刻意不提供。
  */
 definePageMeta({ layout: false });
+useHead({ title: 'WIN100 客戶後台' });
 
 const scope = TEMPLATE.client;
 const siteStore = useSiteStore();
@@ -57,14 +58,33 @@ const addGame = () => {
   });
   Object.assign(newGame, { title: '', provider: '', bonus: '', img: '' });
 };
-/** 換圖:本機檔轉 dataURL(純 UI 占位;正式環境改上傳 API 回寫網址) */
-const pickImage = (index: number, e: Event) => {
-  const file = (e.target as HTMLInputElement).files?.[0];
+/** 換圖共用:本機檔轉 dataURL 後回呼(純 UI 占位;正式環境改上傳 API 回寫網址) */
+const readImage = (e: Event, apply: (dataUrl: string) => void) => {
+  const input = e.target as HTMLInputElement;
+  const file = input.files?.[0];
   if (!file) return;
   const reader = new FileReader();
-  reader.onload = () => content.updateGame(index, { img: String(reader.result) });
+  reader.onload = () => apply(String(reader.result));
   reader.readAsDataURL(file);
-  (e.target as HTMLInputElement).value = '';
+  input.value = '';
+};
+const pickImage = (index: number, e: Event) => readImage(e, (d) => content.updateGame(index, { img: d }));
+
+/** 遊戲管理:分類選擇(hot = Hot Games;其餘來自 miniCategories) */
+const gameCat = ref('hot');
+const gameCats = computed(() => [
+  { key: 'hot', label: 'Hot Games' },
+  ...content.miniCategories.map((c) => ({ key: c.key, label: c.label })),
+]);
+const activeCatGames = computed(() => content.miniCategories.find((c) => c.key === gameCat.value)?.games ?? []);
+const newCatGame = reactive({ title: '', img: '' });
+const addCatGame = () => {
+  if (!newCatGame.title.trim()) return;
+  content.addCatalogGame(gameCat.value, {
+    title: newCatGame.title.trim(),
+    img: newCatGame.img.trim() || activeCatGames.value[0]?.img || '',
+  });
+  Object.assign(newCatGame, { title: '', img: '' });
 };
 
 // ---- 占位儲存 ----
@@ -95,8 +115,13 @@ const save = () => {
         <!-- 內容文案:banner 輪播文案 -->
         <template #content>
           <div class="space-y-4 pt-2">
-            <p class="text-note text-ink-4">首頁 Banner 輪播文案 — 修改即時反映到站點(色彩/版面屬皮膚與變體,由模板控制)。</p>
-            <UiCard v-for="b in content.banners" :key="b.id" :title="`Slide ${b.id} — ${b.badge}`">
+            <p class="text-note text-ink-4">首頁 Banner 輪播 — 文案編輯、上架/下架、順序調整,即時反映到站點(色彩/版面屬皮膚與變體,由模板控制)。</p>
+            <UiCard v-for="(b, bi) in content.banners" :key="b.id" :title="`Slide ${bi + 1} — ${b.badge}`">
+              <div class="mb-3 flex items-center justify-end gap-1 text-ink-4">
+                <button type="button" class="px-1 hover:text-ink disabled:opacity-30" :disabled="bi === 0" title="上移" @click="content.moveBanner(bi, bi - 1)">↑</button>
+                <button type="button" class="px-1 hover:text-ink disabled:opacity-30" :disabled="bi === content.banners.length - 1" title="下移" @click="content.moveBanner(bi, bi + 1)">↓</button>
+                <button type="button" class="px-1 hover:text-danger" title="下架此 Banner" @click="content.removeBanner(b.id)">✕</button>
+              </div>
               <div class="grid gap-3 md:grid-cols-2">
                 <label class="block">
                   <span class="mb-1 block text-note text-ink-3">徽章(badge)</span>
@@ -120,6 +145,7 @@ const save = () => {
                 </label>
               </div>
             </UiCard>
+            <UiButton label="上架 Banner" size="sm" variant="ghost" @click="content.addBanner()" />
           </div>
         </template>
 
@@ -132,7 +158,12 @@ const save = () => {
                 v-for="(p, i) in content.promoCards" :key="p.id"
                 class="flex items-center gap-2 rounded-ui border border-line-soft bg-surface p-2.5"
               >
+                <img v-if="p.img" :src="withBase(p.img)" :alt="p.name" class="h-10 w-10 shrink-0 rounded-lg border border-line-soft object-cover">
+                <span v-else class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-surface-2 text-note text-ink-4">無圖</span>
                 <UiInput :model-value="p.name" class="flex-1" @update:model-value="content.updatePromo(p.id, $event as string)" />
+                <label class="seg-btn shrink-0 cursor-pointer" title="新增/更換圖片">
+                  換圖<input type="file" accept="image/*" class="hidden" @change="readImage($event, (d) => content.patchPromo(p.id, { img: d }))">
+                </label>
                 <button type="button" class="px-1 text-ink-4 hover:text-ink disabled:opacity-30" :disabled="i === 0" title="上移" @click="content.movePromo(i, i - 1)">↑</button>
                 <button type="button" class="px-1 text-ink-4 hover:text-ink disabled:opacity-30" :disabled="i === content.promoCards.length - 1" title="下移" @click="content.movePromo(i, i + 1)">↓</button>
                 <button type="button" class="px-1 text-ink-4 hover:text-danger" title="移除促銷" @click="content.removePromo(p.id)">✕</button>
@@ -148,8 +179,15 @@ const save = () => {
         <!-- 遊戲管理:上架 / 換圖 / 下架 / 排序 -->
         <template #games>
           <div class="space-y-3 pt-2">
-            <p class="text-note text-ink-4">Hot Games 遊戲牆 — 上架、換圖(貼網址或上傳本機圖)、排序、下架,即時反映到站點。</p>
-            <ul class="space-y-2">
+            <p class="text-note text-ink-4">全類型遊戲管理 — 上架、換圖(貼網址或上傳本機圖)、排序、下架,即時反映到站點。</p>
+            <div class="flex flex-wrap gap-2">
+              <button
+                v-for="c in gameCats" :key="c.key" type="button"
+                class="seg-btn" :class="{ active: gameCat === c.key }"
+                @click="gameCat = c.key"
+              >{{ c.label }}</button>
+            </div>
+            <ul v-if="gameCat === 'hot'" class="space-y-2">
               <li
                 v-for="(g, i) in content.hotGames" :key="`${g.title}-${i}`"
                 class="flex items-center gap-3 rounded-ui border border-line-soft bg-surface p-2.5"
@@ -170,12 +208,36 @@ const save = () => {
                 <button type="button" class="shrink-0 px-1 text-ink-4 hover:text-danger" title="下架" @click="content.removeGame(i)">✕</button>
               </li>
             </ul>
-            <div class="grid grid-cols-1 items-center gap-2 rounded-ui border border-line bg-surface p-2.5 md:grid-cols-5">
+            <div v-if="gameCat === 'hot'" class="grid grid-cols-1 items-center gap-2 rounded-ui border border-line bg-surface p-2.5 md:grid-cols-5">
               <UiInput v-model="newGame.title" placeholder="新遊戲名稱 *" />
               <UiInput v-model="newGame.provider" placeholder="供應商" />
               <UiInput v-model="newGame.bonus" placeholder="Bonus 標籤" />
               <UiInput v-model="newGame.img" placeholder="圖片網址(可留空)" />
               <UiButton label="上架遊戲" size="sm" :disabled="!newGame.title.trim()" @click="addGame" />
+            </div>
+
+            <!-- Mini/Slot/Live 分類清單 -->
+            <ul v-if="gameCat !== 'hot'" class="space-y-2">
+              <li
+                v-for="(g, i) in activeCatGames" :key="`${g.title}-${i}`"
+                class="flex items-center gap-3 rounded-ui border border-line-soft bg-surface p-2.5"
+              >
+                <img :src="withBase(g.img)" :alt="g.title" class="h-12 w-12 shrink-0 rounded-lg border border-line-soft object-cover">
+                <UiInput :model-value="g.title" class="min-w-0 flex-1" placeholder="遊戲名稱" @update:model-value="content.updateCatalogGame(gameCat, i, { title: $event as string })" />
+                <label class="seg-btn shrink-0 cursor-pointer" title="更換圖片">
+                  換圖<input type="file" accept="image/*" class="hidden" @change="readImage($event, (d) => content.updateCatalogGame(gameCat, i, { img: d }))">
+                </label>
+                <span class="flex shrink-0 gap-1 text-ink-4">
+                  <button type="button" class="px-1 hover:text-ink disabled:opacity-30" :disabled="i === 0" title="上移" @click="content.moveCatalogGame(gameCat, i, i - 1)">↑</button>
+                  <button type="button" class="px-1 hover:text-ink disabled:opacity-30" :disabled="i === activeCatGames.length - 1" title="下移" @click="content.moveCatalogGame(gameCat, i, i + 1)">↓</button>
+                </span>
+                <button type="button" class="shrink-0 px-1 text-ink-4 hover:text-danger" title="下架" @click="content.removeCatalogGame(gameCat, i)">✕</button>
+              </li>
+            </ul>
+            <div v-if="gameCat !== 'hot'" class="grid grid-cols-1 items-center gap-2 rounded-ui border border-line bg-surface p-2.5 md:grid-cols-3">
+              <UiInput v-model="newCatGame.title" placeholder="新遊戲名稱 *" />
+              <UiInput v-model="newCatGame.img" placeholder="圖片網址(可留空)" />
+              <UiButton label="上架遊戲" size="sm" :disabled="!newCatGame.title.trim()" @click="addCatGame" />
             </div>
           </div>
         </template>

@@ -1,12 +1,8 @@
 <script setup lang="ts">
 import { ref, computed, nextTick } from 'vue';
-import { miniGamesImgs, miniGamesTabs } from '~/config/mock/home';
 
-const IMG = '/_external/images.unsplash.com/';
-const pic = (i: number) => IMG + miniGamesImgs[i % miniGamesImgs.length];
-const mk = (names: string[]) => names.map((title, i) => ({ title, img: pic(i) }));
 
-const tabs = miniGamesTabs.map((t) => ({ ...t, games: mk(t.names) }));
+const tabs = useContentStore().miniCategories;
 
 const active = ref('mini');
 const games = computed(() => tabs.find((t) => t.key === active.value)!.games);

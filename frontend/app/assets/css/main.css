@@ -319,8 +319,10 @@
   .payment-card { @apply border-line-soft bg-surface; width: 100%; max-width: 56rem; margin: 0 auto; padding: 32px; border-width: 1px; border-style: solid; border-radius: 10px; }
   .pay-section-title { display: flex; align-items: center; gap: 8px; padding-left: 12px; border-left: 4px solid; @apply border-accent text-accent; font-size: 20px; font-weight: 600; }
   .pay-section-title span { @apply text-ink-2; }
-  .mode-tabs { display: flex; gap: 32px; width: 100%; max-width: 56rem; margin: 0 auto 24px; border-bottom: 1px solid #263241; } /* 查無對應 token,保留原色 */
-  .mode-tabs button { position: relative; padding: 0 0 12px; background: none; border: 0; @apply text-ink-3; font-weight: 600; }
+  /* 頁簽(唯一定義;2026-07-17 規範:一律單行,溢出時橫向捲動、不換行) */
+  .mode-tabs { display: flex; gap: 32px; width: 100%; max-width: 56rem; margin: 0 auto 24px; border-bottom: 1px solid rgb(var(--c-border-soft)); overflow-x: auto; scrollbar-width: none; }
+  .mode-tabs::-webkit-scrollbar { display: none; }
+  .mode-tabs button { position: relative; padding: 0 0 12px; background: none; border: 0; @apply text-ink-3; font-weight: 600; white-space: nowrap; flex: 0 0 auto; }
   .mode-tabs button.active { @apply text-primary; }
   .mode-tabs button.active:after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; border-radius: 99px; @apply bg-primary; }
   .amount-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin: 24px 0; }
@@ -380,7 +382,7 @@
   .accts-nav:hover { @apply text-ink; }
   .accts-title { @apply text-ink; font-size: 17px; font-weight: 600; }
   .accts-title span { @apply text-ink-3; font-weight: 600; }
-  .bound-card { min-height: 150px; background: linear-gradient(105deg, #1B2536 0%, #131C2B 55%, #0D1420 100%); @apply border-card-line; border-width: 1px; border-style: solid; padding: 22px 26px; } /* card-1/2/3 銀行卡擬物卡面 */
+  .bound-card { min-height: 150px; background: linear-gradient(105deg, rgb(var(--c-card-face-1)) 0%, rgb(var(--c-card-face-2)) 55%, rgb(var(--c-card-face-3)) 100%); @apply border-card-line; border-width: 1px; border-style: solid; padding: 22px 26px; } /* card-1/2/3 銀行卡擬物卡面 */
   .bound-inner { display: flex; flex-direction: column; min-height: 106px; }
   .bound-pill { align-self: flex-start; @apply bg-surface-deep text-ink-2; font-size: 12px; font-weight: 700; padding: 6px 14px; border-radius: 8px; }
   .bound-num { text-align: center; margin-top: -4px; }
@@ -393,7 +395,7 @@
   .submit-ready { display: flex; align-items: center; justify-content: center; border: 0; @apply bg-g-primary; cursor: pointer; }
   .submit-ready span { @apply text-on-primary; font-weight: 800; }
   .submit-idle { display: flex; align-items: center; justify-content: center; border: 0; background: #4b5563; cursor: not-allowed; } /* 查無對應 token,保留原色 */
-  .submit-idle span { color: #fff; font-weight: 800; }
+  .submit-idle span { @apply text-ink; font-weight: 800; }
   @media (max-width: 700px) {
     .mode-tabs { gap: 24px; margin-bottom: 16px; }
     .mode-tabs button { font-size: 14px; }
@@ -443,10 +445,10 @@
   .cms-load-more-button:focus-visible,
   .btn-back:hover,
   .btn-back:focus-visible {
-    background: #304242; /* 查無對應 token,保留原色 */
-    border-color: rgb(170 229 211 / 0.22);
+    background: rgb(var(--c-primary-faint));
+    border-color: rgb(var(--c-primary) / 0.22);
     color: theme('colors.accent');
-    box-shadow: inset 0 0 0 1px rgb(170 229 211 / 0.03), 0 0 0 1px rgba(41, 68, 72, .35);
+    box-shadow: inset 0 0 0 1px rgb(var(--c-primary) / 0.03), 0 0 0 1px rgb(var(--c-primary-faint) / 0.35);
     transform: translateY(-1px);
     outline: none;
   }
@@ -506,7 +508,7 @@
     gap: 14px;
     padding: 12px 8px;
     border-radius: 44px;
-    background: rgb(20 28 36 / 0.55);
+    background: rgb(var(--c-surface) / 0.55);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
     border: 1px solid rgb(255 255 255 / 0.08);
@@ -533,7 +535,7 @@
   }
   .qr-btn:hover {
     transform: scale(1.06);
-    background: #374151;
+    background: rgb(var(--c-border));
   }
   .qr-btn img {
     width: 40px;
@@ -757,103 +759,18 @@
     margin-top: 6px;
   }
 
-  /* 帳戶刪除專用危險確認彈窗:深色卡片 + 紅色刪除動作 */
-  .mf-modal.mf-modal-danger {
-    width: 400px;
-    max-width: calc(100vw - 32px);
-    padding: 28px 24px 24px;
-    border: 1px solid rgb(94 116 142 / 0.42);
-    border-radius: 16px;
-    background: rgb(9 16 28);
-  }
-  .mf-modal.mf-modal-danger::before {
-    background: rgb(94 116 142 / 0.18);
-    padding: 1px;
-  }
+  /* danger 型彈窗:沿用基礎 .mf-modal 全部視覺(鐵則:同形式不疊加),
+     只換語意色 — 紅 icon 圓與紅確認鈕;Cancel 用既有 .secondary。 */
   .mf-modal-danger .mf-modal-icon {
-    width: 48px;
-    height: 48px;
-    margin-bottom: 14px;
-    border: 1px solid rgb(255 92 104 / 0.55);
-    background: rgb(255 92 104 / 0.12);
+    background: rgb(var(--c-danger) / 0.15);
+    border: 1px solid rgb(var(--c-danger) / 0.4);
   }
   .mf-modal-danger .mf-modal-icon svg {
-    width: 24px;
-    height: 24px;
-    color: rgb(255 102 112);
-  }
-  .mf-modal-danger .mf-modal-title {
-    margin-bottom: 8px;
-    font-size: 20px;
-    line-height: 1.2;
-  }
-  .mf-modal-danger-msg {
-    margin-bottom: 20px;
-    font-size: 14px;
-    line-height: 1.55;
-  }
-  .mf-modal-danger-msg strong {
-    @apply text-ink;
-  }
-  .mf-modal-actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-  .mf-modal-btn.danger-cancel,
-  .mf-modal-btn.danger-confirm {
-    min-height: 44px;
-    border-radius: 10px;
-    font-size: 15px;
-    padding: 10px;
-  }
-  .mf-modal-btn.danger-cancel {
-    /* bg-none 必須:基底 .mf-modal-btn 的 bg-g-primary 是背景「圖」,
-       只覆寫背景色蓋不掉,淡字會壓在薄荷漸層上看不清 */
-    @apply border-line bg-surface-deep bg-none text-ink-2;
-    border-width: 1px;
-    border-style: solid;
-  }
-  .mf-modal-btn.danger-cancel:hover,
-  .mf-modal-btn.danger-cancel:focus-visible {
-    @apply border-ink-4 text-ink;
-    outline: none;
+    color: rgb(var(--c-danger));
   }
   .mf-modal-btn.danger-confirm {
-    color: white;
-    background: linear-gradient(135deg, rgb(255 101 112), rgb(239 51 64));
-    box-shadow: 0 12px 28px rgb(239 51 64 / 0.26);
-  }
-  .mf-modal-btn.danger-confirm:hover,
-  .mf-modal-btn.danger-confirm:focus-visible {
-    filter: brightness(1.06);
-    outline: none;
-  }
-  @media (max-width: 560px) {
-    .mf-modal.mf-modal-danger {
-      padding: 34px 22px 24px;
-    }
-    .mf-modal-danger .mf-modal-icon {
-      width: 62px;
-      height: 62px;
-      margin-bottom: 20px;
-    }
-    .mf-modal-danger .mf-modal-title {
-      font-size: 24px;
-      margin-bottom: 14px;
-    }
-    .mf-modal-danger-msg {
-      margin-bottom: 24px;
-      font-size: 15px;
-    }
-    .mf-modal-actions {
-      gap: 10px;
-    }
-    .mf-modal-btn.danger-cancel,
-    .mf-modal-btn.danger-confirm {
-      min-height: 50px;
-      font-size: 15px;
-    }
+    @apply bg-none text-ink;
+    background-color: rgb(var(--c-danger));
   }
 
   /* VendorBrowser:分類頁廠商牆 + 遊戲列表共用標題列/搜尋/卡片 */
@@ -951,10 +868,10 @@
     justify-content: center;
     height: 112px;
     border-radius: 14px;
-    border: 1px solid #212b3d;
+    border: 1px solid rgb(var(--c-card-border));
     overflow: hidden;
     cursor: pointer;
-    background: #161e2c;
+    background: rgb(var(--c-card-face-2));
     transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
   }
   .vnd-card:hover {

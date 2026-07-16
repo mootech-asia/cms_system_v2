@@ -52,7 +52,7 @@ import { sportsMatches } from '~/config/mock/home'
         </div>
       </div>
       <div class="media-hero-art relative rounded-xl overflow-hidden mb-4" style="min-height: 160px;">
-        <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle, rgba(185, 222, 90, 0.4) 1px, transparent 1px); background-size: 20px 20px;">
+        <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle, rgb(var(--c-primary) / 0.4) 1px, transparent 1px); background-size: 20px 20px;">
         </div>
         <div class="absolute top-4 left-4 flex items-center gap-2">
           <div class="w-8 h-8 rounded-full bg-g-primary flex items-center justify-center">
@@ -87,16 +87,16 @@ import { sportsMatches } from '~/config/mock/home'
             </div>
           </div>
           <div class="hidden md:block opacity-40">
-            <svg width="100" height="120" viewBox="0 0 120 140" fill="none">
-              <path d="M30 10 h60 v50 a30 30 0 0 1 -60 0 Z" fill="none" stroke="#B9DE5A" stroke-width="3">
+            <svg width="100" height="120" viewBox="0 0 120 140" fill="none" class="text-primary">
+              <path d="M30 10 h60 v50 a30 30 0 0 1 -60 0 Z" fill="none" stroke="currentColor" stroke-width="3">
               </path>
-              <rect x="45" y="90" width="30" height="25" fill="#B9DE5A" opacity="0.6">
+              <rect x="45" y="90" width="30" height="25" fill="currentColor" opacity="0.6">
               </rect>
-              <rect x="30" y="115" width="60" height="8" rx="4" fill="#B9DE5A" opacity="0.8">
+              <rect x="30" y="115" width="60" height="8" rx="4" fill="currentColor" opacity="0.8">
               </rect>
-              <path d="M10 10 h20 v30 a20 20 0 0 1 -20 0 Z" fill="none" stroke="#B9DE5A" stroke-width="2">
+              <path d="M10 10 h20 v30 a20 20 0 0 1 -20 0 Z" fill="none" stroke="currentColor" stroke-width="2">
               </path>
-              <path d="M90 10 h20 v30 a20 20 0 0 1 -20 0 Z" fill="none" stroke="#B9DE5A" stroke-width="2">
+              <path d="M90 10 h20 v30 a20 20 0 0 1 -20 0 Z" fill="none" stroke="currentColor" stroke-width="2">
               </path>
             </svg>
           </div>
@@ -126,7 +126,7 @@ import { sportsMatches } from '~/config/mock/home'
                 <div class="w-9 h-9 rounded-full bg-surface-deep border border-line flex items-center justify-center">
                   <span class="text-[10px] text-ink-2 font-semibold">{{ m.teamA.code }}</span>
                 </div>
-                <span class="text-ink text-[10px] text-center leading-tight">{{ m.teamA.name }}</span>
+                <span class="text-ink text-[10px] text-center leading-tight line-clamp-2 min-h-[2.5em]">{{ m.teamA.name }}</span>
               </div>
               <div class="text-center flex-shrink-0">
                 <div class="text-primary text-xl font-bold leading-none">{{ m.score }}</div>
@@ -136,7 +136,7 @@ import { sportsMatches } from '~/config/mock/home'
                 <div class="w-9 h-9 rounded-full bg-surface-deep border border-line flex items-center justify-center">
                   <span class="text-[10px] text-ink-2 font-semibold">{{ m.teamB.code }}</span>
                 </div>
-                <span class="text-ink text-[10px] text-center leading-tight">{{ m.teamB.name }}</span>
+                <span class="text-ink text-[10px] text-center leading-tight line-clamp-2 min-h-[2.5em]">{{ m.teamB.name }}</span>
               </div>
             </div>
             <button class="w-full py-1.5 rounded-lg text-xs text-on-primary transition-opacity hover:opacity-90 bg-g-primary">Place Bet</button>

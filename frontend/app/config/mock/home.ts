@@ -140,6 +140,8 @@ export const sportsMatches: SportsMatch[] = [
 export interface PromoCard {
   id: string;
   name: string;
+  /** 選配:促銷卡圖(客戶後台可換;未設時顯示 token 藝術面) */
+  img?: string;
 }
 
 export const promoCards: PromoCard[] = [

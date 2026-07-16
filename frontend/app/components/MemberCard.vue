@@ -15,8 +15,8 @@ defineProps<{
 <template>
   <div class="bound-card relative overflow-hidden rounded-2xl">
     <svg class="absolute inset-0 h-full w-full pointer-events-none" viewBox="0 0 1200 320" preserveAspectRatio="none" fill="none">
-      <path d="M0,232 C380,162 780,300 1200,92" stroke="rgba(190,245,225,0.18)" stroke-width="1.2" />
-      <path d="M0,275 C380,205 740,330 1200,120" stroke="rgba(190,245,225,0.10)" stroke-width="1.2" />
+      <path d="M0,232 C380,162 780,300 1200,92" stroke="rgb(var(--c-primary) / 0.18)" stroke-width="1.2" />
+      <path d="M0,275 C380,205 740,330 1200,120" stroke="rgb(var(--c-primary) / 0.10)" stroke-width="1.2" />
     </svg>
     <div class="relative bound-inner">
       <div class="bound-pill">{{ bank || 'Bank Name' }}</div>
