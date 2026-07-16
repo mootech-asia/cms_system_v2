@@ -12,6 +12,8 @@
 - GitHub Pages 正式站由 `gh-pages` 分支提供(mootech-asia.github.io/cms_system_v2);
   `main` 先建置到 `pages-candidate`,完成驗證後才可升級正式分支;不得刪除既有備份分支。
 - **最新接手入口:**`docs/CLAUDE-HANDOFF-LATEST.md`(先讀;含目前正式站、分支 SHA、部署流程與最新驗證)。
+- **待執行計畫:**`docs/factory-html-pipeline-plan.md`(工廠純 HTML 化 + 交付流水線,
+  已定案、分 Phase 0–6,usage 恢復後依 phase 開新 session 執行)。
 - **歷史交接紀錄:**`docs/handoff-2026-07-16.md`(需要追查早期改動時再讀)。
 - 驗收紀錄:`docs/rebuild-plan.md`;token 對照:`docs/style-guide.md`;
   完整規範:`docs/template-guide.md`。
