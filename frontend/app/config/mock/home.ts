@@ -23,6 +23,16 @@ export interface Banner {
 
 export const banners: Banner[] = [
   {
+    id: 4,
+    badge: 'WORLD FOOTBALL 2026',
+    title: 'Road to Glory',
+    highlight: '2026',
+    sub: 'LIVE ODDS · MATCH CENTRE · EVERY KICK',
+    cta: 'View Matches',
+    img: HOME_OPERATION_MEDIA.worldFootball.image,
+    focalPoint: HOME_OPERATION_MEDIA.worldFootball.focalPoint,
+  },
+  {
     id: 1,
     badge: 'E-SPORTS WEEK',
     title: 'Level Up',
