@@ -11,13 +11,21 @@
 - 驗收紀錄:`docs/rebuild-plan.md`;token 對照:`docs/style-guide.md`;
   完整規範:`docs/template-guide.md`。
 
-## 省 token 守則(必守)
-1. **截圖能省則省**:deviceScaleFactor 1、寬 ≤1280、只截判斷所需的頁;
-   驗收比對用 pixel-diff 腳本輸出數字,**數字異常才讀圖**。
-2. **批次機械修改用一支腳本**,不逐檔 Edit;驗證靠 `nuxt build` + grep。
-3. 大輸出導到檔案再挑著讀;可合併的 shell 指令合併成一次呼叫。
-4. 大型批次工作可交 subagent 執行,主對話只收結論。
-5. 完成一個階段:commit + push + 一行報告;大階段建議開新 session 接續。
+## 省 token 守則(必守;業主 2026-07-17 升級為鐵則)
+1. **主對話極簡化**:調查、批次修改、逐頁驗證、e2e、截圖比對一律分派 subagent
+   (機械型 `model:'sonnet'`、純檢查 `model:'haiku'`),主對話只收一行結論;
+   主對話自己只做:架構判斷、與業主對話、最終 commit/push。
+2. **截圖鐵則**:先用 DOM 斷言/pixel-diff 輸出數字,**數字異常才讀圖**;
+   讀圖前必先裁切到判斷所需區域,**禁止讀 fullPage 大圖**(先裁段);
+   deviceScaleFactor 1、寬 ≤1280。
+3. **大輸出一律導檔案**,回讀用 grep/head 挑 ≤30 行;禁止整檔重讀已編輯的檔
+   (工具已保存檔案狀態);可合併的 shell 指令合併成一次呼叫。
+4. **批次機械修改用一支腳本**,不逐檔 Edit;驗證靠 `nuxt build` + grep,
+   e2e 腳本只印 OK/FAIL 摘要,不印中間過程。
+5. **每完成一個階段/大需求就結束 session**,下一件事開新 session 以
+   `docs/CLAUDE-HANDOFF-LATEST.md` 接手 — 舊上下文複利計費是最大的 usage 殺手,
+   新 session 便宜一個數量級。
+6. 回報格式:一行結論 + 必要表格;不重複貼代碼、不重述業主已知的過程。
 
 ## 模型調度(必守)
 > 主對話用哪個模型由使用者 `/model` 決定;這裡管 subagent 分派時的 model 參數。
