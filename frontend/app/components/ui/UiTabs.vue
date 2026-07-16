@@ -13,12 +13,15 @@ if (value.value === undefined && props.tabs.length) value.value = props.tabs[0]!
 </script>
 
 <template>
-  <Tabs v-model:value="value">
-    <TabList>
-      <Tab v-for="t in tabs" :key="t.value" :value="t.value">{{ t.label }}</Tab>
-    </TabList>
-    <TabPanels>
-      <TabPanel v-for="t in tabs" :key="t.value" :value="t.value">
+  <Tabs v-model:value="value" class="min-w-0">
+    <!-- 手機保持單列頁籤並允許水平滑動,避免頁籤壓縮或撐寬整頁 -->
+    <div class="max-w-full overflow-x-auto overscroll-x-contain pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <TabList class="min-w-max">
+        <Tab v-for="t in tabs" :key="t.value" class="shrink-0 whitespace-nowrap" :value="t.value">{{ t.label }}</Tab>
+      </TabList>
+    </div>
+    <TabPanels class="min-w-0">
+      <TabPanel v-for="t in tabs" :key="t.value" class="min-w-0" :value="t.value">
         <slot :name="t.value" :tab="t" />
       </TabPanel>
     </TabPanels>
