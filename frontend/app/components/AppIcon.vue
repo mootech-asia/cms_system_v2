@@ -30,6 +30,7 @@ const icons: Record<string, string> = {
   search: '<circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path>',
   plus: '<path d="M12 5v14M5 12h14"></path>',
   check: '<path d="M20 6 9 17l-5-5"></path>',
+  pencil: '<path d="M21.17 6.81a2.83 2.83 0 0 0-4-4L4 16l-1 5 5-1Z"></path><path d="m15 5 4 4"></path>',
   bank: '<rect x="2" y="7" width="16" height="11" rx="2"></rect><path d="M2 11h16"></path><circle cx="8" cy="14.5" r="1.4"></circle><path d="M18 9.5l3.6 1.5a1 1 0 0 1 .4 1.4l-2 3.4"></path>',
 };
 </script>
