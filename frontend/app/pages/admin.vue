@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { BLOCKS } from '~/config/blocks';
 import { TEMPLATE } from '~/config/template';
+import { themeLabel } from '~/utils/themes';
 
 /**
  * R6 客戶後台:終端客戶控制系統 — 內容文案/促銷管理/區塊開關與排序/換膚。
@@ -331,7 +332,7 @@ const save = () => {
                 class="seg-btn"
                 :class="{ active: siteStore.skin === k }"
                 @click="siteStore.setSkin(k)"
-              >{{ k }}</button>
+              >{{ themeLabel(k) }}</button>
             </div>
           </div>
         </template>
