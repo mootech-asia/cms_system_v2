@@ -1,0 +1,101 @@
+/**
+ * 模擬營運視覺素材。
+ *
+ * 所有相片來自 Pexels 的免費素材頁，介面文字仍由 HTML 疊加，避免將營運文案
+ * 烤進圖片。正式上線時可把 image 換成 CDN/後台上傳網址，元件不需修改。
+ */
+const pexels = (id: number) =>
+  `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=1920`;
+
+export interface OperationalMedia {
+  image: string;
+  focalPoint: string;
+  eyebrow?: string;
+  source: string;
+}
+
+export const HOME_OPERATION_MEDIA = {
+  esports: {
+    image: pexels(30111700),
+    focalPoint: '72% 38%',
+    source: 'https://www.pexels.com/photo/female-gamer-focused-on-esports-competition-30111700/',
+  },
+  luxury: {
+    image: pexels(33935175),
+    focalPoint: '72% 34%',
+    source: 'https://www.pexels.com/photo/elegant-woman-in-evening-gown-with-pearls-33935175/',
+  },
+  finance: {
+    image: pexels(34482105),
+    focalPoint: '68% 50%',
+    source: 'https://www.pexels.com/photo/hands-using-smartphone-for-crypto-trading-analysis-34482105/',
+  },
+} satisfies Record<string, OperationalMedia>;
+
+export const CATEGORY_HERO_MEDIA = {
+  hotGames: {
+    image: pexels(30111700),
+    focalPoint: '72% 38%',
+    eyebrow: 'TRENDING NOW',
+    source: 'https://www.pexels.com/photo/female-gamer-focused-on-esports-competition-30111700/',
+  },
+  sport: {
+    image: pexels(30651230),
+    focalPoint: '50% 54%',
+    eyebrow: 'LIVE ODDS',
+    source: 'https://www.pexels.com/photo/illuminated-soccer-stadium-at-night-with-crowd-30651230/',
+  },
+  live: {
+    image: pexels(33935175),
+    focalPoint: '72% 34%',
+    eyebrow: 'PREMIUM TABLES',
+    source: 'https://www.pexels.com/photo/elegant-woman-in-evening-gown-with-pearls-33935175/',
+  },
+  slot: {
+    image: pexels(29825627),
+    focalPoint: '58% 50%',
+    eyebrow: 'JACKPOT FLOOR',
+    source: 'https://www.pexels.com/photo/vibrant-slot-machines-in-casino-night-scene-29825627/',
+  },
+  fish: {
+    image: pexels(5955036),
+    focalPoint: '58% 48%',
+    eyebrow: 'OCEAN ARCADE',
+    source: 'https://www.pexels.com/photo/blue-fish-in-the-ocean-5955036/',
+  },
+  miniGames: {
+    image: pexels(27568815),
+    focalPoint: '65% 50%',
+    eyebrow: 'QUICK PLAY',
+    source: 'https://www.pexels.com/photo/gaming-27568815/',
+  },
+  promotion: {
+    image: pexels(32100316),
+    focalPoint: '74% 30%',
+    eyebrow: 'MEMBER REWARDS',
+    source: 'https://www.pexels.com/photo/elegant-woman-in-black-sequin-evening-gown-32100316/',
+  },
+} satisfies Record<string, OperationalMedia>;
+
+export const PROMOTION_OPERATION_MEDIA = {
+  'riobet-casino': {
+    image: pexels(7594128),
+    focalPoint: '50% 52%',
+    source: 'https://www.pexels.com/photo/a-roulette-table-inside-a-casino-7594128/',
+  },
+  'bitstarz-casino': {
+    image: pexels(29825627),
+    focalPoint: '54% 50%',
+    source: 'https://www.pexels.com/photo/vibrant-slot-machines-in-casino-night-scene-29825627/',
+  },
+  icecasino: {
+    image: pexels(32100316),
+    focalPoint: '72% 28%',
+    source: 'https://www.pexels.com/photo/elegant-woman-in-black-sequin-evening-gown-32100316/',
+  },
+  'gamdom-casino': {
+    image: pexels(27568815),
+    focalPoint: '62% 50%',
+    source: 'https://www.pexels.com/photo/gaming-27568815/',
+  },
+} satisfies Record<string, OperationalMedia>;
