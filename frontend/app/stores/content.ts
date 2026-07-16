@@ -9,17 +9,25 @@ import {
   type PromoCard,
   type HotGame,
 } from '~/config/mock/home';
+import { LIVE_CASINO_OPERATION_MEDIA } from '~/config/operational-media';
 
-export interface CatalogGame { title: string; img: string }
+export interface CatalogGame { title: string; img: string; focalPoint?: string }
 export interface GameCategory { key: string; label: string; route: string; games: CatalogGame[] }
 
-/** Mini/Slot/Live 種子:沿用 mock 的名稱清單 + 圖池輪派(原 MiniGamesGrid mk/pic 邏輯) */
+/** Mini/Slot 沿用遊戲圖池;Live 使用真人荷官與實體牌桌營運素材。 */
 const IMG_PREFIX = '/_external/images.unsplash.com/';
 const catalogSeed: GameCategory[] = miniGamesTabs.map((t) => ({
   key: t.key,
   label: t.label,
   route: t.route,
-  games: t.names.map((title, i) => ({ title, img: IMG_PREFIX + miniGamesImgs[i % miniGamesImgs.length]! })),
+  games: t.names.map((title, i) => {
+    if (t.key === 'live') {
+      const media = LIVE_CASINO_OPERATION_MEDIA.tables[i % LIVE_CASINO_OPERATION_MEDIA.tables.length]!;
+      return { title, img: media.image, focalPoint: media.focalPoint };
+    }
+
+    return { title, img: IMG_PREFIX + miniGamesImgs[i % miniGamesImgs.length]! };
+  }),
 }));
 
 /**
