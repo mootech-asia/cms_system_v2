@@ -29,14 +29,14 @@ The previous repository URL redirects to the new repository. The previous Pages 
 
 | Purpose | Branch / source | SHA |
 |---|---|---|
-| Latest `main` | source and documentation | `66bb3261cd5b88020c8879643e573984d2f3b47b` |
+| Source/docs baseline before handoff | `main` | `66bb3261cd5b88020c8879643e573984d2f3b47b` |
 | Last deployed source | candidate input | `2f0675b87087384ffd2301dbfa7c4b68fe139de4` |
 | Candidate output | `pages-candidate` | `5c998aea25f36330af43bce867ecbdb64e93bb4a` |
 | Production output | `gh-pages` | `5c998aea25f36330af43bce867ecbdb64e93bb4a` |
 | Legacy production backup | `backup/gh-pages-legacy-2026-07-16` | `0b1a1d61a5bcc4bb72e490952a582d5da62a02bd` |
 
-The latest `main` commit after the deployed source only records documentation. It does not
-change the built frontend.
+All `main` commits after deployed source `2f0675b...` only update documentation, including
+this handoff and the `CLAUDE.md` pointer. They do not change the built frontend.
 
 ## Successful GitHub Actions
 
