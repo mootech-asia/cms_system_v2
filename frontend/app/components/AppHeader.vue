@@ -94,6 +94,7 @@ const mobileOpen = useState<boolean>('ui:mobileMenuOpen', () => false);
             <button class="bg-surface-2 text-ink px-5 py-1.5 rounded-lg hover:opacity-90 transition-opacity" @click="openAuth('login')">Login</button>
             <button class="bg-g-primary text-on-primary px-5 py-1.5 rounded-lg hover:opacity-90 transition-opacity font-semibold" @click="openAuth('register')">Register</button>
           </template>
+          <SkinSwitcher />
           <div class="relative">
             <button class="text-ink-2 hover:text-ink flex items-center gap-1" @click="langOpen = !langOpen">
               <AppIcon name="globe" class="w-4 h-4" /><span>{{ lang }}</span><AppIcon name="chevron-down" class="w-3 h-3" />
@@ -150,6 +151,7 @@ const mobileOpen = useState<boolean>('ui:mobileMenuOpen', () => false);
         <img :src="withBase('/logo.png')" alt="Casino Logo" class="h-10 mix-blend-lighten">
       </NuxtLink>
       <div class="flex items-center gap-3">
+        <SkinSwitcher />
         <div class="relative">
           <button class="text-ink-2 hover:text-ink flex items-center gap-1" @click="langOpen = !langOpen">
             <AppIcon name="globe" class="w-5 h-5" /><span>{{ lang }}</span><AppIcon name="chevron-down" class="w-3 h-3" />

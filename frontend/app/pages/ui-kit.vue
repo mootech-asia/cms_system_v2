@@ -38,10 +38,9 @@ const faqItems = [
 
 /** R3 皮膚驗證:即時切換 app/assets/css/themes/*.css,證明「改一支 theme 檔 = 整站換皮」 */
 const siteStore = useSiteStore()
-const skins = [
-  { key: 'win100', label: 'WIN100(預設)' },
-  { key: 'aurora', label: 'Aurora(示範皮)' },
-]
+/** 清單自動掃 themes/*.css;顯示業主命名(utils/themes.ts THEME_LABELS) */
+import { THEME_KEYS, themeLabel } from '~/utils/themes'
+const skins = THEME_KEYS.map((key) => ({ key, label: themeLabel(key) }))
 
 /** R4 變體型錄:每區塊目前選中的 variant key(缺省 v1) */
 import { BLOCKS, type BlockKey } from '~/config/blocks'
