@@ -66,6 +66,7 @@ const onDrop = () => {
 
 // ---- 預覽 ----
 const previewWidth = ref<'desktop' | 'mobile'>('desktop');
+const studioPane = ref<'controls' | 'preview'>('controls');
 const previewSrc = computed(() => withBase(`/studio/preview?page=${page.value}`));
 const iframeEl = ref<HTMLIFrameElement | null>(null);
 
@@ -128,25 +129,48 @@ const exportPack = async () => {
 </script>
 
 <template>
-  <div class="flex h-screen flex-col bg-surface-deep">
+  <div class="flex h-[100dvh] min-h-[32rem] flex-col overflow-hidden bg-surface-deep">
     <!-- 頂欄 -->
-    <header class="flex shrink-0 items-center justify-between border-b border-line-soft bg-surface px-4 py-2.5">
-      <div class="flex items-center gap-3">
-        <NuxtLink to="/" class="text-note text-ink-3 hover:text-ink">← 回站點</NuxtLink>
-        <h1 class="text-h2 font-bold text-ink">設計後台 <span class="text-note font-normal text-ink-4">/studio</span></h1>
+    <header class="z-20 flex shrink-0 flex-col gap-3 border-b border-line-soft bg-surface px-3 py-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:px-4 sm:py-2.5">
+      <div class="flex min-w-0 flex-col gap-1 sm:flex-row sm:items-center sm:gap-3">
+        <NuxtLink to="/" class="shrink-0 text-note text-ink-3 hover:text-ink">← 回站點</NuxtLink>
+        <h1 class="min-w-0 text-body-lg font-bold text-ink sm:text-h2">
+          設計後台 <span class="text-note font-normal text-ink-4">/studio</span>
+        </h1>
       </div>
-      <div class="flex items-center gap-2">
+      <div class="grid w-full grid-cols-2 gap-2 sm:ml-auto sm:flex sm:w-auto">
+        <UiButton class="w-full" label="重設草稿" variant="ghost" size="sm" @click="resetDraft" />
+        <UiButton class="w-full" label="套用到本站" variant="ghost" size="sm" @click="applyToSite" />
+        <UiButton class="col-span-2 w-full sm:w-auto" label="匯出模板包" size="sm" @click="exportPack" />
+      </div>
+      <div v-if="applied || exportError" class="flex w-full min-w-0 flex-wrap gap-2">
         <UiTag v-if="applied" label="已套用(儲存 API 為占位)" status="ok" />
-        <UiTag v-if="exportError" :label="exportError" status="bad" />
-        <UiButton label="重設草稿" variant="ghost" size="sm" @click="resetDraft" />
-        <UiButton label="套用到本站" variant="ghost" size="sm" @click="applyToSite" />
-        <UiButton label="匯出模板包" size="sm" @click="exportPack" />
+        <UiTag v-if="exportError" class="max-w-full" :label="exportError" status="bad" />
       </div>
     </header>
 
+    <!-- 手機工作區切換:窄螢幕只顯示一個主要任務,避免控制欄與 iframe 互相擠壓 -->
+    <nav class="grid shrink-0 grid-cols-2 gap-1 border-b border-line-soft bg-surface px-3 py-2 lg:hidden" aria-label="設計後台工作區">
+      <button
+        type="button"
+        class="seg-btn"
+        :class="{ active: studioPane === 'controls' }"
+        @click="studioPane = 'controls'"
+      >設定</button>
+      <button
+        type="button"
+        class="seg-btn"
+        :class="{ active: studioPane === 'preview' }"
+        @click="studioPane = 'preview'"
+      >即時預覽</button>
+    </nav>
+
     <div class="flex min-h-0 flex-1">
       <!-- 左:控制欄 -->
-      <aside class="w-[340px] shrink-0 space-y-5 overflow-y-auto border-r border-line-soft bg-surface p-4">
+      <aside
+        class="min-h-0 w-full flex-1 space-y-5 overflow-y-auto border-r-0 border-line-soft bg-surface p-3 sm:p-4 lg:block lg:w-[340px] lg:flex-none lg:border-r"
+        :class="studioPane === 'controls' ? 'block' : 'hidden'"
+      >
         <!-- 站點名稱(命名權:設計端;隨模板包匯出) -->
         <section>
           <h2 class="mb-2 text-note font-bold tracking-wide2 text-ink-3">站點名稱</h2>
@@ -169,9 +193,9 @@ const exportPack = async () => {
         <!-- 全站 chrome -->
         <section>
           <h2 class="mb-2 text-note font-bold tracking-wide2 text-ink-3">全站 CHROME</h2>
-          <div v-for="part in (['header', 'footer'] as const)" :key="part" class="mb-2 flex items-center justify-between rounded-ui border border-line-soft bg-surface-deep px-3 py-2">
-            <span class="text-body text-ink-2">{{ BLOCKS[`site-${part}`].label }}</span>
-            <span class="flex gap-1">
+          <div v-for="part in (['header', 'footer'] as const)" :key="part" class="mb-2 flex flex-col items-start gap-2 rounded-ui border border-line-soft bg-surface-deep px-3 py-2 sm:flex-row sm:items-center sm:justify-between">
+            <span class="shrink-0 text-body text-ink-2">{{ BLOCKS[`site-${part}`].label }}</span>
+            <span class="flex min-w-0 flex-wrap gap-1 sm:justify-end">
               <button
                 v-for="vk in variantKeys(`site-${part}`)" :key="vk" type="button"
                 class="seg-btn-sm"
@@ -184,12 +208,12 @@ const exportPack = async () => {
 
         <!-- 頁面區塊 -->
         <section>
-          <div class="mb-2 flex items-center justify-between">
+          <div class="mb-2 flex flex-col items-stretch gap-2 sm:flex-row sm:items-center sm:justify-between">
             <h2 class="shrink-0 whitespace-nowrap text-note font-bold tracking-wide2 text-ink-3">頁面區塊</h2>
             <UiSelect
               v-model="page"
               :options="Object.keys(draft.pages).map((p) => ({ label: p, value: p }))"
-              option-label="label" option-value="value" class="w-32"
+              option-label="label" option-value="value" class="w-full sm:w-32"
             />
           </div>
 
@@ -205,7 +229,7 @@ const exportPack = async () => {
               @dragend="onDrop"
             >
               <div class="flex items-center gap-2">
-                <span class="cursor-grab select-none text-ink-4" title="拖拉排序">⠿</span>
+                <span class="hidden cursor-grab select-none text-ink-4 lg:inline" title="拖拉排序">⠿</span>
                 <span class="min-w-0 flex-1 truncate text-body font-semibold" :class="s.enabled === false ? 'text-ink-4 line-through' : 'text-ink'">
                   {{ BLOCKS[s.block]?.label ?? s.block }}
                 </span>
@@ -222,10 +246,10 @@ const exportPack = async () => {
                     :class="s.enabled !== false ? 'left-[18px]' : 'left-0.5'"
                   />
                 </button>
-                <button type="button" class="text-ink-4 hover:text-danger" title="移除區塊" @click="removeSection(i)">✕</button>
+                <button type="button" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-ui text-ink-4 hover:bg-surface-2 hover:text-danger" title="移除區塊" @click="removeSection(i)">✕</button>
               </div>
-              <div class="mt-2 flex items-center justify-between">
-                <span class="flex gap-1">
+              <div class="mt-2 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+                <span class="flex min-w-0 flex-1 flex-wrap gap-1">
                   <button
                     v-for="vk in variantKeys(s.block)" :key="vk" type="button"
                     class="seg-btn-sm"
@@ -233,31 +257,34 @@ const exportPack = async () => {
                     @click="s.variant = vk"
                   >{{ vk }}</button>
                 </span>
-                <span class="flex gap-1 text-ink-4">
-                  <button type="button" class="px-1 hover:text-ink disabled:opacity-30" :disabled="i === 0" title="上移" @click="move(i, i - 1)">↑</button>
-                  <button type="button" class="px-1 hover:text-ink disabled:opacity-30" :disabled="i === sections.length - 1" title="下移" @click="move(i, i + 1)">↓</button>
+                <span class="flex min-h-9 shrink-0 justify-end gap-2 text-ink-4 sm:gap-1">
+                  <button type="button" class="flex h-9 w-9 items-center justify-center rounded-ui hover:bg-surface-2 hover:text-ink disabled:opacity-30" :disabled="i === 0" title="上移" @click="move(i, i - 1)">↑</button>
+                  <button type="button" class="flex h-9 w-9 items-center justify-center rounded-ui hover:bg-surface-2 hover:text-ink disabled:opacity-30" :disabled="i === sections.length - 1" title="下移" @click="move(i, i + 1)">↓</button>
                 </span>
               </div>
             </li>
           </ul>
 
           <!-- 新增區塊 -->
-          <div class="mt-3 flex items-center gap-2">
+          <div class="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center">
             <UiSelect
               v-model="addPick"
               :options="ADDABLE.map((k) => ({ label: BLOCKS[k].label, value: k }))"
-              option-label="label" option-value="value" placeholder="從區塊庫新增…" class="flex-1"
+              option-label="label" option-value="value" placeholder="從區塊庫新增…" class="min-w-0 flex-1"
             />
-            <UiButton label="新增" size="sm" variant="ghost" :disabled="!addPick" @click="addSection" />
+            <UiButton class="w-full sm:w-auto" label="新增" size="sm" variant="ghost" :disabled="!addPick" @click="addSection" />
           </div>
         </section>
       </aside>
 
       <!-- 右:即時預覽 -->
-      <main class="flex min-w-0 flex-1 flex-col">
-        <div class="flex shrink-0 items-center justify-between border-b border-line-soft bg-surface px-4 py-2">
-          <span class="text-note text-ink-3">即時預覽 — {{ page }}(iframe 真實視口)</span>
-          <span class="flex gap-1">
+      <main
+        class="min-h-0 min-w-0 flex-1 flex-col"
+        :class="studioPane === 'preview' ? 'flex' : 'hidden lg:flex'"
+      >
+        <div class="flex shrink-0 flex-col gap-2 border-b border-line-soft bg-surface px-3 py-2 sm:flex-row sm:items-center sm:justify-between sm:px-4">
+          <span class="min-w-0 truncate text-note text-ink-3">即時預覽 — {{ page }}(iframe 真實視口)</span>
+          <span class="flex shrink-0 gap-1">
             <button
               v-for="w in (['desktop', 'mobile'] as const)" :key="w" type="button"
               class="seg-btn border-0 bg-transparent"
@@ -266,12 +293,12 @@ const exportPack = async () => {
             >{{ w === 'desktop' ? '桌機' : '手機 390' }}</button>
           </span>
         </div>
-        <div class="flex min-h-0 flex-1 justify-center overflow-auto bg-scrim/30 p-4">
+        <div class="flex min-h-0 flex-1 justify-center overflow-auto bg-scrim/30 p-2 sm:p-4">
           <iframe
             ref="iframeEl"
             :src="previewSrc"
-            class="h-full rounded-lg border border-line-soft bg-surface-deep"
-            :style="{ width: previewWidth === 'mobile' ? '390px' : '100%' }"
+            class="h-full min-h-[20rem] max-w-full rounded-lg border border-line-soft bg-surface-deep"
+            :style="{ width: previewWidth === 'mobile' ? 'min(390px, 100%)' : '100%' }"
             title="studio preview"
           />
         </div>
