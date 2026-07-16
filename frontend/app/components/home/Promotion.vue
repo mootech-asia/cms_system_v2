@@ -1,5 +1,12 @@
 <script setup lang="ts">
 const { promoCards } = useContentStore();
+const mediaSrc = (src?: string) => {
+  if (!src) return '';
+  return /^(https?:)?\/\//.test(src) ? src : withBase(src);
+};
+const hideBrokenMedia = (event: Event) => {
+  (event.currentTarget as HTMLImageElement).hidden = true;
+};
 
 // Detail → promotion 詳情頁(id 對應 js/promotion-detail.js 的 PROMOS)
 const router = useRouter();
@@ -46,7 +53,8 @@ function goDetail(id: string) {
 <div class="hidden md:grid md:grid-cols-4 gap-3">
 <div v-for="p in promoCards" :key="p.id" class="bg-surface-deep border border-line-soft rounded-xl overflow-hidden hover:border-primary transition-colors cursor-pointer group">
 <div class="promo-card-art relative h-28 overflow-hidden">
-            <img v-if="p.img" :src="withBase(p.img)" :alt="p.name" class="absolute inset-0 h-full w-full object-cover">
+            <img v-if="p.img" :src="mediaSrc(p.img)" :alt="p.name" class="operation-promo-media absolute inset-0 h-full w-full object-cover" :style="{ objectPosition: p.focalPoint || 'center' }" loading="lazy" @error="hideBrokenMedia">
+            <div class="operation-promo-scrim absolute inset-0" />
 <div class="absolute inset-0 flex items-center justify-center">
 <span class="font-extrabold select-none text-primary" style="font-size: 54px; letter-spacing: 0.12em; opacity: 0.07;">PROMO!</span>
 </div>
@@ -75,7 +83,8 @@ function goDetail(id: string) {
 <div v-for="p in promoCards" :key="p.id" class="flex-shrink-0 snap-start" style="width: 220px;">
 <div class="bg-surface-deep border border-line-soft rounded-xl overflow-hidden hover:border-primary transition-colors cursor-pointer group">
 <div class="promo-card-art relative h-28 overflow-hidden">
-            <img v-if="p.img" :src="withBase(p.img)" :alt="p.name" class="absolute inset-0 h-full w-full object-cover">
+            <img v-if="p.img" :src="mediaSrc(p.img)" :alt="p.name" class="operation-promo-media absolute inset-0 h-full w-full object-cover" :style="{ objectPosition: p.focalPoint || 'center' }" loading="lazy" @error="hideBrokenMedia">
+            <div class="operation-promo-scrim absolute inset-0" />
 <div class="absolute inset-0 flex items-center justify-center">
 <span class="font-extrabold select-none text-primary" style="font-size: 54px; letter-spacing: 0.12em; opacity: 0.07;">PROMO!</span>
 </div>
