@@ -7,6 +7,7 @@
 
 
 const sections = useContentStore().miniCategories;
+const mediaSrc = (src: string) => (/^(https?:)?\/\//.test(src) ? src : withBase(src));
 </script>
 
 <template>
@@ -21,7 +22,7 @@ const sections = useContentStore().miniCategories;
           <div class="flex overflow-x-auto gap-3 snap-x snap-mandatory scrollbar-hide pb-2">
             <div v-for="g in s.games" :key="g.title" class="flex-shrink-0 w-20 md:w-24 snap-start cursor-pointer group">
               <div class="w-20 h-20 md:w-24 md:h-24 rounded-lg overflow-hidden border-2 border-line group-hover:border-primary transition-colors">
-                <img :src="withBase(g.img)" :alt="g.title" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                <img :src="mediaSrc(g.img)" :alt="g.title" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" :style="{ objectPosition: g.focalPoint || 'center' }" loading="lazy">
               </div>
               <h4 class="text-ink text-[11px] md:text-xs text-center mt-1.5 truncate">{{ g.title }}</h4>
             </div>
