@@ -44,6 +44,7 @@ const skins = THEME_KEYS.map((key) => ({ key, label: themeLabel(key) }))
 
 /** R4 變體型錄:每區塊目前選中的 variant key(缺省 v1) */
 import { BLOCKS, type BlockKey } from '~/config/blocks'
+import { CATEGORY_HERO_MEDIA } from '~/config/operational-media'
 const variantPick = reactive<Record<string, string>>({})
 const VARIANT_NAMES: Record<string, string> = {
   v1: 'Original',
@@ -59,7 +60,12 @@ const VARIANT_NAMES: Record<string, string> = {
 }
 /** 需要 props 的區塊在型錄中的示範值 */
 const VARIANT_DEMO_PROPS: Partial<Record<BlockKey, Record<string, unknown>>> = {
-  'category-hero': { title: 'HOT GAMES' },
+  'category-hero': {
+    title: 'HOT GAMES',
+    image: CATEGORY_HERO_MEDIA.hotGames.image,
+    focalPoint: CATEGORY_HERO_MEDIA.hotGames.focalPoint,
+    eyebrow: CATEGORY_HERO_MEDIA.hotGames.eyebrow,
+  },
   'member-card': { bank: 'KB Bank', accountTail: '＊＊＊＊1234', holder: 'M＊＊＊＊＊＊＊', bindDate: '2025-08-14' },
 }
 </script>
