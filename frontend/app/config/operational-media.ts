@@ -30,6 +30,11 @@ export const HOME_OPERATION_MEDIA = {
     focalPoint: '68% 50%',
     source: 'https://www.pexels.com/photo/hands-using-smartphone-for-crypto-trading-analysis-34482105/',
   },
+  worldFootball: {
+    image: pexels(19918607),
+    focalPoint: '50% 52%',
+    source: 'https://www.pexels.com/photo/people-on-stadium-during-soccer-game-19918607/',
+  },
 } satisfies Record<string, OperationalMedia>;
 
 export const LIVE_CASINO_OPERATION_MEDIA = {
