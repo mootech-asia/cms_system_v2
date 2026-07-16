@@ -7,6 +7,8 @@ import type { useSiteStore } from '~/stores/site';
  * 「套用到本站」才寫回 store(儲存 API 為占位,見 rebuild-plan §2-12)。
  */
 export interface DraftConfig {
+  /** 前台站名(命名權:設計端可在組版時定) */
+  siteName: string;
   skin: string;
   /** 全站 chrome 變體(header/footer 不屬於頁面 sections) */
   chrome: { header: string; footer: string };
@@ -19,6 +21,7 @@ type SiteStore = ReturnType<typeof useSiteStore>;
 
 export function buildDraft(store: SiteStore): DraftConfig {
   return JSON.parse(JSON.stringify({
+    siteName: store.siteName,
     skin: store.skin,
     chrome: store.chrome,
     pages: store.pages,
@@ -26,6 +29,7 @@ export function buildDraft(store: SiteStore): DraftConfig {
 }
 
 export function applyDraft(store: SiteStore, draft: DraftConfig) {
+  if (draft.siteName?.trim()) store.siteName = draft.siteName.trim();
   store.skin = draft.skin;
   store.chrome = { ...draft.chrome };
   store.pages = JSON.parse(JSON.stringify(draft.pages));

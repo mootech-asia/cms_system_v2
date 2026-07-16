@@ -290,9 +290,15 @@ const save = () => {
           </div>
         </template>
 
-        <!-- 皮膚(限模板允許清單) -->
+        <!-- 皮膚(限模板允許清單)+ 站點命名 -->
         <template #skin>
           <div class="space-y-3 pt-2">
+            <template v-if="scope.editable.siteName">
+              <p class="text-note text-ink-4">站點名稱(命名權在你 — 顯示於瀏覽器分頁)。</p>
+              <div class="flex max-w-md items-center gap-2">
+                <UiInput :model-value="siteStore.siteName" class="flex-1" placeholder="站點名稱" @update:model-value="siteStore.setSiteName($event as string)" />
+              </div>
+            </template>
             <p class="text-note text-ink-4">切換整站皮膚(此模板開放:{{ scope.skins.join(' / ') }})。</p>
             <div class="flex flex-wrap gap-2">
               <button

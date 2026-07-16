@@ -147,6 +147,12 @@ const exportPack = async () => {
     <div class="flex min-h-0 flex-1">
       <!-- 左:控制欄 -->
       <aside class="w-[340px] shrink-0 space-y-5 overflow-y-auto border-r border-line-soft bg-surface p-4">
+        <!-- 站點名稱(命名權:設計端;隨模板包匯出) -->
+        <section>
+          <h2 class="mb-2 text-note font-bold tracking-wide2 text-ink-3">站點名稱</h2>
+          <UiInput v-model="draft.siteName" placeholder="站點名稱(瀏覽器分頁)" />
+        </section>
+
         <!-- 皮膚 -->
         <section>
           <h2 class="mb-2 text-note font-bold tracking-wide2 text-ink-3">皮膚</h2>

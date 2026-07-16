@@ -5,6 +5,7 @@
  */
 const siteStore = useSiteStore();
 useHead({
+  title: computed(() => siteStore.siteName),
   htmlAttrs: { 'data-theme': computed(() => siteStore.skin) },
 });
 </script>
