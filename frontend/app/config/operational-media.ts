@@ -32,6 +32,47 @@ export const HOME_OPERATION_MEDIA = {
   },
 } satisfies Record<string, OperationalMedia>;
 
+export const LIVE_CASINO_OPERATION_MEDIA = {
+  hero: {
+    image: pexels(7594590),
+    focalPoint: '50% 44%',
+    eyebrow: 'LIVE DEALER STUDIO',
+    source: 'https://www.pexels.com/photo/players-betting-on-a-roulette-table-7594590/',
+  },
+  tables: [
+    {
+      image: pexels(7594348),
+      focalPoint: '42% 50%',
+      source: 'https://www.pexels.com/photo/men-playing-roulette-in-casino-7594348/',
+    },
+    {
+      image: pexels(6664128),
+      focalPoint: '50% 48%',
+      source: 'https://www.pexels.com/photo/man-displaying-cards-in-casino-6664128/',
+    },
+    {
+      image: pexels(7594254),
+      focalPoint: '68% 48%',
+      source: 'https://www.pexels.com/photo/a-woman-dealer-holding-cards-7594254/',
+    },
+    {
+      image: pexels(6664131),
+      focalPoint: '50% 38%',
+      source: 'https://www.pexels.com/photo/dealer-in-casino-6664131/',
+    },
+    {
+      image: pexels(7594310),
+      focalPoint: '55% 40%',
+      source: 'https://www.pexels.com/photo/playing-cards-on-baccarat-table-7594310/',
+    },
+    {
+      image: pexels(7594183),
+      focalPoint: '50% 50%',
+      source: 'https://www.pexels.com/photo/close-up-photo-of-casino-roulette-7594183/',
+    },
+  ],
+} satisfies { hero: OperationalMedia; tables: OperationalMedia[] };
+
 export const CATEGORY_HERO_MEDIA = {
   hotGames: {
     image: pexels(30111700),
@@ -46,10 +87,7 @@ export const CATEGORY_HERO_MEDIA = {
     source: 'https://www.pexels.com/photo/illuminated-soccer-stadium-at-night-with-crowd-30651230/',
   },
   live: {
-    image: pexels(33935175),
-    focalPoint: '72% 34%',
-    eyebrow: 'PREMIUM TABLES',
-    source: 'https://www.pexels.com/photo/elegant-woman-in-evening-gown-with-pearls-33935175/',
+    ...LIVE_CASINO_OPERATION_MEDIA.hero,
   },
   slot: {
     image: pexels(29825627),
