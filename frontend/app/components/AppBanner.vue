@@ -4,6 +4,13 @@ const { banners } = useContentStore();
 
 const idx = ref(0);
 const b = computed(() => banners[idx.value]!);
+const mediaSrc = (src?: string) => {
+  if (!src) return '';
+  return /^(https?:)?\/\//.test(src) ? src : withBase(src);
+};
+const hideBrokenMedia = (event: Event) => {
+  (event.currentTarget as HTMLImageElement).hidden = true;
+};
 let timer: ReturnType<typeof setInterval> | null = null;
 let startX = 0;
 
@@ -27,8 +34,8 @@ const arrow = 'width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.4
   <section class="relative w-full overflow-hidden" style="min-height:280px;touch-action:pan-y" @touchstart="onStart" @touchend="onEnd">
     <div class="banner-art relative" :style="{ minHeight: '280px' }">
       <template v-if="b.img">
-        <img :src="withBase(b.img)" :alt="b.title" class="absolute inset-0 h-full w-full object-cover">
-        <div class="absolute inset-0 bg-scrim/40" />
+        <img :src="mediaSrc(b.img)" :alt="b.title" class="operation-banner-media absolute inset-0 h-full w-full object-cover" :style="{ objectPosition: b.focalPoint || 'center' }" fetchpriority="high" @error="hideBrokenMedia">
+        <div class="operation-banner-scrim absolute inset-0" />
       </template>
       <template v-else>
         <div class="banner-art-grid absolute inset-0" />
