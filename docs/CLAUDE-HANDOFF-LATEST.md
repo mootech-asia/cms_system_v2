@@ -1,18 +1,18 @@
 # Claude Latest Handoff
 
-> Updated: 2026-07-16 (Asia/Taipei)  
+> Updated: 2026-07-17 (Asia/Taipei)  
 > Repository: `mootech-asia/cms_system_v2`  
-> Status: the user's latest requests are complete and deployed.
+> Status: the user's latest requests are complete, verified, and deployed.
 
 ## Read this first
 
-- Work directly on GitHub. The user explicitly does not want a local checkout used for source editing.
+- Work directly on GitHub. The user explicitly does not want a local checkout used as the source of truth.
 - Source branch: `main`.
 - Build candidate branch: `pages-candidate`.
 - Production branch: `gh-pages`.
 - Do not edit generated files on `gh-pages` by hand.
 - Do not delete any `backup/*` branches.
-- Historical implementation details remain in `docs/handoff-2026-07-16.md`.
+- Historical implementation detail remains in `docs/handoff-2026-07-16.md`.
 
 ## Current URLs
 
@@ -22,113 +22,156 @@
 - Design studio: https://mootech-asia.github.io/cms_system_v2/studio/
 - Studio preview: https://mootech-asia.github.io/cms_system_v2/studio/preview/
 
-The previous repository URL redirects to the new repository. The previous Pages URL at
-`https://mootech-asia.github.io/cms_v2/` returns 404 and must not be used.
+The old `cms_v2` Pages URL is retired and must not be used.
 
 ## Verified branch state
 
 | Purpose | Branch / source | SHA |
 |---|---|---|
-| Source/docs baseline before handoff | `main` | `66bb3261cd5b88020c8879643e573984d2f3b47b` |
-| Last deployed source | candidate input | `2f0675b87087384ffd2301dbfa7c4b68fe139de4` |
-| Candidate output | `pages-candidate` | `5c998aea25f36330af43bce867ecbdb64e93bb4a` |
-| Production output | `gh-pages` | `5c998aea25f36330af43bce867ecbdb64e93bb4a` |
+| Deployed frontend source | `main` | `d3c74b96b1ab21cfa1c081e9f9a2b83a63516924` |
+| Candidate output | `pages-candidate` | `bb064f0090eb7506ec04f1997b665fb604dfeca0` |
+| Production output | `gh-pages` | `bb064f0090eb7506ec04f1997b665fb604dfeca0` |
 | Legacy production backup | `backup/gh-pages-legacy-2026-07-16` | `0b1a1d61a5bcc4bb72e490952a582d5da62a02bd` |
 
-All `main` commits after deployed source `2f0675b...` only update documentation, including
-this handoff and the `CLAUDE.md` pointer. They do not change the built frontend.
+The commit that updates this handoff is documentation-only and may make `main` newer than the
+deployed frontend source. Do not promote a docs-only candidate unless another frontend change is
+also ready.
 
 ## Successful GitHub Actions
 
-- Frontend checks: run `29511710161`, success.
-- Build Pages candidate: run `29511710277`, success.
-- GitHub Pages deployment: run `29512079625`, success.
-- Production URL, admin URL, and studio URL were checked after deployment and returned HTTP 200.
+### Banner, carousel, and provider media release
+
+- Source commit: `107622c6e115329c3393e2e224f1c2cdd9d2c2d0`.
+- Frontend checks: run `29519579053`, success.
+- Build Pages candidate: run `29519578876`, success.
+- First Pages deployment: run `29520476799`, success.
+
+### Fifth-skin release (current production)
+
+- Source commit: `d3c74b96b1ab21cfa1c081e9f9a2b83a63516924`.
+- Frontend checks: run `29522162544`, success.
+- Build Pages candidate: run `29522164173`, success.
+- GitHub Pages deployment: run `29522862886`, success.
 
 ## Latest completed user requests
 
-### 1. Fixed member sidebar
+### 1. Homepage game-carousel tabs repaired
 
-Files:
+File:
 
-- `frontend/app/components/MemberSidebar.vue`
-- `frontend/app/layouts/member.vue`
-
-Behavior:
-
-- Desktop member sidebar is fixed below the 64px member header.
-- Sidebar remains at `y=64px` while the page scrolls.
-- Desktop member content has a 256px left offset and is not covered by the sidebar.
-- Mobile keeps the existing bottom navigation.
-
-### 2. Live Game photography and carousel
-
-Files:
-
-- `frontend/app/stores/content.ts`
 - `frontend/app/components/home/MiniGamesGrid.vue`
-- `frontend/app/components/home/MiniGamesGridV2.vue`
-- `frontend/app/components/home/MiniGamesGridV3.vue`
-- Existing media source: `frontend/app/config/operational-media.ts`
 
 Behavior:
 
-- Live Game uses real dealer, roulette, baccarat, and table photography.
-- External Pexels URLs are resolved directly instead of receiving the Nuxt base prefix.
-- Image focal points are preserved across all three homepage variants.
-- Previous/Next controls now scroll by the number of visible cards.
-- Controls reach the end and wrap around on the following click.
-- Buttons have explicit `type="button"`.
+- Mini Game, Slot Game, and Live Game tabs are generated from one data model.
+- Active state, cards, and the `Show all` destination update together.
+- Changing category recreates the panel and resets horizontal scroll to zero.
+- Previous and Next controls scroll the active rail and wrap at either end.
+- Tab semantics include `tablist`, `tab`, `tabpanel`, `aria-selected`, and `aria-controls`.
+- Keyboard navigation supports Left, Right, Home, and End.
 
-Rendered verification:
+Verified production values:
 
-- Six sampled Live images loaded at 1920px natural width.
-- Carousel changed from `scrollLeft=0` to `scrollLeft=1260` after Next.
-- Desktop and mobile images rendered successfully.
+- First cards: `Mega Fortune`, `Gates of Olympus`, `Lightning Roulette`.
+- Live Game `Show all`: `/cms_system_v2/live`.
+- Next changed carousel `scrollLeft` from `0` to `1260` (candidate max `5740`).
+- Changing category reset `scrollLeft` to `0`.
 
-### 3. Promotion dots removed
+### 2. PC campaign banners rebuilt
 
 Files:
 
-- `frontend/app/components/home/Promotion.vue`
-- `frontend/app/components/home/PromotionV2.vue`
+- `frontend/app/components/AppBanner.vue`
+- `frontend/app/config/operational-media.ts`
 - `frontend/app/assets/css/main.css`
 
 Behavior:
 
-- The three decorative dots in the upper-right of promotion artwork were removed.
-- Removed from desktop, mobile, and the responsive v2 variant.
-- Unused dot CSS was removed.
-- DOM verification found zero matching dot elements.
+- Desktop campaign stage is 440px high and uses full-bleed operational photography.
+- Four campaigns now cover World Football 2026, esports, luxury VIP, and finance/USDT.
+- Real photography is combined with tokenized scrims and focal positions for readable copy.
+- Includes autoplay, pause on hover/focus, swipe, Previous/Next, counter, and pagination.
+- Mobile stage is 360px high; controls avoid the fixed quick menu.
+- Text remains HTML rather than being baked into images.
 
-### 4. Repository rename and Pages migration
+Verified image dimensions:
 
-Previous repository:
+- All four images loaded at 1920px natural width.
+- Desktop campaign height: `440px`.
+- Mobile campaign height: `360px`.
+- Desktop and mobile document horizontal overflow: `0px`.
 
-- `mootech-asia/cms_v2`
+### 3. Provider selectors use category photography
 
-Current repository:
+Files:
 
-- `mootech-asia/cms_system_v2`
+- `frontend/app/components/VendorBrowser.vue`
+- `frontend/app/config/operational-media.ts`
+- `frontend/app/assets/css/main.css`
 
-Deployment changes:
+Behavior:
 
-- `.github/workflows/build-pages-candidate.yml` now uses
-  `NUXT_APP_BASE_URL=/cms_system_v2/`.
-- Generated base-path verification now checks `/cms_system_v2/`.
-- README, CLAUDE guidance, Nuxt comments, and `withBase` comments use the new name/path.
-- Candidate output was rebuilt before production promotion.
-- Production `gh-pages` points to the exact verified candidate SHA.
+- Live, Slot, Fish, and Mini Games provider cards all have category-appropriate backgrounds.
+- Live uses dealer/table imagery; Slot uses casino imagery; Fish uses underwater imagery; Mini
+  Games uses gaming, VR, and esports imagery.
+- Provider names remain readable through semantic scrims, shadows, and focus/hover treatment.
+- Entering a provider preserves the existing second-level Back behavior.
 
-## Final visual QA results
+Verified production values for each category:
 
-- Member sidebar position before scroll: `x=0, y=64, width=256, height=936`.
-- Member sidebar position after 900px scroll: unchanged.
-- Member main content desktop left margin: `256px`.
-- Live Game first image: Pexels live-dealer media, natural width `1920`.
-- Carousel: `0 -> 1260px` after clicking Next.
-- Promotion decorative dots: `0`.
-- Mobile document horizontal overflow: `0px`.
+- `30` provider cards.
+- `30` image elements.
+- First image loaded successfully.
+- Horizontal overflow: `0px`.
+
+### 4. Five selectable site skins
+
+Existing skins:
+
+1. `win100` - Emerald
+2. `aurora` - Aurora
+3. `noir` - Noir Gold
+4. `fashion-blue` - Fashion Blue
+
+New fifth skin:
+
+5. `rose-graphite` - Rose Graphite
+
+Files:
+
+- `frontend/app/assets/css/themes/rose-graphite.css`
+- `frontend/nuxt.config.ts`
+- `frontend/app/utils/themes.ts`
+- `frontend/app/config/template.ts`
+
+Rose Graphite uses neutral graphite surfaces, a soft rose primary, a cool teal accent, pearl-white
+text, mint success, red danger, and champagne-gold emphasis. It is available in the public header,
+client Admin, Design Studio, Studio iframe preview, and exported theme source.
+
+Contrast verification:
+
+- Main text/background: `19.32:1`.
+- Secondary text/surface: `13.42:1`.
+- Tertiary text/surface: `7.64:1`.
+- Weak text/background: `4.60:1`.
+- Primary button text/background: `8.62:1`.
+- Danger, success, and gold on surfaces: at least `6.27:1`.
+
+Production verification:
+
+- Five branded names are present in the public switcher.
+- Rose Graphite sets `data-theme="rose-graphite"` and `--c-primary: 242 154 184`.
+- Admin and Studio both expose Rose Graphite.
+- `/themes/rose-graphite.css` returns HTTP 200.
+- Desktop and 390px mobile horizontal overflow: `0px`.
+
+## Earlier completed work still present
+
+- Desktop member sidebar is fixed below the 64px member header; mobile uses bottom navigation.
+- Live Game uses live-dealer photography and working carousel controls.
+- Promotion artwork decorative dots were removed.
+- Repository and Pages base path were migrated from `cms_v2` to `cms_system_v2`.
+- The old production state remains backed up on `backup/gh-pages-legacy-2026-07-16`.
 
 ## Deployment procedure for future frontend changes
 
@@ -137,33 +180,31 @@ Deployment changes:
    - `Frontend checks`
    - `Build Pages candidate`
 3. Confirm the `pages-candidate` commit message identifies the expected `main` source SHA.
-4. Test the candidate output at desktop and mobile widths.
+4. Test candidate output at desktop and mobile widths.
 5. Only after verification, force-update `gh-pages` to the exact `pages-candidate` SHA.
 6. Wait for GitHub's `pages build and deployment` run to succeed.
-7. Verify the public frontend, admin, and studio URLs.
+7. Verify the public frontend, admin, studio, and any newly added assets.
 
-Do not bypass the candidate branch. The current workflow intentionally separates build from
-production promotion.
+Do not bypass the candidate branch.
 
 ## Rollback
 
-- For the current Nuxt production release, move `gh-pages` back to the previous known-good
-  output SHA if a regression is found.
+- For the current Nuxt release, move `gh-pages` to the previous known-good generated output SHA.
 - For the pre-Nuxt legacy site, move `gh-pages` to
   `backup/gh-pages-legacy-2026-07-16` or SHA
   `0b1a1d61a5bcc4bb72e490952a582d5da62a02bd`.
-- Never delete the backup branch without explicit approval from the repository owner.
+- Never delete the backup branch without explicit owner approval.
 
 ## Known implementation limitations
 
-These are existing product limitations, not regressions from the latest work:
+These are product limitations, not regressions from the latest work:
 
-- Content and account operations are still UI/mock implementations until backend contracts exist.
+- Content and account operations remain UI/mock implementations until backend contracts exist.
 - Content store saves are in-memory placeholders.
 - Nickname state is in-memory and resets after refresh.
 - Deposit provider outcomes are simulated.
-- External campaign photography currently depends on Pexels URLs.
-- Continue to follow existing component reuse and semantic token rules in `CLAUDE.md`.
+- External campaign and category photography currently depends on Pexels URLs.
+- Continue to follow component reuse and semantic token rules in `CLAUDE.md`.
 
 ## Claude startup checklist
 
@@ -172,12 +213,13 @@ These are existing product limitations, not regressions from the latest work:
 3. Read `docs/handoff-2026-07-16.md` only when historical detail is needed.
 4. Confirm the repository is `mootech-asia/cms_system_v2`, not `cms_v2`.
 5. Confirm the requested target branch before editing.
-6. Keep all source edits on `main` unless the user explicitly requests another branch.
+6. Keep source edits on `main` unless the user explicitly requests another branch.
 7. Preserve the candidate-to-production deployment gate.
-8. Report GitHub commit, checks, deployed SHA, and verified URL after each production change.
+8. Re-test all five skins when adding new semantic tokens.
+9. Report the GitHub source commit, checks, deployed output SHA, and public verification.
 
 ## Current handoff conclusion
 
-There are no known unfinished items from the user's latest requests. The repository rename,
-fixed member sidebar, Live Game media/carousel repair, promotion-dot removal, and new Pages
-deployment are complete and verified.
+There are no known unfinished items from the user's latest requests. The game-carousel tabs,
+desktop operational banners, category provider photography, and five-skin system are complete,
+deployed, and verified on desktop and mobile.
