@@ -470,15 +470,6 @@
     /* 中性化(2026-07-16):token 合成,換膚跟色 */
     background: linear-gradient(135deg, rgb(var(--c-primary-faint)) 0%, rgb(var(--c-surface)) 50%, rgb(var(--c-bg)) 100%);
   }
-  .promo-card-art-dot {
-    border-radius: 50%;
-    background: linear-gradient(135deg, theme('colors.primary.soft'), theme('colors.primary.DEFAULT'));
-  }
-  .promo-card-art-dot-mid {
-    border-radius: 50%;
-    background: linear-gradient(135deg, theme('colors.primary.DEFAULT'), theme('colors.primary.soft'));
-  }
-
   /* 促銷詳情頁海報卡背景(surface 三階;中性化 2026-07-16) */
   .promotion-detail-poster-bg {
     background: linear-gradient(180deg, rgb(var(--c-surface)) 0%, rgb(var(--c-surface-700)) 58%, rgb(var(--c-bg)) 100%);
