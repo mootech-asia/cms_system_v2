@@ -75,6 +75,18 @@
 - 修正流程中發現的缺口,回寫各規格文件。
 - 更新 `CLAUDE.md` 專案速覽與 `docs/CLAUDE-HANDOFF-LATEST.md`,宣告新流水線生效。
 
+## 插隊任務:首次交付 cms_v2_1.0.0(先於各 Phase)🟡
+
+抽出目前工程師形式(`frontend/` Nuxt 版)成獨立 repo。
+
+- 已完成:交付腳本 `scripts/extract-delivery.sh`(複製、產 README、commit、tag、push 一鍵完成);
+  抽出內容已在乾淨環境 `npm ci && npm run build` 驗證(結果見 handoff/session 紀錄)。
+- **卡點:session 的 GitHub App 憑證無「建立 repo」權限(org 與個人帳號皆 403)。**
+- 恢復步驟(業主先在 GitHub 手動建空 repo `cms_v2_1.0.0`,不勾 README):
+  1. 新 session 把該 repo 加進 session(add_repo)並 clone。
+  2. 跑 `scripts/extract-delivery.sh <clone路徑> 1.0.0`。
+  3. 回報 push 與 tag `v1.0.0` 結果即完成。
+
 ## 待業主定案清單
 
 | # | 事項 | 建議(單一推薦) |
