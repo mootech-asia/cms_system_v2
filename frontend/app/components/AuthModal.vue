@@ -75,6 +75,13 @@ function fieldError(name: FieldName): string {
 }
 
 function onSubmit() {
+  // 開發階段登入不驗證帳號密碼，按下 Login 即進入已登入狀態。
+  if (mode.value === 'login') {
+    clearErrors();
+    submit();
+    return;
+  }
+
   clearErrors();
   let ok = true;
   for (const f of fields.value) {
