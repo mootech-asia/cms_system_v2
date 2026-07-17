@@ -102,10 +102,23 @@
   .seg-btn:hover { @apply text-ink; }
   .seg-btn.active { @apply border-transparent bg-g-primary text-on-primary; }
   .seg-btn-sm {
-    @apply rounded border-0 bg-transparent px-2 py-0.5 text-note font-semibold text-ink-4 transition-colors;
+    @apply flex items-center justify-center truncate rounded border border-line-soft bg-surface-deep px-1.5 py-1 text-micro font-semibold text-ink-3 transition-colors;
   }
-  .seg-btn-sm:hover { @apply text-ink; }
-  .seg-btn-sm.active { @apply bg-g-primary text-on-primary; }
+  .seg-btn-sm:hover { @apply border-ink-4 text-ink; }
+  .seg-btn-sm.active { @apply border-transparent bg-g-primary text-on-primary; }
+
+  /* 變體 chip 5 欄網格 — studio 側欄 chrome/區塊變體 v1–v10 chips 共用
+     (復用鐵則:同一視覺一份定義,取代原本 flex-wrap 參差換行) */
+  .variant-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  /* 小型 ghost 圓鈕 — studio 區塊卡片的上移/下移/刪除共用 */
+  .icon-btn-sm {
+    @apply flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-ink-4 transition-colors hover:bg-surface-2 hover:text-ink disabled:cursor-not-allowed disabled:opacity-30;
+  }
 
   /* Mini games 分類倒數 — v1/v2/v3 共用,其餘變體透過包裝器沿用 */
   .mini-countdown-bar {
@@ -1651,24 +1664,32 @@
     filter: drop-shadow(0 10px 28px rgb(var(--c-scrim) / .72));
   }
 
+  /* 業主 2026-07-17 鎖字型呈現:標題等比縮放、不換行,任何裝置同一構圖(設計基準 1920 = 58/118px) */
   .campaign-hero-title {
-    font-size: 58px;
+    font-size: clamp(20px, 3.02vw, 58px);
     font-style: italic;
     text-transform: uppercase;
     letter-spacing: 0;
+    white-space: nowrap;
     text-shadow:
       0 3px 0 rgb(var(--c-bg) / .9),
       0 0 24px rgb(var(--c-primary) / .38);
   }
 
   .campaign-hero-highlight {
-    font-size: 118px;
+    font-size: clamp(41px, 6.15vw, 118px);
     font-style: italic;
     letter-spacing: 0;
+    white-space: nowrap;
     text-shadow:
       0 3px 0 rgb(var(--c-bg) / .88),
       0 0 18px rgb(var(--c-primary) / .72),
       0 0 46px rgb(var(--c-primary) / .44);
+  }
+
+  .campaign-hero-sub {
+    font-size: clamp(11px, 0.84vw, 16px);
+    white-space: nowrap;
   }
 
   .campaign-hero-vignette {
@@ -1886,20 +1907,6 @@
 
     .campaign-hero-copy {
       max-width: 84%;
-    }
-
-    .campaign-hero-title {
-      font-size: 34px;
-    }
-
-    .campaign-hero-highlight {
-      font-size: 64px;
-    }
-
-    .campaign-hero-sub {
-      max-width: 280px;
-      font-size: 12px;
-      line-height: 1.65;
     }
 
     .campaign-hero-arrow {

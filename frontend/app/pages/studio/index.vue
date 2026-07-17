@@ -301,16 +301,16 @@ const exportPack = async () => {
             <svg class="collapse-chevron" :class="{ 'is-open': openGroups.chrome }" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg>
           </button>
           <div v-show="openGroups.chrome" class="collapse-body">
-            <div v-for="part in (['header', 'footer'] as const)" :key="part" class="mb-2 flex flex-col items-start gap-2 rounded-ui border border-line-soft bg-surface px-3 py-2 last:mb-0 sm:flex-row sm:items-center sm:justify-between">
-              <span class="shrink-0 text-body text-ink-2">{{ BLOCKS[`site-${part}`].label }}</span>
-              <span class="flex min-w-0 flex-wrap gap-1 sm:justify-end">
+            <div v-for="part in (['header', 'footer'] as const)" :key="part" class="mb-2 rounded-ui border border-line-soft bg-surface p-3 last:mb-0">
+              <span class="block text-body text-ink-2">{{ BLOCKS[`site-${part}`].label }}</span>
+              <div class="variant-grid mt-2">
                 <button
                   v-for="vk in variantKeys(`site-${part}`)" :key="vk" type="button"
                   class="seg-btn-sm"
                   :class="{ active: draft.chrome[part] === vk }"
                   @click="draft.chrome[part] = vk"
                 >{{ vk }}</button>
-              </span>
+              </div>
             </div>
           </div>
         </section>
@@ -334,7 +334,7 @@ const exportPack = async () => {
               />
             </div>
 
-            <ul class="space-y-2">
+            <ul class="space-y-3">
               <li
                 v-for="(s, i) in sections" :key="s.id"
                 class="rounded-ui border bg-surface p-3 transition-colors"
@@ -345,15 +345,16 @@ const exportPack = async () => {
                 @drop.prevent="onDrop"
                 @dragend="onDrop"
               >
+                <!-- 第一行:抓手 + 名稱 + 開關 + 刪除 -->
                 <div class="flex items-center gap-2">
-                  <span class="hidden cursor-grab select-none text-ink-4 lg:inline" title="拖拉排序">⠿</span>
+                  <span class="hidden shrink-0 cursor-grab select-none text-ink-4 lg:inline" title="拖拉排序">⠿</span>
                   <span class="min-w-0 flex-1 truncate text-body font-semibold" :class="s.enabled === false ? 'text-ink-4 line-through' : 'text-ink'">
                     {{ BLOCKS[s.block]?.label ?? s.block }}
                   </span>
                   <!-- 顯示開關 -->
                   <button
                     type="button" role="switch" :aria-checked="s.enabled !== false"
-                    class="relative h-5 w-9 rounded-full transition-colors"
+                    class="relative h-5 w-9 shrink-0 rounded-full transition-colors"
                     :class="s.enabled !== false ? 'bg-g-primary' : 'bg-surface-2'"
                     :title="s.enabled !== false ? '顯示中' : '已隱藏'"
                     @click="s.enabled = s.enabled === false"
@@ -363,21 +364,23 @@ const exportPack = async () => {
                       :class="s.enabled !== false ? 'left-[18px]' : 'left-0.5'"
                     />
                   </button>
-                  <button type="button" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-ui text-ink-4 hover:bg-surface-2 hover:text-danger" title="移除區塊" @click="removeSection(i)">✕</button>
+                  <button type="button" class="icon-btn-sm hover:text-danger" title="移除區塊" @click="removeSection(i)">✕</button>
                 </div>
-                <div class="mt-2 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-                  <span class="flex min-w-0 flex-1 flex-wrap gap-1">
-                    <button
-                      v-for="vk in variantKeys(s.block)" :key="vk" type="button"
-                      class="seg-btn-sm"
-                      :class="{ active: (s.variant ?? 'v1') === vk }"
-                      @click="s.variant = vk"
-                    >{{ vk }}</button>
-                  </span>
-                  <span class="flex min-h-9 shrink-0 justify-end gap-2 text-ink-4 sm:gap-1">
-                    <button type="button" class="flex h-9 w-9 items-center justify-center rounded-ui hover:bg-surface-2 hover:text-ink disabled:opacity-30" :disabled="i === 0" title="上移" @click="move(i, i - 1)">↑</button>
-                    <button type="button" class="flex h-9 w-9 items-center justify-center rounded-ui hover:bg-surface-2 hover:text-ink disabled:opacity-30" :disabled="i === sections.length - 1" title="下移" @click="move(i, i + 1)">↓</button>
-                  </span>
+
+                <!-- 第二行:v1–v10 變體 chips,5 欄網格 -->
+                <div class="variant-grid mt-2">
+                  <button
+                    v-for="vk in variantKeys(s.block)" :key="vk" type="button"
+                    class="seg-btn-sm"
+                    :class="{ active: (s.variant ?? 'v1') === vk }"
+                    @click="s.variant = vk"
+                  >{{ vk }}</button>
+                </div>
+
+                <!-- 第三行:右對齊上移/下移 -->
+                <div class="mt-2 flex justify-end gap-1">
+                  <button type="button" class="icon-btn-sm" :disabled="i === 0" title="上移" @click="move(i, i - 1)">↑</button>
+                  <button type="button" class="icon-btn-sm" :disabled="i === sections.length - 1" title="下移" @click="move(i, i + 1)">↓</button>
                 </div>
               </li>
             </ul>
