@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { CATEGORY_HERO_MEDIA } from '~/config/operational-media'
 /**
  * Live Sport 變體 v2:直向堆疊清單(取代 v1 的橫向捲動賽事卡),
  * 保留同一份 featured match(FIFA World Cup)概念與 sportsMatches 資料,
@@ -36,6 +37,14 @@ const matches = computed(() => localizeSportsMatches(sportsMatches));
       </div>
 
       <div class="media-hero-art relative mb-4 overflow-hidden rounded-xl" style="min-height: 150px;">
+        <img
+          :src="CATEGORY_HERO_MEDIA.sport.image"
+          :style="{ objectPosition: CATEGORY_HERO_MEDIA.sport.focalPoint }"
+          class="absolute inset-0 h-full w-full object-cover"
+          alt=""
+          loading="lazy"
+        >
+        <div class="absolute inset-0 bg-gradient-to-r from-scrim/85 via-scrim/55 to-scrim/25"></div>
         <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle, rgb(var(--c-primary) / 0.4) 1px, transparent 1px); background-size: 20px 20px;" />
         <div class="absolute left-4 top-4 flex items-center gap-2">
           <div class="flex h-8 w-8 items-center justify-center rounded-full bg-g-primary">
