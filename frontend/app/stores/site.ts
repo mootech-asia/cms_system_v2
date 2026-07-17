@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import type { SectionConfig } from '~/config/blocks';
 import { THEME_KEYS } from '~/utils/themes';
+import { APP_LOCALES } from '~/composables/useLocale';
 
 /**
  * 站點組態 store — R5 設計後台/R6 客戶後台調整的目標。
@@ -14,6 +15,8 @@ export const useSiteStore = defineStore('site', {
     skin: 'win100',
     /** Studio 控制前台開放哪些 skin;預設全公開,縮到 0/1 個時前台切換器隱藏。 */
     publicSkins: [...THEME_KEYS] as string[],
+    /** Studio 控制前台開放哪些語言;規則同 publicSkins。 */
+    publicLocales: APP_LOCALES.map((item) => item.code) as string[],
     /** 全站 chrome(header/footer)使用的變體 — layouts/default.vue 讀這裡 */
     chrome: { header: 'v1', footer: 'v1' },
     pages: {
@@ -58,6 +61,9 @@ export const useSiteStore = defineStore('site', {
     /** 設計後台:控制前台可看見/可切換的 skin 清單 */
     setPublicSkins(skins: string[]) {
       this.publicSkins = [...new Set(skins.filter(Boolean))];
+    },
+    setPublicLocales(locales: string[]) {
+      this.publicLocales = [...new Set(locales.filter(Boolean))];
     },
     /** 後台:站點命名(命名權下放,見 CLAUDE.md 命名鐵則) */
     setSiteName(name: string) {

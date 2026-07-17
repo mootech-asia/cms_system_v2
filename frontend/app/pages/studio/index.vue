@@ -40,6 +40,14 @@ const publicSkinSummary = computed(() =>
     : '前台 skin 選擇藏起來',
 );
 
+// ---- 側欄群組收合(預設第一組展開) ----
+const openGroups = reactive({ site: true, skin: false, chrome: false, sections: false });
+const toggleGroup = (key: keyof typeof openGroups) => { openGroups[key] = !openGroups[key]; };
+const localeLabel = computed(() => locales.find((l) => l.code === locale.value)?.label ?? locale.value);
+const skinSummary = computed(() => `${themeLabel(draft.skin)} ・ ${publicSkinSummary.value}`);
+const chromeSummary = computed(() => `header:${draft.chrome.header} / footer:${draft.chrome.footer}`);
+const sectionsSummary = computed(() => `${sections.value.length} 個區塊`);
+
 // ---- 區塊操作 ----
 const variantKeys = (block: BlockKey) => Object.keys(BLOCKS[block]?.variants ?? {});
 
@@ -187,139 +195,170 @@ const exportPack = async () => {
     <div class="flex min-h-0 flex-1">
       <!-- 左:控制欄 -->
       <aside
-        class="min-h-0 w-full flex-1 space-y-5 overflow-y-auto border-r-0 border-line-soft bg-surface p-3 sm:p-4 lg:block lg:w-[340px] lg:flex-none lg:border-r"
+        class="min-h-0 w-full flex-1 space-y-3 overflow-y-auto border-r-0 border-line-soft bg-surface p-3 sm:p-4 lg:block lg:w-[340px] lg:flex-none lg:border-r"
         :class="studioPane === 'controls' ? 'block' : 'hidden'"
       >
-        <!-- 站點名稱(命名權:設計端;隨模板包匯出) -->
-        <section>
-          <h2 class="mb-2 text-note font-bold tracking-wide2 text-ink-3">站點名稱</h2>
-          <UiInput v-model="draft.siteName" placeholder="站點名稱(瀏覽器分頁)" />
-        </section>
-
-        <!-- 前台語言預覽:studio 介面維持中文,只切換右側前台內容語言 -->
-        <section>
-          <h2 class="mb-2 text-note font-bold tracking-wide2 text-ink-3">預覽語言</h2>
-          <div class="flex flex-wrap gap-2">
-            <button
-              v-for="item in locales" :key="item.code" type="button"
-              class="seg-btn"
-              :class="{ active: locale === item.code }"
-              @click="setLocale(item.code)"
-            >{{ item.label }}</button>
+        <!-- 站點名稱 + 預覽語言 -->
+        <section class="collapse-sec">
+          <button type="button" class="collapse-head" :aria-expanded="openGroups.site" @click="toggleGroup('site')">
+            <span class="min-w-0 flex-1 text-left">
+              <span class="block text-note font-bold tracking-wide2 text-ink-3">站點名稱 / 預覽語言</span>
+              <span class="block truncate text-note text-ink-4">{{ draft.siteName || '未命名' }} ・ {{ localeLabel }}</span>
+            </span>
+            <svg class="collapse-chevron" :class="{ 'is-open': openGroups.site }" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+          </button>
+          <div v-show="openGroups.site" class="collapse-body space-y-4">
+            <div>
+              <h3 class="mb-2 text-note font-bold tracking-wide2 text-ink-3">站點名稱</h3>
+              <UiInput v-model="draft.siteName" placeholder="站點名稱(瀏覽器分頁)" />
+            </div>
+            <div>
+              <h3 class="mb-2 text-note font-bold tracking-wide2 text-ink-3">預覽語言</h3>
+              <div class="flex flex-wrap gap-2">
+                <button
+                  v-for="item in locales" :key="item.code" type="button"
+                  class="seg-btn"
+                  :class="{ active: locale === item.code }"
+                  @click="setLocale(item.code)"
+                >{{ item.label }}</button>
+              </div>
+            </div>
           </div>
         </section>
 
         <!-- 皮膚 -->
-        <section>
-          <div class="mb-2 flex items-center justify-between gap-2">
-            <h2 class="text-note font-bold tracking-wide2 text-ink-3">皮膚</h2>
-            <UiTag :label="publicSkinSummary" :status="draft.publicSkins.length > 1 ? 'ok' : 'neutral'" />
-          </div>
-          <p class="mb-2 text-note text-ink-4">本站套用</p>
-          <div class="flex flex-wrap gap-2">
-            <button
-              v-for="k in THEME_KEYS" :key="k" type="button"
-              class="seg-btn"
-              :class="{ active: draft.skin === k }"
-              @click="draft.skin = k"
-            >{{ themeLabel(k) }}</button>
-          </div>
-          <p class="mb-2 mt-3 text-note text-ink-4">前台可見</p>
-          <div class="flex flex-wrap gap-2">
-            <button
-              v-for="k in THEME_KEYS" :key="`public-${k}`" type="button"
-              role="checkbox"
-              class="seg-btn"
-              :aria-checked="isPublicSkin(k)"
-              :class="{ active: isPublicSkin(k) }"
-              @click="togglePublicSkin(k)"
-            >{{ isPublicSkin(k) ? '✓ ' : '' }}{{ themeLabel(k) }}</button>
+        <section class="collapse-sec">
+          <button type="button" class="collapse-head" :aria-expanded="openGroups.skin" @click="toggleGroup('skin')">
+            <span class="min-w-0 flex-1 text-left">
+              <span class="block text-note font-bold tracking-wide2 text-ink-3">皮膚</span>
+              <span class="block truncate text-note text-ink-4">{{ skinSummary }}</span>
+            </span>
+            <svg class="collapse-chevron" :class="{ 'is-open': openGroups.skin }" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+          </button>
+          <div v-show="openGroups.skin" class="collapse-body">
+            <p class="mb-2 text-note text-ink-4">本站套用</p>
+            <div class="flex flex-wrap gap-2">
+              <button
+                v-for="k in THEME_KEYS" :key="k" type="button"
+                class="seg-btn"
+                :class="{ active: draft.skin === k }"
+                @click="draft.skin = k"
+              >{{ themeLabel(k) }}</button>
+            </div>
+            <p class="mb-2 mt-3 text-note text-ink-4">前台可見</p>
+            <div class="flex flex-wrap gap-2">
+              <button
+                v-for="k in THEME_KEYS" :key="`public-${k}`" type="button"
+                role="checkbox"
+                class="seg-btn"
+                :aria-checked="isPublicSkin(k)"
+                :class="{ active: isPublicSkin(k) }"
+                @click="togglePublicSkin(k)"
+              >{{ isPublicSkin(k) ? '✓ ' : '' }}{{ themeLabel(k) }}</button>
+            </div>
           </div>
         </section>
 
         <!-- 全站 chrome -->
-        <section>
-          <h2 class="mb-2 text-note font-bold tracking-wide2 text-ink-3">全站 CHROME</h2>
-          <div v-for="part in (['header', 'footer'] as const)" :key="part" class="mb-2 flex flex-col items-start gap-2 rounded-ui border border-line-soft bg-surface-deep px-3 py-2 sm:flex-row sm:items-center sm:justify-between">
-            <span class="shrink-0 text-body text-ink-2">{{ BLOCKS[`site-${part}`].label }}</span>
-            <span class="flex min-w-0 flex-wrap gap-1 sm:justify-end">
-              <button
-                v-for="vk in variantKeys(`site-${part}`)" :key="vk" type="button"
-                class="seg-btn-sm"
-                :class="{ active: draft.chrome[part] === vk }"
-                @click="draft.chrome[part] = vk"
-              >{{ vk }}</button>
+        <section class="collapse-sec">
+          <button type="button" class="collapse-head" :aria-expanded="openGroups.chrome" @click="toggleGroup('chrome')">
+            <span class="min-w-0 flex-1 text-left">
+              <span class="block text-note font-bold tracking-wide2 text-ink-3">全站 CHROME</span>
+              <span class="block truncate text-note text-ink-4">{{ chromeSummary }}</span>
             </span>
+            <svg class="collapse-chevron" :class="{ 'is-open': openGroups.chrome }" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+          </button>
+          <div v-show="openGroups.chrome" class="collapse-body">
+            <div v-for="part in (['header', 'footer'] as const)" :key="part" class="mb-2 flex flex-col items-start gap-2 rounded-ui border border-line-soft bg-surface px-3 py-2 last:mb-0 sm:flex-row sm:items-center sm:justify-between">
+              <span class="shrink-0 text-body text-ink-2">{{ BLOCKS[`site-${part}`].label }}</span>
+              <span class="flex min-w-0 flex-wrap gap-1 sm:justify-end">
+                <button
+                  v-for="vk in variantKeys(`site-${part}`)" :key="vk" type="button"
+                  class="seg-btn-sm"
+                  :class="{ active: draft.chrome[part] === vk }"
+                  @click="draft.chrome[part] = vk"
+                >{{ vk }}</button>
+              </span>
+            </div>
           </div>
         </section>
 
         <!-- 頁面區塊 -->
-        <section>
-          <div class="mb-2 flex flex-col items-stretch gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <h2 class="shrink-0 whitespace-nowrap text-note font-bold tracking-wide2 text-ink-3">頁面區塊</h2>
-            <UiSelect
-              v-model="page"
-              :options="Object.keys(draft.pages).map((p) => ({ label: p, value: p }))"
-              option-label="label" option-value="value" class="w-full sm:w-32"
-            />
-          </div>
+        <section class="collapse-sec">
+          <button type="button" class="collapse-head" :aria-expanded="openGroups.sections" @click="toggleGroup('sections')">
+            <span class="min-w-0 flex-1 text-left">
+              <span class="block text-note font-bold tracking-wide2 text-ink-3">頁面區塊</span>
+              <span class="block truncate text-note text-ink-4">{{ page }} ・ {{ sectionsSummary }}</span>
+            </span>
+            <svg class="collapse-chevron" :class="{ 'is-open': openGroups.sections }" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+          </button>
+          <div v-show="openGroups.sections" class="collapse-body">
+            <div class="mb-2 flex flex-col items-stretch gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <span class="shrink-0 whitespace-nowrap text-note font-bold tracking-wide2 text-ink-3">切換頁面</span>
+              <UiSelect
+                v-model="page"
+                :options="Object.keys(draft.pages).map((p) => ({ label: p, value: p }))"
+                option-label="label" option-value="value" class="w-full sm:w-32"
+              />
+            </div>
 
-          <ul class="space-y-2">
-            <li
-              v-for="(s, i) in sections" :key="s.id"
-              class="rounded-ui border bg-surface-deep p-3 transition-colors"
-              :class="overIdx === i && dragIdx !== null && dragIdx !== i ? 'border-primary' : 'border-line-soft'"
-              draggable="true"
-              @dragstart="dragIdx = i"
-              @dragover.prevent="overIdx = i"
-              @drop.prevent="onDrop"
-              @dragend="onDrop"
-            >
-              <div class="flex items-center gap-2">
-                <span class="hidden cursor-grab select-none text-ink-4 lg:inline" title="拖拉排序">⠿</span>
-                <span class="min-w-0 flex-1 truncate text-body font-semibold" :class="s.enabled === false ? 'text-ink-4 line-through' : 'text-ink'">
-                  {{ BLOCKS[s.block]?.label ?? s.block }}
-                </span>
-                <!-- 顯示開關 -->
-                <button
-                  type="button" role="switch" :aria-checked="s.enabled !== false"
-                  class="relative h-5 w-9 rounded-full transition-colors"
-                  :class="s.enabled !== false ? 'bg-g-primary' : 'bg-surface-2'"
-                  :title="s.enabled !== false ? '顯示中' : '已隱藏'"
-                  @click="s.enabled = s.enabled === false"
-                >
-                  <span
-                    class="absolute top-0.5 h-4 w-4 rounded-full bg-surface transition-all"
-                    :class="s.enabled !== false ? 'left-[18px]' : 'left-0.5'"
-                  />
-                </button>
-                <button type="button" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-ui text-ink-4 hover:bg-surface-2 hover:text-danger" title="移除區塊" @click="removeSection(i)">✕</button>
-              </div>
-              <div class="mt-2 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-                <span class="flex min-w-0 flex-1 flex-wrap gap-1">
+            <ul class="space-y-2">
+              <li
+                v-for="(s, i) in sections" :key="s.id"
+                class="rounded-ui border bg-surface p-3 transition-colors"
+                :class="overIdx === i && dragIdx !== null && dragIdx !== i ? 'border-primary' : 'border-line-soft'"
+                draggable="true"
+                @dragstart="dragIdx = i"
+                @dragover.prevent="overIdx = i"
+                @drop.prevent="onDrop"
+                @dragend="onDrop"
+              >
+                <div class="flex items-center gap-2">
+                  <span class="hidden cursor-grab select-none text-ink-4 lg:inline" title="拖拉排序">⠿</span>
+                  <span class="min-w-0 flex-1 truncate text-body font-semibold" :class="s.enabled === false ? 'text-ink-4 line-through' : 'text-ink'">
+                    {{ BLOCKS[s.block]?.label ?? s.block }}
+                  </span>
+                  <!-- 顯示開關 -->
                   <button
-                    v-for="vk in variantKeys(s.block)" :key="vk" type="button"
-                    class="seg-btn-sm"
-                    :class="{ active: (s.variant ?? 'v1') === vk }"
-                    @click="s.variant = vk"
-                  >{{ vk }}</button>
-                </span>
-                <span class="flex min-h-9 shrink-0 justify-end gap-2 text-ink-4 sm:gap-1">
-                  <button type="button" class="flex h-9 w-9 items-center justify-center rounded-ui hover:bg-surface-2 hover:text-ink disabled:opacity-30" :disabled="i === 0" title="上移" @click="move(i, i - 1)">↑</button>
-                  <button type="button" class="flex h-9 w-9 items-center justify-center rounded-ui hover:bg-surface-2 hover:text-ink disabled:opacity-30" :disabled="i === sections.length - 1" title="下移" @click="move(i, i + 1)">↓</button>
-                </span>
-              </div>
-            </li>
-          </ul>
+                    type="button" role="switch" :aria-checked="s.enabled !== false"
+                    class="relative h-5 w-9 rounded-full transition-colors"
+                    :class="s.enabled !== false ? 'bg-g-primary' : 'bg-surface-2'"
+                    :title="s.enabled !== false ? '顯示中' : '已隱藏'"
+                    @click="s.enabled = s.enabled === false"
+                  >
+                    <span
+                      class="absolute top-0.5 h-4 w-4 rounded-full bg-surface transition-all"
+                      :class="s.enabled !== false ? 'left-[18px]' : 'left-0.5'"
+                    />
+                  </button>
+                  <button type="button" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-ui text-ink-4 hover:bg-surface-2 hover:text-danger" title="移除區塊" @click="removeSection(i)">✕</button>
+                </div>
+                <div class="mt-2 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+                  <span class="flex min-w-0 flex-1 flex-wrap gap-1">
+                    <button
+                      v-for="vk in variantKeys(s.block)" :key="vk" type="button"
+                      class="seg-btn-sm"
+                      :class="{ active: (s.variant ?? 'v1') === vk }"
+                      @click="s.variant = vk"
+                    >{{ vk }}</button>
+                  </span>
+                  <span class="flex min-h-9 shrink-0 justify-end gap-2 text-ink-4 sm:gap-1">
+                    <button type="button" class="flex h-9 w-9 items-center justify-center rounded-ui hover:bg-surface-2 hover:text-ink disabled:opacity-30" :disabled="i === 0" title="上移" @click="move(i, i - 1)">↑</button>
+                    <button type="button" class="flex h-9 w-9 items-center justify-center rounded-ui hover:bg-surface-2 hover:text-ink disabled:opacity-30" :disabled="i === sections.length - 1" title="下移" @click="move(i, i + 1)">↓</button>
+                  </span>
+                </div>
+              </li>
+            </ul>
 
-          <!-- 新增區塊 -->
-          <div class="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center">
-            <UiSelect
-              v-model="addPick"
-              :options="ADDABLE.map((k) => ({ label: BLOCKS[k].label, value: k }))"
-              option-label="label" option-value="value" placeholder="從區塊庫新增…" class="min-w-0 flex-1"
-            />
-            <UiButton class="w-full sm:w-auto" label="新增" size="sm" variant="ghost" :disabled="!addPick" @click="addSection" />
+            <!-- 新增區塊 -->
+            <div class="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center">
+              <UiSelect
+                v-model="addPick"
+                :options="ADDABLE.map((k) => ({ label: BLOCKS[k].label, value: k }))"
+                option-label="label" option-value="value" placeholder="從區塊庫新增…" class="min-w-0 flex-1"
+              />
+              <UiButton class="w-full sm:w-auto" label="新增" size="sm" variant="ghost" :disabled="!addPick" @click="addSection" />
+            </div>
           </div>
         </section>
       </aside>
