@@ -120,6 +120,12 @@
     @apply flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-ink-4 transition-colors hover:bg-surface-2 hover:text-ink disabled:cursor-not-allowed disabled:opacity-30;
   }
 
+  /* Ghost 方鈕(h-9 版)— admin.vue 上移/下移/移除鈕共用(icon-btn-sm 同視覺定義,
+     h-9/rounded-ui 版本;danger 狀態比照 icon-btn-sm 寫法,外加 hover:text-danger 工具類) */
+  .icon-btn {
+    @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-ui text-ink-4 transition-colors hover:bg-surface-2 hover:text-ink disabled:cursor-not-allowed disabled:opacity-30;
+  }
+
   /* Mini games 分類倒數 — v1/v2/v3 共用,其餘變體透過包裝器沿用 */
   .mini-countdown-bar {
     position: absolute;

@@ -376,8 +376,11 @@ export function useLocale() {
     localizeHotGames: (games: HotGame[]) => games.map((game) => copyHotGame(game, locale.value)),
     localizeMiniTabs: <T extends MiniGamesTab | GameCategory>(tabs: T[]) =>
       tabs.map((tab) => copyMiniTab(tab, locale.value)),
+    // 佔位:待營運文案資料備妥後在此實作,呼叫端已接線
     localizePromoCards: (cards: PromoCard[]) => cards,
+    // 佔位:待營運文案資料備妥後在此實作,呼叫端已接線
     localizeSportsMatches: (matches: SportsMatch[]) => matches,
+    // 佔位:待營運文案資料備妥後在此實作,呼叫端已接線
     localizeTickerWins: (wins: TickerWin[]) => wins,
   };
 }

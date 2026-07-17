@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
+import { computed } from 'vue';
 
 const content = useContentStore();
 const { localizeBanners } = useLocale();
 const banners = computed(() => localizeBanners(content.banners));
-const idx = ref(0);
+const { index: idx, next, prev, restart } = useCarousel(() => banners.value.length, 6000);
 const b = computed(() => banners.value[idx.value]!);
 
 const mediaSrc = (src?: string) => {
@@ -15,22 +15,7 @@ const hideBrokenMedia = (event: Event) => {
   (event.currentTarget as HTMLImageElement).hidden = true;
 };
 
-let timer: ReturnType<typeof setInterval> | null = null;
 let startX = 0;
-const stop = () => {
-  if (timer) clearInterval(timer);
-  timer = null;
-};
-const next = () => {
-  if (banners.value.length) idx.value = (idx.value + 1) % banners.value.length;
-};
-const prev = () => {
-  if (banners.value.length) idx.value = (idx.value - 1 + banners.value.length) % banners.value.length;
-};
-const restart = () => {
-  stop();
-  if (banners.value.length > 1) timer = setInterval(next, 6000);
-};
 const go = (i: number) => {
   idx.value = i;
   restart();
@@ -44,14 +29,6 @@ const onEnd = (event: TouchEvent) => {
   else if (dx > 40) prev();
   restart();
 };
-
-watch(() => banners.value.length, (length) => {
-  if (idx.value >= length) idx.value = 0;
-  restart();
-});
-
-onMounted(restart);
-onUnmounted(stop);
 </script>
 
 <template>

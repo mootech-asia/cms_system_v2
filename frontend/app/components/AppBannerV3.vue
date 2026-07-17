@@ -3,12 +3,12 @@
  * Banner 變體 v3:分割式 — 左半主打 slide、右半其餘 slides 的直欄縮圖清單(可點切換)。
  * 吃同一份 config/mock/home.ts banners 內容與皮膚 token,只換版面。
  */
-import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
+import { computed } from 'vue';
 const content = useContentStore();
 const { localizeBanners } = useLocale();
 const banners = computed(() => localizeBanners(content.banners));
 
-const idx = ref(0);
+const { index: idx, restart } = useCarousel(() => banners.value.length, 5000);
 const b = computed(() => banners.value[idx.value]!);
 const mediaSrc = (src?: string) => {
   if (!src) return '';
@@ -17,23 +17,8 @@ const mediaSrc = (src?: string) => {
 const hideBrokenMedia = (event: Event) => {
   (event.currentTarget as HTMLImageElement).hidden = true;
 };
-let timer: ReturnType<typeof setInterval> | null = null;
 
-const next = () => { if (banners.value.length) idx.value = (idx.value + 1) % banners.value.length; };
 const go = (i: number) => { idx.value = i; restart(); };
-const stop = () => { if (timer) clearInterval(timer); timer = null; };
-const restart = () => {
-  stop();
-  if (banners.value.length > 1) timer = setInterval(next, 5000);
-};
-
-watch(() => banners.value.length, (length) => {
-  if (idx.value >= length) idx.value = 0;
-  restart();
-});
-
-onMounted(restart);
-onUnmounted(stop);
 </script>
 
 <template>

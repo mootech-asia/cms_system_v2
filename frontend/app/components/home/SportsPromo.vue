@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { CATEGORY_HERO_MEDIA } from '~/config/operational-media'
 import { sportsMatches } from '~/config/mock/home'
 
 const { t, localizeSportsMatches } = useLocale();
@@ -55,6 +56,14 @@ const matches = computed(() => localizeSportsMatches(sportsMatches));
         </div>
       </div>
       <div class="media-hero-art relative rounded-xl overflow-hidden mb-4" style="min-height: 160px;">
+        <img
+          :src="CATEGORY_HERO_MEDIA.sport.image"
+          :style="{ objectPosition: CATEGORY_HERO_MEDIA.sport.focalPoint }"
+          class="absolute inset-0 h-full w-full object-cover"
+          alt=""
+          loading="lazy"
+        >
+        <div class="absolute inset-0 bg-gradient-to-r from-scrim/85 via-scrim/55 to-scrim/25"></div>
         <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle, rgb(var(--c-primary) / 0.4) 1px, transparent 1px); background-size: 20px 20px;">
         </div>
         <div class="absolute top-4 left-4 flex items-center gap-2">
