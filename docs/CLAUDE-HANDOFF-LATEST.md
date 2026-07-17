@@ -28,9 +28,9 @@ The old `cms_v2` Pages URL is retired and must not be used.
 
 | Purpose | Branch / source | SHA |
 |---|---|---|
-| Deployed frontend source | `main` | `61f750ceaba4649b6861030b89614f9aa81cc1c0` |
-| Candidate output | `pages-candidate` | `9cf26056c2b58fb7956821863f9c38413dbacb5a` |
-| Production output | `gh-pages` | `9cf26056c2b58fb7956821863f9c38413dbacb5a` |
+| Deployed frontend source | `main` | `ffd99700ca76907c920399ffb84d3ff85a64c1bf` |
+| Candidate output | `pages-candidate` | `9e67d02d5dc29c99145a5aa6ea504c28cb2e4ab1` |
+| Production output | `gh-pages` | `9e67d02d5dc29c99145a5aa6ea504c28cb2e4ab1` |
 | Legacy production backup | `backup/gh-pages-legacy-2026-07-16` | `0b1a1d61a5bcc4bb72e490952a582d5da62a02bd` |
 
 The commit that updates this handoff is documentation-only and may make `main` newer than the
@@ -59,6 +59,13 @@ also ready.
 - Frontend checks: run `29523809039`, success.
 - Build Pages candidate: run `29523809019`, success.
 - GitHub Pages deployment: run `29524179052`, success.
+
+### Development login bypass release (current production)
+
+- Source commit: `ffd99700ca76907c920399ffb84d3ff85a64c1bf`.
+- Frontend checks: run `29548118308`, success.
+- Build Pages candidate: run `29548118300`, success.
+- GitHub Pages deployment: run `29548317021`, success.
 
 ## Latest completed user requests
 
@@ -209,6 +216,31 @@ Production verification:
 - All five skin names remain available.
 - Carousel tabs and `Show all` routing remain functional.
 
+### 6. Login credential validation disabled for development
+
+File:
+
+- `frontend/app/components/AuthModal.vue`
+
+Behavior:
+
+- Login mode intentionally bypasses username and password validation.
+- Clicking Login with empty fields or arbitrary values immediately enters the mock logged-in state.
+- Register and Forgot Password validation behavior remains unchanged.
+- No member-route guard existed, so no routing or account page protection was removed.
+
+Verification:
+
+- Empty username/password: login succeeded and the modal closed.
+- Arbitrary short credentials (`x` / `1`): login succeeded.
+- Register with empty fields: modal remained open and displayed five validation messages.
+- Desktop and mobile menu login both succeeded.
+- Desktop and mobile horizontal overflow: `0px`.
+
+This bypass is explicitly requested for the current development phase. Do not restore credential
+validation until the user asks for production authentication or a backend authentication contract
+is available.
+
 ## Earlier completed work still present
 
 - Desktop member sidebar is fixed below the 64px member header; mobile uses bottom navigation.
@@ -247,6 +279,7 @@ These are product limitations, not regressions from the latest work:
 - Content store saves are in-memory placeholders.
 - Nickname state is in-memory and resets after refresh.
 - Deposit provider outcomes are simulated.
+- Login accepts empty or arbitrary credentials by design during development.
 - External campaign and category photography currently depends on Pexels URLs.
 - Continue to follow component reuse and semantic token rules in `CLAUDE.md`.
 
@@ -266,4 +299,5 @@ These are product limitations, not regressions from the latest work:
 
 There are no known unfinished items from the user's latest requests. The game-carousel tabs,
 desktop operational banners, category provider photography, five-skin system, and vivid Emerald
-contrast update are complete, deployed, and verified on desktop and mobile.
+contrast update are complete. The development login bypass is also deployed and verified on
+desktop and mobile.
