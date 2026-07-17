@@ -7,10 +7,10 @@ type Method = 'bank' | 'linepay' | 'trc20' | 'erc20';
 type ModalType = 'success' | 'warning';
 
 const gateways: Array<{ id: Gateway; label: string; methodCount: number }> = [
-  { id: 'a', label: 'Payment Gateway Provider A', methodCount: 4 },
-  { id: 'b', label: 'Payment Gateway Provider B', methodCount: 3 },
-  { id: 'c', label: 'Payment Gateway Provider C', methodCount: 2 },
-  { id: 'd', label: 'Payment Gateway Provider D', methodCount: 1 },
+  { id: 'a', label: 'Provider A', methodCount: 4 },
+  { id: 'b', label: 'Provider B', methodCount: 3 },
+  { id: 'c', label: 'Provider C', methodCount: 2 },
+  { id: 'd', label: 'Provider D', methodCount: 1 },
 ];
 
 const paymentMethods: Array<{ id: Method; label: string; icon: string }> = [

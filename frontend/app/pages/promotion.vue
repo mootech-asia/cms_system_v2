@@ -105,18 +105,6 @@ function backToList() {
                 @error="hideBrokenMedia"
               >
               <div class="operation-promo-scrim absolute inset-0" />
-              <div class="absolute inset-0 flex items-center justify-center">
-                <span class="font-extrabold select-none text-primary text-[54px] tracking-[0.12em] opacity-[0.07]">PROMO!</span>
-              </div>
-              <div class="absolute top-2 right-3 flex flex-col items-end gap-[3px]">
-                <div class="h-[26px] w-[26px] rounded-full bg-gradient-to-br from-primary-soft to-primary opacity-[0.85]"></div>
-                <div class="promo-card-art-dot-mid h-4 w-4 rounded-full opacity-60 mr-2.5"></div>
-                <div class="h-5 w-5 rounded-full bg-gradient-to-br from-primary-soft to-primary opacity-[0.45] mr-0.5"></div>
-              </div>
-              <div class="absolute inset-0 flex flex-col justify-center px-4">
-                <p class="text-xs mb-1.5 text-primary tracking-[0.2em]">SPECIAL OFFER</p>
-                <p class="text-gradient-primary text-2xl font-extrabold tracking-[0.06em]">PROMOTION</p>
-              </div>
             </div>
             <div class="p-6">
               <h3 class="text-ink text-xl mb-4 text-center">{{ p.title }}</h3>

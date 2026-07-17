@@ -51,7 +51,6 @@ function goDetail(id: string) {
           </div>
           <div class="min-w-0 flex-1">
             <p class="text-ink text-sm truncate">{{ p.name }}</p>
-            <p class="text-ink-4 text-[11px] tracking-wide2">SPECIAL OFFER</p>
           </div>
           <button
             type="button"

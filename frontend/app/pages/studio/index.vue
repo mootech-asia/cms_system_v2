@@ -138,10 +138,10 @@ const exportPack = async () => {
           設計後台 <span class="text-note font-normal text-ink-4">/studio</span>
         </h1>
       </div>
-      <div class="grid w-full grid-cols-2 gap-2 sm:ml-auto sm:flex sm:w-auto">
+      <div class="grid w-full grid-cols-1 gap-2 min-[360px]:grid-cols-2 sm:ml-auto sm:flex sm:w-auto">
         <UiButton class="w-full" label="重設草稿" variant="ghost" size="sm" @click="resetDraft" />
         <UiButton class="w-full" label="套用到本站" variant="ghost" size="sm" @click="applyToSite" />
-        <UiButton class="col-span-2 w-full sm:w-auto" label="匯出模板包" size="sm" @click="exportPack" />
+        <UiButton class="w-full min-[360px]:col-span-2 sm:w-auto" label="匯出模板包" size="sm" @click="exportPack" />
       </div>
       <div v-if="applied || exportError" class="flex w-full min-w-0 flex-wrap gap-2">
         <UiTag v-if="applied" label="已套用(儲存 API 為占位)" status="ok" />

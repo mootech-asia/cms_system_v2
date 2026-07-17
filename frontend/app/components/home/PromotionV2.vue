@@ -38,13 +38,6 @@ function goDetail(id: string) {
           <div class="promo-card-art relative h-28 overflow-hidden">
             <img v-if="p.img" :src="mediaSrc(p.img)" :alt="p.name" class="operation-promo-media absolute inset-0 h-full w-full object-cover" :style="{ objectPosition: p.focalPoint || 'center' }" loading="lazy" @error="hideBrokenMedia">
             <div class="operation-promo-scrim absolute inset-0" />
-            <div class="absolute inset-0 flex items-center justify-center">
-              <span class="font-extrabold select-none text-primary" style="font-size: 54px; letter-spacing: 0.12em; opacity: 0.07;">PROMO!</span>
-            </div>
-            <div class="absolute inset-0 flex flex-col justify-center px-4">
-              <p class="text-xs mb-1.5 text-primary" style="letter-spacing: 0.2em;">SPECIAL OFFER</p>
-              <p class="text-gradient-primary text-2xl font-extrabold tracking-wide2">PROMOTION</p>
-            </div>
           </div>
           <div class="p-4">
             <h3 class="text-ink text-sm mb-3 text-center">{{ p.name }}</h3>

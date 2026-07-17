@@ -5,8 +5,6 @@ const { banners } = useContentStore();
 const idx = ref(0);
 const paused = ref(false);
 const b = computed(() => banners[idx.value]!);
-const slideNumber = computed(() => String(idx.value + 1).padStart(2, '0'));
-const slideTotal = computed(() => String(banners.length).padStart(2, '0'));
 
 const mediaSrc = (src?: string) => {
   if (!src) return '';
@@ -106,11 +104,6 @@ onUnmounted(stop);
             <button class="btn-primary btn-md campaign-hero-cta text-sm md:text-base">{{ b.cta }}</button>
           </div>
         </div>
-      </div>
-
-      <div class="campaign-hero-counter absolute right-6 top-6 z-20 hidden items-baseline gap-1.5 text-ink md:flex xl:right-10 xl:top-8">
-        <span class="text-xl font-black">{{ slideNumber }}</span>
-        <span class="text-xs text-ink-3">/ {{ slideTotal }}</span>
       </div>
 
       <button type="button" class="campaign-hero-arrow campaign-hero-arrow--prev" aria-label="Previous campaign" @click="prev(); restart()">

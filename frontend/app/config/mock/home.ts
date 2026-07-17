@@ -177,8 +177,7 @@ export const sportsMatches: SportsMatch[] = [
 // ---- Promotion ---------------------------------------------------------
 // 原檔案有 4 個不重複的 promo 卡片(RioBet/BitStarz/IceCasino/Gamdom),
 // 各自在桌面 grid 與行動版橫向捲動各出現一次(共 8 個 DOM 區塊,均為結構重複而非內容重複)。
-// 卡片本身的視覺(PROMO! 浮水印、PROMOTION 漸層字、SPECIAL OFFER 文案、裝飾圓點)在 4 者之間
-// 完全相同、零文字差異 —— 唯一變化的欄位是 name / id(用於 goDetail 導頁)。
+// 卡片的內容差異由 name / id 控制,並用於 goDetail 導頁。
 
 export interface PromoCard {
   id: string;
