@@ -25,7 +25,6 @@ const mediaSrc = (src: string) => (/^(https?:)?\/\//.test(src) ? src : withBase(
           :key="s.key"
           class="mini-countdown-section"
           :class="active === s.key ? 'is-active' : ''"
-          @mouseenter="setActive(s.key)"
         >
           <div class="flex items-center justify-between mb-3">
             <button type="button" class="text-ink text-sm md:text-base font-bold transition-colors hover:text-primary" @click="setActive(s.key)">{{ s.label }}</button>

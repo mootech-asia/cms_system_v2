@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 
 const content = useContentStore();
 const { localizeBanners } = useLocale();
 const banners = computed(() => localizeBanners(content.banners));
 const idx = ref(0);
-const paused = ref(false);
 const b = computed(() => banners.value[idx.value]!);
 
 const mediaSrc = (src?: string) => {
@@ -30,18 +29,10 @@ const prev = () => {
 };
 const restart = () => {
   stop();
-  if (!paused.value && banners.value.length > 1) timer = setInterval(next, 6000);
+  if (banners.value.length > 1) timer = setInterval(next, 6000);
 };
 const go = (i: number) => {
   idx.value = i;
-  restart();
-};
-const pause = () => {
-  paused.value = true;
-  stop();
-};
-const resume = () => {
-  paused.value = false;
   restart();
 };
 const onStart = (event: TouchEvent) => {
@@ -54,6 +45,11 @@ const onEnd = (event: TouchEvent) => {
   restart();
 };
 
+watch(() => banners.value.length, (length) => {
+  if (idx.value >= length) idx.value = 0;
+  restart();
+});
+
 onMounted(restart);
 onUnmounted(stop);
 </script>
@@ -65,10 +61,6 @@ onUnmounted(stop);
     :data-campaign="b.id"
     aria-roledescription="carousel"
     aria-label="Featured campaigns"
-    @mouseenter="pause"
-    @mouseleave="resume"
-    @focusin="pause"
-    @focusout="resume"
     @touchstart="onStart"
     @touchend="onEnd"
   >

@@ -3,7 +3,7 @@
  * Banner 變體 v2:置中卡片式(取代 v1 的左靠+雷達點陣背景),
  * 吃同一份 config/mock/home.ts banners 內容與皮膚 token,只換版面。
  */
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 const content = useContentStore();
 const { localizeBanners } = useLocale();
 const banners = computed(() => localizeBanners(content.banners));
@@ -21,10 +21,19 @@ let timer: ReturnType<typeof setInterval> | null = null;
 
 const next = () => { if (banners.value.length) idx.value = (idx.value + 1) % banners.value.length; };
 const go = (i: number) => { idx.value = i; restart(); };
-const restart = () => { if (timer) clearInterval(timer); timer = setInterval(next, 5000); };
+const stop = () => { if (timer) clearInterval(timer); timer = null; };
+const restart = () => {
+  stop();
+  if (banners.value.length > 1) timer = setInterval(next, 5000);
+};
+
+watch(() => banners.value.length, (length) => {
+  if (idx.value >= length) idx.value = 0;
+  restart();
+});
 
 onMounted(restart);
-onUnmounted(() => { if (timer) clearInterval(timer); });
+onUnmounted(stop);
 </script>
 
 <template>
