@@ -265,12 +265,14 @@ const cryptoReady = computed(() => Number(cryptoAmount.value.replace(/[^\d]/g, '
       <p class="text-ink-2 text-sm md:text-base mb-6">{{ t('deposit.qr.hint') }}</p>
 
       <div class="mb-6 flex w-full justify-center">
-        <div class="rounded-ui bg-primary p-4">
-          <svg viewBox="0 0 21 21" class="h-[180px] w-[180px]" role="img" :aria-label="t('deposit.qr.altText')">
-            <rect x="0" y="0" width="21" height="21" class="fill-primary" />
+        <div class="rounded-ui overflow-hidden">
+          <!-- QR 一律黑白(掃描對比需求,業主 2026-07-17),不套主題 token -->
+          <svg viewBox="-2 -2 25 25" class="h-[196px] w-[196px]" role="img" :aria-label="t('deposit.qr.altText')">
+            <rect x="-2" y="-2" width="25" height="25" fill="#ffffff" />
             <template v-for="pos in qrFinderPositions" :key="`f-${pos.x}-${pos.y}`">
-              <rect :x="pos.x" :y="pos.y" width="7" height="7" class="fill-on-primary" />
-              <rect :x="pos.x + 2" :y="pos.y + 2" width="3" height="3" class="fill-primary" />
+              <rect :x="pos.x" :y="pos.y" width="7" height="7" fill="#000000" />
+              <rect :x="pos.x + 1" :y="pos.y + 1" width="5" height="5" fill="#ffffff" />
+              <rect :x="pos.x + 2" :y="pos.y + 2" width="3" height="3" fill="#000000" />
             </template>
             <rect
               v-for="cell in qrModules"
@@ -279,7 +281,7 @@ const cryptoReady = computed(() => Number(cryptoAmount.value.replace(/[^\d]/g, '
               :y="cell.y"
               width="1"
               height="1"
-              class="fill-on-primary"
+              fill="#000000"
             />
           </svg>
         </div>

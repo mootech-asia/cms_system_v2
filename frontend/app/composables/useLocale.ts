@@ -95,7 +95,7 @@ const messages = {
     'deposit.qr.copy': '複製',
     'deposit.qr.copied': '已複製',
     'deposit.qr.note': '此為示意用 QR Code 與付款網址，僅供介面展示。',
-    'deposit.qr.confirm': '已完成付款',
+    'deposit.qr.confirm': '下一步',
     'deposit.qr.altText': '付款 QR Code',
   },
   en: {
@@ -151,7 +151,7 @@ const messages = {
     'deposit.qr.copy': 'Copy',
     'deposit.qr.copied': 'Copied',
     'deposit.qr.note': 'This QR code and payment link are for demonstration purposes only.',
-    'deposit.qr.confirm': "I've Completed Payment",
+    'deposit.qr.confirm': 'Next',
     'deposit.qr.altText': 'Payment QR code',
   },
   ko: {
@@ -207,7 +207,7 @@ const messages = {
     'deposit.qr.copy': '복사',
     'deposit.qr.copied': '복사됨',
     'deposit.qr.note': '본 QR 코드와 결제 링크는 화면 시연용입니다.',
-    'deposit.qr.confirm': '결제 완료',
+    'deposit.qr.confirm': '다음',
     'deposit.qr.altText': '결제 QR 코드',
   },
   th: {
@@ -263,7 +263,7 @@ const messages = {
     'deposit.qr.copy': 'คัดลอก',
     'deposit.qr.copied': 'คัดลอกแล้ว',
     'deposit.qr.note': 'คิวอาร์โค้ดและลิงก์ชำระเงินนี้ใช้เพื่อสาธิตหน้าจอเท่านั้น',
-    'deposit.qr.confirm': 'ชำระเงินเสร็จสิ้น',
+    'deposit.qr.confirm': 'ถัดไป',
     'deposit.qr.altText': 'คิวอาร์โค้ดสำหรับชำระเงิน',
   },
 } satisfies Record<AppLocale, Record<string, string>>;
