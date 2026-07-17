@@ -36,10 +36,10 @@ import HomePromotionV3 from '~/components/home/PromotionV3.vue';
  *
  * 變體命名規範(R4):
  * - registry key `v1` 一律是「現行/預設版面」,不得刪除或改變視覺(既有頁面的相容性基準)。
- * - 每個主要區塊固定提供 v1-v10；v1-v3 保留既有獨立元件，v4-v10 由
- *   tenVariants() 將既有內容模板套入共用 Web3 layout system，避免複製 70 份邏輯。
- * - v4-v10 依序交錯使用三種既有資訊結構，再由 layout class 改變框架、密度、
- *   導覽排列與裝飾，因此功能、事件、slot 與 props 都會完整向下傳遞。
+ * - 每個主要區塊固定提供 v1-v10；v1 保留原始第一版，v2-v10 由
+ *   tenVariants() 將既有內容模板套入共用 variant layout system，避免複製 90 份邏輯。
+ * - v2-v10 依序交錯使用三種既有資訊結構，再由 layout class 改變框架、密度、
+ *   導覽排列與票券/機台/金錢/閃電等裝飾，因此功能、事件、slot 與 props 都會完整向下傳遞。
  * - 變體必須吃同一份內容(`config/mock/*.ts` 或呼叫端傳入的 props)與同一套皮膚 token,
  *   只能改版面/排列/裝飾,不得新增內容欄位或色碼(色碼只能用 tailwind.config 的語意 token)。
  */
@@ -92,8 +92,8 @@ function tenVariants(
 ): Record<string, Component> {
   return {
     v1,
-    v2,
-    v3,
+    v2: web3Variant(block, 'v2', v2),
+    v3: web3Variant(block, 'v3', v3),
     v4: web3Variant(block, 'v4', v1),
     v5: web3Variant(block, 'v5', v2),
     v6: web3Variant(block, 'v6', v3),

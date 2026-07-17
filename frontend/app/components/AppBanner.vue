@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 
-const { banners } = useContentStore();
+const content = useContentStore();
+const { localizeBanners } = useLocale();
+const banners = computed(() => localizeBanners(content.banners));
 const idx = ref(0);
 const paused = ref(false);
-const b = computed(() => banners[idx.value]!);
+const b = computed(() => banners.value[idx.value]!);
 
 const mediaSrc = (src?: string) => {
   if (!src) return '';
@@ -21,14 +23,14 @@ const stop = () => {
   timer = null;
 };
 const next = () => {
-  if (banners.length) idx.value = (idx.value + 1) % banners.length;
+  if (banners.value.length) idx.value = (idx.value + 1) % banners.value.length;
 };
 const prev = () => {
-  if (banners.length) idx.value = (idx.value - 1 + banners.length) % banners.length;
+  if (banners.value.length) idx.value = (idx.value - 1 + banners.value.length) % banners.value.length;
 };
 const restart = () => {
   stop();
-  if (!paused.value && banners.length > 1) timer = setInterval(next, 6000);
+  if (!paused.value && banners.value.length > 1) timer = setInterval(next, 6000);
 };
 const go = (i: number) => {
   idx.value = i;

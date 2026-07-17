@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { sportsMatches } from '~/config/mock/home'
+
+const { t, localizeSportsMatches } = useLocale();
+const matches = computed(() => localizeSportsMatches(sportsMatches));
 </script>
 
 <template>
@@ -21,7 +24,7 @@ import { sportsMatches } from '~/config/mock/home'
             <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z">
             </path>
           </svg>
-          <span class="text-base md:text-lg">Live Sport</span>
+          <span class="text-base md:text-lg">{{ t('section.liveSport') }}</span>
         </h2>
         <div class="flex items-center gap-2">
           <a class="text-ink-3 hover:text-ink text-xs px-3 py-1.5 border border-line rounded transition-colors flex items-center gap-1.5" :href="withBase('/sport')">
@@ -36,7 +39,7 @@ import { sportsMatches } from '~/config/mock/home'
               </path>
               <path d="M19.1 4.9C23 8.8 23 15.1 19.1 19">
               </path>
-            </svg>View All Live</a>
+            </svg>{{ t('action.viewAllLive') }}</a>
           <button class="text-ink-3 hover:text-ink p-1.5 border border-line rounded transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left w-4 h-4">
               <path d="m15 18-6-6 6-6">
@@ -73,16 +76,16 @@ import { sportsMatches } from '~/config/mock/home'
           </div>
           <div>
             <p class="text-primary text-xs font-semibold">UEFA</p>
-            <p class="text-ink-3 text-[10px]">World Cup</p>
+            <p class="text-ink-3 text-[10px]">{{ t('sport.worldCup') }}</p>
           </div>
         </div>
         <div class="relative flex flex-col md:flex-row items-center justify-center md:justify-between px-6 pt-16 pb-10 gap-4">
           <div class="text-center md:text-left">
-            <p class="text-ink-3 text-xs tracking-widest uppercase mb-1">The World's Biggest Event</p>
-            <h3 class="text-ink text-2xl md:text-4xl mb-1" style="font-weight:800;">FIFA WORLD CUP</h3>
+            <p class="text-ink-3 text-xs tracking-widest uppercase mb-1">{{ t('sport.eventTag') }}</p>
+            <h3 class="text-ink text-2xl md:text-4xl mb-1" style="font-weight:800;">{{ t('sport.worldCup') }}</h3>
             <p class="text-primary text-xl md:text-2xl mb-3" style="font-weight: 700;">2026</p>
             <div class="inline-block bg-g-primary text-on-primary px-4 py-1.5 rounded">
-              <span class="text-xs font-semibold">Prize Pool:&nbsp;</span>
+              <span class="text-xs font-semibold">{{ t('sport.prizePool') }}:&nbsp;</span>
               <span class="text-sm font-bold">RM 4,700,000</span>
             </div>
           </div>
@@ -103,7 +106,7 @@ import { sportsMatches } from '~/config/mock/home'
         </div>
       </div>
       <div class="flex overflow-x-auto gap-3 snap-x snap-mandatory scrollbar-hide pb-2">
-        <div v-for="m in sportsMatches" :key="m.league + m.teamA.code" class="flex-shrink-0 snap-start cursor-pointer bg-surface border border-line-soft rounded-xl hover:border-primary transition-colors" style="min-width: 220px;">
+        <div v-for="m in matches" :key="m.league + m.teamA.code" class="flex-shrink-0 snap-start cursor-pointer bg-surface border border-line-soft rounded-xl hover:border-primary transition-colors" style="min-width: 220px;">
           <div class="p-4">
             <div class="flex items-center justify-between mb-3">
               <span class="text-ink-4 text-[10px] truncate max-w-[120px]">{{ m.league }}</span>
@@ -139,7 +142,7 @@ import { sportsMatches } from '~/config/mock/home'
                 <span class="text-ink text-[10px] text-center leading-tight line-clamp-2 min-h-[2.5em]">{{ m.teamB.name }}</span>
               </div>
             </div>
-            <button class="w-full py-1.5 rounded-lg text-xs text-on-primary transition-opacity hover:opacity-90 bg-g-primary">Place Bet</button>
+            <button class="w-full py-1.5 rounded-lg text-xs text-on-primary transition-opacity hover:opacity-90 bg-g-primary">{{ t('action.placeBet') }}</button>
           </div>
         </div>
       </div>

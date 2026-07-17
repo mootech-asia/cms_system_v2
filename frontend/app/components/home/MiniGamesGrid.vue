@@ -1,10 +1,20 @@
 <script setup lang="ts">
 import { computed, nextTick, ref } from 'vue';
 
-const tabs = useContentStore().miniCategories;
-const active = ref(tabs[0]?.key ?? 'mini');
+const content = useContentStore();
+const { t, localizeMiniTabs } = useLocale();
+const tabs = computed(() => localizeMiniTabs(content.miniCategories));
+const tabKeys = computed(() => tabs.value.map((tab) => tab.key));
 const rail = ref<HTMLElement | null>(null);
 const tabButtons = ref<HTMLButtonElement[]>([]);
+const { active, progress, remainingSeconds, setActive, restart } = useCountdownTabs({
+  keys: tabKeys,
+  initial: content.miniCategories[0]?.key ?? 'mini',
+  onAdvance: async () => {
+    await nextTick();
+    rail.value?.scrollTo({ left: 0, behavior: 'auto' });
+  },
+});
 
 const tabIcons: Record<string, string> = {
   mini: 'gamepad2',
@@ -12,7 +22,7 @@ const tabIcons: Record<string, string> = {
   live: 'video',
 };
 
-const currentTab = computed(() => tabs.find((tab) => tab.key === active.value) ?? tabs[0]);
+const currentTab = computed(() => tabs.value.find((tab) => tab.key === active.value) ?? tabs.value[0]);
 const games = computed(() => currentTab.value?.games ?? []);
 const mediaSrc = (src: string) => (/^(https?:)?\/\//.test(src) ? src : withBase(src));
 
@@ -22,26 +32,26 @@ const tabClass = (key: string) =>
     : 'text-ink-4 border-transparent hover:border-line hover:bg-surface hover:text-ink-2';
 
 async function selectTab(key: string, focus = false) {
-  if (tabs.some((tab) => tab.key === key)) active.value = key;
+  setActive(key);
   await nextTick();
   rail.value?.scrollTo({ left: 0, behavior: 'auto' });
 
   if (focus) {
-    const index = tabs.findIndex((tab) => tab.key === key);
+    const index = tabs.value.findIndex((tab) => tab.key === key);
     tabButtons.value[index]?.focus();
   }
 }
 
 function onTabKeydown(event: KeyboardEvent, index: number) {
   let nextIndex = index;
-  if (event.key === 'ArrowRight') nextIndex = (index + 1) % tabs.length;
-  else if (event.key === 'ArrowLeft') nextIndex = (index - 1 + tabs.length) % tabs.length;
+  if (event.key === 'ArrowRight') nextIndex = (index + 1) % tabs.value.length;
+  else if (event.key === 'ArrowLeft') nextIndex = (index - 1 + tabs.value.length) % tabs.value.length;
   else if (event.key === 'Home') nextIndex = 0;
-  else if (event.key === 'End') nextIndex = tabs.length - 1;
+  else if (event.key === 'End') nextIndex = tabs.value.length - 1;
   else return;
 
   event.preventDefault();
-  const nextTab = tabs[nextIndex];
+  const nextTab = tabs.value[nextIndex];
   if (nextTab) selectTab(nextTab.key, true);
 }
 
@@ -61,6 +71,7 @@ function moveRail(direction: -1 | 1) {
     ? (el.scrollLeft >= maxScroll - 2 ? 0 : Math.min(maxScroll, el.scrollLeft + jump))
     : (el.scrollLeft <= 2 ? maxScroll : Math.max(0, el.scrollLeft - jump));
 
+  restart();
   el.scrollTo({ left: target, behavior: 'smooth' });
 }
 </script>
@@ -94,18 +105,21 @@ function moveRail(direction: -1 | 1) {
             <span
               v-if="active === tab.key"
               aria-hidden="true"
-              class="absolute inset-x-3 -bottom-px h-0.5 rounded-full bg-primary"
-            />
+              class="mini-countdown-bar"
+            >
+              <span :style="{ width: `${progress}%` }" />
+            </span>
           </button>
         </div>
 
         <div class="flex items-center justify-end gap-2">
+          <span class="mini-countdown-chip" aria-live="polite">{{ remainingSeconds }}s</span>
           <NuxtLink
             v-if="currentTab"
             class="rounded border border-line px-3 py-1.5 text-xs text-ink-3 transition-colors hover:border-primary hover:text-ink"
             :to="currentTab.route"
           >
-            Show all
+            {{ t('action.showAll') }}
           </NuxtLink>
           <button type="button" aria-label="Previous games" class="rounded border border-line p-1.5 text-ink-3 transition-colors hover:border-primary hover:text-ink" @click="moveRail(-1)">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="m15 18-6-6 6-6" /></svg>

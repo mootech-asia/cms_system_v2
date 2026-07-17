@@ -5,7 +5,7 @@
  * 第二列整條專屬置中導覽連結。script 邏輯與 v1 完全相同
  * (nav/mobileLinks 陣列、useAuth、下拉/手機選單狀態),只改桌面版 template。
  */
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 interface NavItem {
@@ -15,40 +15,25 @@ interface NavItem {
   dropdown?: { label: string; tab: string }[];
 }
 
-const nav: NavItem[] = [
-  { label: 'Home', to: '/', icon: 'house' },
-  { label: 'Hot Games', to: '/hot-games', icon: 'flame' },
-  { label: 'Sports', to: '/sport', icon: 'trophy', dropdown: [{ label: 'BTI', tab: 'BTI' }, { label: 'SABA', tab: 'SABA' }] },
-  { label: 'Live', to: '/live', icon: 'video', dropdown: [{ label: 'Sexy', tab: 'Sexy' }, { label: 'Pragmatic Play', tab: 'Pragmatic Play' }, { label: 'Yeebet', tab: 'Yeebet' }] },
-  { label: 'Slots', to: '/slot', icon: 'cherry' },
-  { label: 'Fish', to: '/fish', icon: 'fish' },
-  { label: 'Mini Games', to: '/mini-games', icon: 'gamepad2' },
-  { label: 'Promotion', to: '/promotion', icon: 'gift' },
-];
+const { t } = useLocale();
 
-const mobileLinks = [
-  { label: 'Home', to: '/', icon: 'house' },
-  { label: 'Hot Games', to: '/hot-games', icon: 'flame' },
-  { label: 'Sports', to: '/sport', icon: 'trophy' },
-  { label: 'Live', to: '/live', icon: 'video' },
-  { label: 'Slots', to: '/slot', icon: 'cherry' },
-  { label: 'Fish', to: '/fish', icon: 'fish' },
-  { label: 'Mini Games', to: '/mini-games', icon: 'gamepad2' },
-  { label: 'Promotion', to: '/promotion', icon: 'gift' },
-];
+const nav = computed<NavItem[]>(() => [
+  { label: t('nav.home'), to: '/', icon: 'house' },
+  { label: t('nav.hotGames'), to: '/hot-games', icon: 'flame' },
+  { label: t('nav.sports'), to: '/sport', icon: 'trophy', dropdown: [{ label: 'BTI', tab: 'BTI' }, { label: 'SABA', tab: 'SABA' }] },
+  { label: t('nav.live'), to: '/live', icon: 'video', dropdown: [{ label: 'Sexy', tab: 'Sexy' }, { label: 'Pragmatic Play', tab: 'Pragmatic Play' }, { label: 'Yeebet', tab: 'Yeebet' }] },
+  { label: t('nav.slots'), to: '/slot', icon: 'cherry' },
+  { label: t('nav.fish'), to: '/fish', icon: 'fish' },
+  { label: t('nav.miniGames'), to: '/mini-games', icon: 'gamepad2' },
+  { label: t('nav.promotion'), to: '/promotion', icon: 'gift' },
+]);
+
+const mobileLinks = computed<NavItem[]>(() => nav.value.map(({ dropdown: _dropdown, ...item }) => item));
 
 const route = useRoute();
 const isActive = (to: string) => (to === '/' ? route.path === '/' : route.path.startsWith(to));
 
 const { loggedIn, open: openAuth, logout } = useAuth();
-
-// language dropdown (EN / 한국어)
-const langs = [
-  { code: 'EN', label: 'English' },
-  { code: '한국어', label: '한국어' },
-];
-const lang = useState<string>('ui:lang', () => 'EN');
-const langOpen = ref(false);
 
 const base = 'px-2 py-1.5 rounded-lg flex items-center gap-1.5 transition-all whitespace-nowrap';
 const activeCls = 'text-on-primary bg-g-primary shadow-md font-semibold';
@@ -80,43 +65,27 @@ const mobileOpen = useState<boolean>('ui:mobileMenuOpen', () => false);
             to="/account"
             class="flex items-center gap-2 text-ink-2 hover:text-ink transition-colors whitespace-nowrap"
           >
-            <span class="text-ink-2 font-semibold">ID:</span>
+            <span class="text-ink-2 font-semibold">{{ t('account.id') }}:</span>
             <span class="text-ink font-semibold">meqomcao</span>
             <span class="bg-g-primary text-on-primary text-xs font-bold px-2.5 py-0.5 rounded-full leading-none">VIP1</span>
           </NuxtLink>
           <span class="h-4 w-px bg-line"></span>
           <NuxtLink to="/account" class="flex items-center gap-2 whitespace-nowrap hover:opacity-90 transition-opacity">
-            <span class="text-ink-3 font-semibold">Balance:</span>
+            <span class="text-ink-3 font-semibold">{{ t('account.balance') }}:</span>
             <span class="text-ink font-bold">₩1,000,000,000</span>
-            <span class="text-ink-3 font-semibold ml-2">Points:</span>
+            <span class="text-ink-3 font-semibold ml-2">{{ t('account.points') }}:</span>
             <span class="text-ink font-bold">0.00</span>
           </NuxtLink>
-          <button class="flex text-ink-2 hover:text-ink transition-colors" aria-label="Logout" title="Logout" @click="logout">
+          <button class="flex text-ink-2 hover:text-ink transition-colors" :aria-label="t('auth.logout')" :title="t('auth.logout')" @click="logout">
             <AppIcon name="log-out" class="w-4 h-4" />
           </button>
         </template>
         <template v-else>
-          <button class="bg-surface-2 text-ink px-4 py-1 rounded-lg hover:opacity-90 transition-opacity" @click="openAuth('login')">Login</button>
-          <button class="bg-g-primary text-on-primary px-4 py-1 rounded-lg hover:opacity-90 transition-opacity font-semibold" @click="openAuth('register')">Register</button>
+          <button class="bg-surface-2 text-ink px-4 py-1 rounded-lg hover:opacity-90 transition-opacity" @click="openAuth('login')">{{ t('auth.login') }}</button>
+          <button class="bg-g-primary text-on-primary px-4 py-1 rounded-lg hover:opacity-90 transition-opacity font-semibold" @click="openAuth('register')">{{ t('auth.register') }}</button>
         </template>
         <SkinSwitcher />
-        <div class="relative">
-          <button class="text-ink-2 hover:text-ink flex items-center gap-1" @click="langOpen = !langOpen">
-            <AppIcon name="globe" class="w-3.5 h-3.5" /><span>{{ lang }}</span><AppIcon name="chevron-down" class="w-3 h-3" />
-          </button>
-          <div v-if="langOpen" class="fixed inset-0 z-[999]" @click="langOpen = false"></div>
-          <div
-            v-if="langOpen"
-            class="dd-panel right-0"
-          >
-            <div
-              v-for="l in langs" :key="l.code"
-              class="rounded-md cursor-pointer px-3.5 py-2.5 text-sm whitespace-nowrap hover:bg-surface-deep"
-              :class="lang === l.code ? 'text-primary font-bold' : 'text-ink-2 font-normal'"
-              @click="lang = l.code; langOpen = false"
-            >{{ l.label }}</div>
-          </div>
-        </div>
+        <LanguageSwitcher />
       </div>
     </div>
 
@@ -156,23 +125,7 @@ const mobileOpen = useState<boolean>('ui:mobileMenuOpen', () => false);
       </NuxtLink>
       <div class="flex items-center gap-3">
         <SkinSwitcher />
-        <div class="relative">
-          <button class="text-ink-2 hover:text-ink flex items-center gap-1" @click="langOpen = !langOpen">
-            <AppIcon name="globe" class="w-5 h-5" /><span>{{ lang }}</span><AppIcon name="chevron-down" class="w-3 h-3" />
-          </button>
-          <div v-if="langOpen" class="fixed inset-0 z-[999]" @click="langOpen = false"></div>
-          <div
-            v-if="langOpen"
-            class="dd-panel right-0"
-          >
-            <div
-              v-for="l in langs" :key="l.code"
-              class="rounded-md cursor-pointer px-3.5 py-2.5 text-sm whitespace-nowrap hover:bg-surface-deep"
-              :class="lang === l.code ? 'text-primary font-bold' : 'text-ink-2 font-normal'"
-              @click="lang = l.code; langOpen = false"
-            >{{ l.label }}</div>
-          </div>
-        </div>
+        <LanguageSwitcher />
         <button class="text-ink-2 hover:text-ink" aria-label="Menu" @click="mobileOpen = true">
           <AppIcon name="menu" class="w-5 h-5" />
         </button>
@@ -213,11 +166,11 @@ const mobileOpen = useState<boolean>('ui:mobileMenuOpen', () => false);
                     <span class="bg-g-primary text-on-primary text-xs min-[400px]:text-sm font-bold px-2.5 py-1 rounded-full leading-none">VIP1</span>
                   </div>
                   <div class="mt-1 text-sm min-[400px]:text-base font-semibold whitespace-nowrap">
-                    <span class="text-ink-3">Balance: </span>
+                    <span class="text-ink-3">{{ t('account.balance') }}: </span>
                     <span class="text-primary">₩1,000,000,000</span>
                   </div>
                   <div class="text-sm min-[400px]:text-base font-semibold">
-                    <span class="text-ink-3">Points: </span>
+                    <span class="text-ink-3">{{ t('account.points') }}: </span>
                     <span class="text-primary">0.00</span>
                   </div>
                 </div>
@@ -230,8 +183,8 @@ const mobileOpen = useState<boolean>('ui:mobileMenuOpen', () => false);
               >View Account</NuxtLink>
             </template>
             <div v-else>
-              <button style="display:block;width:100%;text-align:left;padding:12px 14px;background:none;border:0;color:#fff;cursor:pointer;font-weight:600;font-size:15px" @click="mobileOpen = false; openAuth('login')">Login</button>
-              <button class="btn-primary w-full" style="padding:12px 14px;font-size:15px;margin-top:4px" @click="mobileOpen = false; openAuth('register')">Register</button>
+              <button style="display:block;width:100%;text-align:left;padding:12px 14px;background:none;border:0;color:#fff;cursor:pointer;font-weight:600;font-size:15px" @click="mobileOpen = false; openAuth('login')">{{ t('auth.login') }}</button>
+              <button class="btn-primary w-full" style="padding:12px 14px;font-size:15px;margin-top:4px" @click="mobileOpen = false; openAuth('register')">{{ t('auth.register') }}</button>
             </div>
           </div>
         </div>

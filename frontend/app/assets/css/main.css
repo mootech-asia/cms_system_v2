@@ -91,6 +91,67 @@
   .seg-btn-sm:hover { @apply text-ink; }
   .seg-btn-sm.active { @apply bg-g-primary text-on-primary; }
 
+  /* Mini games 分類倒數 — v1/v2/v3 共用,其餘變體透過包裝器沿用 */
+  .mini-countdown-bar {
+    position: absolute;
+    right: 12px;
+    bottom: -1px;
+    left: 12px;
+    height: 3px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgb(var(--c-primary) / 0.16);
+  }
+  .mini-countdown-bar > span,
+  .mini-countdown-track > span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: rgb(var(--c-primary) / 0.9);
+    transition: width .25s linear;
+  }
+  .mini-countdown-pill-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    border-radius: 999px;
+    background: currentColor;
+    opacity: .78;
+    transition: width .25s linear;
+  }
+  .mini-countdown-chip {
+    display: inline-flex;
+    min-width: 36px;
+    height: 28px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgb(var(--c-primary) / 0.22);
+    border-radius: 999px;
+    background: rgb(var(--c-primary-faint) / 0.72);
+    color: theme('colors.accent');
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .mini-countdown-track {
+    height: 3px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgb(var(--c-primary) / 0.14);
+    margin: -2px 0 12px;
+  }
+  .mini-countdown-section {
+    border: 1px solid transparent;
+    border-radius: 12px;
+    padding: 12px;
+    transition: border-color .2s ease, background-color .2s ease;
+  }
+  .mini-countdown-section.is-active {
+    border-color: rgb(var(--c-primary) / 0.28);
+    background: rgb(var(--c-primary-faint) / 0.28);
+  }
+
   /* 裝飾底圖系列 — banner/賽事 hero 等大面積「氛圍底」共用(業主 2026-07-16:
      一律中性 token 化,不得寫死色相,切換 skin 才不違和) */
   .banner-art {
@@ -900,6 +961,7 @@
    ============================================================ */
 @layer components {
   .web3-module {
+    position: relative;
     isolation: isolate;
     transition:
       border-color 180ms ease,
@@ -907,16 +969,114 @@
       background-color 180ms ease;
   }
 
+  .web3-module > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .web3-module::before,
+  .web3-module::after {
+    position: absolute;
+    z-index: 0;
+    pointer-events: none;
+  }
+
   .web3-module > .container {
     position: relative;
   }
 
-  /* v4 / Glass ledger: restrained translucent rails and soft depth. */
+  /* v2 / Arcade marquee: machine panel, louder side energy, still content-driven. */
+  .web3-layout--v2 {
+    border-block: 2px solid rgb(var(--c-primary) / 0.34);
+    background:
+      linear-gradient(90deg, rgb(var(--c-primary) / 0.14), transparent 18%, transparent 82%, rgb(var(--c-primary) / 0.1)),
+      rgb(var(--c-surface) / 0.94);
+    box-shadow:
+      inset 0 10px 0 rgb(var(--c-primary) / 0.045),
+      inset 0 -1px 0 rgb(var(--c-text) / 0.04);
+  }
+
+  .web3-layout--v2::before {
+    content: "777";
+    right: clamp(18px, 6vw, 110px);
+    top: 18px;
+    width: 82px;
+    height: 82px;
+    display: grid;
+    place-items: center;
+    border: 2px solid rgb(var(--c-primary) / 0.5);
+    border-radius: 18px;
+    background: rgb(var(--c-bg) / 0.48);
+    color: rgb(var(--c-primary) / 0.7);
+    font-size: 24px;
+    font-weight: 950;
+    letter-spacing: 0.08em;
+    box-shadow:
+      0 16px 34px rgb(var(--c-scrim) / 0.22),
+      inset 0 -12px 0 rgb(var(--c-primary) / 0.1);
+  }
+
+  .web3-layout--v2 :is(.rounded-lg, .rounded-xl, .rounded-2xl) {
+    border-radius: 18px;
+  }
+
+  /* v3 / Ticket wall: diagonal pass layer and more editorial spacing. */
+  .web3-layout--v3 {
+    background:
+      radial-gradient(circle at 18% 18%, rgb(var(--c-primary) / 0.16), transparent 26%),
+      linear-gradient(145deg, rgb(var(--c-surface-deep) / 0.96), rgb(var(--c-surface) / 0.96));
+    box-shadow: inset 0 0 0 1px rgb(var(--c-primary) / 0.18);
+  }
+
+  .web3-layout--v3::after {
+    content: "TICKET";
+    left: clamp(18px, 5vw, 92px);
+    bottom: 18px;
+    padding: 10px 18px;
+    border: 1px dashed rgb(var(--c-primary) / 0.55);
+    border-radius: 10px;
+    background: rgb(var(--c-surface-2) / 0.36);
+    color: rgb(var(--c-primary) / 0.62);
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.16em;
+    transform: rotate(8deg);
+  }
+
+  .web3-layout--v3 :is(.rounded-lg, .rounded-xl, .rounded-2xl) {
+    border-radius: 24px 8px 24px 8px;
+  }
+
+  /* v4 / Ticket gate: large pass object, perforated rails, promotional framing. */
   .web3-layout--v4 {
     border-block: 1px solid rgb(var(--c-primary) / 0.24);
+    background:
+      radial-gradient(circle at 12% 20%, rgb(var(--c-primary) / 0.12), transparent 28%),
+      linear-gradient(135deg, rgb(var(--c-surface-2) / 0.92), rgb(var(--c-bg) / 0.92));
     box-shadow:
       inset 0 1px 0 rgb(var(--c-text) / 0.04),
       inset 0 -1px 0 rgb(var(--c-primary) / 0.08);
+  }
+
+  .web3-layout--v4::before {
+    content: "VIP PASS";
+    right: clamp(18px, 5vw, 90px);
+    top: 18px;
+    width: 148px;
+    height: 58px;
+    display: grid;
+    place-items: center;
+    border: 1px dashed rgb(var(--c-primary) / 0.58);
+    border-radius: 12px;
+    background:
+      radial-gradient(circle at 0 50%, transparent 0 11px, rgb(var(--c-primary) / 0.16) 12px),
+      radial-gradient(circle at 100% 50%, transparent 0 11px, rgb(var(--c-primary) / 0.16) 12px),
+      rgb(var(--c-surface) / 0.38);
+    color: rgb(var(--c-primary) / 0.62);
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: 0.16em;
+    transform: rotate(-7deg);
   }
 
   .web3-layout--v4 > .container {
@@ -927,11 +1087,33 @@
     border-color: rgb(var(--c-primary) / 0.24);
   }
 
-  /* v5 / Signal rail: asymmetric accent and compact panel geometry. */
+  /* v5 / Slot machine: bolder cabinet edge, reels, casino-machine geometry. */
   .web3-layout--v5 {
+    background:
+      linear-gradient(90deg, rgb(var(--c-primary) / 0.14), transparent 22%),
+      rgb(var(--c-surface) / 0.96);
     box-shadow:
       inset 4px 0 0 rgb(var(--c-primary) / 0.72),
       inset 0 1px 0 rgb(var(--c-border) / 0.7);
+  }
+
+  .web3-layout--v5::before {
+    content: "777";
+    left: clamp(16px, 4vw, 72px);
+    top: 22px;
+    min-width: 94px;
+    padding: 12px 14px;
+    border: 2px solid rgb(var(--c-primary) / 0.42);
+    border-radius: 16px 16px 6px 6px;
+    background: rgb(var(--c-bg) / 0.54);
+    color: rgb(var(--c-primary) / 0.72);
+    font-size: 28px;
+    font-weight: 950;
+    letter-spacing: 0.08em;
+    text-align: center;
+    box-shadow:
+      18px 10px 0 -10px rgb(var(--c-primary) / 0.24),
+      inset 0 -10px 0 rgb(var(--c-primary) / 0.08);
   }
 
   .web3-layout--v5 :is(.rounded-lg, .rounded-xl, .rounded-2xl) {
@@ -943,7 +1125,7 @@
     outline-offset: 2px;
   }
 
-  /* v6 / Chain grid: precise data-grid surface and squared cards. */
+  /* v6 / Money map: ledger grid plus floating banknote object. */
   .web3-layout--v6 {
     border-block: 1px solid rgb(var(--c-border) / 0.9);
     background-image:
@@ -952,18 +1134,52 @@
     background-size: 28px 28px;
   }
 
+  .web3-layout--v6::after {
+    content: "$";
+    right: 8%;
+    bottom: 18px;
+    width: 118px;
+    height: 64px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgb(var(--c-primary) / 0.36);
+    border-radius: 8px;
+    background:
+      linear-gradient(135deg, rgb(var(--c-primary) / 0.2), rgb(var(--c-surface) / 0.24)),
+      repeating-linear-gradient(90deg, transparent 0 13px, rgb(var(--c-primary) / 0.08) 13px 14px);
+    color: rgb(var(--c-primary) / 0.62);
+    font-size: 36px;
+    font-weight: 900;
+    transform: rotate(9deg);
+  }
+
   .web3-layout--v6 :is(.rounded, .rounded-lg, .rounded-xl, .rounded-2xl) {
     border-radius: 2px;
   }
 
-  .web3-layout--v6 :is(h1, h2, h3) {
+  .web3-layout--v6 :is(h1, h2, h3, .text-h1, .text-display) {
     font-variant-numeric: tabular-nums;
   }
 
-  /* v7 / Layered stack: elevated content plane with clear hierarchy. */
+  /* v7 / Lightning stack: stronger hero energy and angled strike object. */
   .web3-layout--v7 {
     border-top: 2px solid rgb(var(--c-primary) / 0.7);
+    background:
+      linear-gradient(160deg, transparent, rgb(var(--c-primary) / 0.09) 42%, transparent 66%),
+      rgb(var(--c-surface-deep) / 0.9);
     box-shadow: inset 0 18px 36px rgb(var(--c-scrim) / 0.12);
+  }
+
+  .web3-layout--v7::before {
+    content: "";
+    right: clamp(22px, 7vw, 120px);
+    top: 22px;
+    width: 62px;
+    height: 120px;
+    background: rgb(var(--c-primary) / 0.54);
+    clip-path: polygon(50% 0, 100% 0, 66% 42%, 100% 42%, 38% 100%, 52% 54%, 14% 54%);
+    filter: drop-shadow(0 10px 22px rgb(var(--c-primary) / 0.24));
+    transform: rotate(12deg);
   }
 
   .web3-layout--v7 > .container {
@@ -974,9 +1190,25 @@
     box-shadow: 0 14px 34px rgb(var(--c-scrim) / 0.24);
   }
 
-  /* v8 / Terminal strip: dense, work-focused, sharp information bands. */
+  /* v8 / Cash terminal: dense scan bands and stacked chip object. */
   .web3-layout--v8 {
     border-block: 1px dashed rgb(var(--c-primary) / 0.42);
+    background:
+      repeating-linear-gradient(0deg, rgb(var(--c-primary) / 0.045) 0 2px, transparent 2px 14px),
+      rgb(var(--c-bg) / 0.96);
+  }
+
+  .web3-layout--v8::after {
+    content: "";
+    left: 7%;
+    bottom: 18px;
+    width: 92px;
+    height: 30px;
+    border-radius: 999px;
+    background: rgb(var(--c-primary) / 0.24);
+    box-shadow:
+      0 -12px 0 rgb(var(--c-primary) / 0.18),
+      0 -24px 0 rgb(var(--c-primary) / 0.12);
   }
 
   .web3-layout--v8 :is(.rounded, .rounded-lg, .rounded-xl, .rounded-2xl, .rounded-full) {
@@ -991,11 +1223,28 @@
     font-variant-numeric: tabular-nums;
   }
 
-  /* v9 / Protocol frame: double-line containment for premium surfaces. */
+  /* v9 / Vault frame: double-line premium containment and angled ticket shard. */
   .web3-layout--v9 {
+    background:
+      radial-gradient(circle at 86% 18%, rgb(var(--c-primary) / 0.18), transparent 24%),
+      rgb(var(--c-surface) / 0.96);
     box-shadow:
       inset 0 0 0 1px rgb(var(--c-primary) / 0.24),
       inset 0 0 0 5px rgb(var(--c-border) / 0.2);
+  }
+
+  .web3-layout--v9::before {
+    content: "100%";
+    right: 9%;
+    bottom: 22px;
+    padding: 11px 18px;
+    border: 1px solid rgb(var(--c-primary) / 0.5);
+    border-radius: 999px;
+    background: rgb(var(--c-surface-2) / 0.42);
+    color: rgb(var(--c-primary) / 0.7);
+    font-size: 20px;
+    font-weight: 950;
+    transform: rotate(-12deg);
   }
 
   .web3-layout--v9 > .container {
@@ -1006,12 +1255,30 @@
     border-color: rgb(var(--c-primary) / 0.34);
   }
 
-  /* v10 / Network console: confident top/bottom rails and wide spacing. */
+  /* v10 / Jackpot console: loud rails, jackpot plate, wider event spacing. */
   .web3-layout--v10 {
     border-block: 2px solid rgb(var(--c-primary) / 0.45);
+    background:
+      linear-gradient(90deg, transparent 0 8%, rgb(var(--c-primary) / 0.1) 8% 10%, transparent 10% 90%, rgb(var(--c-primary) / 0.1) 90% 92%, transparent 92%),
+      rgb(var(--c-surface-deep) / 0.94);
     box-shadow:
       inset 0 8px 0 rgb(var(--c-primary) / 0.045),
       inset 0 -8px 0 rgb(var(--c-primary) / 0.045);
+  }
+
+  .web3-layout--v10::after {
+    content: "JACKPOT";
+    left: 50%;
+    top: 14px;
+    padding: 8px 18px;
+    border: 1px solid rgb(var(--c-primary) / 0.44);
+    border-radius: 999px;
+    background: rgb(var(--c-bg) / 0.54);
+    color: rgb(var(--c-primary) / 0.72);
+    font-size: 13px;
+    font-weight: 950;
+    letter-spacing: 0.18em;
+    transform: translateX(-50%);
   }
 
   .web3-layout--v10 > .container {

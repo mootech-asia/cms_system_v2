@@ -5,6 +5,9 @@
  * 適合側欄式版位:每場賽事一列滿版 row。
  */
 import { sportsMatches } from '~/config/mock/home'
+
+const { t, localizeSportsMatches } = useLocale();
+const matches = computed(() => localizeSportsMatches(sportsMatches));
 </script>
 
 <template>
@@ -20,7 +23,7 @@ import { sportsMatches } from '~/config/mock/home'
             <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />
             <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
           </svg>
-          <span class="text-base md:text-lg">Live Sport</span>
+          <span class="text-base md:text-lg">{{ t('section.liveSport') }}</span>
         </h2>
         <a class="flex items-center gap-1.5 rounded border border-line px-3 py-1.5 text-xs text-ink-3 transition-colors hover:text-ink" :href="withBase('/sport')">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3 text-primary">
@@ -29,7 +32,7 @@ import { sportsMatches } from '~/config/mock/home'
             <circle cx="12" cy="12" r="2" />
             <path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5" />
             <path d="M19.1 4.9C23 8.8 23 15.1 19.1 19" />
-          </svg>View All Live</a>
+          </svg>{{ t('action.viewAllLive') }}</a>
       </div>
 
       <div class="media-hero-art relative mb-4 overflow-hidden rounded-xl" style="min-height: 150px;">
@@ -47,16 +50,16 @@ import { sportsMatches } from '~/config/mock/home'
           </div>
           <div>
             <p class="text-xs font-semibold text-primary">UEFA</p>
-            <p class="text-[10px] text-ink-3">World Cup</p>
+            <p class="text-[10px] text-ink-3">{{ t('sport.worldCup') }}</p>
           </div>
         </div>
         <div class="relative flex flex-col items-center justify-center gap-4 px-6 pb-8 pt-14 text-center">
           <div>
-            <p class="mb-1 text-xs uppercase tracking-widest text-ink-3">The World's Biggest Event</p>
-            <h3 class="mb-1 text-2xl text-ink" style="font-weight:800;">FIFA WORLD CUP</h3>
+            <p class="mb-1 text-xs uppercase tracking-widest text-ink-3">{{ t('sport.eventTag') }}</p>
+            <h3 class="mb-1 text-2xl text-ink" style="font-weight:800;">{{ t('sport.worldCup') }}</h3>
             <p class="mb-3 text-xl text-primary" style="font-weight: 700;">2026</p>
             <div class="inline-block rounded bg-g-primary px-4 py-1.5 text-on-primary">
-              <span class="text-xs font-semibold">Prize Pool:&nbsp;</span>
+              <span class="text-xs font-semibold">{{ t('sport.prizePool') }}:&nbsp;</span>
               <span class="text-sm font-bold">RM 4,700,000</span>
             </div>
           </div>
@@ -65,7 +68,7 @@ import { sportsMatches } from '~/config/mock/home'
 
       <div class="flex flex-col gap-2">
         <div
-          v-for="m in sportsMatches" :key="m.league + m.teamA.code"
+          v-for="m in matches" :key="m.league + m.teamA.code"
           class="cursor-pointer rounded-xl border border-line-soft bg-surface px-4 py-3 transition-colors hover:border-primary"
         >
           <div class="mb-2 flex items-center justify-between">

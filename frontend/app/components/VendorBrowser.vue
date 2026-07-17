@@ -5,6 +5,7 @@ import { CATEGORY_VENDOR_OPERATION_MEDIA } from '~/config/operational-media';
 const props = defineProps<{ title: string; kind: string; direct?: boolean }>();
 const route = useRoute();
 const router = useRouter();
+const { t } = useLocale();
 
 const SLOT_VENDORS = [
   'Pragmatic Play', 'PG Soft', 'CQ9 Gaming', 'Hacksaw Gaming', 'NetEnt', 'Nolimit City',
@@ -36,7 +37,7 @@ const operationalMedia = (i: number) => {
   const list = categoryMedia.value;
   return list[((i % list.length) + list.length) % list.length]!;
 };
-const gameTitle = (i: number) => isLive.value ? LIVE_GAME_NAMES[i % LIVE_GAME_NAMES.length]! : 'Game Name';
+const gameTitle = (i: number) => isLive.value ? LIVE_GAME_NAMES[i % LIVE_GAME_NAMES.length]! : t('game.placeholder');
 const gameImage = (i: number) => operationalMedia(i).image;
 const gameFocalPoint = (i: number) => operationalMedia(i).focalPoint;
 const mediaSrc = (src: string) => /^(https?:)?\/\//.test(src) ? src : withBase(src);
@@ -96,7 +97,7 @@ function openVendor(v: string) {
       <div v-if="showBack" class="pb-[18px]">
         <button type="button" class="btn-back" @click="back">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6" /></svg>
-          <span>Back</span>
+          <span>{{ t('action.back') }}</span>
         </button>
       </div>
 
@@ -110,8 +111,8 @@ function openVendor(v: string) {
         </h2>
         <div class="vnd-search">
           <svg class="s-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>
-          <input v-model="q" type="text" :placeholder="showingVendors ? 'Vendor Name' : 'Search Game'">
-          <button class="s-btn" type="button">Search</button>
+          <input v-model="q" type="text" :placeholder="showingVendors ? t('search.vendorName') : t('search.game')">
+          <button class="s-btn" type="button">{{ t('action.search') }}</button>
         </div>
       </div>
 
@@ -139,7 +140,7 @@ function openVendor(v: string) {
               class="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface-deep/85 px-2.5 py-1 text-[10px] font-extrabold tracking-[0.14em] text-ink-2"
             >
               <span class="h-1.5 w-1.5 rounded-full bg-danger animate-pulse" />
-              LIVE STUDIO
+              {{ t('label.liveStudio') }}
             </span>
           </span>
         </button>
@@ -165,19 +166,19 @@ function openVendor(v: string) {
               class="absolute left-2 top-2 inline-flex items-center gap-1.5 rounded-full border border-line bg-surface-deep/90 px-2 py-1 text-[10px] font-extrabold tracking-[0.12em] text-ink"
             >
               <span class="h-1.5 w-1.5 rounded-full bg-danger animate-pulse" />
-              LIVE DEALER
+              {{ t('label.liveDealer') }}
             </span>
           </div>
           <div class="p-4">
             <h3 class="mb-1 truncate text-ink">{{ gameTitle(g.i) }}</h3>
             <p class="mb-3 truncate text-note text-ink-3">{{ g.provider }}</p>
-            <button class="btn-primary btn-sm w-full">Play Now</button>
+            <button class="btn-primary btn-sm w-full">{{ t('action.playNow') }}</button>
           </div>
         </div>
       </div>
 
       <div v-if="!showingVendors && loads < MAX_LOADS" class="cms-load-more-wrap mt-8 flex justify-center">
-        <button type="button" class="cms-load-more-button rounded-lg px-8 py-3 transition-colors" @click="loadMore">Load More</button>
+        <button type="button" class="cms-load-more-button rounded-lg px-8 py-3 transition-colors" @click="loadMore">{{ t('action.loadMore') }}</button>
       </div>
     </div>
   </section>
