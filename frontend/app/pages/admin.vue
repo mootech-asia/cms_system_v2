@@ -18,7 +18,7 @@ const siteStore = useSiteStore();
 const content = useContentStore();
 
 const IMAGE_GUIDE = {
-  banner: '建議尺寸：1920 × 640 px（3:1；JPG、PNG 或 WebP）',
+  banner: '建議尺寸：1920 × 640 px（3:1；JPG、PNG 或 WebP；人物／主體置右，左側 45% 保留文案安全區）',
   promo: '建議尺寸：1200 × 450 px（8:3；JPG、PNG 或 WebP）',
   hotGame: '建議尺寸：900 × 1200 px（3:4；JPG、PNG 或 WebP）',
   catalogGame: '建議尺寸：800 × 800 px（1:1；JPG、PNG 或 WebP）',

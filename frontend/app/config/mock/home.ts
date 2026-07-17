@@ -23,6 +23,16 @@ export interface Banner {
 
 export const banners: Banner[] = [
   {
+    id: 2,
+    badge: 'FIRST DEPOSIT',
+    title: 'Deposit Fever',
+    highlight: '100%',
+    sub: 'WELCOME BONUS · FAST PAYOUT · LIMITED TIME',
+    cta: 'Deposit Now',
+    img: HOME_OPERATION_MEDIA.luxury.image,
+    focalPoint: HOME_OPERATION_MEDIA.luxury.focalPoint,
+  },
+  {
     id: 4,
     badge: 'WORLD FOOTBALL 2026',
     title: 'Road to Glory',
@@ -41,16 +51,6 @@ export const banners: Banner[] = [
     cta: 'Enter Arena',
     img: HOME_OPERATION_MEDIA.esports.image,
     focalPoint: HOME_OPERATION_MEDIA.esports.focalPoint,
-  },
-  {
-    id: 2,
-    badge: 'ROYAL VIP',
-    title: 'Prestige',
-    highlight: 'VIP',
-    sub: 'EXCLUSIVE REBATES · PRIVATE SUPPORT · FAST PAYOUT',
-    cta: 'Unlock VIP',
-    img: HOME_OPERATION_MEDIA.luxury.image,
-    focalPoint: HOME_OPERATION_MEDIA.luxury.focalPoint,
   },
   {
     id: 3,

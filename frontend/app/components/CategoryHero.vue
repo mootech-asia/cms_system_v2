@@ -34,11 +34,11 @@ const hideBrokenMedia = (event: Event) => {
       @error="hideBrokenMedia"
     >
     <div v-if="props.image" class="category-hero-scrim absolute inset-0" />
-    <div class="category-hero-content container relative z-10 mx-auto px-4 text-center">
+    <div class="category-hero-content container relative z-10 mx-auto flex flex-col justify-center px-6 text-left md:px-12 xl:px-16">
       <p v-if="props.eyebrow" class="mb-3 text-note font-bold tracking-wide2 text-primary">
         {{ props.eyebrow }}
       </p>
-      <h1 class="text-4xl font-extrabold text-ink md:text-7xl">
+      <h1 class="category-hero-title text-4xl font-extrabold text-ink md:text-7xl">
         <slot>{{ props.title }}</slot>
       </h1>
     </div>

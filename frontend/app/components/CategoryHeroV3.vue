@@ -35,7 +35,7 @@ const hideBrokenMedia = (event: Event) => {
       <p v-if="props.eyebrow" class="mb-2 text-micro font-bold tracking-wide2 text-primary">
         {{ props.eyebrow }}
       </p>
-      <h1 class="text-h1 font-extrabold text-ink md:text-display">
+      <h1 class="category-hero-title text-h1 font-extrabold text-ink md:text-display">
         <slot>{{ props.title }}</slot>
       </h1>
     </div>

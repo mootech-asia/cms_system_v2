@@ -62,6 +62,7 @@ onUnmounted(stop);
   <section
     v-if="b"
     class="campaign-hero relative w-full overflow-hidden"
+    :data-campaign="b.id"
     aria-roledescription="carousel"
     aria-label="Featured campaigns"
     @mouseenter="pause"
@@ -91,7 +92,7 @@ onUnmounted(stop);
       </template>
 
       <div class="campaign-hero-content container relative z-10 mx-auto flex px-6 md:px-12 xl:px-16">
-        <div class="campaign-hero-copy flex w-full flex-col justify-center py-12 md:py-16">
+          <div class="campaign-hero-copy flex w-full flex-col justify-center py-12 md:py-16">
           <div class="campaign-hero-eyebrow mb-5 flex items-center gap-3">
             <span aria-hidden="true" class="h-px w-9 bg-primary" />
             <span class="text-xs font-extrabold tracking-[0.18em] text-primary">{{ b.badge }}</span>
