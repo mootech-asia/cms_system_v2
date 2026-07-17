@@ -28,6 +28,7 @@ watch(draft, (value) => {
   if (!value) return;
   siteStore.skin = value.skin;
   siteStore.setPublicSkins(value.publicSkins ?? []);
+  siteStore.setPublicLocales(value.publicLocales ?? []);
   siteStore.chrome = { ...value.chrome };
 }, { deep: true, immediate: true });
 

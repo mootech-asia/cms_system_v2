@@ -43,9 +43,11 @@ const providerResults: Record<Gateway, { type: ModalType; title: string; message
   },
 };
 
+const { t } = useLocale();
+
 const gateway = ref<Gateway>('a');
 const method = ref<Method>('bank');
-const step = ref<'form' | 'transfer'>('form');
+const step = ref<'form' | 'qr' | 'transfer'>('form');
 const showResult = ref(false);
 const amount = ref('₩ 10,000');
 const selectedAmount = ref('10,000');
@@ -59,6 +61,66 @@ const availablePaymentMethods = computed(() => {
 });
 const usesCrypto = computed(() => method.value === 'trc20' || method.value === 'erc20');
 const resultContent = computed(() => providerResults[gateway.value]);
+
+// QR 中繼步驟(非 Bank Card 方式):Next/Apply 後先進這一步,再繼續到原本的下一步
+const QR_SIZE = 21;
+const qrFinderPositions = [
+  { x: 0, y: 0 },
+  { x: QR_SIZE - 7, y: 0 },
+  { x: 0, y: QR_SIZE - 7 },
+];
+function isQrFinderZone(x: number, y: number) {
+  return qrFinderPositions.some((pos) => x >= pos.x && x < pos.x + 7 && y >= pos.y && y < pos.y + 7);
+}
+function seededQrModules(seed: string) {
+  let hash = 0;
+  for (let i = 0; i < seed.length; i += 1) hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
+  const cells: Array<{ x: number; y: number }> = [];
+  for (let y = 0; y < QR_SIZE; y += 1) {
+    for (let x = 0; x < QR_SIZE; x += 1) {
+      if (isQrFinderZone(x, y)) continue;
+      hash = (hash * 1103515245 + 12345) >>> 0;
+      if (((hash >>> 16) & 1) === 1) cells.push({ x, y });
+    }
+  }
+  return cells;
+}
+
+const mockPaymentAddresses: Record<Exclude<Method, 'bank'>, string> = {
+  linepay: 'https://line.example/pay/8f3c1a92b7d4e05f',
+  trc20: 'TXf9K2mNq7QeYzR3sD8pL1cWvA6bH4gU5t',
+  erc20: '0x7c3F9aE45bD218e6A0c9F5b3D8a41E2C6B7d9F0A',
+};
+const paymentInfo = computed(() => {
+  const isAddress = method.value === 'trc20' || method.value === 'erc20';
+  const value = mockPaymentAddresses[method.value as Exclude<Method, 'bank'>] ?? mockPaymentAddresses.linepay;
+  return { label: isAddress ? t('deposit.qr.addressLabel') : t('deposit.qr.linkLabel'), value };
+});
+const qrModules = computed(() => seededQrModules(`${method.value}|${paymentInfo.value.value}`));
+
+const copied = ref(false);
+let copiedTimer: ReturnType<typeof setTimeout> | null = null;
+async function copyAddress() {
+  try {
+    await navigator.clipboard.writeText(paymentInfo.value.value);
+    copied.value = true;
+    if (copiedTimer) clearTimeout(copiedTimer);
+    copiedTimer = setTimeout(() => { copied.value = false; }, 1500);
+  } catch {
+    // clipboard 不可用(權限/非安全連線)— 純占位流程,靜默忽略
+  }
+}
+
+function proceedFromForm() {
+  step.value = method.value === 'bank' ? 'transfer' : 'qr';
+}
+function completeQrStep() {
+  if (usesCrypto.value) {
+    submitApplication();
+  } else {
+    step.value = 'transfer';
+  }
+}
 
 watch(gateway, () => {
   if (!availablePaymentMethods.value.some((item) => item.id === method.value)) {
@@ -162,7 +224,7 @@ const cryptoReady = computed(() => Number(cryptoAmount.value.replace(/[^\d]/g, '
           <span v-for="line in promo.notes" :key="line" class="block mt-1 text-xs md:text-sm text-ink-2">• {{ line }}</span>
         </span>
       </button>
-      <button class="pay-action" :class="{ ready: bankReady }" :disabled="!bankReady" @click="step = 'transfer'">Next</button>
+      <button class="pay-action" :class="{ ready: bankReady }" :disabled="!bankReady" @click="proceedFromForm">Next</button>
     </section>
 
     <section v-if="step === 'form' && usesCrypto" class="payment-card">
@@ -194,8 +256,54 @@ const cryptoReady = computed(() => Number(cryptoAmount.value.replace(/[^\d]/g, '
         class="pay-action"
         :class="{ ready: cryptoReady }"
         :disabled="!cryptoReady"
-        @click="submitApplication"
+        @click="step = 'qr'"
       >Apply for Deposit</button>
+    </section>
+
+    <section v-if="step === 'qr'" class="payment-card text-center">
+      <div class="transfer-pill">{{ t('deposit.qr.pill') }}</div>
+      <p class="text-ink-2 text-sm md:text-base mb-6">{{ t('deposit.qr.hint') }}</p>
+
+      <div class="mb-6 flex w-full justify-center">
+        <div class="rounded-ui bg-primary p-4">
+          <svg viewBox="0 0 21 21" class="h-[180px] w-[180px]" role="img" :aria-label="t('deposit.qr.altText')">
+            <rect x="0" y="0" width="21" height="21" class="fill-primary" />
+            <template v-for="pos in qrFinderPositions" :key="`f-${pos.x}-${pos.y}`">
+              <rect :x="pos.x" :y="pos.y" width="7" height="7" class="fill-on-primary" />
+              <rect :x="pos.x + 2" :y="pos.y + 2" width="3" height="3" class="fill-primary" />
+            </template>
+            <rect
+              v-for="cell in qrModules"
+              :key="`c-${cell.x}-${cell.y}`"
+              :x="cell.x"
+              :y="cell.y"
+              width="1"
+              height="1"
+              class="fill-on-primary"
+            />
+          </svg>
+        </div>
+      </div>
+
+      <div class="mx-auto mb-2 max-w-md text-left">
+        <label class="mb-2 block text-sm font-semibold text-ink-2">{{ paymentInfo.label }}</label>
+        <div class="flex gap-2.5">
+          <input class="pay-field" :value="paymentInfo.value" readonly>
+          <button type="button" class="btn-ghost btn-md shrink-0" @click="copyAddress">
+            {{ copied ? t('deposit.qr.copied') : t('deposit.qr.copy') }}
+          </button>
+        </div>
+      </div>
+
+      <p class="mx-auto mb-6 max-w-md text-xs text-ink-3 md:text-sm">{{ t('deposit.qr.note') }}</p>
+
+      <div class="flex items-center justify-between gap-4">
+        <button type="button" class="btn-back" @click="step = 'form'">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6" /></svg>
+          <span>{{ t('action.back') }}</span>
+        </button>
+        <button type="button" class="pay-action ready !mt-0 flex-1" @click="completeQrStep">{{ t('deposit.qr.confirm') }}</button>
+      </div>
     </section>
 
     <section v-if="step === 'transfer'" class="payment-card transfer">
