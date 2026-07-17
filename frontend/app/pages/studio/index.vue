@@ -16,6 +16,7 @@ definePageMeta({ layout: false });
 useHead({ title: 'CMS_設計後台_v2' });
 
 const siteStore = useSiteStore();
+const { locale, locales, setLocale } = useLocale();
 
 // ---- 草稿 ----
 // 一律從目前 store 狀態起始(localStorage 只是傳給 preview iframe 的通道,
@@ -175,6 +176,19 @@ const exportPack = async () => {
         <section>
           <h2 class="mb-2 text-note font-bold tracking-wide2 text-ink-3">站點名稱</h2>
           <UiInput v-model="draft.siteName" placeholder="站點名稱(瀏覽器分頁)" />
+        </section>
+
+        <!-- 前台語言預覽:studio 介面維持中文,只切換右側前台內容語言 -->
+        <section>
+          <h2 class="mb-2 text-note font-bold tracking-wide2 text-ink-3">預覽語言</h2>
+          <div class="flex flex-wrap gap-2">
+            <button
+              v-for="item in locales" :key="item.code" type="button"
+              class="seg-btn"
+              :class="{ active: locale === item.code }"
+              @click="setLocale(item.code)"
+            >{{ item.label }}</button>
+          </div>
         </section>
 
         <!-- 皮膚 -->

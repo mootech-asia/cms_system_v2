@@ -3,6 +3,7 @@ import type { GameModalData } from '~/composables/useGamesPage';
 
 defineProps<{ data: GameModalData | null }>();
 const emit = defineEmits<{ close: [] }>();
+const { t } = useLocale();
 </script>
 
 <template>
@@ -22,7 +23,7 @@ const emit = defineEmits<{ close: [] }>();
       <div class="p-5">
         <h3 class="m-0 mb-1 text-h2 font-bold text-ink">{{ data.name }}</h3>
         <p class="m-0 mb-4 text-note text-ink-3">{{ data.provider }}</p>
-        <button type="button" class="btn-primary btn-md w-full">Play Now</button>
+        <button type="button" class="btn-primary btn-md w-full">{{ t('action.playNow') }}</button>
       </div>
     </div>
   </div>

@@ -5,7 +5,8 @@
  */
 import { tickerWins } from '~/config/mock/home';
 
-const chips = tickerWins.slice(0, 4);
+const { localizeTickerWins } = useLocale();
+const chips = computed(() => localizeTickerWins(tickerWins).slice(0, 4));
 </script>
 
 <template>

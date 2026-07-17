@@ -7,11 +7,13 @@
 import { ref, computed } from 'vue';
 
 
-const tabs = useContentStore().miniCategories;
+const content = useContentStore();
+const { t, localizeMiniTabs } = useLocale();
+const tabs = computed(() => localizeMiniTabs(content.miniCategories));
 
-const active = ref('mini');
-const games = computed(() => tabs.find((t) => t.key === active.value)!.games);
-const routes: Record<string, string> = Object.fromEntries(tabs.map((t) => [t.key, t.route]));
+const active = ref(content.miniCategories[0]?.key ?? 'mini');
+const games = computed(() => tabs.value.find((item) => item.key === active.value)?.games ?? []);
+const routes = computed<Record<string, string>>(() => Object.fromEntries(tabs.value.map((item) => [item.key, item.route])));
 const mediaSrc = (src: string) => (/^(https?:)?\/\//.test(src) ? src : withBase(src));
 
 const pillClass = (key: string) =>
@@ -32,7 +34,7 @@ const pillClass = (key: string) =>
             @click="active = t.key"
           >{{ t.label }}</button>
         </div>
-        <NuxtLink class="text-ink-3 hover:text-ink text-xs px-3 py-1.5 border border-line rounded transition-colors self-start md:self-auto" :to="routes[active]">Show all</NuxtLink>
+        <NuxtLink class="text-ink-3 hover:text-ink text-xs px-3 py-1.5 border border-line rounded transition-colors self-start md:self-auto" :to="routes[active]">{{ t('action.showAll') }}</NuxtLink>
       </div>
       <div :key="active" class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-3 animate-slideIn">
         <div v-for="g in games" :key="g.title" class="cursor-pointer group">

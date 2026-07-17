@@ -1,6 +1,9 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-const { hotGames } = useContentStore();
+import { computed, ref } from 'vue'
+
+const content = useContentStore();
+const { t, localizeHotGames } = useLocale();
+const hotGames = computed(() => localizeHotGames(content.hotGames));
 const track = ref<HTMLElement | null>(null)
 </script>
 
@@ -13,10 +16,10 @@ const track = ref<HTMLElement | null>(null)
             <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z">
             </path>
           </svg>
-          <span class="text-base md:text-lg">Hot Games</span>
+          <span class="text-base md:text-lg">{{ t('section.hotGames') }}</span>
         </h2>
         <div class="flex items-center gap-2">
-          <a class="text-ink-3 hover:text-ink text-xs px-3 py-1.5 border border-line rounded transition-colors" :href="withBase('/hot-games')">Show all</a>
+          <a class="text-ink-3 hover:text-ink text-xs px-3 py-1.5 border border-line rounded transition-colors" :href="withBase('/hot-games')">{{ t('action.showAll') }}</a>
           <button class="text-ink-3 hover:text-ink p-1.5 border border-line rounded transition-colors" @click="track?.scrollBy({ left: -300, behavior: 'smooth' })">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left w-4 h-4">
               <path d="m15 18-6-6 6-6">
@@ -37,7 +40,7 @@ const track = ref<HTMLElement | null>(null)
             <img :src="withBase(g.img)" :alt="g.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
             <div class="absolute top-2 left-2 bg-scrim/70 text-ink text-[10px] px-2 py-0.5 rounded">{{ g.bonus }}</div>
             <div class="absolute inset-0 bg-scrim/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-              <button class="bg-g-primary text-on-primary text-xs px-3 py-1.5 rounded-lg">Play Now</button>
+              <button class="bg-g-primary text-on-primary text-xs px-3 py-1.5 rounded-lg">{{ t('action.playNow') }}</button>
             </div>
           </div>
           <div class="mt-1.5">

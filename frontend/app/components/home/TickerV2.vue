@@ -6,13 +6,15 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { tickerWins } from '~/config/mock/home';
 
+const { t, localizeTickerWins } = useLocale();
+const wins = computed(() => localizeTickerWins(tickerWins));
 const idx = ref(0);
-const current = computed(() => tickerWins[idx.value]!);
+const current = computed(() => wins.value[idx.value]!);
 let timer: ReturnType<typeof setInterval> | null = null;
 
 onMounted(() => {
   timer = setInterval(() => {
-    idx.value = (idx.value + 1) % tickerWins.length;
+    if (wins.value.length) idx.value = (idx.value + 1) % wins.value.length;
   }, 3000);
 });
 onUnmounted(() => { if (timer) clearInterval(timer); });
@@ -30,7 +32,7 @@ onUnmounted(() => { if (timer) clearInterval(timer); });
     </svg>
     <Transition name="tkv2" mode="out-in">
       <p :key="idx" class="truncate text-xs text-ink-3">
-        Congratulations&nbsp;<span class="text-primary">{{ current.player }}</span>&nbsp;winning&nbsp;<span class="text-ink">{{ current.amount }}</span>&nbsp;in {{ current.game }}
+        {{ t('ticker.congratulations') }}&nbsp;<span class="text-primary">{{ current.player }}</span>&nbsp;{{ t('ticker.winning') }}&nbsp;<span class="text-ink">{{ current.amount }}</span>&nbsp;{{ t('ticker.in') }} {{ current.game }}
       </p>
     </Transition>
   </div>

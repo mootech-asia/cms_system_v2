@@ -5,8 +5,9 @@
  * 吃同一份 content store(miniCategories)內容與皮膚 token。
  */
 
-
-const sections = useContentStore().miniCategories;
+const content = useContentStore();
+const { t, localizeMiniTabs } = useLocale();
+const sections = computed(() => localizeMiniTabs(content.miniCategories));
 const mediaSrc = (src: string) => (/^(https?:)?\/\//.test(src) ? src : withBase(src));
 </script>
 
@@ -17,7 +18,7 @@ const mediaSrc = (src: string) => (/^(https?:)?\/\//.test(src) ? src : withBase(
         <div v-for="s in sections" :key="s.key">
           <div class="flex items-center justify-between mb-3">
             <h3 class="text-ink text-sm md:text-base font-bold">{{ s.label }}</h3>
-            <NuxtLink class="text-ink-3 hover:text-ink text-xs px-3 py-1.5 border border-line rounded transition-colors" :to="s.route">Show all</NuxtLink>
+            <NuxtLink class="text-ink-3 hover:text-ink text-xs px-3 py-1.5 border border-line rounded transition-colors" :to="s.route">{{ t('action.showAll') }}</NuxtLink>
           </div>
           <div class="flex overflow-x-auto gap-3 snap-x snap-mandatory scrollbar-hide pb-2">
             <div v-for="g in s.games" :key="g.title" class="flex-shrink-0 w-20 md:w-24 snap-start cursor-pointer group">

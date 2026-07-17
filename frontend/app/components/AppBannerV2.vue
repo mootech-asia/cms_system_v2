@@ -4,10 +4,12 @@
  * 吃同一份 config/mock/home.ts banners 內容與皮膚 token,只換版面。
  */
 import { ref, computed, onMounted, onUnmounted } from 'vue';
-const { banners } = useContentStore();
+const content = useContentStore();
+const { localizeBanners } = useLocale();
+const banners = computed(() => localizeBanners(content.banners));
 
 const idx = ref(0);
-const b = computed(() => banners[idx.value]!);
+const b = computed(() => banners.value[idx.value]!);
 const mediaSrc = (src?: string) => {
   if (!src) return '';
   return /^(https?:)?\/\//.test(src) ? src : withBase(src);
@@ -17,7 +19,7 @@ const hideBrokenMedia = (event: Event) => {
 };
 let timer: ReturnType<typeof setInterval> | null = null;
 
-const next = () => { idx.value = (idx.value + 1) % banners.length; };
+const next = () => { if (banners.value.length) idx.value = (idx.value + 1) % banners.value.length; };
 const go = (i: number) => { idx.value = i; restart(); };
 const restart = () => { if (timer) clearInterval(timer); timer = setInterval(next, 5000); };
 

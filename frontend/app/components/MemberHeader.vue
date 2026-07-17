@@ -1,24 +1,19 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
+const { t } = useLocale();
 const menuOpen = ref(false);
 const nickname = useState<string>('member:nickname', () => 'meqomcao');
-const langs = [
-  { code: 'EN', label: 'English' },
-  { code: '한국어', label: '한국어' },
-];
-const lang = useState<string>('ui:lang', () => 'EN');
-const langOpen = ref(false);
-const links = [
-  { label: 'Home', to: '/', icon: 'house' },
-  { label: 'Hot Games', to: '/hot-games', icon: 'flame' },
-  { label: 'Sports', to: '/sport', icon: 'trophy' },
-  { label: 'Live', to: '/live', icon: 'video' },
-  { label: 'Slots', to: '/slot', icon: 'cherry' },
-  { label: 'Fish', to: '/fish', icon: 'fish' },
-  { label: 'Mini Games', to: '/mini-games', icon: 'gamepad2' },
-  { label: 'Promotion', to: '/promotion', icon: 'gift' },
-];
+const links = computed(() => [
+  { label: t('nav.home'), to: '/', icon: 'house' },
+  { label: t('nav.hotGames'), to: '/hot-games', icon: 'flame' },
+  { label: t('nav.sports'), to: '/sport', icon: 'trophy' },
+  { label: t('nav.live'), to: '/live', icon: 'video' },
+  { label: t('nav.slots'), to: '/slot', icon: 'cherry' },
+  { label: t('nav.fish'), to: '/fish', icon: 'fish' },
+  { label: t('nav.miniGames'), to: '/mini-games', icon: 'gamepad2' },
+  { label: t('nav.promotion'), to: '/promotion', icon: 'gift' },
+]);
 const route = useRoute();
 const isActive = (to: string) => (to === '/' ? route.path === '/' : route.path.startsWith(to));
 </script>
@@ -31,24 +26,7 @@ const isActive = (to: string) => (to === '/' ? route.path === '/' : route.path.s
           <img :src="withBase('/logo.png')" alt="Casino Logo" class="h-10 mix-blend-lighten">
         </NuxtLink>
         <div class="md:hidden ml-auto flex items-center gap-3">
-          <div class="relative">
-            <button class="text-ink-2 hover:text-ink flex items-center gap-1" @click="langOpen = !langOpen">
-              <AppIcon name="globe" class="w-5 h-5" /><span>{{ lang }}</span><AppIcon name="chevron-down" class="w-3 h-3" />
-            </button>
-            <div v-if="langOpen" class="fixed inset-0 z-[999]" @click="langOpen = false"></div>
-            <div
-              v-if="langOpen"
-              class="absolute right-0 top-full z-[1000] bg-surface border border-line-soft"
-              style="margin-top:6px;border-radius:10px;padding:6px;min-width:140px;box-shadow:0 12px 30px rgba(0,0,0,.45)"
-            >
-              <div
-                v-for="l in langs" :key="l.code"
-                class="rounded-md cursor-pointer px-3.5 py-2.5 text-sm whitespace-nowrap hover:bg-surface-deep"
-                :class="lang === l.code ? 'text-primary font-bold' : 'text-ink-2 font-normal'"
-                @click="lang = l.code; langOpen = false"
-              >{{ l.label }}</div>
-            </div>
-          </div>
+          <LanguageSwitcher />
           <button class="text-ink-2 hover:text-ink" aria-label="Menu" @click="menuOpen = true">
             <AppIcon name="menu" class="w-6 h-6" />
           </button>
@@ -87,11 +65,11 @@ const isActive = (to: string) => (to === '/' ? route.path === '/' : route.path.s
                   <span class="bg-g-primary text-on-primary text-xs min-[400px]:text-sm font-bold px-2.5 py-1 rounded-full leading-none">VIP1</span>
                 </div>
                 <div class="mt-1 text-sm min-[400px]:text-base font-semibold whitespace-nowrap">
-                  <span class="text-ink-3">Balance: </span>
+                  <span class="text-ink-3">{{ t('account.balance') }}: </span>
                   <span class="text-primary">₩1,000,000,000</span>
                 </div>
                 <div class="text-sm min-[400px]:text-base font-semibold">
-                  <span class="text-ink-3">Points: </span>
+                  <span class="text-ink-3">{{ t('account.points') }}: </span>
                   <span class="text-primary">0.00</span>
                 </div>
               </div>
@@ -101,7 +79,7 @@ const isActive = (to: string) => (to === '/' ? route.path === '/' : route.path.s
               class="mt-3 block text-center rounded-lg bg-g-primary text-on-primary text-sm font-bold"
               style="padding:10px 18px;text-decoration:none"
               @click="menuOpen = false"
-            >View Account</NuxtLink>
+            >{{ t('account.view') }}</NuxtLink>
           </div>
         </div>
       </div>

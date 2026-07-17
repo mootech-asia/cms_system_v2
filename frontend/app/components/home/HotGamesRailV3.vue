@@ -5,7 +5,9 @@
  * 每列顯示較少項目(2 手機 / 4 桌面),bonus/provider 改為圖片下方常駐資訊列
  * (不靠 hover 顯示),對觸控裝置更友善。
  */
-const { hotGames } = useContentStore();
+const content = useContentStore();
+const { t, localizeHotGames } = useLocale();
+const hotGames = computed(() => localizeHotGames(content.hotGames));
 </script>
 
 <template>
@@ -17,9 +19,9 @@ const { hotGames } = useContentStore();
             <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z">
             </path>
           </svg>
-          <span class="text-base md:text-lg">Hot Games</span>
+          <span class="text-base md:text-lg">{{ t('section.hotGames') }}</span>
         </h2>
-        <a class="text-ink-3 hover:text-ink text-xs px-3 py-1.5 border border-line rounded transition-colors" :href="withBase('/hot-games')">Show all</a>
+        <a class="text-ink-3 hover:text-ink text-xs px-3 py-1.5 border border-line rounded transition-colors" :href="withBase('/hot-games')">{{ t('action.showAll') }}</a>
       </div>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div v-for="g in hotGames" :key="g.title" class="cursor-pointer group rounded-xl overflow-hidden border border-line-soft bg-surface-deep hover:border-primary transition-colors">

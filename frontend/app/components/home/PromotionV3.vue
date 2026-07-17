@@ -4,7 +4,9 @@
  * 每列 icon/徽章 + 名稱 + View CTA,直向堆疊,適合側欄或折疊線以下的密集版位。
  * 吃同一份 config/mock/home.ts promoCards 內容與皮膚 token。
  */
-const { promoCards } = useContentStore();
+const content = useContentStore();
+const { t, localizePromoCards } = useLocale();
+const promoCards = computed(() => localizePromoCards(content.promoCards));
 const mediaSrc = (src?: string) => {
   if (!src) return '';
   return /^(https?:)?\/\//.test(src) ? src : withBase(src);
@@ -30,9 +32,9 @@ function goDetail(id: string) {
             <path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7" />
             <path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5" />
           </svg>
-          <span class="text-sm md:text-lg">Promotion</span>
+          <span class="text-sm md:text-lg">{{ t('section.promotion') }}</span>
         </h2>
-        <a class="text-ink-3 hover:text-ink text-xs px-3 py-1.5 border border-line rounded transition-colors" :href="withBase('/promotion')">Show all</a>
+        <a class="text-ink-3 hover:text-ink text-xs px-3 py-1.5 border border-line rounded transition-colors" :href="withBase('/promotion')">{{ t('action.showAll') }}</a>
       </div>
       <div class="flex flex-col divide-y divide-line-soft border border-line-soft rounded-xl overflow-hidden">
         <div
