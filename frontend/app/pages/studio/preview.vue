@@ -12,6 +12,7 @@ useHead({ title: 'CMS_設計後台_v2 — 預覽' });
 
 const route = useRoute();
 const page = computed(() => (route.query.page as string) || 'home');
+const siteStore = useSiteStore();
 
 const draft = ref<DraftConfig | null>(null);
 const sync = () => { draft.value = readDraft(); };
@@ -23,7 +24,14 @@ onMounted(() => {
   });
 });
 
-useHead({ htmlAttrs: { 'data-theme': computed(() => draft.value?.skin ?? 'win100') } });
+watch(draft, (value) => {
+  if (!value) return;
+  siteStore.skin = value.skin;
+  siteStore.setPublicSkins(value.publicSkins ?? []);
+  siteStore.chrome = { ...value.chrome };
+}, { deep: true, immediate: true });
+
+useHead({ htmlAttrs: { 'data-theme': computed(() => siteStore.skin) } });
 
 const sections = computed(() => draft.value?.pages[page.value]?.sections ?? []);
 const chrome = (part: 'header' | 'footer') =>

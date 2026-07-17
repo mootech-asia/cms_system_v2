@@ -8,6 +8,7 @@ import { THEME_KEYS, themeLabel } from '~/utils/themes';
 
 const siteStore = useSiteStore();
 const open = ref(false);
+const visibleSkins = computed(() => siteStore.publicSkins.filter((k) => THEME_KEYS.includes(k)));
 const pick = (k: string) => {
   siteStore.setSkin(k);
   open.value = false;
@@ -15,7 +16,7 @@ const pick = (k: string) => {
 </script>
 
 <template>
-  <div class="relative">
+  <div v-if="visibleSkins.length > 1" class="relative">
     <button
       type="button"
       class="flex items-center gap-1 text-ink-2 transition-colors hover:text-ink"
@@ -31,7 +32,7 @@ const pick = (k: string) => {
       class="dd-panel right-0"
     >
       <div
-        v-for="k in THEME_KEYS" :key="k"
+        v-for="k in visibleSkins" :key="k"
         class="cursor-pointer whitespace-nowrap rounded-md px-3.5 py-2.5 text-sm hover:bg-surface-deep"
         :class="siteStore.skin === k ? 'font-bold text-primary' : 'font-normal text-ink-2'"
         @click="pick(k)"

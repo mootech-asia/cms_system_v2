@@ -27,6 +27,19 @@ watch(draft, () => writeDraft(draft), { deep: true, immediate: true });
 const page = ref<string>(Object.keys(draft.pages)[0] ?? 'home');
 const sections = computed(() => draft.pages[page.value]?.sections ?? []);
 
+const isPublicSkin = (skin: string) => draft.publicSkins.includes(skin);
+const togglePublicSkin = (skin: string) => {
+  const next = new Set(draft.publicSkins);
+  if (next.has(skin)) next.delete(skin);
+  else next.add(skin);
+  draft.publicSkins = THEME_KEYS.filter((key) => next.has(key));
+};
+const publicSkinSummary = computed(() =>
+  draft.publicSkins.length > 1
+    ? `前台顯示 ${draft.publicSkins.length} 種`
+    : '前台 skin 選擇藏起來',
+);
+
 // ---- 區塊操作 ----
 const variantKeys = (block: BlockKey) => Object.keys(BLOCKS[block]?.variants ?? {});
 
@@ -81,6 +94,7 @@ const applyToSite = () => {
 const resetDraft = () => {
   const fresh = buildDraft(siteStore);
   draft.skin = fresh.skin;
+  draft.publicSkins = fresh.publicSkins;
   draft.chrome = fresh.chrome;
   draft.pages = fresh.pages;
 };
@@ -88,24 +102,28 @@ const resetDraft = () => {
 const exportError = ref('');
 const exportPack = async () => {
   exportError.value = '';
-  let themeCss = '';
-  try {
-    themeCss = await fetchThemeSource(draft.skin);
-  } catch {
-    exportError.value = `讀不到皮膚檔 themes/${draft.skin}.css,已中止匯出`;
-    return;
+  const exportSkins = [...new Set([draft.skin, ...draft.publicSkins])];
+  const themeFiles: { name: string; content: string }[] = [];
+  for (const skin of exportSkins) {
+    try {
+      themeFiles.push({ name: `themes/${skin}.css`, content: await fetchThemeSource(skin) });
+    } catch {
+      exportError.value = `讀不到皮膚檔 themes/${skin}.css,已中止匯出`;
+      return;
+    }
   }
   const config = JSON.stringify(draft, null, 2);
   const readme = `# WIN100 模板包(/studio 匯出)
 
 匯出時間:${new Date().toISOString()}
 皮膚:${draft.skin}
+前台可見 skins:${draft.publicSkins.length ? draft.publicSkins.join(' / ') : '不顯示'}
 
 ## 內容
 - \`page-config.json\` — 站點組態:skin、chrome(header/footer 變體)、
-  各頁 sections(順序 = 渲染順序;block/variant/enabled/props,
+  publicSkins(前台可見 skin 清單)、各頁 sections(順序 = 渲染順序;block/variant/enabled/props,
   schema 見 frontend/app/config/blocks.ts 的 SectionConfig)。
-- \`themes/${draft.skin}.css\` — 皮膚檔(CSS 變數,全站視覺唯一來源)。
+- \`themes/*.css\` — 已套用 skin 與前台可見 skins 的 CSS 變數檔。
 
 ## 工程接手方式
 1. 皮膚:放到 \`frontend/app/assets/css/themes/\`(檔名即 skin key;
@@ -119,7 +137,7 @@ const exportPack = async () => {
   const blob = makeZip([
     { name: 'README.md', content: readme },
     { name: 'page-config.json', content: config },
-    { name: `themes/${draft.skin}.css`, content: themeCss },
+    ...themeFiles,
   ]);
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
@@ -193,7 +211,11 @@ const exportPack = async () => {
 
         <!-- 皮膚 -->
         <section>
-          <h2 class="mb-2 text-note font-bold tracking-wide2 text-ink-3">皮膚</h2>
+          <div class="mb-2 flex items-center justify-between gap-2">
+            <h2 class="text-note font-bold tracking-wide2 text-ink-3">皮膚</h2>
+            <UiTag :label="publicSkinSummary" :status="draft.publicSkins.length > 1 ? 'ok' : 'neutral'" />
+          </div>
+          <p class="mb-2 text-note text-ink-4">本站套用</p>
           <div class="flex flex-wrap gap-2">
             <button
               v-for="k in THEME_KEYS" :key="k" type="button"
@@ -201,6 +223,17 @@ const exportPack = async () => {
               :class="{ active: draft.skin === k }"
               @click="draft.skin = k"
             >{{ themeLabel(k) }}</button>
+          </div>
+          <p class="mb-2 mt-3 text-note text-ink-4">前台可見</p>
+          <div class="flex flex-wrap gap-2">
+            <button
+              v-for="k in THEME_KEYS" :key="`public-${k}`" type="button"
+              role="checkbox"
+              class="seg-btn"
+              :aria-checked="isPublicSkin(k)"
+              :class="{ active: isPublicSkin(k) }"
+              @click="togglePublicSkin(k)"
+            >{{ isPublicSkin(k) ? '✓ ' : '' }}{{ themeLabel(k) }}</button>
           </div>
         </section>
 

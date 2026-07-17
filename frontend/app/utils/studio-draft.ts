@@ -10,6 +10,8 @@ export interface DraftConfig {
   /** 前台站名(命名權:設計端可在組版時定) */
   siteName: string;
   skin: string;
+  /** 前台 header skin 切換器可顯示的 skin 清單;0/1 個時前台隱藏切換器。 */
+  publicSkins: string[];
   /** 全站 chrome 變體(header/footer 不屬於頁面 sections) */
   chrome: { header: string; footer: string };
   pages: Record<string, { sections: SectionConfig[] }>;
@@ -23,6 +25,7 @@ export function buildDraft(store: SiteStore): DraftConfig {
   return JSON.parse(JSON.stringify({
     siteName: store.siteName,
     skin: store.skin,
+    publicSkins: store.publicSkins,
     chrome: store.chrome,
     pages: store.pages,
   }));
@@ -31,6 +34,7 @@ export function buildDraft(store: SiteStore): DraftConfig {
 export function applyDraft(store: SiteStore, draft: DraftConfig) {
   if (draft.siteName?.trim()) store.siteName = draft.siteName.trim();
   store.skin = draft.skin;
+  store.setPublicSkins(draft.publicSkins ?? []);
   store.chrome = { ...draft.chrome };
   store.pages = JSON.parse(JSON.stringify(draft.pages));
 }
@@ -39,7 +43,10 @@ export function readDraft(): DraftConfig | null {
   if (!import.meta.client) return null;
   try {
     const raw = localStorage.getItem(STUDIO_DRAFT_KEY);
-    return raw ? (JSON.parse(raw) as DraftConfig) : null;
+    if (!raw) return null;
+    const draft = JSON.parse(raw) as DraftConfig;
+    draft.publicSkins ??= [];
+    return draft;
   } catch {
     return null;
   }
