@@ -28,9 +28,9 @@ The old `cms_v2` Pages URL is retired and must not be used.
 
 | Purpose | Branch / source | SHA |
 |---|---|---|
-| Deployed frontend source | `main` | `be8c7f8898b10dfb1bd3b5acc1c9dae611c75ca9` |
-| Candidate output | `pages-candidate` | `c440183f7751f0536c6c57119ec25f529e920e3b` |
-| Production output | `gh-pages` | `c440183f7751f0536c6c57119ec25f529e920e3b` |
+| Deployed frontend source | `main` | `0bdb83bd9ca2208298bd7d955bd0674e1c455835` |
+| Candidate output | `pages-candidate` | `3f18169be97dc9db1a0c76820c547ade868dcc38` |
+| Production output | `gh-pages` | `3f18169be97dc9db1a0c76820c547ade868dcc38` |
 | Legacy production backup | `backup/gh-pages-legacy-2026-07-16` | `0b1a1d61a5bcc4bb72e490952a582d5da62a02bd` |
 
 The commit that updates this handoff is documentation-only and may make `main` newer than the
@@ -74,6 +74,13 @@ also ready.
 - Build Pages candidate: run `29548574696`, success.
 - GitHub Pages deployment: run `29548758154`, success.
 
+### High-contrast banner release (current production)
+
+- Source commit: `0bdb83bd9ca2208298bd7d955bd0674e1c455835`.
+- Frontend checks: run `29550284470`, success.
+- Build Pages candidate: run `29550284475`, success.
+- GitHub Pages deployment: run `29550538980`, success.
+
 ## Latest completed user requests
 
 ### 1. Homepage game-carousel tabs repaired
@@ -103,23 +110,38 @@ Verified production values:
 Files:
 
 - `frontend/app/components/AppBanner.vue`
+- `frontend/app/components/CategoryHero.vue`
+- `frontend/app/components/CategoryHeroV2.vue`
+- `frontend/app/components/CategoryHeroV3.vue`
+- `frontend/app/config/mock/home.ts`
 - `frontend/app/config/operational-media.ts`
 - `frontend/app/assets/css/main.css`
+- `frontend/app/pages/admin.vue`
 
 Behavior:
 
-- Desktop campaign stage is 440px high and uses full-bleed operational photography.
-- Four campaigns now cover World Football 2026, esports, luxury VIP, and finance/USDT.
-- Real photography is combined with tokenized scrims and focal positions for readable copy.
+- Desktop campaign stage is 520px high and uses full-bleed operational photography.
+- The first campaign is `First Deposit / Deposit Fever / 100%`, with gold emphasis and the
+  reference-standard left copy/right subject composition.
+- The remaining campaigns cover World Football 2026, esports, and finance/USDT.
+- Photography saturation, contrast, brightness, light bloom, text glow, and CTA separation were
+  increased without changing the restored Emerald skin palette.
+- Category content banners use a 300px desktop stage with category photography, vivid color,
+  tokenized scrims, outlined eyebrow text, and a bright title treatment.
 - Includes autoplay, pause on hover/focus, swipe, Previous/Next, counter, and pagination.
-- Mobile stage is 360px high; controls avoid the fixed quick menu.
+- Mobile campaign stage is 390px high and category banners are 220px high; focal positions and
+  scrims preserve copy readability without horizontal overflow.
 - Text remains HTML rather than being baked into images.
+- Admin upload guidance now recommends `1920 x 640 px (3:1)` and reserves the left 45% as a copy
+  safe area when the subject is placed on the right.
 
 Verified image dimensions:
 
 - All four images loaded at 1920px natural width.
-- Desktop campaign height: `440px`.
-- Mobile campaign height: `360px`.
+- Desktop campaign height: `520px`.
+- Mobile campaign height: `390px`.
+- Desktop category banner height: `300px`.
+- Mobile category banner height: `220px`.
 - Desktop and mobile document horizontal overflow: `0px`.
 
 ### 3. Provider selectors use category photography
@@ -297,6 +319,6 @@ These are product limitations, not regressions from the latest work:
 ## Current handoff conclusion
 
 There are no known unfinished items from the user's latest requests. The game-carousel tabs,
-desktop operational banners, category provider photography, and five-skin system are complete.
-The original Emerald palette has been restored, and the development login bypass remains deployed
-and verified on desktop and mobile.
+high-contrast operational banners, category provider photography, and five-skin system are
+complete. The original Emerald palette remains restored, and the development login bypass remains
+deployed and verified on desktop and mobile.
