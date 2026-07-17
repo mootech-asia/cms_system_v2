@@ -5,6 +5,8 @@ import { THEME_KEYS, fetchThemeSource, themeLabel } from '~/utils/themes';
 import {
   type DraftConfig, buildDraft, applyDraft, writeDraft,
 } from '~/utils/studio-draft';
+import { writePublicConfig } from '~/utils/public-config';
+import { APP_LOCALES } from '~/composables/useLocale';
 import { makeZip } from '~/utils/zip';
 
 /**
@@ -40,11 +42,28 @@ const publicSkinSummary = computed(() =>
     : '前台 skin 選擇藏起來',
 );
 
+const isPublicLocale = (code: string) => draft.publicLocales.includes(code);
+const togglePublicLocale = (code: string) => {
+  const next = new Set(draft.publicLocales);
+  if (next.has(code)) {
+    if (next.size <= 1) return; // 至少保留 1 個語言
+    next.delete(code);
+  } else {
+    next.add(code);
+  }
+  draft.publicLocales = APP_LOCALES.filter((item) => next.has(item.code)).map((item) => item.code);
+};
+const publicLocaleSummary = computed(() =>
+  draft.publicLocales.length > 1
+    ? `前台顯示 ${draft.publicLocales.length} 種語言`
+    : '前台語言切換藏起來',
+);
+
 // ---- 側欄群組收合(預設第一組展開) ----
 const openGroups = reactive({ site: true, skin: false, chrome: false, sections: false });
 const toggleGroup = (key: keyof typeof openGroups) => { openGroups[key] = !openGroups[key]; };
 const localeLabel = computed(() => locales.find((l) => l.code === locale.value)?.label ?? locale.value);
-const skinSummary = computed(() => `${themeLabel(draft.skin)} ・ ${publicSkinSummary.value}`);
+const skinSummary = computed(() => `${themeLabel(draft.skin)} ・ ${publicSkinSummary.value} ・ ${publicLocaleSummary.value}`);
 const chromeSummary = computed(() => `header:${draft.chrome.header} / footer:${draft.chrome.footer}`);
 const sectionsSummary = computed(() => `${sections.value.length} 個區塊`);
 
@@ -96,6 +115,7 @@ const iframeEl = ref<HTMLIFrameElement | null>(null);
 const applied = ref(false);
 const applyToSite = () => {
   applyDraft(siteStore, JSON.parse(JSON.stringify(draft)));
+  writePublicConfig(siteStore);
   applied.value = true;
   setTimeout(() => { applied.value = false; }, 2500);
 };
@@ -103,6 +123,7 @@ const resetDraft = () => {
   const fresh = buildDraft(siteStore);
   draft.skin = fresh.skin;
   draft.publicSkins = fresh.publicSkins;
+  draft.publicLocales = fresh.publicLocales;
   draft.chrome = fresh.chrome;
   draft.pages = fresh.pages;
 };
@@ -255,6 +276,17 @@ const exportPack = async () => {
                 :class="{ active: isPublicSkin(k) }"
                 @click="togglePublicSkin(k)"
               >{{ isPublicSkin(k) ? '✓ ' : '' }}{{ themeLabel(k) }}</button>
+            </div>
+            <p class="mb-2 mt-3 text-note text-ink-4">前台可見語言</p>
+            <div class="flex flex-wrap gap-2">
+              <button
+                v-for="item in APP_LOCALES" :key="`public-locale-${item.code}`" type="button"
+                role="checkbox"
+                class="seg-btn"
+                :aria-checked="isPublicLocale(item.code)"
+                :class="{ active: isPublicLocale(item.code) }"
+                @click="togglePublicLocale(item.code)"
+              >{{ isPublicLocale(item.code) ? '✓ ' : '' }}{{ item.label }}</button>
             </div>
           </div>
         </section>

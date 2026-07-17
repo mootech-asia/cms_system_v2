@@ -2,6 +2,7 @@
 import { BLOCKS } from '~/config/blocks';
 import { TEMPLATE } from '~/config/template';
 import { themeLabel } from '~/utils/themes';
+import { writePublicConfig } from '~/utils/public-config';
 
 /**
  * R6 客戶後台:終端客戶控制系統 — 內容文案/促銷管理/區塊開關與排序/換膚。
@@ -16,6 +17,10 @@ useHead({ title: 'CMS_後台_v2' });
 const scope = TEMPLATE.client;
 const siteStore = useSiteStore();
 const content = useContentStore();
+
+/** 皮膚分頁沒有獨立「儲存」按鈕,setSiteName/setSkin 本身即儲存動作 — 同步寫進前台持久化組態 */
+const setSiteName = (name: string) => { siteStore.setSiteName(name); writePublicConfig(siteStore); };
+const setSkin = (skin: string) => { siteStore.setSkin(skin); writePublicConfig(siteStore); };
 
 const IMAGE_GUIDE = {
   banner: '建議尺寸：1920 × 640 px（3:1；JPG、PNG 或 WebP；人物／主體置右，左側 45% 保留文案安全區）',
@@ -327,7 +332,7 @@ const save = () => {
             <template v-if="scope.editable.siteName">
               <p class="text-note text-ink-4">站點名稱(命名權在你 — 顯示於瀏覽器分頁)。</p>
               <div class="flex max-w-md items-center gap-2">
-                <UiInput :model-value="siteStore.siteName" class="flex-1" placeholder="站點名稱" @update:model-value="siteStore.setSiteName($event as string)" />
+                <UiInput :model-value="siteStore.siteName" class="flex-1" placeholder="站點名稱" @update:model-value="setSiteName($event as string)" />
               </div>
             </template>
             <p class="text-note text-ink-4">切換整站皮膚(此模板開放:{{ scope.skins.join(' / ') }})。</p>
@@ -336,7 +341,7 @@ const save = () => {
                 v-for="k in scope.skins" :key="k" type="button"
                 class="seg-btn"
                 :class="{ active: siteStore.skin === k }"
-                @click="siteStore.setSkin(k)"
+                @click="setSkin(k)"
               >{{ themeLabel(k) }}</button>
             </div>
           </div>
