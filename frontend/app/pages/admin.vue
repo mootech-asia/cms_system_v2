@@ -146,9 +146,9 @@ const save = () => {
                   <p class="mt-1.5 text-[11px] leading-4 text-ink-4">{{ IMAGE_GUIDE.banner }}</p>
                 </div>
                 <div class="flex min-h-9 shrink-0 items-center justify-end gap-2 text-ink-4 sm:gap-1">
-                  <button type="button" class="flex h-9 w-9 items-center justify-center rounded-ui hover:bg-surface-2 hover:text-ink disabled:opacity-30" :disabled="bi === 0" title="上移" @click="content.moveBanner(bi, bi - 1)">↑</button>
-                  <button type="button" class="flex h-9 w-9 items-center justify-center rounded-ui hover:bg-surface-2 hover:text-ink disabled:opacity-30" :disabled="bi === content.banners.length - 1" title="下移" @click="content.moveBanner(bi, bi + 1)">↓</button>
-                  <button type="button" class="flex h-9 w-9 items-center justify-center rounded-ui hover:bg-surface-2 hover:text-danger" title="下架此 Banner" @click="content.removeBanner(b.id)">✕</button>
+                  <button type="button" class="icon-btn" :disabled="bi === 0" title="上移" @click="content.moveBanner(bi, bi - 1)">↑</button>
+                  <button type="button" class="icon-btn" :disabled="bi === content.banners.length - 1" title="下移" @click="content.moveBanner(bi, bi + 1)">↓</button>
+                  <button type="button" class="icon-btn hover:text-danger" title="下架此 Banner" @click="content.removeBanner(b.id)">✕</button>
                 </div>
               </div>
               <div class="grid gap-3 md:grid-cols-2">
@@ -197,9 +197,9 @@ const save = () => {
                   <p class="mt-1 text-left text-[10px] leading-4 text-ink-4 sm:text-right">{{ IMAGE_GUIDE.promo }}</p>
                 </div>
                 <div class="col-span-2 flex min-h-9 items-center justify-end gap-2 sm:col-span-1 sm:gap-1">
-                  <button type="button" class="flex h-9 w-9 items-center justify-center rounded-ui text-ink-4 hover:bg-surface-2 hover:text-ink disabled:opacity-30" :disabled="i === 0" title="上移" @click="content.movePromo(i, i - 1)">↑</button>
-                  <button type="button" class="flex h-9 w-9 items-center justify-center rounded-ui text-ink-4 hover:bg-surface-2 hover:text-ink disabled:opacity-30" :disabled="i === content.promoCards.length - 1" title="下移" @click="content.movePromo(i, i + 1)">↓</button>
-                  <button type="button" class="flex h-9 w-9 items-center justify-center rounded-ui text-ink-4 hover:bg-surface-2 hover:text-danger" title="移除促銷" @click="content.removePromo(p.id)">✕</button>
+                  <button type="button" class="icon-btn" :disabled="i === 0" title="上移" @click="content.movePromo(i, i - 1)">↑</button>
+                  <button type="button" class="icon-btn" :disabled="i === content.promoCards.length - 1" title="下移" @click="content.movePromo(i, i + 1)">↓</button>
+                  <button type="button" class="icon-btn hover:text-danger" title="移除促銷" @click="content.removePromo(p.id)">✕</button>
                 </div>
               </li>
             </ul>
@@ -239,9 +239,9 @@ const save = () => {
                   <p class="mt-1 text-left text-[10px] leading-4 text-ink-4 lg:max-w-[190px] lg:text-right">{{ IMAGE_GUIDE.hotGame }}</p>
                 </div>
                 <div class="col-span-2 flex min-h-9 shrink-0 items-center justify-end gap-2 lg:col-auto lg:gap-1">
-                  <button type="button" class="flex h-9 w-9 items-center justify-center rounded-ui text-ink-4 hover:bg-surface-2 hover:text-ink disabled:opacity-30" :disabled="i === 0" title="上移" @click="content.moveGame(i, i - 1)">↑</button>
-                  <button type="button" class="flex h-9 w-9 items-center justify-center rounded-ui text-ink-4 hover:bg-surface-2 hover:text-ink disabled:opacity-30" :disabled="i === content.hotGames.length - 1" title="下移" @click="content.moveGame(i, i + 1)">↓</button>
-                  <button type="button" class="flex h-9 w-9 items-center justify-center rounded-ui text-ink-4 hover:bg-surface-2 hover:text-danger" title="下架" @click="content.removeGame(i)">✕</button>
+                  <button type="button" class="icon-btn" :disabled="i === 0" title="上移" @click="content.moveGame(i, i - 1)">↑</button>
+                  <button type="button" class="icon-btn" :disabled="i === content.hotGames.length - 1" title="下移" @click="content.moveGame(i, i + 1)">↓</button>
+                  <button type="button" class="icon-btn hover:text-danger" title="下架" @click="content.removeGame(i)">✕</button>
                 </div>
               </li>
             </ul>
@@ -271,9 +271,9 @@ const save = () => {
                   <p class="mt-1 text-left text-[10px] leading-4 text-ink-4 lg:max-w-[190px] lg:text-right">{{ IMAGE_GUIDE.catalogGame }}</p>
                 </div>
                 <div class="col-span-2 flex min-h-9 shrink-0 items-center justify-end gap-2 lg:col-auto lg:gap-1">
-                  <button type="button" class="flex h-9 w-9 items-center justify-center rounded-ui text-ink-4 hover:bg-surface-2 hover:text-ink disabled:opacity-30" :disabled="i === 0" title="上移" @click="content.moveCatalogGame(gameCat, i, i - 1)">↑</button>
-                  <button type="button" class="flex h-9 w-9 items-center justify-center rounded-ui text-ink-4 hover:bg-surface-2 hover:text-ink disabled:opacity-30" :disabled="i === activeCatGames.length - 1" title="下移" @click="content.moveCatalogGame(gameCat, i, i + 1)">↓</button>
-                  <button type="button" class="flex h-9 w-9 items-center justify-center rounded-ui text-ink-4 hover:bg-surface-2 hover:text-danger" title="下架" @click="content.removeCatalogGame(gameCat, i)">✕</button>
+                  <button type="button" class="icon-btn" :disabled="i === 0" title="上移" @click="content.moveCatalogGame(gameCat, i, i - 1)">↑</button>
+                  <button type="button" class="icon-btn" :disabled="i === activeCatGames.length - 1" title="下移" @click="content.moveCatalogGame(gameCat, i, i + 1)">↓</button>
+                  <button type="button" class="icon-btn hover:text-danger" title="下架" @click="content.removeCatalogGame(gameCat, i)">✕</button>
                 </div>
               </li>
             </ul>

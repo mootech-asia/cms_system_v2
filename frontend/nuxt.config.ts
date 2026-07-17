@@ -48,6 +48,7 @@ export default defineNuxtConfig({
     '~/assets/css/themes/noir.css',
     '~/assets/css/themes/fashion-blue.css',
     '~/assets/css/themes/rose-graphite.css',
+    '~/assets/css/themes/cyber-green.css',
   ],
   tailwindcss: {
     cssPath: '~/assets/css/main.css',
