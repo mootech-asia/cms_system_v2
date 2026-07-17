@@ -4,9 +4,17 @@ import { computed, nextTick, ref } from 'vue';
 const content = useContentStore();
 const { t, localizeMiniTabs } = useLocale();
 const tabs = computed(() => localizeMiniTabs(content.miniCategories));
-const active = ref(content.miniCategories[0]?.key ?? 'mini');
+const tabKeys = computed(() => tabs.value.map((tab) => tab.key));
 const rail = ref<HTMLElement | null>(null);
 const tabButtons = ref<HTMLButtonElement[]>([]);
+const { active, progress, remainingSeconds, setActive, restart } = useCountdownTabs({
+  keys: tabKeys,
+  initial: content.miniCategories[0]?.key ?? 'mini',
+  onAdvance: async () => {
+    await nextTick();
+    rail.value?.scrollTo({ left: 0, behavior: 'auto' });
+  },
+});
 
 const tabIcons: Record<string, string> = {
   mini: 'gamepad2',
@@ -24,7 +32,7 @@ const tabClass = (key: string) =>
     : 'text-ink-4 border-transparent hover:border-line hover:bg-surface hover:text-ink-2';
 
 async function selectTab(key: string, focus = false) {
-  if (tabs.value.some((tab) => tab.key === key)) active.value = key;
+  setActive(key);
   await nextTick();
   rail.value?.scrollTo({ left: 0, behavior: 'auto' });
 
@@ -63,6 +71,7 @@ function moveRail(direction: -1 | 1) {
     ? (el.scrollLeft >= maxScroll - 2 ? 0 : Math.min(maxScroll, el.scrollLeft + jump))
     : (el.scrollLeft <= 2 ? maxScroll : Math.max(0, el.scrollLeft - jump));
 
+  restart();
   el.scrollTo({ left: target, behavior: 'smooth' });
 }
 </script>
@@ -96,12 +105,15 @@ function moveRail(direction: -1 | 1) {
             <span
               v-if="active === tab.key"
               aria-hidden="true"
-              class="absolute inset-x-3 -bottom-px h-0.5 rounded-full bg-primary"
-            />
+              class="mini-countdown-bar"
+            >
+              <span :style="{ width: `${progress}%` }" />
+            </span>
           </button>
         </div>
 
         <div class="flex items-center justify-end gap-2">
+          <span class="mini-countdown-chip" aria-live="polite">{{ remainingSeconds }}s</span>
           <NuxtLink
             v-if="currentTab"
             class="rounded border border-line px-3 py-1.5 text-xs text-ink-3 transition-colors hover:border-primary hover:text-ink"

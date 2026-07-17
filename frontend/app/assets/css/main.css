@@ -91,6 +91,67 @@
   .seg-btn-sm:hover { @apply text-ink; }
   .seg-btn-sm.active { @apply bg-g-primary text-on-primary; }
 
+  /* Mini games 分類倒數 — v1/v2/v3 共用,其餘變體透過包裝器沿用 */
+  .mini-countdown-bar {
+    position: absolute;
+    right: 12px;
+    bottom: -1px;
+    left: 12px;
+    height: 3px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgb(var(--c-primary) / 0.16);
+  }
+  .mini-countdown-bar > span,
+  .mini-countdown-track > span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: rgb(var(--c-primary) / 0.9);
+    transition: width .25s linear;
+  }
+  .mini-countdown-pill-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    border-radius: 999px;
+    background: currentColor;
+    opacity: .78;
+    transition: width .25s linear;
+  }
+  .mini-countdown-chip {
+    display: inline-flex;
+    min-width: 36px;
+    height: 28px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgb(var(--c-primary) / 0.22);
+    border-radius: 999px;
+    background: rgb(var(--c-primary-faint) / 0.72);
+    color: theme('colors.accent');
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .mini-countdown-track {
+    height: 3px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgb(var(--c-primary) / 0.14);
+    margin: -2px 0 12px;
+  }
+  .mini-countdown-section {
+    border: 1px solid transparent;
+    border-radius: 12px;
+    padding: 12px;
+    transition: border-color .2s ease, background-color .2s ease;
+  }
+  .mini-countdown-section.is-active {
+    border-color: rgb(var(--c-primary) / 0.28);
+    background: rgb(var(--c-primary-faint) / 0.28);
+  }
+
   /* 裝飾底圖系列 — banner/賽事 hero 等大面積「氛圍底」共用(業主 2026-07-16:
      一律中性 token 化,不得寫死色相,切換 skin 才不違和) */
   .banner-art {

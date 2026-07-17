@@ -8,6 +8,11 @@
 const content = useContentStore();
 const { t, localizeMiniTabs } = useLocale();
 const sections = computed(() => localizeMiniTabs(content.miniCategories));
+const sectionKeys = computed(() => sections.value.map((section) => section.key));
+const { active, progress, remainingSeconds, setActive } = useCountdownTabs({
+  keys: sectionKeys,
+  initial: content.miniCategories[0]?.key ?? 'mini',
+});
 const mediaSrc = (src: string) => (/^(https?:)?\/\//.test(src) ? src : withBase(src));
 </script>
 
@@ -15,10 +20,22 @@ const mediaSrc = (src: string) => (/^(https?:)?\/\//.test(src) ? src : withBase(
   <section class="py-12 bg-surface-deep">
     <div class="container mx-auto px-4">
       <div class="space-y-8">
-        <div v-for="s in sections" :key="s.key">
+        <div
+          v-for="s in sections"
+          :key="s.key"
+          class="mini-countdown-section"
+          :class="active === s.key ? 'is-active' : ''"
+          @mouseenter="setActive(s.key)"
+        >
           <div class="flex items-center justify-between mb-3">
-            <h3 class="text-ink text-sm md:text-base font-bold">{{ s.label }}</h3>
-            <NuxtLink class="text-ink-3 hover:text-ink text-xs px-3 py-1.5 border border-line rounded transition-colors" :to="s.route">{{ t('action.showAll') }}</NuxtLink>
+            <button type="button" class="text-ink text-sm md:text-base font-bold transition-colors hover:text-primary" @click="setActive(s.key)">{{ s.label }}</button>
+            <div class="flex items-center gap-2">
+              <span v-if="active === s.key" class="mini-countdown-chip" aria-live="polite">{{ remainingSeconds }}s</span>
+              <NuxtLink class="text-ink-3 hover:text-ink text-xs px-3 py-1.5 border border-line rounded transition-colors" :to="s.route">{{ t('action.showAll') }}</NuxtLink>
+            </div>
+          </div>
+          <div v-if="active === s.key" class="mini-countdown-track" aria-hidden="true">
+            <span :style="{ width: `${progress}%` }" />
           </div>
           <div class="flex overflow-x-auto gap-3 snap-x snap-mandatory scrollbar-hide pb-2">
             <div v-for="g in s.games" :key="g.title" class="flex-shrink-0 w-20 md:w-24 snap-start cursor-pointer group">
