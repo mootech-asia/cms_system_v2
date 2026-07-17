@@ -278,7 +278,9 @@ is available.
    - `Build Pages candidate`
 3. Confirm the `pages-candidate` commit message identifies the expected `main` source SHA.
 4. Test candidate output at desktop and mobile widths.
-5. Only after verification, force-update `gh-pages` to the exact `pages-candidate` SHA.
+5. Only after verification, promote via the `Promote Pages candidate` workflow
+   (`promote-pages.yml`, workflow_dispatch with the exact candidate SHA — it refuses
+   on mismatch). Direct force-push of `gh-pages` also works for humans with push access.
 6. Wait for GitHub's `pages build and deployment` run to succeed.
 7. Verify the public frontend, admin, studio, and any newly added assets.
 
@@ -315,6 +317,16 @@ These are product limitations, not regressions from the latest work:
 7. Preserve the candidate-to-production deployment gate.
 8. Re-test all five skins when adding new semantic tokens.
 9. Report the GitHub source commit, checks, deployed output SHA, and public verification.
+
+## 2026-07-17 session additions (summary)
+
+- Skin/locale switchers on the public site are studio-gated (`publicSkins`/`publicLocales`, default all public).
+- Studio settings persist to the front via `win100-public-config` (localStorage, cross-tab).
+- New skin `cyber-green` (電競綠黑); hero typography locked across devices; sport card has a stadium banner.
+- Deposit non-bank methods route through a black-and-white QR + address step ("下一步").
+- /studio sidebar is collapsible with a five-column variant grid; /admin media replacement pane is still TODO.
+- Promotion to production now normally runs through `promote-pages.yml` (see procedure above).
+- Delivery repo `cms_v2_1.0.0` exists (engineer-form snapshot, tag v1.0.0 pending owner UI action).
 
 ## Current handoff conclusion
 
