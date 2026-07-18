@@ -1,3 +1,6 @@
+> **分支說明(2026-07-18)**:本分支凍結保存**兩個後台**的現行實作 — 客戶後台 `CMS_後台_v2`(`/admin`)與設計後台 `CMS_設計後台_v2`(`/studio`),隨完整 Nuxt 專案一併保存以確保可建置執行。
+> `main` 已改為工廠純 HTML+CSS+JS 形態(首波不含後台)。
+
 # cms_system_v2 — WIN100(交付版)
 
 > 本 repo 是 **WIN100 模板的交付版本**:Nuxt 4 + PrimeVue + TailwindCSS + Pinia,
