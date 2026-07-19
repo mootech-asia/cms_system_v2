@@ -98,10 +98,19 @@
     register: '註冊',
     logout: '登出',
     accountView: '查看會員中心',
+    accountId: '帳號',
     accountBalance: '餘額',
     accountPoints: '點數',
     notAvailable: '此靜態預覽尚未包含此內容',
   };
+
+  // ---- deposit.vue gateways[] (Provider A-D → available payment method count) --
+  var DEPOSIT_GATEWAYS = [
+    { id: 'a', methodCount: 4 },
+    { id: 'b', methodCount: 3 },
+    { id: 'c', methodCount: 2 },
+    { id: 'd', methodCount: 1 },
+  ];
 
   // ---- AppBanner (frontend/app/config/mock/home.ts + useLocale.ts bannerCopy.zh) ----
   // Order matches the source `banners` array (id 2, 4, 1, 3) — index 0 is what
@@ -251,5 +260,6 @@
     BANK_ACCOUNTS: BANK_ACCOUNTS,
     NAV_LINKS: NAV_LINKS,
     MEMBER_MENU_LINKS: MEMBER_MENU_LINKS,
+    DEPOSIT_GATEWAYS: DEPOSIT_GATEWAYS,
   };
 })(window);
