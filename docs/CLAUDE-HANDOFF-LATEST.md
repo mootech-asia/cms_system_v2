@@ -2,7 +2,8 @@
 
 > Updated: 2026-07-19 (Asia/Taipei)
 > Repository: `mootech-asia/cms_system_v2`
-> Status: `main` has been switched. Candidate/production promotion status: see below.
+> Status: `main` switched and **promoted to production**. Live and verified: pure-HTML
+> front-end + `/studio`. `/admin` intentionally 404s (see below).
 
 ## ⚠️ 2026-07-19 restructuring — READ THIS FIRST
 
@@ -25,6 +26,11 @@ HTML 版本設為 main。第一版執行時把 `/admin`(客戶後台)、`/studio
   candidate(不取 `admin/`)。本地驗證方式:先組裝 candidate,再起一個把
   `cms_system_v2/` 當子目錄的靜態伺服器測 `/cms_system_v2/studio/`(直接用
   `localhost:PORT/studio/` 測會因為 base path 不符而資源 404,不是真的壞掉)。
+- **已 promote 到正式站**(candidate SHA `4a290a7f4e2893bbf2fc8fedcad631932c1e78ee`,
+  來源 main commit `1a1ead55`)。正式站實測結果:前台 `/` 200(標題
+  `CMS_前台_v2`,無 `data-v-*` 殘留)、`/studio/` 200(標題 `CMS_設計後台_v2`)、
+  `/studio/preview/` 200、`/admin/` 404(符合預期,GitHub 原生 Pages 部署有約 3
+  分鐘傳播延遲,期間 `/admin/` 會短暫仍是舊內容,不是失敗)。
 
 規劃與執行細節、驗證方法、已知限制,見
 `docs/factory-html-pipeline-plan.md`(Phase 0/2 狀態已更新)。
@@ -49,11 +55,10 @@ HTML 版本設為 main。第一版執行時把 `/admin`(客戶後台)、`/studio
 - Frontend: https://mootech-asia.github.io/cms_system_v2/
 - Design studio: https://mootech-asia.github.io/cms_system_v2/studio/
 - Studio preview: https://mootech-asia.github.io/cms_system_v2/studio/preview/
-- ~~Client admin~~: `/admin/` is being intentionally dropped as part of the 2026-07-19
-  promotion (triggered, not yet confirmed complete as of this doc edit — check
-  `gh-pages`'s HEAD commit message for the actual promoted candidate SHA before
-  trusting this bullet). See restructuring note above. To bring `/admin` back,
-  deploy it separately from branch `客戶後台` (not yet done).
+- ~~Client admin~~: `/admin/` returns 404 as of the 2026-07-19 promotion (confirmed
+  live, verified after GitHub's native Pages deploy propagated). See restructuring
+  note above. To bring `/admin` back, deploy it separately from branch `客戶後台`
+  (not yet done).
 
 The old `cms_v2` Pages URL is retired and must not be used.
 
@@ -61,13 +66,17 @@ The old `cms_v2` Pages URL is retired and must not be used.
 
 | Purpose | Branch / source | SHA |
 |---|---|---|
-| Deployed frontend source (OLD, still live) | `main` | `0bdb83bd9ca2208298bd7d955bd0674e1c455835` |
-| Candidate output (OLD) | `pages-candidate` | `3f18169be97dc9db1a0c76820c547ade868dcc38` |
-| Production output (OLD, still live) | `gh-pages` | `3f18169be97dc9db1a0c76820c547ade868dcc38` |
+| Deployed frontend + studio source (current, live) | `main` | `c507d87` |
+| Candidate output (current) | `pages-candidate` | `4a290a7f4e2893bbf2fc8fedcad631932c1e78ee` |
+| Production output (current, live, verified) | `gh-pages` | `4a290a7f4e2893bbf2fc8fedcad631932c1e78ee` |
 | Legacy production backup | `backup/gh-pages-legacy-2026-07-16` | `0b1a1d61a5bcc4bb72e490952a582d5da62a02bd` |
-| **New main candidate (pure HTML)** | `claude/factory-web-refactor-ewrpuv` | `a5b2521`(HEAD,2026-07-19) |
-| **Nuxt engineer-form snapshot** | `工程師框架版本` | `1f82ee3`(branched from old `main`) |
-| **Client + design admin snapshot** | `客戶後台` | `7c7113a`(branched from old `main`) |
+| **Nuxt engineer-form snapshot (pre-switch full front-end)** | `工程師框架版本` | `1f82ee3`(branched from old `main`) |
+| **Client admin snapshot** | `客戶後台` | `7c7113a`(branched from old `main`; also contains the pre-switch studio, unused now that studio builds from main) |
+
+Note on local `git fetch`: `gh-pages` is force-pushed with unrelated history on every
+promotion. A plain `git fetch origin gh-pages` can silently keep a stale local
+tracking ref in that situation — use `git fetch origin gh-pages --force` (or just
+trust `git ls-remote`) when checking its true state.
 
 The commit that updates this handoff is documentation-only and may make `main` newer than the
 deployed frontend source. Do not promote a docs-only candidate unless another frontend change is
