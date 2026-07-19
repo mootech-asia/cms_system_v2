@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'factory/**'
+      - 'frontend/**'
       - 'scripts/verify-factory-win100.js'
       - '.github/workflows/build-pages-candidate.yml'
   workflow_dispatch:
@@ -27,17 +28,49 @@ jobs:
       - name: Verify factory static site
         run: node scripts/verify-factory-win100.js
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.18.0
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Generate design studio (Nuxt)
+        working-directory: frontend
+        env:
+          NUXT_APP_BASE_URL: /cms_system_v2/
+        run: npm run generate
+
       - name: Assemble candidate output
         run: |
           set -euo pipefail
           rm -rf .candidate
           mkdir -p .candidate
+
+          # Static front-end (factory/win100/) is the primary site content.
           cp -R factory/win100/. .candidate/
           test -f .candidate/index.html
           if grep -Eq '(src|href)="/_nuxt/' .candidate/index.html; then
-            echo 'Found root-relative Nuxt asset path; refusing candidate.'
+            echo 'Found root-relative Nuxt asset path in the static front-end; refusing candidate.'
             exit 1
           fi
+
+          # Design studio (/studio) is bound to the factory and deploys alongside
+          # the static front-end — only the client admin (/admin) is archived to
+          # branch 客戶後台 instead of shipping here. Nuxt's studio pages depend
+          # on the shared _nuxt/ chunk bundle, so that comes along too; it doesn't
+          # collide with anything since the static pages reference no /_nuxt paths
+          # (checked above) and logo.png is byte-identical between both builds.
+          mkdir -p .candidate/_nuxt
+          cp -R frontend/.output/public/_nuxt/. .candidate/_nuxt/
+          cp -R frontend/.output/public/studio .candidate/studio
+          test -f .candidate/studio/index.html
+          test -f .candidate/studio/preview/index.html
+
           touch .candidate/.nojekyll
           cp .candidate/index.html .candidate/404.html
 

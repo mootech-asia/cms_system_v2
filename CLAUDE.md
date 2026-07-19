@@ -4,19 +4,22 @@
 - **本 repo 主形態已切換為純 HTML+CSS+JS(業主 2026-07-19 定案並執行)**:
   `factory/win100/` = WIN100 前台,免建置、可直接開 `index.html`,行為層在
   `assets/js/site.js`(vanilla JS,無框架、無 build step)。
-- **舊 Nuxt 工程師形式已移出 main,完整保存於分支 `工程師框架版本`**
-  (`frontend/`:Nuxt 4 + PrimeVue + Tailwind + Pinia)。需要工程師形式(例如要重新
-  `npm run generate` 產出新版靜態包)一律去該分支取,main 不再放框架原始碼。
-- **兩個後台(客戶後台 /admin、設計後台 /studio)已移出 main,完整保存於分支
-  `客戶後台`**(隨完整 Nuxt 專案一併保存以確保可建置執行;純 HTML 工廠首波
-  不含後台,對照 `docs/factory-html-pipeline-plan.md` Phase 0 的既定建議)。
-- 重新產生 `factory/win100/`:見 `scripts/build-factory-win100.js` 檔頭註解
-  (需另外 checkout `工程師框架版本` 分支跑 `npm run generate` 提供輸入)。
-- **⚠️ 正式站尚未切換**:`gh-pages`/`pages-candidate` 目前仍是切換前的 Nuxt 建置產物
-  (含可用的 `/admin`、`/studio`)。`main` 換成純 HTML 後,下次 push 到 main 會觸發
-  `build-pages-candidate.yml` 用 `factory/win100/` 產生新 candidate(**不含 /admin /studio**);
-  promote 前務必先確認業主是否已為後台安排新的服務方式,否則 promote 會讓正式站的
-  `/admin /studio` 立即失效。
+- **舊 Nuxt 前台工程師形式完整備份於分支 `工程師框架版本`**
+  (`frontend/`:Nuxt 4 + PrimeVue + Tailwind + Pinia,切換前的完整快照,含 `/admin`
+  `/studio`)。純粹要參考切換前的完整原始碼去該分支取。
+- **業主鐵則(2026-07-19)**:設計後台是工廠/生成系統本身的工具,要跟主站綁在一起
+  持續可用,不能封存;只有**客戶後台**(面向網站經營者的內容管理介面,`/admin`)
+  才是封存進分支的東西。所以:
+  - `frontend/` **仍留在 main**,但只用來 build `/studio`(`/admin` 頁面原始碼還在,
+    只是不會被部署進 candidate/正式站)。
+  - **客戶後台(`/admin`)完整保存於分支 `客戶後台`**(隨完整 Nuxt 專案一併保存以確保
+    可建置執行)。
+- 重新產生 `factory/win100/`(前台結構+CSS):見 `scripts/build-factory-win100.js`
+  檔頭註解(需另外 checkout `工程師框架版本` 分支跑 `npm run generate` 提供輸入)。
+- **candidate/正式站組裝方式**(見 `build-pages-candidate.yml`):`factory/win100/`
+  提供前台純 HTML 頁面;`frontend/` 額外跑一次 `nuxt generate`,只取其中的
+  `studio/`、`studio/preview/`、`_nuxt/`(studio 需要的共用 JS/CSS bundle)三者併入
+  candidate,`admin/` 不取。
 - 工廠整體定位(生成系統母體、資產歸屬等鐵則)不變,見下方「定位鐵則」。
 - **定位鐵則(業主 2026-07-17,寫入 DNA)**:業主做的是**整個生成系統**,
   全部資產屬於業主個人、不屬於公司;**一個交付出去的版型 = 一個獨立專案**
@@ -73,8 +76,9 @@
 - 分支:主線 = `main`;依 session 指定分支開發後併回;commit message 英文、聚焦動機。
 - 樣式(`factory/win100/`,main 現行形態):只用 `themes/*.css` token,禁任意值色碼;
   共用視覺一律復用既有 class(見上方復用鐵則),新增寫進對應共用 CSS 檔而非就地覆寫。
-- 以下兩條為**工程師框架版本分支專屬**(`frontend/`,不適用於 main 的純 HTML 形態):
-  樣式只用 theme token(tailwind.config.ts 讀 `themes/*.css`)、禁任意值色碼/Tailwind 內建色/
-  scoped CSS,共用視覺進 `assets/css/main.css` @layer components;元件 PrimeVue 優先、
-  包裝於 `components/ui/*`,區塊登錄表 `app/config/blocks.ts`,變體規則(v1 不可動、
+- 以下兩條為**`frontend/`(Nuxt)專屬規範**(main 上 `frontend/` 只用來 build
+  `/studio`,不適用於 `factory/win100/` 的純 HTML 前台):樣式只用 theme token
+  (tailwind.config.ts 讀 `themes/*.css`)、禁任意值色碼/Tailwind 內建色/scoped CSS,
+  共用視覺進 `assets/css/main.css` @layer components;元件 PrimeVue 優先、包裝於
+  `components/ui/*`,區塊登錄表 `app/config/blocks.ts`,變體規則(v1 不可動、
   同內容同皮膚)不可違反。
