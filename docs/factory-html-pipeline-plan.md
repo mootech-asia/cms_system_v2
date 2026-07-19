@@ -1,7 +1,9 @@
 # 工廠純 HTML 化 + 交付流水線 — 階段性任務計畫
 
 > 建立:2026-07-17(Asia/Taipei)
-> 狀態:**已定案待執行**(等 usage 恢復後,依 phase 開新 session 執行)
+> 狀態:**Phase 0–2 範圍已於 2026-07-19 提前完成**(業主直接下達「抽出純 HTML+CSS+JS、
+> 設為 main」指令,單一 session 一次做完,未照原計畫逐 phase 分開 session;
+> 過程與本計畫原訂步驟略有出入,見下方各 phase 註記。Phase 3–6 維持原狀未執行。)
 > 位置:本 repo = 生成系統母體(工廠);本計畫只動工廠形態與交付流程,不動已交付專案。
 
 ## 目標(業主定案)
@@ -26,28 +28,33 @@
 > 接手時先讀本文件 + `docs/CLAUDE-HANDOFF-LATEST.md`。
 > 每 phase 完成:commit + push + 回報一行結論,並更新本文件的狀態欄。
 
-### Phase 0 — 盤點與轉出格式定案 ⬜
-- 盤點現有 Nuxt 版型資產:頁面清單、`app/config/blocks.ts` 區塊、
-  `main.css @layer components` 共用視覺、`themes/*.css` token。
-- 定案「轉出設計包」的規格:純靜態、免建置(直接開 index.html)、
-  token 一律 CSS custom properties、檔案結構與命名規則、附 manifest(版型名/版本/頁面清單)。
-- 定案工廠目錄:`factory/`(版型庫)+ `factory/shared/`(token、共用 CSS、共用 vanilla JS)。
-- 產出:`docs/export-spec.md`(轉出格式規格書)。
-- **定案點(業主)**:後台(/admin、/studio)是否納入純 HTML 工廠。
-  **建議:先不納入**,首波只做前台版型;後台留在 Nuxt 母體,之後視需要再議。
+### Phase 0 — 盤點與轉出格式定案 ✅(簡化執行,2026-07-19)
+- 盤點與轉出直接以 `nuxt generate` + 後處理腳本(`scripts/build-factory-win100.js`)
+  完成,未另外產出正式的 `docs/export-spec.md` 規格書 — 規則以腳本本身 + 本節記錄為準:
+  免建置(直接開 index.html)、路徑一律相對、token 沿用 `themes/*.css` CSS custom
+  properties、頁面攤平命名(`<slug>.html`)。
+- 工廠目錄沿用既有 `factory/win100/`(未另建 `factory/shared/`;WIN100 目前是唯一
+  純 HTML 版型,共用邏輯就地放在 `assets/js/site.js`,待第二個版型出現再抽 shared)。
+- **定案點(業主 2026-07-19)**:後台(/admin、/studio)**不納入**純 HTML 工廠首波,
+  維持原建議;改以完整 Nuxt 專案保存於分支 `客戶後台`,不隨 main 走純 HTML 化。
 
-### Phase 1 — 純 HTML 工廠骨架 ⬜
-- 建 `factory/starter/`:頁面外殼、token(CSS variables)、共用視覺 class
-  (對應現有 btn-*/input-ui/card-ui/pill-*/mode-tabs/dd-panel/seg-btn/mf-modal)、
-  vanilla JS 行為件(tabs、modal、輪播、下拉)。
-- 沿用復用鐵則:同一視覺 = 一份定義,禁止等價樣式。
-- 更新 `docs/template-guide.md`:新增「純 HTML 版型開發規範」章節。
-- 產出:可直接開瀏覽器看的 starter 骨架。
+### Phase 1 — 純 HTML 工廠骨架 ⬜(未獨立執行,併入 Phase 2 直接產出 WIN100)
+- 未另建 `factory/starter/` 通用骨架;WIN100 是目前唯一版型,starter 骨架抽取
+  留待第二個版型立案時再做(屆時從 `factory/win100/` 回抽共用部分)。
+- `docs/template-guide.md` 尚未新增「純 HTML 版型開發規範」章節 — 待補。
 
-### Phase 2 — WIN100 回移為首個純 HTML 版型 ⬜
-- 把現有 WIN100 前台頁面從 Nuxt 回移成 `factory/win100/` 純 HTML+CSS+JS。
-- 驗收:DOM 斷言 + pixel-diff 對照現正式站,數字異常才讀圖(截圖鐵則)。
-- 現有 `frontend/`(Nuxt)保留不動 — 它就是 WIN100 的「工程師形式結果」示範。
+### Phase 2 — WIN100 回移為首個純 HTML 版型 ✅(2026-07-19)
+- WIN100 前台 24 頁已從 Nuxt 轉為 `factory/win100/` 純 HTML+CSS+JS(結構 + 行為層皆完成)。
+- 驗收方式與計畫原意一致(DOM 斷言優先):`scripts/verify-factory-win100.js`(結構,
+  9 項檢查)+ `scripts/verify-factory-win100-behavior.js`(Playwright 行為,31 項檢查),
+  皆全數通過;**未做**與正式站的 pixel-diff 對照(正式站尚未切換,見下方 main 切換註記)。
+- `frontend/`(Nuxt)**未保留在 main**,而是完整移至分支 `工程師框架版本`
+  (與原計畫「保留不動」不同 — 業主 2026-07-19 追加指令,要求舊框架形態改以分支保存、
+  main 直接換成純 HTML 形態,而非兩者並存於同一分支)。
+- **⚠️ main 已切換,但正式站(gh-pages/pages-candidate)尚未跟進**:目前變更只到
+  session 分支 `claude/factory-web-refactor-ewrpuv`,尚未併入 `main`;併入後下次
+  build-pages-candidate 會用 `factory/win100/` 產生新 candidate(不含 /admin /studio),
+  promote 前需業主確認後台去留方式,見 `docs/CLAUDE-HANDOFF-LATEST.md`。
 
 ### Phase 3 — 轉出機制(設計包匯出)⬜
 - 一支腳本:選定版型 → 產出設計包(該版型 HTML/CSS/JS + shared token + assets
@@ -89,12 +96,12 @@
 
 ## 待業主定案清單
 
-| # | 事項 | 建議(單一推薦) |
-|---|---|---|
-| 1 | 後台是否納入純 HTML 工廠 | 先不納入,首波只做前台 |
-| 2 | 工程師目標形態 | Vue 3 + Vite(v3 先例) |
-| 3 | 版號規則 | semver,交付 = v1.0.0 + git tag |
-| 4 | 匯出物形式 | repo 內 `dist/export/`(需要再加 zip) |
+| # | 事項 | 建議(單一推薦) | 狀態 |
+|---|---|---|---|
+| 1 | 後台是否納入純 HTML 工廠 | 先不納入,首波只做前台 | ✅ 已定案執行(2026-07-19,見 Phase 0) |
+| 2 | 工程師目標形態 | Vue 3 + Vite(v3 先例) | 未定案(Phase 4 範圍) |
+| 3 | 版號規則 | semver,交付 = v1.0.0 + git tag | 未定案(Phase 5 範圍) |
+| 4 | 匯出物形式 | repo 內 `dist/export/`(需要再加 zip) | 未定案(Phase 3 範圍) |
 
 ## 原則
 

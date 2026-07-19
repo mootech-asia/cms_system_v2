@@ -1,9 +1,23 @@
 # WIN100 CMS(交付版)— 工作守則
 
 ## 專案速覽
-- 本 repo = **WIN100 模板交付版**:`frontend/`(Nuxt 4 + PrimeVue + Tailwind + Pinia,純 UI、邏輯占位)。
-- **工廠已整併回本 repo(業主 2026-07-17)**:`templates/starter/`(起新模板骨架)與
-  `docs/template-guide.md`(模板開發規範)都在這裡;`mootech-asia/cms_system` 已廢除待刪。
+- **本 repo 主形態已切換為純 HTML+CSS+JS(業主 2026-07-19 定案並執行)**:
+  `factory/win100/` = WIN100 前台,免建置、可直接開 `index.html`,行為層在
+  `assets/js/site.js`(vanilla JS,無框架、無 build step)。
+- **舊 Nuxt 工程師形式已移出 main,完整保存於分支 `工程師框架版本`**
+  (`frontend/`:Nuxt 4 + PrimeVue + Tailwind + Pinia)。需要工程師形式(例如要重新
+  `npm run generate` 產出新版靜態包)一律去該分支取,main 不再放框架原始碼。
+- **兩個後台(客戶後台 /admin、設計後台 /studio)已移出 main,完整保存於分支
+  `客戶後台`**(隨完整 Nuxt 專案一併保存以確保可建置執行;純 HTML 工廠首波
+  不含後台,對照 `docs/factory-html-pipeline-plan.md` Phase 0 的既定建議)。
+- 重新產生 `factory/win100/`:見 `scripts/build-factory-win100.js` 檔頭註解
+  (需另外 checkout `工程師框架版本` 分支跑 `npm run generate` 提供輸入)。
+- **⚠️ 正式站尚未切換**:`gh-pages`/`pages-candidate` 目前仍是切換前的 Nuxt 建置產物
+  (含可用的 `/admin`、`/studio`)。`main` 換成純 HTML 後,下次 push 到 main 會觸發
+  `build-pages-candidate.yml` 用 `factory/win100/` 產生新 candidate(**不含 /admin /studio**);
+  promote 前務必先確認業主是否已為後台安排新的服務方式,否則 promote 會讓正式站的
+  `/admin /studio` 立即失效。
+- 工廠整體定位(生成系統母體、資產歸屬等鐵則)不變,見下方「定位鐵則」。
 - **定位鐵則(業主 2026-07-17,寫入 DNA)**:業主做的是**整個生成系統**,
   全部資產屬於業主個人、不屬於公司;**一個交付出去的版型 = 一個獨立專案**
   (例:`cms_system_v3`),交付後各自演進。工廠整併回本 repo 看似走回頭路,
@@ -12,8 +26,8 @@
 - GitHub Pages 正式站由 `gh-pages` 分支提供(mootech-asia.github.io/cms_system_v2);
   `main` 先建置到 `pages-candidate`,完成驗證後才可升級正式分支;不得刪除既有備份分支。
 - **最新接手入口:**`docs/CLAUDE-HANDOFF-LATEST.md`(先讀;含目前正式站、分支 SHA、部署流程與最新驗證)。
-- **待執行計畫:**`docs/factory-html-pipeline-plan.md`(工廠純 HTML 化 + 交付流水線,
-  已定案、分 Phase 0–6,usage 恢復後依 phase 開新 session 執行)。
+- **待執行計畫:**`docs/factory-html-pipeline-plan.md`(工廠純 HTML 化 + 交付流水線;
+  Phase 0–2 範圍已於 2026-07-19 提前完成執行,詳見該文件狀態欄)。
 - **歷史交接紀錄:**`docs/handoff-2026-07-16.md`(需要追查早期改動時再讀)。
 - 驗收紀錄:`docs/rebuild-plan.md`;token 對照:`docs/style-guide.md`;
   完整規範:`docs/template-guide.md`。
@@ -57,7 +71,10 @@
 - **頁簽規範(2026-07-17)**:頁簽一律用 `.mode-tabs`(唯一定義:底線式、單行、
   溢出時橫向捲動),不得 wrap 換行、不得另創頁簽樣式或加覆寫打破層級。
 - 分支:主線 = `main`;依 session 指定分支開發後併回;commit message 英文、聚焦動機。
-- 樣式:只用 theme token(tailwind.config.ts 讀 `themes/*.css`),禁任意值色碼、禁 Tailwind 內建色、
-  禁 scoped CSS;共用視覺進 `assets/css/main.css` @layer components(同一視覺 = 一份定義)。
-- 元件:PrimeVue 優先,包裝於 `components/ui/*`;區塊登錄表 `app/config/blocks.ts`;
-  變體規則(v1 不可動、同內容同皮膚)不可違反。
+- 樣式(`factory/win100/`,main 現行形態):只用 `themes/*.css` token,禁任意值色碼;
+  共用視覺一律復用既有 class(見上方復用鐵則),新增寫進對應共用 CSS 檔而非就地覆寫。
+- 以下兩條為**工程師框架版本分支專屬**(`frontend/`,不適用於 main 的純 HTML 形態):
+  樣式只用 theme token(tailwind.config.ts 讀 `themes/*.css`)、禁任意值色碼/Tailwind 內建色/
+  scoped CSS,共用視覺進 `assets/css/main.css` @layer components;元件 PrimeVue 優先、
+  包裝於 `components/ui/*`,區塊登錄表 `app/config/blocks.ts`,變體規則(v1 不可動、
+  同內容同皮膚)不可違反。

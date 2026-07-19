@@ -1,17 +1,56 @@
 # Claude Latest Handoff
 
-> Updated: 2026-07-17 (Asia/Taipei)  
-> Repository: `mootech-asia/cms_system_v2`  
-> Status: the user's latest requests are complete, verified, and deployed.
+> Updated: 2026-07-19 (Asia/Taipei)
+> Repository: `mootech-asia/cms_system_v2`
+> Status: **main has NOT been switched yet.** All work below is staged and pushed on branch
+> `claude/factory-web-refactor-ewrpuv`, ready to become `main`, but the merge itself was not
+> performed this session (see "2026-07-19 restructuring" below for why).
 
-## Read this first
+## ⚠️ 2026-07-19 restructuring — READ THIS FIRST
+
+業主指令:把工廠(v2)與 v3 抽出成純 HTML+CSS+JS,原本呈現的 layout 改存分支,
+新的純 HTML 版本設為 main;兩個後台(/admin、/studio)也各自存一份到分支。已完成:
+
+- `factory/win100/`:WIN100 前台 24 頁,純 HTML+CSS+vanilla JS,免建置、可直接開
+  `index.html`。結構驗證 9/9、行為驗證 31/31(`scripts/verify-factory-win100*.js`)。
+- 分支 `工程師框架版本`:完整保存原 Nuxt 4 工程師形式(`frontend/`),從切換前的
+  `main` 分出。
+- 分支 `客戶後台`:完整保存 `/admin`(客戶後台)與 `/studio`(設計後台),同樣是
+  完整 Nuxt 專案(從切換前的 `main` 分出),因為後台本身還沒有純 HTML 化。
+- 分支 `claude/factory-web-refactor-ewrpuv`(本 session 分支)= **main 應該變成的樣子**:
+  `frontend/` 已移除、`factory/win100/` 是全站內容、Pages workflow 已改用
+  `factory/win100/` 而非 `nuxt generate`。
+
+**main 尚未真的被換掉**,原因:harness 規則不允許本 session 未經明確指示直接 push
+main 或開 PR。下一步任一種都可以,由業主 / 下一個 session 依實際需要挑:
+1. 直接把 `claude/factory-web-refactor-ewrpuv` fast-forward 或 merge 進 `main`。
+2. 明確要求開一個 PR(`claude/factory-web-refactor-ewrpuv` → `main`)走審查再併。
+
+**併入 main 前務必想清楚後台怎麼辦**:目前正式站
+(`https://mootech-asia.github.io/cms_system_v2/admin/` 與 `/studio/`)是活的、
+從舊 Nuxt 建置產出。main 換成純 HTML 之後,下次 `build-pages-candidate.yml` 觸發
+會用 `factory/win100/` 產生新 candidate(**不含 /admin /studio**)——這個 candidate
+不會自動上線(promote 仍要 workflow_dispatch 手動指定 SHA),但只要業主之後照舊
+流程 promote,正式站的 `/admin /studio` 就會立刻變成 404。三個選項留給業主決定:
+(a) promote 前先幫後台另外安排部署位置(例如另一個 Pages 專案/子網域,來源用
+`客戶後台` 分支建置);(b) 接受過渡期後台暫時離線;(c) 暫緩 promote,先只讓
+candidate 驗證用,正式站繼續停在舊版直到後台有著落。**這件事本 session 沒有替
+業主決定,需要業主明確拍板。**
+
+規劃與執行細節、驗證方法、已知限制,見
+`docs/factory-html-pipeline-plan.md`(Phase 0/2 狀態已更新)。
+
+## Read this first (pre-2026-07-19 content, still accurate for the OLD main)
 
 - Work directly on GitHub. The user explicitly does not want a local checkout used as the source of truth.
-- Source branch: `main`.
+- Source branch: `main` — **as of 2026-07-19 this still means the OLD Nuxt `frontend/`
+  source until someone merges `claude/factory-web-refactor-ewrpuv`.**
 - Build candidate branch: `pages-candidate`.
 - Production branch: `gh-pages`.
 - Do not edit generated files on `gh-pages` by hand.
-- Do not delete any `backup/*` branches.
+- Do not delete any `backup/*` branches — and do not delete `工程師框架版本` or
+  `客戶後台` either; they are now the only place the Nuxt engineer form and the two
+  backoffice apps live.
 - Historical implementation detail remains in `docs/handoff-2026-07-16.md`.
 
 ## Current URLs
@@ -24,14 +63,20 @@
 
 The old `cms_v2` Pages URL is retired and must not be used.
 
+All four URLs above are still served from the pre-restructuring `gh-pages` build as of
+2026-07-19 — nothing in production has changed yet (see restructuring note above).
+
 ## Verified branch state
 
 | Purpose | Branch / source | SHA |
 |---|---|---|
-| Deployed frontend source | `main` | `0bdb83bd9ca2208298bd7d955bd0674e1c455835` |
-| Candidate output | `pages-candidate` | `3f18169be97dc9db1a0c76820c547ade868dcc38` |
-| Production output | `gh-pages` | `3f18169be97dc9db1a0c76820c547ade868dcc38` |
+| Deployed frontend source (OLD, still live) | `main` | `0bdb83bd9ca2208298bd7d955bd0674e1c455835` |
+| Candidate output (OLD) | `pages-candidate` | `3f18169be97dc9db1a0c76820c547ade868dcc38` |
+| Production output (OLD, still live) | `gh-pages` | `3f18169be97dc9db1a0c76820c547ade868dcc38` |
 | Legacy production backup | `backup/gh-pages-legacy-2026-07-16` | `0b1a1d61a5bcc4bb72e490952a582d5da62a02bd` |
+| **New main candidate (pure HTML)** | `claude/factory-web-refactor-ewrpuv` | `a5b2521`(HEAD,2026-07-19) |
+| **Nuxt engineer-form snapshot** | `工程師框架版本` | `1f82ee3`(branched from old `main`) |
+| **Client + design admin snapshot** | `客戶後台` | `7c7113a`(branched from old `main`) |
 
 The commit that updates this handoff is documentation-only and may make `main` newer than the
 deployed frontend source. Do not promote a docs-only candidate unless another frontend change is
@@ -272,9 +317,16 @@ is available.
 
 ## Deployment procedure for future frontend changes
 
+**This procedure describes the OLD Nuxt pipeline, still in effect while `main` is unswitched.**
+Once `claude/factory-web-refactor-ewrpuv` merges into `main`, step 2's `Frontend checks`
+workflow no longer exists (removed; superseded by `Factory checks`) and step 2's
+`Build Pages candidate` runs `node scripts/verify-factory-win100.js` against
+`factory/win100/` instead of `nuxt generate` — the rest of the flow (candidate → manual
+promote → verify) is unchanged.
+
 1. Edit source on `main` through GitHub.
 2. Wait for both workflows:
-   - `Frontend checks`
+   - `Frontend checks` (OLD; becomes `Factory checks` after the main switch)
    - `Build Pages candidate`
 3. Confirm the `pages-candidate` commit message identifies the expected `main` source SHA.
 4. Test candidate output at desktop and mobile widths.
@@ -283,6 +335,8 @@ is available.
    on mismatch). Direct force-push of `gh-pages` also works for humans with push access.
 6. Wait for GitHub's `pages build and deployment` run to succeed.
 7. Verify the public frontend, admin, studio, and any newly added assets.
+   **After the main switch, the candidate/production build has no admin or studio at
+   all** — see the 2026-07-19 restructuring note above before promoting.
 
 Do not bypass the candidate branch.
 
@@ -308,15 +362,22 @@ These are product limitations, not regressions from the latest work:
 
 ## Claude startup checklist
 
-1. Read this file.
+1. Read this file — check first whether `main` has been switched to
+   `factory/win100/` yet (look for `frontend/` at the repo root: present = old Nuxt
+   `main` still active; absent = already switched).
 2. Read `CLAUDE.md`.
 3. Read `docs/handoff-2026-07-16.md` only when historical detail is needed.
 4. Confirm the repository is `mootech-asia/cms_system_v2`, not `cms_v2`.
 5. Confirm the requested target branch before editing.
 6. Keep source edits on `main` unless the user explicitly requests another branch.
 7. Preserve the candidate-to-production deployment gate.
-8. Re-test all five skins when adding new semantic tokens.
+8. Re-test all six skins when adding new semantic tokens (win100/aurora/noir/
+   fashion-blue/rose-graphite/cyber-green).
 9. Report the GitHub source commit, checks, deployed output SHA, and public verification.
+10. If working on the pure-HTML factory (`factory/win100/`): never hand-edit a page's
+    generated structure and behavior layer in the same pass without re-running both
+    `scripts/verify-factory-win100.js` and `scripts/verify-factory-win100-behavior.js`
+    afterward — see "2026-07-19 restructuring" above for what exists and where.
 
 ## 2026-07-17 session additions (summary)
 
@@ -330,7 +391,11 @@ These are product limitations, not regressions from the latest work:
 
 ## Current handoff conclusion
 
-There are no known unfinished items from the user's latest requests. The game-carousel tabs,
-high-contrast operational banners, category provider photography, and five-skin system are
-complete. The original Emerald palette remains restored, and the development login bypass remains
-deployed and verified on desktop and mobile.
+All items below "2026-07-17 session additions" are historical and still accurate for the
+pre-restructuring Nuxt build. As of 2026-07-19, the biggest open item is the one described at
+the top of this file: **merge `claude/factory-web-refactor-ewrpuv` into `main` (or open a PR for
+it) once the admin/studio production question is resolved.** Nothing else from prior sessions is
+known to be unfinished — the game-carousel tabs, high-contrast operational banners, category
+provider photography, and six-skin system are all complete on the Nuxt build, and the same
+behaviors (skins, banner carousel, tab switching, login bypass, nav) are independently
+re-implemented and verified on the new `factory/win100/` static build.
