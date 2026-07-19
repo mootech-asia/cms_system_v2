@@ -1,0 +1,13 @@
+{
+  "name": "cms-system-v2-factory",
+  "private": true,
+  "description": "WIN100 factory tooling (static site build/serve/verify scripts for factory/*). The Nuxt engineer-form frontend lives on branch 工程師框架版本, not here.",
+  "scripts": {
+    "serve:win100": "node scripts/serve-factory.js win100",
+    "verify:win100": "node scripts/verify-factory-win100.js",
+    "verify:win100:behavior": "node scripts/verify-factory-win100-behavior.js"
+  },
+  "devDependencies": {
+    "playwright": "^1.48.0"
+  }
+}
