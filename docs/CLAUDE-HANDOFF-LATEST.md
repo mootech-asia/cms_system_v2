@@ -29,7 +29,7 @@ HTML 版本設為 main。第一版執行時把 `/admin`(客戶後台)、`/studio
 規劃與執行細節、驗證方法、已知限制,見
 `docs/factory-html-pipeline-plan.md`(Phase 0/2 狀態已更新)。
 
-## Read this first (pre-2026-07-19 content, still accurate for the OLD main)
+## Read this first (deployment mechanics — still accurate post-switch)
 
 - Work directly on GitHub. The user explicitly does not want a local checkout used as the source of truth.
 - Source branch: `main` — as of 2026-07-19 this is the new pure-HTML front-end
@@ -38,22 +38,24 @@ HTML 版本設為 main。第一版執行時把 `/admin`(客戶後台)、`/studio
 - Production branch: `gh-pages`.
 - Do not edit generated files on `gh-pages` by hand.
 - Do not delete any `backup/*` branches — and do not delete `工程師框架版本` or
-  `客戶後台` either; they are now the only place the Nuxt engineer form and the two
-  backoffice apps live.
+  `客戶後台` either; `工程師框架版本` is the only place the pre-switch Nuxt front-end
+  lives, and `客戶後台` is the only place `/admin` (client admin) lives now that it's
+  excluded from main's deployment.
 - Historical implementation detail remains in `docs/handoff-2026-07-16.md`.
 
 ## Current URLs
 
 - Repository: https://github.com/mootech-asia/cms_system_v2
 - Frontend: https://mootech-asia.github.io/cms_system_v2/
-- Client admin: https://mootech-asia.github.io/cms_system_v2/admin/
 - Design studio: https://mootech-asia.github.io/cms_system_v2/studio/
 - Studio preview: https://mootech-asia.github.io/cms_system_v2/studio/preview/
+- ~~Client admin~~: `/admin/` is being intentionally dropped as part of the 2026-07-19
+  promotion (triggered, not yet confirmed complete as of this doc edit — check
+  `gh-pages`'s HEAD commit message for the actual promoted candidate SHA before
+  trusting this bullet). See restructuring note above. To bring `/admin` back,
+  deploy it separately from branch `客戶後台` (not yet done).
 
 The old `cms_v2` Pages URL is retired and must not be used.
-
-All four URLs above are still served from the pre-restructuring `gh-pages` build as of
-2026-07-19 — nothing in production has changed yet (see restructuring note above).
 
 ## Verified branch state
 
