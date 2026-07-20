@@ -127,6 +127,64 @@
     initSkinSwitchers();
   }
 
+  /* ============================ locale switcher =========================== */
+  /* components/LanguageSwitcher.vue + composables/useLocale.ts. Only the zh
+     copy actually baked into these static pages was ported to data.js (see
+     data.js file header) — full runtime translation is out of scope for this
+     static build, so picking a non-zh option here surfaces the same "not in
+     this static preview" notice already used for backoffice links, rather
+     than silently pretending to translate the page. The trigger button itself
+     (globe icon + current short label + chevron, wrapped in a `.relative`
+     div) has no unique id/class in the baked HTML, so it's matched the same
+     defensive way other structural triggers in this file are: by its exact
+     rendered content. */
+
+  function buildLocalePanelHtml() {
+    var locales = D.LOCALES || [];
+    return locales.map(function (l) {
+      var active = l.code === 'zh';
+      return '<div class="cursor-pointer whitespace-nowrap rounded-md px-3.5 py-2.5 text-sm hover:bg-surface-deep' +
+        (active ? ' font-bold text-primary' : ' font-normal text-ink-2') + '" data-locale-option="' + l.code + '">' +
+        escapeHtml(l.label) + '</div>';
+    }).join('');
+  }
+
+  function initLocaleSwitcher() {
+    $all('button').forEach(function (btn) {
+      var span = btn.querySelector('span');
+      if (!span || span.textContent.trim() !== '中文') return;
+      if ($all('svg', btn).length < 2) return;
+      var wrap = btn.parentElement;
+      var panel = null, backdrop = null;
+      function close() {
+        if (panel) { panel.remove(); panel = null; }
+        if (backdrop) { backdrop.remove(); backdrop = null; }
+      }
+      function open() {
+        backdrop = document.createElement('div');
+        backdrop.className = 'fixed inset-0 z-[999]';
+        on(backdrop, 'click', close);
+        wrap.appendChild(backdrop);
+        panel = document.createElement('div');
+        panel.className = 'dd-panel right-0';
+        panel.innerHTML = buildLocalePanelHtml();
+        wrap.appendChild(panel);
+        $all('[data-locale-option]', panel).forEach(function (opt) {
+          on(opt, 'click', function () {
+            close();
+            if (opt.getAttribute('data-locale-option') !== 'zh') {
+              window.alert((D.T || {}).notAvailable || '此靜態預覽尚未包含此內容');
+            }
+          });
+        });
+      }
+      on(btn, 'click', function (e) {
+        e.stopPropagation();
+        if (panel) close(); else open();
+      });
+    });
+  }
+
   /* ============================ nav dd-panel ============================= */
   /* AppHeader.vue hover dropdown (Sports/Live) — already server-rendered via
      v-show (style="display:none"), only needs show/hide wiring. */
@@ -962,6 +1020,128 @@
     });
   }
 
+  /* ============================ promotion detail =========================== */
+  /* pages/promotion.vue PROMOS[] + list/detail toggle via ?detail=<id>. The
+     "Detail" / "查看詳情" buttons exist in two places: promotion.html's own
+     grid (in-page toggle) and the homepage's mini Promotion section, whose
+     button navigates cross-page with the same query param (matches
+     Promotion.vue's goDetail() -> router.push({path:'/promotion', query})). */
+
+  function findPromoDetailButtons() {
+    return $all('button').filter(function (b) {
+      var t = (b.textContent || '').trim();
+      return t === 'Detail' || t === '查看詳情';
+    });
+  }
+  function promoById(id) {
+    return (D.PROMOS || []).filter(function (p) { return p.id === id; })[0];
+  }
+  function promoByTitle(title) {
+    return (D.PROMOS || []).filter(function (p) { return p.title === title; })[0];
+  }
+
+  function buildPromoDetailHtml(p) {
+    return '' +
+      '<div class="mx-auto max-w-[1180px] text-ink" data-promo-detail>' +
+      '<button type="button" class="btn-back mb-[22px] text-base md:mb-7 md:text-[15px]" aria-label="Back" data-promo-back>' +
+      iconSvg('back') + '<span>Back</span></button>' +
+      '<div class="flex flex-col items-center gap-7">' +
+      '<h2 class="inline-flex items-center m-0 text-ink text-[28px] md:text-display font-extrabold leading-none">Promotion</h2>' +
+      '<div class="promotion-detail-poster-bg relative w-full max-w-[760px] overflow-hidden rounded-lg border border-primary/[0.26] shadow-[0_24px_70px_rgba(0,0,0,0.34)] px-[22px] pt-9 pb-8 text-center md:px-[54px] md:pt-[46px] md:pb-[42px]">' +
+      '<img src="' + p.img + '" alt="" aria-hidden="true" class="operation-promo-poster-media absolute inset-0 h-full w-full object-cover" style="object-position:' + p.focalPoint + ';">' +
+      '<div class="operation-promo-poster-scrim absolute inset-0"></div>' +
+      '<div class="relative z-[1] flex min-h-[640px] flex-col items-center justify-between gap-[26px] md:min-h-[680px]">' +
+      '<img class="h-[42px] object-contain mix-blend-lighten" src="logo.png" alt="WIN100%">' +
+      '<div>' +
+      '<p class="m-0 text-primary text-body font-extrabold tracking-[0.22em] uppercase">Special Offer</p>' +
+      '<h3 class="text-gradient-primary mt-2 text-[36px] md:text-[50px] font-extrabold leading-[1.08] tracking-normal">' + escapeHtml(p.headline) + '</h3>' +
+      '<p class="mt-3 text-ink text-[19px] md:text-[22px] font-extrabold">' + escapeHtml(p.title) + '</p>' +
+      '</div>' +
+      '<div class="mt-0.5 grid w-full grid-cols-1 gap-[22px] md:grid-cols-2 md:gap-[18px]">' +
+      '<div class="relative rounded-lg border border-primary/[0.24] bg-surface-deep px-[18px] pt-7 pb-[22px] shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]">' +
+      '<div class="absolute -top-[15px] left-1/2 flex h-7 w-[34px] -translate-x-1/2 items-center justify-center rounded-full bg-g-primary text-surface-deep text-body font-extrabold shadow-[0_8px_18px_rgba(0,0,0,0.28)]">1</div>' +
+      '<h4 class="mb-2.5 text-primary-soft text-[19px] font-extrabold">' + escapeHtml(p.primary) + '</h4>' +
+      '<strong class="block text-ink text-display leading-none">' + escapeHtml(p.primaryRate) + '</strong>' +
+      '<span class="block mt-2.5 text-ink-3 text-body font-bold">Max reward / rollover applies</span>' +
+      '</div>' +
+      '<div class="relative rounded-lg border border-primary/[0.24] bg-surface-deep px-[18px] pt-7 pb-[22px] shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]">' +
+      '<div class="absolute -top-[15px] left-1/2 flex h-7 w-[34px] -translate-x-1/2 items-center justify-center rounded-full bg-g-primary text-surface-deep text-body font-extrabold shadow-[0_8px_18px_rgba(0,0,0,0.28)]">2</div>' +
+      '<h4 class="mb-2.5 text-primary-soft text-[19px] font-extrabold">' + escapeHtml(p.secondary) + '</h4>' +
+      '<strong class="block text-ink text-display leading-none">' + escapeHtml(p.secondaryRate) + '</strong>' +
+      '<span class="block mt-2.5 text-ink-3 text-body font-bold">Max reward / rollover applies</span>' +
+      '</div>' +
+      '</div>' +
+      '<div class="w-full m-0 py-[18px] px-5 md:py-[22px] md:px-[26px] rounded-lg border border-primary/[0.18] bg-surface-deep/[0.78] text-left">' +
+      '<h4 class="m-0 mb-3 text-center text-primary-soft text-h2">Promotion Terms</h4>' +
+      '<ol class="m-0 pl-[18px] text-ink-2 text-sm leading-[1.7] md:text-[15px]">' +
+      '<li>Bonus rewards are calculated from eligible deposits and game turnover.</li>' +
+      '<li>Cancelled bets, refunds, cashouts, and invalid results are not included.</li>' +
+      '<li>Members must keep an active balance and meet rollover requirements.</li>' +
+      '<li>Each completed promotion can only be claimed once.</li>' +
+      '</ol>' +
+      '</div>' +
+      '<button class="w-full max-w-[420px] border-0 rounded-lg bg-g-primary text-on-primary text-[17px] font-extrabold px-[18px] py-3.5 cursor-pointer transition-opacity hover:opacity-[0.88]" type="button">Claim Promotion</button>' +
+      '<p class="m-0 text-ink-3 text-[13px] leading-[1.6]">win100% reserves the right to adjust, pause, or end this promotion at any time.</p>' +
+      '</div>' +
+      '</div>' +
+      '</div>' +
+      '</div>';
+  }
+
+  function initPromotionDetail() {
+    var PROMOS = D.PROMOS || [];
+    if (!PROMOS.length) return;
+
+    var listSection = null;
+    var heroSection = document.querySelector('.category-hero-media');
+    var mount = null;
+    var detailRoot = null;
+
+    function backToList() {
+      if (window.history && history.replaceState) history.replaceState(null, '', 'promotion.html');
+      if (detailRoot) { detailRoot.remove(); detailRoot = null; }
+      if (listSection) listSection.style.display = '';
+      if (heroSection) heroSection.style.display = '';
+    }
+    function showDetail(id) {
+      if (!listSection || !mount) return;
+      var p = promoById(id) || PROMOS[0];
+      if (window.history && history.replaceState) history.replaceState(null, '', 'promotion.html?detail=' + encodeURIComponent(p.id));
+      listSection.style.display = 'none';
+      if (heroSection) heroSection.style.display = 'none';
+      if (detailRoot) detailRoot.remove();
+      detailRoot = document.createElement('div');
+      detailRoot.innerHTML = buildPromoDetailHtml(p);
+      mount.insertBefore(detailRoot, listSection);
+      on(detailRoot.querySelector('[data-promo-back]'), 'click', backToList);
+      window.scrollTo(0, 0);
+    }
+
+    if (pageName() === 'promotion') {
+      var firstCard = $all('[class*="cursor-pointer"]').filter(function (el) { return el.querySelector('h3'); })[0];
+      listSection = firstCard ? firstCard.closest('section') : null;
+      mount = listSection ? listSection.parentElement : null;
+    }
+
+    findPromoDetailButtons().forEach(function (btn) {
+      var card = btn.closest('[class*="cursor-pointer"]');
+      var h3 = card && card.querySelector('h3');
+      var promo = h3 && promoByTitle(h3.textContent.trim());
+      if (!promo) return;
+      on(btn, 'click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (pageName() === 'promotion') showDetail(promo.id);
+        else location.href = 'promotion.html?detail=' + encodeURIComponent(promo.id);
+      });
+    });
+
+    if (pageName() !== 'promotion' || !listSection) return;
+    var qs = new URLSearchParams(location.search);
+    var initial = qs.get('detail');
+    if (initial) showDetail(initial);
+  }
+
   /* ========================== sport.html extras (P1) ======================= */
 
   function initSportProviderTabs() {
@@ -1097,35 +1277,42 @@
       if (opt) {
         var status = opt.getAttribute('data-status');
         var trig = root.querySelector('.rb-status-trigger');
-        if (trig) trig.textContent = 'Status: ' + status;
+        if (trig) trig.textContent = status;
         filterRows(status);
         closeStatusMenus();
         return;
       }
 
-      var trig2 = target.closest('button');
-      if (trig2 && /^Status:/.test((trig2.textContent || '').trim())) {
+      /* Status filter trigger: RecordPage.vue renders this as a UiSelect
+         (PrimeVue Select), baked into the static HTML as a `.p-select` /
+         [role=combobox] widget (label defaults to "All") — there is no
+         "Status: X" text button in the real markup, PrimeVue's own JS runtime
+         (removed along with the rest of Vue/Nuxt) drove the listbox. Rebuild
+         that interaction here, reusing the existing STATUSES/filterRows
+         logic and the site-wide .dd-panel dropdown look. Only present on
+         deposit-record / withdrawal-record / account-record (betting-record
+         and profit-loss have no status column, see stores/records.ts). */
+      var pSelect = target.closest('.p-select');
+      if (pSelect) {
         e.preventDefault();
         if (root.querySelector('.rb-status-menu')) { closeStatusMenus(); return; }
-        trig2.classList.add('rb-status-trigger');
+        var label = pSelect.querySelector('.p-select-label') || pSelect;
+        label.classList.add('rb-status-trigger');
         var menu = document.createElement('div');
-        menu.className = 'rb-status-menu';
-        menu.style.cssText = 'position:absolute;z-index:50;margin-top:4px;left:0;background:#1a2128;border:1px solid #374151;border-radius:8px;overflow:hidden;min-width:150px;box-shadow:0 8px 24px rgba(0,0,0,.4)';
+        menu.className = 'rb-status-menu dd-panel left-0';
         STATUSES.forEach(function (s) {
           var o = document.createElement('div');
-          o.className = 'rb-status-opt';
+          o.className = 'rb-status-opt cursor-pointer whitespace-nowrap rounded-md px-3.5 py-2.5 text-sm hover:bg-surface-deep';
           o.setAttribute('data-status', s);
           o.textContent = s;
-          o.style.cssText = 'padding:9px 14px;color:#d1d5db;font-size:14px;cursor:pointer';
-          on(o, 'mouseenter', function () { o.style.background = '#0f1419'; });
-          on(o, 'mouseleave', function () { o.style.background = ''; });
           menu.appendChild(o);
         });
-        trig2.parentElement.style.position = 'relative';
-        trig2.parentElement.appendChild(menu);
+        pSelect.style.position = 'relative';
+        pSelect.appendChild(menu);
         return;
       }
 
+      var trig2 = target.closest('button');
       if (trig2 && AMT_RE.test((trig2.textContent || '').trim())) {
         var grid = trig2.parentElement;
         $all('button', grid).forEach(function (x) {
@@ -1443,6 +1630,28 @@
     bindListView();
   }
 
+  /* ================================ security.html =========================== */
+  /* security.vue's last Security Setting row ("Logout" / "Logout safely") is a
+     plain <div> with no @click in the Nuxt source either — but the identical
+     action already works from the header member dropdown (data-logout ->
+     location.reload(), see applyLoggedInHeaderUI above), so wire this row to
+     the same, already-established behaviour instead of leaving a row that
+     looks exactly like its four sibling links (same layout, cursor-pointer)
+     but does nothing when clicked. */
+
+  function initSecurityPage() {
+    if (pageName() !== 'security') return;
+    /* scoped to main: the member sidebar nav also links to personal-info.html,
+       and querying the whole document would match that one first instead of
+       the Security Setting list this function actually needs. */
+    var personalInfoLink = document.querySelector('main a[href="personal-info.html"]');
+    var list = personalInfoLink && personalInfoLink.parentElement;
+    if (!list) return;
+    var last = list.lastElementChild;
+    if (!last || last.tagName === 'A' || !/Logout/.test(last.textContent || '')) return;
+    on(last, 'click', function () { location.reload(); });
+  }
+
   /* ============================ data-backoffice hint ======================= */
 
   function initBackofficeHint() {
@@ -1459,6 +1668,7 @@
   ready(function () {
     initTheme();
     initNavDropdowns();
+    initLocaleSwitcher();
     initHeaderMobileMenus();
     initMobileBottomNav();
     initAuthTriggers();
@@ -1469,6 +1679,7 @@
     initDepositFlow();
     initVendorBrowser();
     initAboutTabs();
+    initPromotionDetail();
     initSportProviderTabs();
     initSportLoadMore();
     initMemberPageBehaviors();
@@ -1480,6 +1691,7 @@
     initChangePasswordPage();
     initChangeNicknamePage();
     initBankingDetailsPage();
+    initSecurityPage();
     initBackofficeHint();
   });
 })();

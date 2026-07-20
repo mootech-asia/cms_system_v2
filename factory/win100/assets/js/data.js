@@ -104,6 +104,25 @@
     notAvailable: '此靜態預覽尚未包含此內容',
   };
 
+  // ---- composables/useLocale.ts APP_LOCALES (only the zh copy above was ever
+  // ported/baked into these pages — see T above; site.js's locale switcher
+  // shows all 4 as options but only zh actually has translated content, so
+  // picking en/ko/th surfaces T.notAvailable instead of silently no-op'ing) --
+  var LOCALES = [
+    { code: 'zh', short: '中文', label: '中文' },
+    { code: 'en', short: 'EN', label: 'English' },
+    { code: 'ko', short: '한국어', label: '한국어' },
+    { code: 'th', short: 'ไทย', label: 'ภาษาไทย' },
+  ];
+
+  // ---- pages/promotion.vue PROMOS[] (Detail button destination content) ------
+  var PROMOS = [
+    { id: 'riobet-casino', title: 'RioBet Casino', headline: 'Unlimited Daily Bonus', primary: 'Sports / Slots', primaryRate: '5%', secondary: 'Casino / Mini Games', secondaryRate: '3%', img: pexels(7594128), focalPoint: '50% 52%' },
+    { id: 'bitstarz-casino', title: 'BitStarz Casino', headline: 'Weekly Reload Bonus', primary: 'Slots', primaryRate: '50%', secondary: 'Live Casino', secondaryRate: '10%', img: pexels(29825627), focalPoint: '54% 50%' },
+    { id: 'icecasino', title: 'IceCasino', headline: 'Member Exclusive Bonus', primary: 'Hot Games', primaryRate: '30%', secondary: 'Mini Games', secondaryRate: '8%', img: pexels(32100316), focalPoint: '72% 28%' },
+    { id: 'gamdom-casino', title: 'Gamdom Casino', headline: 'Daily Cashback Boost', primary: 'Sports', primaryRate: '15%', secondary: 'Fish Games', secondaryRate: '6%', img: pexels(27568815), focalPoint: '62% 50%' },
+  ];
+
   // ---- deposit.vue gateways[] (Provider A-D → available payment method count) --
   var DEPOSIT_GATEWAYS = [
     { id: 'a', methodCount: 4 },
@@ -261,5 +280,7 @@
     NAV_LINKS: NAV_LINKS,
     MEMBER_MENU_LINKS: MEMBER_MENU_LINKS,
     DEPOSIT_GATEWAYS: DEPOSIT_GATEWAYS,
+    LOCALES: LOCALES,
+    PROMOS: PROMOS,
   };
 })(window);
