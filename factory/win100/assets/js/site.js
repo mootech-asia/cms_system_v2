@@ -1886,23 +1886,36 @@
     csModalRoot = document.createElement('div');
     csModalRoot.className = 'fixed inset-0 z-[999] flex bg-scrim/70 p-4';
     var rows = [
-      { href: '#', strong: 'Live Chat Support', small: '24/7 instant help from our team' },
-      { href: 'https://t.me/win100kor', strong: 'Telegram Channel', small: 'Promotions & announcements' },
-      { href: '#', strong: 'Email Us', small: 'support@win100.gg · reply within 24h' },
+      {
+        href: '#', strong: 'Live Chat Support', small: '24/7 instant help from our team',
+        icon: '<path d="M21 12c0 4.4-4 8-9 8a10 10 0 0 1-3.6-.7L3 21l1.4-4.5A8 8 0 0 1 3 12c0-4.4 4-8 9-8s9 3.6 9 8Z"/>'
+      },
+      {
+        href: 'https://t.me/win100kor', strong: 'Telegram Channel', small: 'Promotions & announcements',
+        icon: '<path d="M21.05 3.4 2.7 10.5c-1.1.45-1.1 1.1-.2 1.4l4.6 1.45 1.8 5.7c.2.55.4.75.8.75.4 0 .55-.18.75-.4l2.3-2.3 4.7 3.45c.85.5 1.45.25 1.65-.8L21.95 4.6c.3-1.4-.45-2-1.5-1.55Z"/>',
+        fill: true
+      },
+      {
+        href: '#', strong: 'Email Us', small: 'support@win100.gg · reply within 24h',
+        icon: '<path d="M4 6h16v12H4zM4 7l8 6 8-6"/>'
+      },
     ];
     csModalRoot.innerHTML =
       '<div class="relative m-auto w-full max-w-[400px] rounded-2xl border border-line-soft bg-surface shadow-2xl">' +
-      '<div class="flex items-center justify-between border-b border-line-soft px-[22px] py-[18px]">' +
+      '<div class="flex items-center gap-[10px] justify-between border-b border-line-soft px-[22px] py-[18px]">' +
+      '<div class="flex items-center gap-[10px]">' +
+      '<span class="cs-modal-ico"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M4 12a8 8 0 0 1 16 0v4a3 3 0 0 1-3 3h-2v-7h5M4 12v4a3 3 0 0 0 3 3h2v-7H4"/></svg></span>' +
       '<h3 class="m-0 text-lg font-bold text-ink">Customer Service</h3>' +
+      '</div>' +
       '<button class="border-0 bg-transparent p-0 text-[22px] leading-none text-ink-3" data-cs-close>×</button>' +
       '</div><div class="p-[22px]">' +
-      '<p class="mb-3 text-body font-semibold text-ink-2">Select a channel</p>' +
+      '<p class="cs-box-title">Select a channel</p>' +
       rows.map(function (r) {
         return '<a href="' + r.href + '"' + (r.href.indexOf('http') === 0 ? ' target="_blank" rel="noopener"' : '') +
-          ' class="flex items-center justify-between p-4 border-b border-line-soft last:border-b-0 hover:bg-surface-deep transition-colors">' +
-          '<span class="flex flex-col"><span class="text-ink font-semibold">' + r.strong + '</span>' +
-          '<span class="text-ink-3 text-sm">' + r.small + '</span></span>' +
-          '<span class="text-ink-4">›</span></a>';
+          ' class="cs-opt">' +
+          '<span class="cs-opt-ico"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="' + (r.fill ? 'currentColor' : 'none') + '" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round">' + r.icon + '</svg></span>' +
+          '<span class="cs-opt-text"><strong>' + r.strong + '</strong><small>' + r.small + '</small></span>' +
+          '<span class="cs-opt-arrow">›</span></a>';
       }).join('') +
       '</div></div>';
     on(csModalRoot, 'click', function (e) { if (e.target === csModalRoot) closeCsModal(); });

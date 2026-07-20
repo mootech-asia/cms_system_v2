@@ -15,3 +15,42 @@
   margin-top: 2px;
   margin-bottom: 18px;
 }
+
+/* 客服彈窗選單(業主 2026-07-20:比照舊版設計 — icon 徽章 + 卡片列,
+   非既有 mf-modal 適用範圍,故新增一份共用定義供 CS 彈窗復用)。 */
+.cs-modal-ico,
+.cs-opt-ico {
+  border-radius: 10px;
+  background: rgb(var(--c-accent) / .16);
+  border: 1px solid rgb(var(--c-accent) / .3);
+  color: rgb(var(--c-accent));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.cs-modal-ico { width: 34px; height: 34px; }
+.cs-opt-ico { width: 38px; height: 38px; }
+.cs-box-title {
+  font-weight: 700;
+  font-size: 15px;
+  color: rgb(var(--c-text-2));
+  margin-bottom: 16px;
+}
+.cs-opt {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 16px;
+  border-radius: 12px;
+  border: 1px solid rgb(var(--c-border-soft));
+  background: rgb(var(--c-surface));
+  margin-bottom: 10px;
+  transition: border-color .15s, filter .15s;
+}
+.cs-opt:last-child { margin-bottom: 0; }
+.cs-opt:hover { border-color: rgb(var(--c-accent)); filter: brightness(1.06); }
+.cs-opt-text { display: flex; flex-direction: column; gap: 1px; flex: 1; min-width: 0; }
+.cs-opt-text strong { font-size: 14px; color: rgb(var(--c-text)); }
+.cs-opt-text small { font-size: 11.5px; color: rgb(var(--c-text-3)); font-weight: 400; }
+.cs-opt-arrow { color: rgb(var(--c-text-3)); font-size: 20px; flex-shrink: 0; }
