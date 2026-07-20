@@ -1,16 +1,15 @@
 <script setup lang="ts">
 import { BLOCKS, type BlockKey } from '~/config/blocks';
 import { TEMPLATE } from '~/config/template';
-import { THEME_KEYS, fetchThemeSource, themeLabel } from '~/utils/themes';
+import { THEME_KEYS, themeLabel } from '~/utils/themes';
 import {
   type DraftConfig, buildDraft, applyDraft, writeDraft,
 } from '~/utils/studio-draft';
 import { writePublicConfig } from '~/utils/public-config';
 import { APP_LOCALES } from '~/composables/useLocale';
-import { makeZip } from '~/utils/zip';
 
 /**
- * R5 設計後台:換膚/選變體/拖拉排序/顯示開關/即時預覽/匯出模板包。
+ * R5 設計後台:換膚/選變體/拖拉排序/顯示開關/即時預覽(匯出模板包已依業主指示移除)。
  * 編輯對象是 draft(localStorage 同步給 preview iframe),
  * 「套用到本站」才寫回 site store;持久化 API 為占位。
  */
@@ -27,6 +26,10 @@ const draft = reactive<DraftConfig>(buildDraft(siteStore));
 watch(draft, () => writeDraft(draft), { deep: true, immediate: true });
 
 const page = ref<string>(Object.keys(draft.pages)[0] ?? 'home');
+/** 切換頁面選單:home = 區塊草稿預覽;其餘為前台真實頁面(部署形態下與 studio 同站) */
+const PREVIEW_PAGES = ['home', 'hot-games', 'live', 'slot', 'fish', 'mini-games', 'sport', 'promotion', 'about', 'support'];
+const previewReload = ref(0);
+const reloadPreview = () => { previewReload.value += 1; };
 const sections = computed(() => draft.pages[page.value]?.sections ?? []);
 
 const isPublicSkin = (skin: string) => draft.publicSkins.includes(skin);
@@ -108,7 +111,9 @@ const onDrop = () => {
 // ---- 預覽 ----
 const previewWidth = ref<'desktop' | 'mobile'>('desktop');
 const studioPane = ref<'controls' | 'preview'>('controls');
-const previewSrc = computed(() => withBase(`/studio/preview?page=${page.value}`));
+const previewSrc = computed(() => (page.value === 'home'
+  ? withBase(`/studio/preview?page=${page.value}&r=${previewReload.value}`)
+  : withBase(`/${page.value}.html?r=${previewReload.value}`)));
 const iframeEl = ref<HTMLIFrameElement | null>(null);
 
 // ---- 套用 / 重設 / 匯出 ----
@@ -128,52 +133,6 @@ const resetDraft = () => {
   draft.pages = fresh.pages;
 };
 
-const exportError = ref('');
-const exportPack = async () => {
-  exportError.value = '';
-  const exportSkins = [...new Set([draft.skin, ...draft.publicSkins])];
-  const themeFiles: { name: string; content: string }[] = [];
-  for (const skin of exportSkins) {
-    try {
-      themeFiles.push({ name: `themes/${skin}.css`, content: await fetchThemeSource(skin) });
-    } catch {
-      exportError.value = `讀不到皮膚檔 themes/${skin}.css,已中止匯出`;
-      return;
-    }
-  }
-  const config = JSON.stringify(draft, null, 2);
-  const readme = `# WIN100 模板包(/studio 匯出)
-
-匯出時間:${new Date().toISOString()}
-皮膚:${draft.skin}
-前台可見 skins:${draft.publicSkins.length ? draft.publicSkins.join(' / ') : '不顯示'}
-
-## 內容
-- \`page-config.json\` — 站點組態:skin、chrome(header/footer 變體)、
-  publicSkins(前台可見 skin 清單)、各頁 sections(順序 = 渲染順序;block/variant/enabled/props,
-  schema 見 frontend/app/config/blocks.ts 的 SectionConfig)。
-- \`themes/*.css\` — 已套用 skin 與前台可見 skins 的 CSS 變數檔。
-
-## 工程接手方式
-1. 皮膚:放到 \`frontend/app/assets/css/themes/\`(檔名即 skin key;
-   選擇器 \`:root[data-theme="<key>"]\`,預設皮用 \`:root\`)。
-2. 組態:把 page-config.json 的內容載入 site store
-   (\`frontend/app/stores/site.ts\`)— 目前為記憶體占位,
-   正式環境改為 API 載入/儲存即可,渲染端(BlockRenderer/layout)不用動。
-3. 區塊/變體對應表在 \`frontend/app/config/blocks.ts\`;
-   變體規範(v1 不可動、同內容同皮膚)見該檔註解與 docs/style-guide.md。
-`;
-  const blob = makeZip([
-    { name: 'README.md', content: readme },
-    { name: 'page-config.json', content: config },
-    ...themeFiles,
-  ]);
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `${TEMPLATE.name}-template-${draft.skin}.zip`;
-  a.click();
-  URL.revokeObjectURL(a.href);
-};
 </script>
 
 <template>
@@ -189,11 +148,9 @@ const exportPack = async () => {
       <div class="grid w-full grid-cols-1 gap-2 min-[360px]:grid-cols-2 sm:ml-auto sm:flex sm:w-auto">
         <UiButton class="w-full" label="重設草稿" variant="ghost" size="sm" @click="resetDraft" />
         <UiButton class="w-full" label="套用到本站" variant="ghost" size="sm" @click="applyToSite" />
-        <UiButton class="w-full min-[360px]:col-span-2 sm:w-auto" label="匯出模板包" size="sm" @click="exportPack" />
       </div>
-      <div v-if="applied || exportError" class="flex w-full min-w-0 flex-wrap gap-2">
+      <div v-if="applied" class="flex w-full min-w-0 flex-wrap gap-2">
         <UiTag v-if="applied" label="已套用(儲存 API 為占位)" status="ok" />
-        <UiTag v-if="exportError" class="max-w-full" :label="exportError" status="bad" />
       </div>
     </header>
 
@@ -240,7 +197,7 @@ const exportPack = async () => {
                   v-for="item in locales" :key="item.code" type="button"
                   class="seg-btn"
                   :class="{ active: locale === item.code }"
-                  @click="setLocale(item.code)"
+                  @click="setLocale(item.code); reloadPreview()"
                 >{{ item.label }}</button>
               </div>
             </div>
@@ -329,7 +286,7 @@ const exportPack = async () => {
               <span class="shrink-0 whitespace-nowrap text-note font-bold tracking-wide2 text-ink-3">切換頁面</span>
               <UiSelect
                 v-model="page"
-                :options="Object.keys(draft.pages).map((p) => ({ label: p, value: p }))"
+                :options="PREVIEW_PAGES.map((p) => ({ label: p, value: p }))"
                 option-label="label" option-value="value" class="w-full sm:w-32"
               />
             </div>

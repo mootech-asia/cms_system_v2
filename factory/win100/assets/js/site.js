@@ -86,6 +86,11 @@
   function buildSkinPanelHtml() {
     var keys = D.THEME_KEYS || [];
     var labels = D.THEME_LABELS || {};
+    /* /studio「公開皮膚」設定(win100-public-config.publicSkins)限縮前台可選清單 */
+    var cfg = null;
+    try { cfg = JSON.parse(localStorage.getItem('win100-public-config') || 'null'); } catch (e) {}
+    var pub = (cfg && cfg.publicSkins) || [];
+    if (pub.length) keys = keys.filter(function (k) { return pub.indexOf(k) !== -1; });
     return keys.map(function (k) {
       return '<div class="cursor-pointer whitespace-nowrap rounded-md px-3.5 py-2.5 text-sm hover:bg-surface-deep" data-skin-option="' + k + '">' + escapeHtml(labels[k] || k) + '</div>';
     }).join('');
@@ -141,12 +146,95 @@
 
   function buildLocalePanelHtml() {
     var locales = D.LOCALES || [];
+    var pub = (publicConfig() || {}).publicLocales || [];
+    if (pub.length) locales = locales.filter(function (l) { return pub.indexOf(l.code) !== -1; });
+    var cur = currentLocale();
     return locales.map(function (l) {
-      var active = l.code === 'zh';
+      var active = l.code === cur;
       return '<div class="cursor-pointer whitespace-nowrap rounded-md px-3.5 py-2.5 text-sm hover:bg-surface-deep' +
         (active ? ' font-bold text-primary' : ' font-normal text-ink-2') + '" data-locale-option="' + l.code + '">' +
         escapeHtml(l.label) + '</div>';
     }).join('');
+  }
+
+  /* ============================================================
+   * i18n(useLocale.ts 對應):zh/en 完整字典由 data.js I18N 提供。
+   * 靜態頁烘焙基準 = zh chrome + about/FAQ 英文內文;applyLocale 以
+   * 「精確字串對照」在 text node / placeholder 層交換,兩方向皆可逆。
+   * ========================================================== */
+  var LOCALE_KEY = 'win100-locale';
+  function currentLocale() {
+    try { return localStorage.getItem(LOCALE_KEY) || 'zh'; } catch (e) { return 'zh'; }
+  }
+  function localeSwapMap(target) {
+    var dicts = D.I18N || {};
+    var zh = dicts.zh || {}, en = dicts.en || {};
+    var map = {};
+    Object.keys(zh).forEach(function (k) {
+      if (!en[k] || zh[k] === en[k]) return;
+      if (target === 'en') map[zh[k]] = en[k];
+      else map[en[k]] = zh[k];
+    });
+    var faq = D.FAQ_ZH || {};
+    Object.keys(faq).forEach(function (enStr) {
+      if (target === 'zh') map[enStr] = faq[enStr];
+      else map[faq[enStr]] = enStr;
+    });
+    return map;
+  }
+  function applyLocale(target, persist) {
+    if (target !== 'zh' && target !== 'en') return false;
+    var map = localeSwapMap(target);
+    var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    var node;
+    while ((node = walker.nextNode())) {
+      var trimmed = (node.nodeValue || '').trim();
+      if (trimmed && Object.prototype.hasOwnProperty.call(map, trimmed)) {
+        node.nodeValue = node.nodeValue.replace(trimmed, map[trimmed]);
+      }
+    }
+    $all('input[placeholder], textarea[placeholder]').forEach(function (i) {
+      var p = i.getAttribute('placeholder');
+      if (p && Object.prototype.hasOwnProperty.call(map, p)) i.setAttribute('placeholder', map[p]);
+    });
+    document.documentElement.setAttribute('lang', target === 'zh' ? 'zh-Hant' : 'en');
+    var trigger = localeTriggerSpan();
+    if (trigger) {
+      var entry = (D.LOCALES || []).filter(function (l) { return l.code === target; })[0];
+      trigger.textContent = entry ? (entry.short || entry.label) : target;
+    }
+    if (persist) { try { localStorage.setItem(LOCALE_KEY, target); } catch (e) {} }
+    return true;
+  }
+  function localeTriggerSpan() {
+    var spans = $all('button > span').filter(function (s) {
+      var t = s.textContent.trim();
+      return t === '中文' || t === 'EN' || t === '한국어' || t === 'ไทย' || t === 'English';
+    });
+    return spans[0] || null;
+  }
+
+  /* ============================================================
+   * 前後台連動(public-config.ts 對應):/studio「套用到本站」與
+   * /admin 寫入 localStorage 的 win100-public-config;前台開機套用
+   * + storage 事件跨分頁即時同步(換膚、站名、公開皮膚/語系範圍)。
+   * ========================================================== */
+  function publicConfig() {
+    try { return JSON.parse(localStorage.getItem('win100-public-config') || 'null'); } catch (e) { return null; }
+  }
+  function applyPublicConfigNow() {
+    var cfg = publicConfig();
+    if (!cfg) return;
+    if (cfg.siteName && cfg.siteName.trim()) document.title = cfg.siteName.trim();
+    if (cfg.skin && (D.THEME_KEYS || []).indexOf(cfg.skin) !== -1) {
+      applyTheme(cfg.skin, false);
+    }
+  }
+  function initPublicConfigSync() {
+    applyPublicConfigNow();
+    window.addEventListener('storage', function (ev) {
+      if (ev.key === 'win100-public-config') applyPublicConfigNow();
+    });
   }
 
   function initLocaleSwitcher() {
@@ -172,8 +260,10 @@
         $all('[data-locale-option]', panel).forEach(function (opt) {
           on(opt, 'click', function () {
             close();
-            if (opt.getAttribute('data-locale-option') !== 'zh') {
-              window.alert((D.T || {}).notAvailable || '此靜態預覽尚未包含此內容');
+            var code = opt.getAttribute('data-locale-option');
+            if (!applyLocale(code, true)) {
+              /* ko/th:字典尚未移植(useLocale.ts 有,首波僅開 zh/en) */
+              window.alert((D.T || {}).notAvailable || '此語系即將推出 (Coming soon)');
             }
           });
         });
@@ -804,8 +894,15 @@
     on(document.querySelector('.pay-action'), 'click', function (e) {
       var btn = e.currentTarget;
       if (btn.disabled) return;
-      var amountInput = document.querySelector('.pay-field[aria-label="Deposit amount"]');
-      showDepositTransferStep(amountInput ? amountInput.value : '₩ 10,000');
+      /* deposit.vue proceedFromForm():bank 直接進轉帳明細;
+         LinePay/USDT 先過 QR 中繼步(掃碼/複製地址)再繼續 */
+      var methodId = activeDepositMethodId();
+      if (methodId === 'bank') {
+        var amountInput = document.querySelector('.pay-field[aria-label="Deposit amount"]');
+        showDepositTransferStep(amountInput ? amountInput.value : '₩ 10,000');
+      } else {
+        showDepositQrStep(methodId);
+      }
     });
   }
 
@@ -1453,16 +1550,17 @@
 
   function initWithdrawalForms() {
     if (pageName() !== 'withdrawal') return;
-    var sections = $all('.payment-card');
-    if (!sections.length) return;
+    var bankSection = document.querySelector('.payment-card');
+    var paymentTabs = document.querySelector('.payment-tabs');
+    var modeTabs = document.querySelector('.mode-tabs');
+    if (!bankSection || !paymentTabs || !modeTabs) return;
 
-    var mainAmount = document.querySelector('input.pay-field[placeholder^="₩ 10,000"]');
-    var mainSubmit = $all('button').filter(function (b) { return /submit-ready|submit-idle/.test(b.className); })[0];
-    if (mainAmount && mainSubmit) {
-      var pwInput = mainAmount.parentElement ? null : null;
-      var allInputs = $all('.payment-card input');
-      var amountEl = allInputs.filter(function (i) { return /₩\s*10,000/.test(i.getAttribute('placeholder') || ''); })[0];
-      var passwordEl = allInputs.filter(function (i) { return i.type === 'password' || i.dataset.pw === '1'; })[0];
+    /* -- Withdraw 分頁:銀行面板(烘焙)submit gate --------------------- */
+    var mainSubmit = $all('button', bankSection).filter(function (b) { return /submit-ready|submit-idle/.test(b.className); })[0];
+    var bankInputs = $all('input', bankSection);
+    var amountEl = bankInputs.filter(function (i) { return /₩\s*10,000/.test(i.getAttribute('placeholder') || ''); })[0];
+    var passwordEl = bankInputs.filter(function (i) { return i.type === 'password' || i.dataset.pw === '1'; })[0];
+    if (mainSubmit) {
       bindReadyGate(mainSubmit, [amountEl, passwordEl], function (ok) {
         mainSubmit.classList.toggle('submit-ready', ok);
         mainSubmit.classList.toggle('submit-idle', !ok);
@@ -1475,11 +1573,117 @@
       });
     }
 
-    $all('.pay-action').forEach(function (btn) {
-      var card = btn.closest('.payment-card');
-      if (!card) return;
-      var inputs = $all('input, select', card).filter(function (i) { return i.type !== 'password' || true; });
-      bindReadyGate(btn, inputs, function (ok) { btn.classList.toggle('ready', ok); btn.disabled = !ok; });
+    /* -- Withdraw 分頁:Crypto 面板(withdrawal.vue v-else section,
+          v-if 未進 SSG,這裡照原模板客端生成)------------------------- */
+    var cryptoSection = document.createElement('section');
+    cryptoSection.className = 'payment-card';
+    cryptoSection.style.display = 'none';
+    cryptoSection.setAttribute('data-crypto-panel', '');
+    cryptoSection.innerHTML =
+      '<h2 class="pay-section-title">Crypto Wallet</h2>' +
+      '<div class="wallet-empty"><div class="coin-empty coin-lg">₿</div><div>Empty wallet list</div>' +
+      '<button class="add-wallet" data-add-wallet><span style="font-size:20px;line-height:1">+</span>Add wallet</button></div>' +
+      '<div class="balance-grid"><span>Central Wallet:</span><strong>0.00</strong><span>Available Amount:</span><strong>0.00</strong></div>' +
+      '<h2 class="pay-section-title mt-6">Withdrawal Amount &amp; Password</h2>' +
+      '<div class="pay-form-grid mt-6">' +
+      '<label>Wallet type:</label><select class="pay-field"><option value="">Please select wallet type</option><option>USDT TRC20</option></select>' +
+      '<label>Wallet address:</label><input class="pay-field" placeholder="Please fill in wallet address">' +
+      '<label>Withdrawal Amount:</label><input class="pay-field" placeholder="100,000 ~ 20,000,000">' +
+      '<label>Transaction Password:</label><input class="pay-field" type="password" placeholder="Please fill in the transaction password">' +
+      '</div>' +
+      '<button class="pay-action" disabled>Submit</button>';
+    bankSection.parentElement.insertBefore(cryptoSection, bankSection.nextSibling);
+
+    /* -- Account Management 分頁(withdrawal.vue v-else 大節)---------- */
+    var mgmtSection = document.createElement('section');
+    mgmtSection.className = 'payment-card';
+    mgmtSection.style.display = 'none';
+    mgmtSection.setAttribute('data-mgmt-panel', '');
+    mgmtSection.innerHTML =
+      '<div class="payment-tabs inner">' +
+      '<button class="active" data-mgmt-tab="bank"><span>Bank Account</span></button>' +
+      '<button data-mgmt-tab="crypto"><span>Crypto Wallet</span></button>' +
+      '</div>' +
+      '<div data-mgmt-bank>' +
+      '<div class="account-summary"><h2 class="pay-section-title">Registered Withdrawal Accounts <span>(1/5)</span></h2>' +
+      '<div class="registered-card"><div class="bank-logo">신한은행</div><div><strong>Shinhan Bank</strong><span>********5123</span><span>2025-01-08 21:22:25</span></div></div></div>' +
+      '<div class="pay-form-grid">' +
+      '<label>Select Bank:</label><select class="pay-field"><option value="">Please Select a Bank</option><option>Shinhan Bank</option><option>KB Bank</option></select>' +
+      '<label>Name on Card:</label><input class="pay-field" value="T***" disabled>' +
+      '<label>Account Number:</label><input class="pay-field" placeholder="Please Enter Account/Card/Phone number">' +
+      '<label>Transaction Password:</label><input class="pay-field" type="password" placeholder="Please Fill in the Transaction Password">' +
+      '</div>' +
+      '<button class="pay-action" disabled>Submit</button>' +
+      '</div>' +
+      '<div data-mgmt-crypto style="display:none">' +
+      '<div class="account-summary"><h2 class="pay-section-title">Bound wallet <span>(0/1)</span></h2>' +
+      '<div class="bound-wallet"><div class="coin-empty coin-md">₿</div><div>Empty wallet list</div></div></div>' +
+      '<div class="pay-form-grid">' +
+      '<label>Wallet type:</label><select class="pay-field"><option value="">Please select wallet type</option><option>USDT TRC20</option></select>' +
+      '<label>Wallet address:</label><input class="pay-field" placeholder="Please fill in wallet address">' +
+      '<label>Transaction Password:</label><input class="pay-field" type="password" placeholder="Please Fill in the Transaction Password">' +
+      '</div>' +
+      '<button class="pay-action" disabled>Submit</button>' +
+      '</div>';
+    cryptoSection.parentElement.insertBefore(mgmtSection, cryptoSection.nextSibling);
+
+    /* gate + submit for the generated panels(select 需選值、input 需非空)*/
+    $all('.pay-action', cryptoSection).concat($all('.pay-action', mgmtSection)).forEach(function (btn) {
+      var wrap = btn.closest('[data-mgmt-bank], [data-mgmt-crypto]') || cryptoSection;
+      var fields = $all('input, select', wrap).filter(function (i) { return !i.disabled; });
+      bindReadyGate(btn, fields, function (ok) { btn.classList.toggle('ready', ok); btn.disabled = !ok; });
+      on(btn, 'click', function () {
+        if (btn.disabled) return;
+        showMemberModal({ type: 'success', message: 'Your request has been submitted successfully.' });
+      });
+    });
+
+    /* Bank Card / Crypto Wallet 方式切換(withdrawal.vue method ref)---- */
+    var methodBtns = $all(':scope > button', paymentTabs);
+    function showMethod(which) {
+      methodBtns.forEach(function (b, i) { b.classList.toggle('active', (which === 'bank' ? 0 : 1) === i); });
+      bankSection.style.display = which === 'bank' ? '' : 'none';
+      cryptoSection.style.display = which === 'crypto' ? '' : 'none';
+    }
+    methodBtns.forEach(function (b, i) {
+      on(b, 'click', function () { showMethod(i === 0 ? 'bank' : 'crypto'); });
+    });
+
+    /* Withdraw / Account Management 主分頁(withdrawal.vue tab ref)----- */
+    var modeBtns = $all(':scope > button', modeTabs);
+    function showMode(which) {
+      modeBtns.forEach(function (b, i) { b.classList.toggle('active', (which === 'withdraw' ? 0 : 1) === i); });
+      if (which === 'withdraw') {
+        paymentTabs.style.display = '';
+        mgmtSection.style.display = 'none';
+        showMethod(methodBtns[0] && methodBtns[0].classList.contains('active') ? 'bank' : 'crypto');
+      } else {
+        paymentTabs.style.display = 'none';
+        bankSection.style.display = 'none';
+        cryptoSection.style.display = 'none';
+        mgmtSection.style.display = '';
+      }
+    }
+    modeBtns.forEach(function (b, i) {
+      on(b, 'click', function () { showMode(i === 0 ? 'withdraw' : 'management'); });
+    });
+
+    /* 管理分頁內層 Bank/Crypto 切換 */
+    var mgmtTabBtns = $all('[data-mgmt-tab]', mgmtSection);
+    mgmtTabBtns.forEach(function (b) {
+      on(b, 'click', function () {
+        var which = b.getAttribute('data-mgmt-tab');
+        mgmtTabBtns.forEach(function (x) { x.classList.toggle('active', x === b); });
+        mgmtSection.querySelector('[data-mgmt-bank]').style.display = which === 'bank' ? '' : 'none';
+        mgmtSection.querySelector('[data-mgmt-crypto]').style.display = which === 'crypto' ? '' : 'none';
+      });
+    });
+
+    /* 提款 Crypto 面板的「Add wallet」→ 跳到管理分頁的 Crypto 子頁 */
+    on(cryptoSection.querySelector('[data-add-wallet]'), 'click', function () {
+      showMode('management');
+      var cryptoTab = mgmtSection.querySelector('[data-mgmt-tab="crypto"]');
+      if (cryptoTab) cryptoTab.click();
     });
   }
 
@@ -1657,6 +1861,136 @@
 
   /* ============================ data-backoffice hint ======================= */
 
+  /* ============================================================
+   * 業主回報批次:CS 側欄鈕、View More Records、member 頁 Back
+   * ========================================================== */
+  function initMemberQuickLinks() {
+    $all('aside button').forEach(function (b) {
+      var s = b.querySelector('span');
+      if (s && s.textContent.trim() === 'Customer Service') {
+        on(b, 'click', function () { location.href = 'support.html'; });
+      }
+    });
+    if (pageName() === 'account') {
+      $all('button').forEach(function (b) {
+        if (b.textContent.trim().indexOf('View More Records') === 0) {
+          on(b, 'click', function () { location.href = 'account-record.html'; });
+        }
+      });
+    }
+    var memberPages = ['account-record', 'banking-details', 'betting-record', 'change-nickname',
+      'change-password', 'deposit', 'deposit-record', 'personal-info', 'profit-loss',
+      'security', 'support', 'withdrawal', 'withdrawal-record'];
+    if (memberPages.indexOf(pageName()) !== -1 && !document.querySelector('[data-member-back]')) {
+      var h1 = document.querySelector('h1');
+      if (h1) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.setAttribute('data-member-back', '');
+        btn.className = 'flex items-center gap-2 text-ink-3 hover:text-ink text-sm mb-4 bg-transparent border-0 cursor-pointer p-0';
+        btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg><span>Back</span>';
+        on(btn, 'click', function () {
+          if (window.history.length > 1) window.history.back();
+          else location.href = 'account.html';
+        });
+        h1.parentElement.insertBefore(btn, h1);
+      }
+    }
+  }
+
+  /* ============================================================
+   * 存款非銀行方式的 QR 中繼步驟(pages/deposit.vue step==='qr' 對應;
+   * QR 一律黑白不套 token — 業主 2026-07-17 掃碼對比鐵則)
+   * ========================================================== */
+  var QR_SIZE = 21;
+  var QR_FINDERS = [{ x: 0, y: 0 }, { x: QR_SIZE - 7, y: 0 }, { x: 0, y: QR_SIZE - 7 }];
+  function qrIsFinderZone(x, y) {
+    return QR_FINDERS.some(function (p) { return x >= p.x && x < p.x + 7 && y >= p.y && y < p.y + 7; });
+  }
+  function qrSeededModules(seed) {
+    var hash = 0, i;
+    for (i = 0; i < seed.length; i += 1) hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
+    var cells = [];
+    for (var y = 0; y < QR_SIZE; y += 1) {
+      for (var x = 0; x < QR_SIZE; x += 1) {
+        if (qrIsFinderZone(x, y)) continue;
+        hash = (hash * 1103515245 + 12345) >>> 0;
+        if (((hash >>> 16) & 1) === 1) cells.push({ x: x, y: y });
+      }
+    }
+    return cells;
+  }
+  function qrSvgHtml(seed, altText) {
+    var parts = ['<svg viewBox="-2 -2 25 25" class="h-[196px] w-[196px]" role="img" aria-label="' + escapeHtml(altText) + '">',
+      '<rect x="-2" y="-2" width="25" height="25" fill="#ffffff" />'];
+    QR_FINDERS.forEach(function (p) {
+      parts.push('<rect x="' + p.x + '" y="' + p.y + '" width="7" height="7" fill="#000000" />');
+      parts.push('<rect x="' + (p.x + 1) + '" y="' + (p.y + 1) + '" width="5" height="5" fill="#ffffff" />');
+      parts.push('<rect x="' + (p.x + 2) + '" y="' + (p.y + 2) + '" width="3" height="3" fill="#000000" />');
+    });
+    qrSeededModules(seed).forEach(function (c) {
+      parts.push('<rect x="' + c.x + '" y="' + c.y + '" width="1" height="1" fill="#000000" />');
+    });
+    parts.push('</svg>');
+    return parts.join('');
+  }
+  function showDepositQrStep(methodId) {
+    var qrData = D.DEPOSIT_QR || {};
+    var t8 = qrData[currentLocale() === 'zh' ? 'zh' : 'en'] || qrData.en || {};
+    var addr = (qrData.addresses || {})[methodId] || (qrData.addresses || {}).linepay || '';
+    var isAddress = methodId === 'trc20' || methodId === 'erc20';
+    var formCard = document.querySelector('.payment-card');
+    var gatewayTabs = document.querySelector('.mode-tabs');
+    var paymentTabs = document.querySelector('.payment-tabs');
+    if (!formCard) return;
+    [gatewayTabs, paymentTabs, formCard].forEach(function (el) { if (el) el.style.display = 'none'; });
+    var section = document.createElement('section');
+    section.className = 'payment-card text-center';
+    section.setAttribute('data-deposit-qr', '');
+    section.innerHTML =
+      '<div class="transfer-pill">' + escapeHtml(t8.pill || 'Scan to Pay') + '</div>' +
+      '<p class="text-ink-2 text-sm md:text-base mb-6">' + escapeHtml(t8.hint || '') + '</p>' +
+      '<div class="mb-6 flex w-full justify-center"><div class="rounded-ui overflow-hidden">' +
+      qrSvgHtml(methodId + '|' + addr, t8.altText || 'Payment QR code') + '</div></div>' +
+      '<div class="mx-auto mb-2 max-w-md text-left">' +
+      '<label class="mb-2 block text-sm font-semibold text-ink-2">' + escapeHtml(isAddress ? (t8.addressLabel || 'Payment Address') : (t8.linkLabel || 'Payment Link')) + '</label>' +
+      '<div class="flex gap-2.5"><input class="pay-field" value="' + escapeHtml(addr) + '" readonly>' +
+      '<button type="button" class="btn-ghost btn-md shrink-0" data-qr-copy>' + escapeHtml(t8.copy || 'Copy') + '</button></div></div>' +
+      '<p class="mx-auto mb-6 max-w-md text-xs text-ink-3 md:text-sm">' + escapeHtml(t8.note || '') + '</p>' +
+      '<div class="flex items-center justify-between gap-4">' +
+      '<button type="button" class="btn-back" data-qr-back>' + escapeHtml(t8.back || 'Back') + '</button>' +
+      '<button type="button" class="complete" data-qr-next><span>' + escapeHtml(t8.confirm || 'Next') + '</span></button></div>';
+    formCard.parentElement.insertBefore(section, formCard.nextSibling);
+    on(section.querySelector('[data-qr-copy]'), 'click', function (e) {
+      var b = e.currentTarget;
+      try { navigator.clipboard.writeText(addr); } catch (err) { /* clipboard 不可用,占位流程靜默略過 */ }
+      b.textContent = t8.copied || 'Copied';
+      setTimeout(function () { b.textContent = t8.copy || 'Copy'; }, 1500);
+    });
+    on(section.querySelector('[data-qr-back]'), 'click', function () {
+      section.remove();
+      [gatewayTabs, paymentTabs, formCard].forEach(function (el) { if (el) el.style.display = ''; });
+    });
+    on(section.querySelector('[data-qr-next]'), 'click', function () {
+      section.remove();
+      if (methodId === 'linepay') {
+        var amountInput = document.querySelector('.pay-field[aria-label="Deposit amount"]');
+        showDepositTransferStep(amountInput ? amountInput.value : '₩ 10,000');
+      } else {
+        [gatewayTabs, paymentTabs, formCard].forEach(function (el) { if (el) el.style.display = ''; });
+        showMemberModal({ type: 'success', message: 'Your deposit application has been submitted.' });
+      }
+    });
+  }
+  function activeDepositMethodId() {
+    var active = document.querySelector('.payment-tabs button.active');
+    var label = active ? active.textContent.trim() : 'Bank Card';
+    if (/LinePay/i.test(label)) return 'linepay';
+    if (/TRC20/i.test(label)) return 'trc20';
+    if (/ERC20/i.test(label)) return 'erc20';
+    return 'bank';
+  }
+
   function initBackofficeHint() {
     $all('[data-backoffice]').forEach(function (el) {
       on(el, 'click', function (e) {
@@ -1696,5 +2030,9 @@
     initBankingDetailsPage();
     initSecurityPage();
     initBackofficeHint();
+    initMemberQuickLinks();
+    initPublicConfigSync();
+    /* 開機套用已存語系(zh 基準時仍需把 about/FAQ 英文內文換成中文) */
+    applyLocale(currentLocale(), false);
   });
 })();
