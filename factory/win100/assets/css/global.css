@@ -54,3 +54,13 @@
 .cs-opt-text strong { font-size: 14px; color: rgb(var(--c-text)); }
 .cs-opt-text small { font-size: 11.5px; color: rgb(var(--c-text-3)); font-weight: 400; }
 .cs-opt-arrow { color: rgb(var(--c-text-3)); font-size: 20px; flex-shrink: 0; }
+
+/* qr-rail 在窄螢幕會撞到 hero 輪播的 next 箭頭(該箭頭在手機版改成
+   bottom:14px 貼著 hero 底部);qr-rail 原本 top:50% + translateY(-58%)
+   是相對整個 viewport 置中,往下調讓兩者錯開(業主 2026-07-20)。 */
+@media (max-width: 768px) {
+  .qr-rail {
+    top: 64%;
+    transform: translateY(-50%);
+  }
+}

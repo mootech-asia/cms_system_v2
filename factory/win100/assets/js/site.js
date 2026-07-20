@@ -168,6 +168,7 @@
    * 原文,都能一次比對命中。
    * ========================================================== */
   var LOCALE_KEY = 'win100-locale';
+  var LOGIN_KEY = 'win100-logged-in';
   var LOCALE_CODES = ['zh', 'en', 'ko', 'th'];
   function currentLocale() {
     try {
@@ -496,7 +497,16 @@
     ],
   };
   var AUTH_TITLES = { login: 'Login', register: 'Register', forgot: 'Forgot Password' };
-  var authState = { loggedIn: false };
+  function readPersistedLogin() {
+    try { return localStorage.getItem(LOGIN_KEY) === '1'; } catch (e) { return false; }
+  }
+  function persistLogin(loggedIn) {
+    try {
+      if (loggedIn) localStorage.setItem(LOGIN_KEY, '1');
+      else localStorage.removeItem(LOGIN_KEY);
+    } catch (e) {}
+  }
+  var authState = { loggedIn: readPersistedLogin() };
 
   function authFieldError(name, values) {
     var raw = values[name] || '';
@@ -586,7 +596,7 @@
       loginBtn.remove();
       registerBtn.remove();
       bar.insertAdjacentHTML('afterbegin', html);
-      on(bar.querySelector('[data-logout]'), 'click', function () { location.reload(); });
+      on(bar.querySelector('[data-logout]'), 'click', function () { persistLogin(false); location.reload(); });
     });
   }
 
@@ -607,6 +617,7 @@
     on(submitBtn, 'click', function () {
       if (mode === 'login') {
         authState.loggedIn = true;
+        persistLogin(true);
         closeAuth();
         applyLoggedInHeaderUI();
         return;
@@ -634,6 +645,7 @@
         return;
       }
       authState.loggedIn = true;
+      persistLogin(true);
       closeAuth();
       applyLoggedInHeaderUI();
     });
@@ -659,6 +671,7 @@
   }
 
   function initAuthTriggers() {
+    if (authState.loggedIn) { applyLoggedInHeaderUI(); return; }
     $all('header button').forEach(function (btn) {
       var text = (btn.textContent || '').trim();
       if (text === (D.T || {}).login) on(btn, 'click', function () { openAuth('login'); });
