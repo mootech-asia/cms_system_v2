@@ -181,3 +181,51 @@
     grid-column: span 3 / span 3;
   }
 }
+
+/* 收藏(業主 2026-07-21:恢復轉靜態站時遺失的收藏功能)— GameCard 右下角的
+   心型收藏按鈕,疊在 buildGameCard() 的 .aspect-[4/3] 圖片包裝層內(與現有
+   left/top 的 live 徽章共用同一層 relative 定位邏輯,只是換到對角)。預設為
+   outline 心型(muted token),收藏後(.is-active)填滿並改用 --c-danger,
+   呼應 live 徽章紅點的既有配色語彙。僅用 themes/*.css token,不用任意色碼。 */
+.fav-toggle {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  border: 1px solid rgb(var(--c-border-soft));
+  background-color: rgb(var(--c-bg) / .72);
+  color: rgb(var(--c-text-3));
+  cursor: pointer;
+  transition: color .15s, border-color .15s, background-color .15s;
+}
+.fav-toggle svg {
+  width: 16px;
+  height: 16px;
+}
+.fav-toggle:hover {
+  color: rgb(var(--c-danger));
+  border-color: rgb(var(--c-danger));
+}
+.fav-toggle.is-active {
+  color: rgb(var(--c-danger));
+  border-color: rgb(var(--c-danger) / .5);
+}
+.fav-toggle.is-active svg {
+  fill: currentColor;
+}
+
+/* Favorites 頁簽的空狀態(vnd-head 之後,重用既有的 game-grid 容器,
+   跨版位橫向撐滿一整列)。 */
+.fav-empty {
+  grid-column: 1 / -1;
+  padding: 64px 16px;
+  text-align: center;
+  font-size: 14px;
+  color: rgb(var(--c-text-3));
+}

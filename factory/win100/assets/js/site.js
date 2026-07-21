@@ -58,6 +58,76 @@
     return s.length > 10 ? s.slice(0, 6) + '...' + s.slice(-4) : s;
   }
 
+  /* ============================== favorites ============================== */
+  /* 收藏(restores the feature dropped in the Nuxt→static conversion —
+     VendorBrowser game grids + CategoryView used to carry an All/Favorites
+     tab and a heart toggle per GameCard). Games have no stable id in this
+     static rebuild, so a composite id is used: `kind|provider|i` (kind +
+     index into that provider's generated grid); for kind==='live' the id is
+     `live|<game name>` instead, since LIVE_GAME_NAMES is a stable enum that
+     doesn't depend on which vendor's grid the card happened to render under.
+     Persisted to localStorage as a plain JSON array of these id strings. */
+
+  var FAVORITES_KEY = 'win100-static-favorites';
+  function favoriteIds() {
+    try {
+      var raw = JSON.parse(window.localStorage.getItem(FAVORITES_KEY) || '[]');
+      return Array.isArray(raw) ? raw : [];
+    } catch (e) { return []; }
+  }
+  function saveFavoriteIds(ids) {
+    try { window.localStorage.setItem(FAVORITES_KEY, JSON.stringify(ids)); } catch (e) { /* ignore */ }
+  }
+  function isFavorite(id) { return favoriteIds().indexOf(id) !== -1; }
+  function toggleFavorite(id) {
+    var ids = favoriteIds();
+    var idx = ids.indexOf(id);
+    if (idx === -1) ids.push(id); else ids.splice(idx, 1);
+    saveFavoriteIds(ids);
+    return idx === -1; /* true = now favorited */
+  }
+  function favIdFor(provider, i, kind) {
+    if (kind === 'live') {
+      var names = D.LIVE_GAME_NAMES || ['Game'];
+      return kind + '|' + names[i % names.length];
+    }
+    return kind + '|' + provider + '|' + i;
+  }
+  function parseFavId(id) {
+    var sep = id.indexOf('|');
+    var kind = id.slice(0, sep);
+    var rest = id.slice(sep + 1);
+    if (kind === 'live') return { kind: kind, provider: '', i: (D.LIVE_GAME_NAMES || []).indexOf(rest) };
+    var lastSep = rest.lastIndexOf('|');
+    return { kind: kind, provider: rest.slice(0, lastSep), i: parseInt(rest.slice(lastSep + 1), 10) || 0 };
+  }
+  function favToggleHtml(id) {
+    var T = D.T || {};
+    var active = isFavorite(id);
+    return '<button type="button" class="fav-toggle' + (active ? ' is-active' : '') + '" data-fav-id="' +
+      escapeHtml(id) + '" aria-pressed="' + active + '" aria-label="' + escapeHtml(T.favorites || 'Favorites') + '">' +
+      iconSvg('heart') + '</button>';
+  }
+  /* Document-level delegation (not scoped to any one container) so the
+     toggle keeps working across re-renders — cards are rebuilt wholesale on
+     tab-switch / vendor drill-down, any container-scoped listener would go
+     stale. Cards are themselves clickable (drill-down / play), hence the
+     stopPropagation. */
+  function initFavorites() {
+    on(document, 'click', function (e) {
+      var btn = e.target.closest('.fav-toggle');
+      if (!btn) return;
+      e.stopPropagation();
+      e.preventDefault();
+      var id = btn.getAttribute('data-fav-id');
+      if (!id) return;
+      var active = toggleFavorite(id);
+      btn.classList.toggle('is-active', active);
+      btn.setAttribute('aria-pressed', String(active));
+      document.dispatchEvent(new CustomEvent('win100-favorite-change', { detail: { id: id, active: active } }));
+    });
+  }
+
   /* =============================== theme ================================ */
   /* frontend/app/utils/themes.ts THEME_KEYS/THEME_LABELS + app/app.vue
      (<html data-theme>) + components/SkinSwitcher.vue. entry.*.css already
@@ -1079,10 +1149,12 @@
     var m = operationalMedia(kind, i);
     var T = D.T || {};
     var title = isLive ? (D.LIVE_GAME_NAMES || ['Game'])[i % (D.LIVE_GAME_NAMES || ['Game']).length] : T.gamePlaceholder;
+    var favId = favIdFor(provider, i, kind);
     return '<div class="group cursor-pointer overflow-hidden rounded-lg border border-line-soft bg-surface transition-colors hover:border-primary">' +
       '<div class="aspect-[4/3] relative overflow-hidden">' +
       '<img src="' + m.image + '" alt="' + escapeHtml(title) + '" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" style="object-position:' + m.focalPoint + ';" loading="lazy">' +
       (isLive ? '<div class="absolute inset-0 bg-gradient-to-t from-surface-deep/65 via-transparent to-transparent"></div><span class="absolute left-2 top-2 inline-flex items-center gap-1.5 rounded-full border border-line bg-surface-deep/90 px-2 py-1 text-[10px] font-extrabold tracking-[0.12em] text-ink"><span class="h-1.5 w-1.5 rounded-full bg-danger animate-pulse"></span>' + escapeHtml(T.liveDealer) + '</span>' : '') +
+      favToggleHtml(favId) +
       '</div><div class="p-4"><h3 class="mb-1 truncate text-ink">' + escapeHtml(title) + '</h3><p class="mb-3 truncate text-note text-ink-3">' + escapeHtml(provider) + '</p><button type="button" class="btn-primary btn-sm w-full">' + escapeHtml(T.playNow) + '</button></div></div>';
   }
 
@@ -1097,10 +1169,11 @@
     var vendors = (kind === 'live' ? D.LIVE_VENDORS : D.SLOT_VENDORS) || [];
     var titleEl = head.querySelector('.vnd-title');
     var titleBase = titleEl ? titleEl.textContent.trim() : '';
-    var searchInput = head.querySelector('.vnd-search input');
+    var searchWrap = head.querySelector('.vnd-search');
+    var searchInput = searchWrap ? searchWrap.querySelector('input') : null;
     var T = D.T || {};
     var MAX_LOADS = 3;
-    var state = { provider: null, loads: 0, q: '' };
+    var state = { provider: null, loads: 0, q: '', tab: 'vendor' };
 
     function filteredVendors() {
       var s = state.q.trim().toLowerCase();
@@ -1172,7 +1245,60 @@
         updateLoadMore(true);
       }
     }
-    function renderAll() { renderBack(); renderTitle(); renderGrid(); }
+
+    /* ---- Vendor / Favorites 頁簽(業主 2026-07-21:恢復轉靜態站時遺失的收藏
+       功能,收藏清單為全站共用 — 任一分頁的 Favorites 頁簽都顯示同一份清單,
+       而非只顯示本頁 kind 的收藏)。沿用共用 .mode-tabs,不另創頁簽樣式。 ---- */
+    function favoritesGamesList() {
+      return favoriteIds()
+        .map(parseFavId)
+        .filter(function (p) { return p.kind !== 'live' || p.i !== -1; });
+    }
+    function renderFavorites() {
+      var oldVnd = container.querySelector('.vnd-grid');
+      if (oldVnd) oldVnd.remove();
+      var gGrid = container.querySelector('.grid.grid-cols-2');
+      if (!gGrid) { gGrid = document.createElement('div'); gGrid.className = 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4'; container.appendChild(gGrid); }
+      var list = favoritesGamesList();
+      gGrid.innerHTML = list.length
+        ? list.map(function (p) { return buildGameCard(p.provider, p.i, p.kind); }).join('')
+        : '<div class="fav-empty">' + escapeHtml(T.noFavorites) + '</div>';
+      updateLoadMore(false);
+    }
+    function renderAll() {
+      if (state.tab === 'favorites') {
+        var existingBack = container.querySelector('.btn-back');
+        if (existingBack) existingBack.parentElement.remove();
+        if (searchWrap) searchWrap.style.display = 'none';
+        if (titleEl) { titleEl.classList.remove('vnd-title-inline'); titleEl.textContent = titleBase; }
+        renderFavorites();
+        return;
+      }
+      if (searchWrap) searchWrap.style.display = '';
+      renderBack();
+      renderTitle();
+      renderGrid();
+    }
+
+    var tabsWrap = document.createElement('div');
+    tabsWrap.className = 'mode-tabs';
+    tabsWrap.innerHTML =
+      '<button type="button" class="active">' + escapeHtml(T.vendor) + '</button>' +
+      '<button type="button">' + escapeHtml(T.favorites) + '</button>';
+    head.parentNode.insertBefore(tabsWrap, head.nextSibling);
+    var tabButtons = $all(':scope > button', tabsWrap);
+    tabButtons.forEach(function (btn, ti) {
+      on(btn, 'click', function () {
+        var tab = ti === 0 ? 'vendor' : 'favorites';
+        if (tab === state.tab) return;
+        state.tab = tab;
+        tabButtons.forEach(function (b, bi) { b.classList.toggle('active', bi === ti); });
+        renderAll();
+      });
+    });
+    on(document, 'win100-favorite-change', function () {
+      if (state.tab === 'favorites') renderFavorites();
+    });
 
     on(searchInput, 'input', function () { state.q = searchInput.value; renderGrid(); });
 
@@ -1190,6 +1316,11 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     });
+
+    /* direct(hot-games.html)頁的初始遊戲卡是靜態烘焙、早於收藏功能存在,
+       沒有 heart 按鈕 — 開機時用同一份 buildGameCard 邏輯重繪一次補上;
+       其餘頁面初始畫面是廠商格(baked 已經正確,不需重繪)。 */
+    if (direct) renderGrid();
   }
 
   /* ============================ about.html tabs =========================== */
@@ -2446,6 +2577,7 @@
   /* =================================== boot ================================ */
 
   ready(function () {
+    initFavorites();
     initTheme();
     applyMemberHeaderAccountBar();
     initNavDropdowns();
