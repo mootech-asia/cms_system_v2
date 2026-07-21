@@ -34,6 +34,13 @@
     var seg = (location.pathname.split('/').pop() || 'index.html');
     return seg.replace(/\.html?$/, '') || 'index';
   }
+  /* 會員/帳號頁清單(業主 2026-07-21:圖1帳號列要出現在圖2 member 頁 header)——
+     單一權威清單,member-quick-links 的 Back 按鈕與 header 帳號列注入共用同一份,
+     避免兩處各自維護一份、日後漏改。 */
+  var MEMBER_PAGES = ['account', 'account-record', 'betting-record',
+    'change-password', 'deposit', 'deposit-record', 'personal-info', 'profit-loss',
+    'security', 'support', 'withdrawal', 'withdrawal-record'];
+  function isMemberPage() { return MEMBER_PAGES.indexOf(pageName()) !== -1; }
   function isActivePage(href) {
     var target = href.replace(/\.html$/, '');
     var cur = pageName();
@@ -582,6 +589,30 @@
     );
   }
 
+  /* 已登入帳號列(業主 2026-07-21:圖1帳號列要同步出現在圖2 member 頁 header) ——
+     單一權威 markup,前台頁(取代 Login/Register 鈕)與 member 頁(插入 header
+     右側)共用同一份,不重複維護兩份等價 HTML。 */
+  function accountBarHtml() {
+    var T = D.T || {};
+    return (
+      '<a href="account.html" class="flex text-ink-2 hover:text-ink transition-colors" aria-label="Account">' + iconSvg('user', 'w-5 h-5') + '</a>' +
+      '<a href="account.html" class="flex items-center gap-3 text-ink-2 hover:text-ink transition-colors whitespace-nowrap">' +
+      '<span class="text-ink-2 font-semibold">' + escapeHtml(T.accountId) + '</span><span class="text-ink-2 font-semibold">:</span>' +
+      '<span class="text-ink font-semibold">meqomcao</span>' +
+      '<span class="bg-g-primary text-on-primary text-sm font-bold px-3 py-1 rounded-full leading-none">VIP1</span></a>' +
+      '<span class="h-5 w-px bg-line"></span>' +
+      '<a href="account.html" class="flex items-center gap-2 whitespace-nowrap hover:opacity-90 transition-opacity">' +
+      '<span class="text-ink-3 font-semibold">' + escapeHtml(T.accountBalance) + '</span><span class="text-ink-3 font-semibold">:</span><span class="text-ink font-bold">₩1,000,000,000</span>' +
+      '<span class="text-ink-3 font-semibold ml-2">' + escapeHtml(T.accountPoints) + '</span><span class="text-ink-3 font-semibold">:</span><span class="text-ink font-bold">0.00</span></a>' +
+      '<button type="button" class="flex text-ink-2 hover:text-ink transition-colors" data-logout aria-label="' + escapeHtml(T.logout) + '">' + iconSvg('log-out', 'w-5 h-5') + '</button>'
+    );
+  }
+  function bindAccountBarLogout(root) {
+    $all('[data-logout]', root).forEach(function (btn) {
+      on(btn, 'click', function () { persistLogin(false); location.reload(); });
+    });
+  }
+
   function applyLoggedInHeaderUI() {
     var T = D.T || {};
     $all('header').forEach(function (header) {
@@ -589,21 +620,39 @@
       var registerBtn = $all('button', header).filter(function (b) { return (b.textContent || '').trim() === T.register; })[0];
       if (!loginBtn || !registerBtn) return;
       var bar = loginBtn.parentElement;
-      var html =
-        '<a href="account.html" class="flex text-ink-2 hover:text-ink transition-colors" aria-label="Account">' + iconSvg('user', 'w-5 h-5') + '</a>' +
-        '<a href="account.html" class="flex items-center gap-3 text-ink-2 hover:text-ink transition-colors whitespace-nowrap">' +
-        '<span class="text-ink-2 font-semibold">' + escapeHtml(T.accountId) + ':</span>' +
-        '<span class="text-ink font-semibold">meqomcao</span>' +
-        '<span class="bg-g-primary text-on-primary text-sm font-bold px-3 py-1 rounded-full leading-none">VIP1</span></a>' +
-        '<span class="h-5 w-px bg-line"></span>' +
-        '<a href="account.html" class="flex items-center gap-2 whitespace-nowrap hover:opacity-90 transition-opacity">' +
-        '<span class="text-ink-3 font-semibold">' + escapeHtml(T.accountBalance) + ':</span><span class="text-ink font-bold">₩1,000,000,000</span>' +
-        '<span class="text-ink-3 font-semibold ml-2">' + escapeHtml(T.accountPoints) + ':</span><span class="text-ink font-bold">0.00</span></a>' +
-        '<button type="button" class="flex text-ink-2 hover:text-ink transition-colors" data-logout aria-label="' + escapeHtml(T.logout) + '">' + iconSvg('log-out', 'w-5 h-5') + '</button>';
       loginBtn.remove();
       registerBtn.remove();
-      bar.insertAdjacentHTML('afterbegin', html);
-      on(bar.querySelector('[data-logout]'), 'click', function () { persistLogin(false); location.reload(); });
+      bar.insertAdjacentHTML('afterbegin', accountBarHtml());
+      bindAccountBarLogout(bar);
+    });
+  }
+
+  /* member/帳號頁 header 右側原本沒有桌機版容器(只有 md:hidden 的行動版
+     語系切換+漢堡鈕),故新增一個 hidden md:flex 容器插入同一列,內容沿用
+     accountBarHtml() 並比照桌機版頭部另附一份語系切換觸發鈕(桌機/行動各一份
+     觸發鈕本就是全站既有慣例,見 initLocaleSwitcher 註解)。member 頁本身即代表
+     已登入情境,固定顯示,不看 localStorage 登入旗標。 */
+  function localeTriggerHtml() {
+    return (
+      '<div class="relative"><button class="text-ink-2 hover:text-ink flex items-center gap-1">' +
+      iconSvg('globe', 'w-4 h-4') + '<span>中文</span>' + iconSvg('chevron-down', 'w-3 h-3') +
+      '</button></div>'
+    );
+  }
+  function applyMemberHeaderAccountBar() {
+    if (!isMemberPage()) return;
+    $all('header').forEach(function (header) {
+      if (header.querySelector('[data-member-account-bar]')) return;
+      var mobileWrap = header.querySelector('[class~="md:hidden"]');
+      var row = mobileWrap ? mobileWrap.parentElement : header.querySelector('.flex.items-center.h-16');
+      if (!row) return;
+      var bar = document.createElement('div');
+      bar.className = 'hidden md:flex items-center gap-3 ml-auto text-sm';
+      bar.setAttribute('data-member-account-bar', '');
+      bar.innerHTML = accountBarHtml() + localeTriggerHtml();
+      if (mobileWrap) row.insertBefore(bar, mobileWrap);
+      else row.appendChild(bar);
+      bindAccountBarLogout(bar);
     });
   }
 
@@ -1982,12 +2031,12 @@
     ];
     csModalRoot.innerHTML =
       '<div class="relative m-auto w-full max-w-[400px] rounded-2xl border border-line-soft bg-surface shadow-2xl">' +
-      '<div class="flex items-center gap-[10px] justify-between border-b border-line-soft px-[22px] py-[18px]">' +
-      '<div class="flex items-center gap-[10px]">' +
-      '<span class="cs-modal-ico"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M4 12a8 8 0 0 1 16 0v4a3 3 0 0 1-3 3h-2v-7h5M4 12v4a3 3 0 0 0 3 3h2v-7H4"/></svg></span>' +
+      '<div class="flex items-center justify-between gap-3 border-b border-line-soft px-[22px] py-4">' +
+      '<div class="flex items-center gap-3">' +
+      '<span class="cs-modal-ico"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M4 12a8 8 0 0 1 16 0v4a3 3 0 0 1-3 3h-2v-7h5M4 12v4a3 3 0 0 0 3 3h2v-7H4"/></svg></span>' +
       '<h3 class="m-0 text-lg font-bold text-ink">Customer Service</h3>' +
       '</div>' +
-      '<button class="border-0 bg-transparent p-0 text-[22px] leading-none text-ink-3" data-cs-close>×</button>' +
+      '<button type="button" class="flex-shrink-0 rounded-full p-1.5 text-ink-3 hover:text-ink hover:bg-surface-deep transition-colors" data-cs-close aria-label="Close">' + iconSvg('x', 'w-4 h-4') + '</button>' +
       '</div><div class="p-[22px]">' +
       '<p class="cs-box-title">Select a channel</p>' +
       rows.map(function (r) {
@@ -2017,10 +2066,7 @@
         }
       });
     }
-    var memberPages = ['account-record', 'betting-record',
-      'change-password', 'deposit', 'deposit-record', 'personal-info', 'profit-loss',
-      'security', 'support', 'withdrawal', 'withdrawal-record'];
-    if (memberPages.indexOf(pageName()) !== -1 && !document.querySelector('[data-member-back]')) {
+    if (isMemberPage() && pageName() !== 'account' && !document.querySelector('[data-member-back]')) {
       var h1 = document.querySelector('h1');
       if (h1) {
         var btn = document.createElement('button');
@@ -2399,6 +2445,7 @@
 
   ready(function () {
     initTheme();
+    applyMemberHeaderAccountBar();
     initNavDropdowns();
     initLocaleSwitcher();
     initHeaderMobileMenus();
