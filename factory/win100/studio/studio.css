@@ -1,0 +1,102 @@
+/* CMS_設計後台_v2 靜態版 layout。色彩一律用主題 token rgb(var(--c-*)),不用任意 hex。
+   與現行 Nuxt /studio 並存;右側 iframe 載入真實 factory 前台頁,選皮膚即時反映。 */
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: rgb(var(--c-bg));
+  color: rgb(var(--c-text));
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans TC", sans-serif;
+}
+
+.st-shell {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  height: 100vh;
+}
+
+/* 左側控制欄 */
+.st-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 18px;
+  overflow-y: auto;
+  background: rgb(var(--c-surface));
+  border-right: 1px solid rgb(var(--c-border));
+}
+.st-panel-head { padding-bottom: 12px; border-bottom: 1px solid rgb(var(--c-border-soft)); }
+.st-brand { font-size: 18px; font-weight: 700; color: rgb(var(--c-text)); }
+.st-sub { margin-top: 4px; font-size: 12px; color: rgb(var(--c-text-3)); }
+
+.st-group-title { margin-bottom: 8px; font-size: 12px; font-weight: 600; color: rgb(var(--c-text-2)); }
+
+.st-input {
+  width: 100%;
+  padding: 9px 11px;
+  font-size: 14px;
+  color: rgb(var(--c-text));
+  background: rgb(var(--c-bg));
+  border: 1px solid rgb(var(--c-border));
+  border-radius: 8px;
+  outline: none;
+}
+.st-input:focus { border-color: rgb(var(--c-primary)); }
+
+/* 皮膚清單 */
+.st-skins { display: flex; flex-direction: column; gap: 6px; }
+.st-skin {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1px solid rgb(var(--c-border));
+  border-radius: 8px;
+  background: rgb(var(--c-bg));
+  color: rgb(var(--c-text-2));
+  cursor: pointer;
+  font-size: 14px;
+  text-align: left;
+}
+.st-skin:hover { border-color: rgb(var(--c-primary) / 0.6); }
+.st-skin.active { border-color: rgb(var(--c-primary)); color: rgb(var(--c-text)); font-weight: 600; }
+.st-swatch { width: 18px; height: 18px; border-radius: 50%; flex: 0 0 auto; border: 1px solid rgb(var(--c-border-soft)); }
+.st-skin-check { margin-left: auto; color: rgb(var(--c-primary)); opacity: 0; }
+.st-skin.active .st-skin-check { opacity: 1; }
+
+/* 動作鈕 */
+.st-actions { display: flex; gap: 10px; margin-top: 4px; }
+.st-btn {
+  flex: 1;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+.st-btn-primary { background: rgb(var(--c-primary)); color: rgb(var(--c-on-primary)); }
+.st-btn-primary:hover { opacity: 0.9; }
+.st-btn-ghost { background: transparent; color: rgb(var(--c-text-2)); border-color: rgb(var(--c-border)); }
+.st-btn-ghost:hover { border-color: rgb(var(--c-primary)); color: rgb(var(--c-text)); }
+.st-status { min-height: 16px; font-size: 12px; color: rgb(var(--c-primary)); }
+
+/* 右側預覽 */
+.st-preview { display: flex; flex-direction: column; min-width: 0; background: rgb(var(--c-bg)); }
+.st-preview-bar {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 10px 16px;
+  border-bottom: 1px solid rgb(var(--c-border));
+}
+.st-preview-label { font-size: 14px; font-weight: 600; color: rgb(var(--c-text)); }
+.st-preview-hint { font-size: 12px; color: rgb(var(--c-text-3)); }
+.st-preview-frame { flex: 1; min-height: 0; }
+.st-preview-frame iframe { width: 100%; height: 100%; border: 0; display: block; background: rgb(var(--c-bg)); }
+
+@media (max-width: 860px) {
+  .st-shell { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+  .st-panel { max-height: 42vh; }
+}

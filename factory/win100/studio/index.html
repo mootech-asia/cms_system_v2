@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-Hant" data-theme="win100" class="dark-mode">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CMS_設計後台_v2</title>
+    <link rel="stylesheet" href="../assets/css/app.css" />
+    <link rel="stylesheet" href="../assets/css/global.css" />
+    <link rel="stylesheet" href="../themes/win100.css" />
+    <link rel="stylesheet" href="studio.css" />
+  </head>
+  <body>
+    <div class="st-shell">
+      <!-- 左：控制欄 -->
+      <aside class="st-panel">
+        <div class="st-panel-head">
+          <div class="st-brand">CMS_設計後台_v2</div>
+          <div class="st-sub">設計後台 · 樣式即時反映右側真實前台</div>
+        </div>
+
+        <section class="st-group">
+          <div class="st-group-title">站點名稱</div>
+          <input id="st-sitename" class="st-input" type="text" placeholder="CMS_前台_v2" />
+        </section>
+
+        <section class="st-group">
+          <div class="st-group-title">皮膚</div>
+          <div id="st-skins" class="st-skins" role="listbox" aria-label="皮膚"></div>
+        </section>
+
+        <section class="st-group">
+          <div class="st-group-title">預覽頁面</div>
+          <select id="st-page" class="st-input"></select>
+        </section>
+
+        <div class="st-actions">
+          <button id="st-apply" type="button" class="st-btn st-btn-primary">套用到本站</button>
+          <button id="st-reset" type="button" class="st-btn st-btn-ghost">重設</button>
+        </div>
+        <div id="st-status" class="st-status" role="status" aria-live="polite"></div>
+      </aside>
+
+      <!-- 右：真實前台預覽 -->
+      <main class="st-preview">
+        <div class="st-preview-bar">
+          <span id="st-preview-label" class="st-preview-label">即時預覽 — 首頁</span>
+          <span class="st-preview-hint">iframe 載入真實 factory 前台頁</span>
+        </div>
+        <div class="st-preview-frame">
+          <iframe id="st-frame" title="前台預覽" src="../index.html"></iframe>
+        </div>
+      </main>
+    </div>
+
+    <script src="../assets/js/data.js"></script>
+    <script src="studio.js"></script>
+  </body>
+</html>
