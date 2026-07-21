@@ -43,6 +43,13 @@
     if (document.readyState !== 'loading') fn();
     else document.addEventListener('DOMContentLoaded', fn);
   }
+  /* 錢包位址遮罩:前 6 碼 + … + 後 4 碼(withdrawal.html 管理頁/Crypto 面板與
+     account.html Crypto Wallet 卡共用同一份遮罩規則,業主:圖3圖4 銀行同步鐵則
+     比照套用到 Crypto Wallet)*/
+  function walletMask(addr) {
+    var s = addr || '';
+    return s.length > 10 ? s.slice(0, 6) + '...' + s.slice(-4) : s;
+  }
 
   /* =============================== theme ================================ */
   /* frontend/app/utils/themes.ts THEME_KEYS/THEME_LABELS + app/app.vue
@@ -1571,6 +1578,27 @@
     });
   }
 
+  /* ---- account.html Crypto Wallet card — synced from D.WALLET_ACCOUNTS
+     (same array withdrawal.html?tab=management writes to; capped at 1 entry
+     so no carousel, unlike the bank card above) ------------------------- */
+
+  function initAccountWalletCard() {
+    if (pageName() !== 'account') return;
+    var body = document.querySelector('[data-account-wallet-body]');
+    if (!body) return;
+    var wallets = D.WALLET_ACCOUNTS || [];
+    if (!wallets.length) {
+      body.className = 'bound-wallet';
+      body.innerHTML = '<div class="coin-empty coin-md">₿</div><div>Empty wallet list</div>';
+    } else {
+      var w = wallets[0];
+      body.className = 'registered-card';
+      body.innerHTML = '<div class="bank-logo">₿</div>' +
+        '<div><strong>' + escapeHtml(w.type) + '</strong><span>' + escapeHtml(walletMask(w.address)) + '</span>' +
+        '<span>' + escapeHtml(w.bindDate || '') + '</span></div>';
+    }
+  }
+
   /* 提款頁銀行卡輪播與「帳戶管理」共用同一份 D.BANK_ACCOUNTS(業主:圖3圖4 要同步);
      管理頁新增帳戶後透過這個 api 讓輪播即時反映。 */
   var withdrawalCarouselApi = null;
@@ -1724,11 +1752,8 @@
     }
     renderMgmtList();
 
-    /* 錢包管理清單(業主:圖3圖4 銀行同步鐵則比照套用到 Crypto Wallet)*/
-    function walletMask(addr) {
-      var s = addr || '';
-      return s.length > 10 ? s.slice(0, 6) + '...' + s.slice(-4) : s;
-    }
+    /* 錢包管理清單(業主:圖3圖4 銀行同步鐵則比照套用到 Crypto Wallet;
+       walletMask 已上移為檔案層共用函式,見上方 utils)*/
     function renderMgmtWalletList() {
       var wrap = mgmtSection.querySelector('[data-mgmt-wallet-list]');
       var count = mgmtSection.querySelector('[data-mgmt-wallet-count]');
@@ -2392,6 +2417,7 @@
     initMemberPageBehaviors();
     initMfEyeToggles();
     initAccountBankCarousel();
+    initAccountWalletCard();
     initWithdrawalBankCarousel();
     initWithdrawalForms();
     initPersonalInfoPage();
