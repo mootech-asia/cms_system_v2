@@ -1,5 +1,9 @@
 # Claude Latest Handoff
 
+> ⏭️ **2026-07-21 最新交接 → 先讀 `docs/HANDOFF-2026-07-21.md`**（bug 修復批次已完成上
+> main 並 promote;工廠純 HTML 化路線圖 task #1–6、v3 i18n 重建進行中）。以下 2026-07-19
+> 段落為部署機制底本,仍適用。
+
 > Updated: 2026-07-19 (Asia/Taipei)
 > Repository: `mootech-asia/cms_system_v2`
 > Status: `main` switched and **promoted to production**. Live and verified: pure-HTML
