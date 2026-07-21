@@ -96,6 +96,17 @@ body {
 .st-preview-frame { flex: 1; min-height: 0; }
 .st-preview-frame iframe { width: 100%; height: 100%; border: 0; display: block; background: rgb(var(--c-bg)); }
 
+/* 多選核取(客戶後台「開放皮膚 / 開放語言」共用) */
+.st-checks { display: flex; flex-direction: column; gap: 4px; }
+.st-check {
+  display: flex; align-items: center; gap: 9px;
+  padding: 7px 9px; border-radius: 8px; cursor: pointer;
+  font-size: 14px; color: rgb(var(--c-text-2));
+}
+.st-check:hover { background: rgb(var(--c-surface-2, var(--c-surface))); }
+.st-check input { accent-color: rgb(var(--c-primary)); width: 15px; height: 15px; }
+.st-hint { font-size: 11px; color: rgb(var(--c-text-4, var(--c-text-3))); margin-top: 4px; }
+
 @media (max-width: 860px) {
   .st-shell { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
   .st-panel { max-height: 42vh; }

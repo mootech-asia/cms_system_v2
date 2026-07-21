@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-Hant" data-theme="win100" class="dark-mode">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CMS_後台_v2</title>
+    <link rel="stylesheet" href="../assets/css/app.css" />
+    <link rel="stylesheet" href="../assets/css/global.css" />
+    <link rel="stylesheet" href="../themes/win100.css" />
+    <link rel="stylesheet" href="../studio/studio.css" />
+  </head>
+  <body>
+    <div class="st-shell">
+      <aside class="st-panel">
+        <div class="st-panel-head">
+          <div class="st-brand">CMS_後台_v2</div>
+          <div class="st-sub">客戶後台 · 站點品牌與開放範圍設定</div>
+        </div>
+
+        <section class="st-group">
+          <div class="st-group-title">站點名稱</div>
+          <input id="ad-sitename" class="st-input" type="text" placeholder="CMS_前台_v2" />
+        </section>
+
+        <section class="st-group">
+          <div class="st-group-title">目前皮膚</div>
+          <div id="ad-skins" class="st-skins" role="listbox" aria-label="目前皮膚"></div>
+        </section>
+
+        <section class="st-group">
+          <div class="st-group-title">開放皮膚(前台可選)</div>
+          <div id="ad-public-skins" class="st-checks"></div>
+          <div class="st-hint">不勾 = 前台開放全部皮膚</div>
+        </section>
+
+        <section class="st-group">
+          <div class="st-group-title">開放語言(前台可選)</div>
+          <div id="ad-public-locales" class="st-checks"></div>
+          <div class="st-hint">不勾 = 前台開放全部語言</div>
+        </section>
+
+        <div class="st-actions">
+          <button id="ad-apply" type="button" class="st-btn st-btn-primary">儲存變更</button>
+          <button id="ad-reset" type="button" class="st-btn st-btn-ghost">重設</button>
+        </div>
+        <div id="ad-status" class="st-status" role="status" aria-live="polite"></div>
+      </aside>
+
+      <main class="st-preview">
+        <div class="st-preview-bar">
+          <span id="ad-preview-label" class="st-preview-label">預覽 — 首頁</span>
+          <span class="st-preview-hint">目前皮膚即時反映;開放範圍於儲存後套用</span>
+        </div>
+        <div class="st-preview-frame">
+          <iframe id="ad-frame" title="前台預覽" src="../index.html"></iframe>
+        </div>
+      </main>
+    </div>
+
+    <script src="../assets/js/data.js"></script>
+    <script src="admin.js"></script>
+  </body>
+</html>
