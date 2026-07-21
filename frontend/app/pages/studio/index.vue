@@ -145,13 +145,6 @@ const resetDraft = () => {
           設計後台 <span class="text-note font-normal text-ink-4">/studio</span>
         </h1>
       </div>
-      <div class="grid w-full grid-cols-1 gap-2 min-[360px]:grid-cols-2 sm:ml-auto sm:flex sm:w-auto">
-        <UiButton class="w-full" label="重設草稿" variant="ghost" size="sm" @click="resetDraft" />
-        <UiButton class="w-full" label="套用到本站" variant="ghost" size="sm" @click="applyToSite" />
-      </div>
-      <div v-if="applied" class="flex w-full min-w-0 flex-wrap gap-2">
-        <UiTag v-if="applied" label="已套用(儲存 API 為占位)" status="ok" />
-      </div>
     </header>
 
     <!-- 手機工作區切換:窄螢幕只顯示一個主要任務,避免控制欄與 iframe 互相擠壓 -->
@@ -176,6 +169,17 @@ const resetDraft = () => {
         class="min-h-0 w-full flex-1 space-y-3 overflow-y-auto border-r-0 border-line-soft bg-surface p-3 sm:p-4 lg:block lg:w-[340px] lg:flex-none lg:border-r"
         :class="studioPane === 'controls' ? 'block' : 'hidden'"
       >
+        <!-- 草稿操作 -->
+        <div>
+          <div class="grid grid-cols-2 gap-2">
+            <UiButton class="w-full" label="重設草稿" variant="ghost" size="sm" @click="resetDraft" />
+            <UiButton class="w-full" label="套用到本站" variant="ghost" size="sm" @click="applyToSite" />
+          </div>
+          <div v-if="applied" class="mt-2 flex w-full min-w-0 flex-wrap gap-2">
+            <UiTag label="已套用(儲存 API 為占位)" status="ok" />
+          </div>
+        </div>
+
         <!-- 站點名稱 + 預覽語言 -->
         <section class="collapse-sec">
           <button type="button" class="collapse-head" :aria-expanded="openGroups.site" @click="toggleGroup('site')">
@@ -192,7 +196,7 @@ const resetDraft = () => {
             </div>
             <div>
               <h3 class="mb-2 text-note font-bold tracking-wide2 text-ink-3">預覽語言</h3>
-              <div class="flex flex-wrap gap-2">
+              <div class="grid grid-cols-2 gap-2">
                 <button
                   v-for="item in locales" :key="item.code" type="button"
                   class="seg-btn"
@@ -215,7 +219,7 @@ const resetDraft = () => {
           </button>
           <div v-show="openGroups.skin" class="collapse-body">
             <p class="mb-2 text-note text-ink-4">本站套用</p>
-            <div class="flex flex-wrap gap-2">
+            <div class="grid grid-cols-2 gap-2">
               <button
                 v-for="k in THEME_KEYS" :key="k" type="button"
                 class="seg-btn"
@@ -224,7 +228,7 @@ const resetDraft = () => {
               >{{ themeLabel(k) }}</button>
             </div>
             <p class="mb-2 mt-3 text-note text-ink-4">前台可見</p>
-            <div class="flex flex-wrap gap-2">
+            <div class="grid grid-cols-2 gap-2">
               <button
                 v-for="k in THEME_KEYS" :key="`public-${k}`" type="button"
                 role="checkbox"
@@ -235,7 +239,7 @@ const resetDraft = () => {
               >{{ isPublicSkin(k) ? '✓ ' : '' }}{{ themeLabel(k) }}</button>
             </div>
             <p class="mb-2 mt-3 text-note text-ink-4">前台可見語言</p>
-            <div class="flex flex-wrap gap-2">
+            <div class="grid grid-cols-2 gap-2">
               <button
                 v-for="item in APP_LOCALES" :key="`public-locale-${item.code}`" type="button"
                 role="checkbox"
