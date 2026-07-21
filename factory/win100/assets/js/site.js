@@ -2114,6 +2114,64 @@
     });
   }
 
+  /* ======================== auto-refresh countdown badge ==================== */
+  /* deposit-record / profit-loss / withdrawal-record 頁的「Auto refresh in
+     30 s」倒數徽章。文案改用 D.AUTO_REFRESH_TMPL 逐語系模板(而非 SWEEP_PAIRS
+     精確字串比對)——因為數字在句子中間持續變動,且 zh/ko 語序把數字放最前面、
+     與 en/th「固定前綴 + 數字」的語序不同,固定前綴/後綴 + 動態數字的 DOM 拆法
+     在四語系間無法通用,只能整句模板替換。此站為純靜態展示,無後端可打,
+     「刷新」動作以資料表容器 pulse 一下作為可見回饋(復用既有 .animate-pulse,
+     不新增樣式;不虛構資料、不打網路請求)。 */
+  function findRefreshFlashTarget(label) {
+    var node = label;
+    while (node && node !== document.body) {
+      var sib = node.nextElementSibling;
+      if (sib && sib.querySelector && sib.querySelector('.p-datatable')) return sib;
+      node = node.parentElement;
+    }
+    return null;
+  }
+  function initAutoRefresh() {
+    var label = $('[data-refresh-label]');
+    if (!label) return;
+    var btn = $('[data-refresh-now]');
+    var flashTarget = findRefreshFlashTarget(label);
+    var counter = 30;
+    var timer = null;
+
+    function render() {
+      var tmpl = (D.AUTO_REFRESH_TMPL || {})[currentLocale()] || (D.AUTO_REFRESH_TMPL || {}).en || 'Auto refresh in {n} s';
+      label.textContent = tmpl.replace('{n}', counter);
+    }
+    function doRefresh() {
+      if (!flashTarget) return;
+      flashTarget.classList.remove('animate-pulse');
+      void flashTarget.offsetWidth; /* force reflow so re-triggering restarts the animation from frame 0 */
+      flashTarget.classList.add('animate-pulse');
+      setTimeout(function () { flashTarget.classList.remove('animate-pulse'); }, 2000);
+    }
+    function restartTimer() {
+      if (timer) clearInterval(timer);
+      timer = setInterval(function () {
+        counter -= 1;
+        if (counter <= 0) {
+          doRefresh();
+          counter = 30;
+        }
+        render();
+      }, 1000);
+    }
+
+    render();
+    restartTimer();
+    on(btn, 'click', function () {
+      doRefresh();
+      counter = 30;
+      render();
+      restartTimer();
+    });
+  }
+
   /* =================================== boot ================================ */
 
   ready(function () {
@@ -2143,6 +2201,7 @@
     initSecurityPage();
     initBackofficeHint();
     initMemberQuickLinks();
+    initAutoRefresh();
     initPublicConfigSync();
     /* 開機套用已存語系(zh 基準時仍需把 about/FAQ 英文內文換成中文),
        並掛上 observer 讓其後動態產生的節點自動套用當前語系 */

@@ -491,6 +491,16 @@
     }
   };
 
+  // ---- auto-refresh countdown template (word order differs per locale,
+  //      so SWEEP_PAIRS exact-string swap can't cover the moving number —
+  //      see initAutoRefresh() in site.js) ----
+  var AUTO_REFRESH_TMPL = {
+    "zh": "{n} 秒後自動刷新",
+    "en": "Auto refresh in {n} s",
+    "ko": "{n}초 후 자동 새로고침",
+    "th": "รีเฟรชอัตโนมัติใน {n} วินาที"
+  };
+
   // ---- FAQ translations (about.vue faq[] EN -> zh-TW/ko/th) ----
   var FAQ_ZH = {
     "General Information": "一般資訊",
@@ -645,6 +655,7 @@
     "Completed": "已完成",
     "Confirm": "確認",
     "Confirm your password": "請再次輸入密碼",
+    "Content": "內容",
     "Crypto": "加密貨幣",
     "Crypto Wallet": "加密錢包",
     "Current Balance": "目前餘額",
@@ -933,6 +944,7 @@
     "Completed": "완료",
     "Confirm": "확인",
     "Confirm your password": "비밀번호를 확인해 주세요",
+    "Content": "내용",
     "Crypto": "암호화폐",
     "Crypto Wallet": "암호화폐 지갑",
     "Current Balance": "현재 잔액",
@@ -1221,6 +1233,7 @@
     "Completed": "เสร็จสมบูรณ์",
     "Confirm": "ยืนยัน",
     "Confirm your password": "ยืนยันรหัสผ่านของคุณ",
+    "Content": "เนื้อหา",
     "Crypto": "คริปโต",
     "Crypto Wallet": "กระเป๋าเงินคริปโต",
     "Current Balance": "ยอดคงเหลือปัจจุบัน",
@@ -1482,6 +1495,7 @@
     DEPOSIT_GATEWAYS: DEPOSIT_GATEWAYS,
     LOCALES: LOCALES,
     I18N: I18N,
+    AUTO_REFRESH_TMPL: AUTO_REFRESH_TMPL,
     FAQ_ZH: FAQ_ZH,
     FAQ_KO: FAQ_KO,
     FAQ_TH: FAQ_TH,
