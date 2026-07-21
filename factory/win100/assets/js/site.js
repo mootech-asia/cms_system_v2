@@ -2172,6 +2172,204 @@
     });
   }
 
+  /* ============================ date range filter ======================== */
+  /* Record pages (betting/deposit/withdrawal/account-record, profit-loss)
+     ship a baked PrimeVue "p-datepicker-input" + dropdown button + Confirm
+     button with no runtime behind them. Owner wants the single-field look
+     kept (no HTML edits, no split into two native <input type=date>), so
+     this builds a small vanilla range-calendar popup anchored under the
+     input and wires Confirm to hide/show <tbody> rows by their first
+     YYYY-MM-DD cell. Rows with no parseable date (profit-loss.html's
+     game-type aggregates) are always left visible — Confirm is then a
+     graceful no-op there. */
+
+  function drpParseRange(v) {
+    var m = /^(\d{4})-(\d{2})-(\d{2})\s*~\s*(\d{4})-(\d{2})-(\d{2})$/.exec((v || '').trim());
+    if (!m) return null;
+    var start = new Date(+m[1], +m[2] - 1, +m[3], 0, 0, 0, 0);
+    var end = new Date(+m[4], +m[5] - 1, +m[6], 23, 59, 59, 999);
+    if (end < start) { var t = start; start = end; end = t; }
+    return { start: start, end: end };
+  }
+
+  function drpRowDate(tr) {
+    var cells = tr.children;
+    for (var i = 0; i < cells.length; i++) {
+      var m = /\d{4}-\d{2}-\d{2}/.exec(cells[i].textContent || '');
+      if (m) return new Date(m[0] + 'T00:00:00');
+    }
+    return null;
+  }
+
+  function drpApplyFilter(table, rawValue) {
+    if (!table) return;
+    var range = drpParseRange(rawValue);
+    $all('tbody tr', table).forEach(function (tr) {
+      var d = drpRowDate(tr);
+      if (!d) { tr.style.display = ''; return; } /* dateless row: always visible */
+      tr.style.display = (!range || (d >= range.start && d <= range.end)) ? '' : 'none';
+    });
+  }
+
+  function drpFindToolbar(input) {
+    var node = input.parentElement;
+    while (node && node !== document.body) {
+      if (node.classList && node.classList.contains('mb-4') && node.classList.contains('flex')) return node;
+      node = node.parentElement;
+    }
+    return input.parentElement;
+  }
+
+  function drpFindConfirmBtn(toolbar) {
+    return $all('button.btn-primary', toolbar).filter(function (b) {
+      return /confirm|確認/i.test((b.textContent || '').trim());
+    })[0] || $('button.btn-primary', toolbar);
+  }
+
+  function drpFindTable(toolbar) {
+    var scope = (toolbar && toolbar.parentElement) || document;
+    return $('table', scope) || document.querySelector('table');
+  }
+
+  var DRP_WEEKDAYS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+
+  function initDateRangeFilter() {
+    var input = $('input.p-datepicker-input');
+    if (!input) return;
+
+    var toolbar = drpFindToolbar(input);
+    var dropdownBtn = $('button.p-datepicker-dropdown', toolbar) || document.querySelector('button.p-datepicker-dropdown');
+    var confirmBtn = drpFindConfirmBtn(toolbar);
+    var table = drpFindTable(toolbar);
+
+    input.readOnly = true;
+
+    var today = new Date();
+    var viewYear = today.getFullYear();
+    var viewMonth = today.getMonth();
+    var selStart = null;
+    var selEnd = null;
+
+    var pop = document.createElement('div');
+    pop.className = 'drp-pop';
+    pop.style.display = 'none';
+    pop.setAttribute('role', 'dialog');
+    document.body.appendChild(pop);
+
+    function sameDay(a, b) {
+      return !!a && !!b && a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+    }
+    function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+    function fmt(d) { return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()); }
+
+    function render() {
+      var cells = [];
+      var first = new Date(viewYear, viewMonth, 1);
+      var offset = first.getDay();
+      var total = new Date(viewYear, viewMonth + 1, 0).getDate();
+      for (var i = 0; i < offset; i++) cells.push(null);
+      for (var d = 1; d <= total; d++) cells.push(new Date(viewYear, viewMonth, d));
+
+      var rangeStart = selStart && selEnd ? (selStart < selEnd ? selStart : selEnd) : selStart;
+      var rangeEnd = selStart && selEnd ? (selStart < selEnd ? selEnd : selStart) : null;
+
+      var html = '<div class="drp-head">' +
+        '<button type="button" class="drp-nav" data-drp-nav="-1" aria-label="Prev">‹</button>' +
+        '<span class="drp-label">' + viewYear + ' / ' + pad2(viewMonth + 1) + '</span>' +
+        '<button type="button" class="drp-nav" data-drp-nav="1" aria-label="Next">›</button>' +
+        '<button type="button" class="drp-clear" data-drp-clear aria-label="Clear">✕</button>' +
+        '</div><div class="drp-week">' +
+        DRP_WEEKDAYS.map(function (w) { return '<span>' + w + '</span>'; }).join('') +
+        '</div><div class="drp-grid">' +
+        cells.map(function (c) {
+          if (!c) return '<span class="drp-day is-empty"></span>';
+          var cls = 'drp-day';
+          if (rangeStart && sameDay(c, rangeStart)) cls += ' is-start';
+          if (rangeEnd && sameDay(c, rangeEnd)) cls += ' is-end';
+          if (rangeStart && rangeEnd && c > rangeStart && c < rangeEnd) cls += ' is-in-range';
+          if (!rangeEnd && rangeStart && sameDay(c, rangeStart)) cls += ' is-end';
+          return '<button type="button" class="' + cls + '" data-drp-day="' + fmt(c) + '">' + c.getDate() + '</button>';
+        }).join('') +
+        '</div>';
+      pop.innerHTML = html;
+    }
+
+    function position() {
+      var r = input.getBoundingClientRect();
+      pop.style.left = (r.left + window.scrollX) + 'px';
+      pop.style.top = (r.bottom + window.scrollY + 6) + 'px';
+    }
+
+    function open() {
+      var range = drpParseRange(input.value);
+      if (range) { viewYear = range.start.getFullYear(); viewMonth = range.start.getMonth(); }
+      render();
+      position();
+      pop.style.display = 'block';
+      document.addEventListener('mousedown', onOutside, true);
+      document.addEventListener('keydown', onKey, true);
+      window.addEventListener('scroll', position, true);
+      window.addEventListener('resize', position);
+    }
+    function close() {
+      pop.style.display = 'none';
+      document.removeEventListener('mousedown', onOutside, true);
+      document.removeEventListener('keydown', onKey, true);
+      window.removeEventListener('scroll', position, true);
+      window.removeEventListener('resize', position);
+    }
+    function isOpen() { return pop.style.display !== 'none'; }
+    function toggle() { if (isOpen()) close(); else open(); }
+    function onOutside(e) {
+      if (pop.contains(e.target) || e.target === input || e.target === dropdownBtn) return;
+      close();
+    }
+    function onKey(e) { if (e.key === 'Escape') close(); }
+
+    on(pop, 'click', function (e) {
+      var nav = e.target.closest && e.target.closest('[data-drp-nav]');
+      if (nav) {
+        var dir = +nav.getAttribute('data-drp-nav');
+        viewMonth += dir;
+        if (viewMonth < 0) { viewMonth = 11; viewYear--; }
+        else if (viewMonth > 11) { viewMonth = 0; viewYear++; }
+        render();
+        return;
+      }
+      if (e.target.closest && e.target.closest('[data-drp-clear]')) {
+        selStart = null; selEnd = null;
+        input.value = '';
+        drpApplyFilter(table, '');
+        render();
+        return;
+      }
+      var dayBtn = e.target.closest && e.target.closest('[data-drp-day]');
+      if (dayBtn) {
+        var picked = new Date(dayBtn.getAttribute('data-drp-day') + 'T00:00:00');
+        if (!selStart || (selStart && selEnd)) {
+          selStart = picked;
+          selEnd = null;
+          render();
+        } else {
+          selEnd = picked;
+          var s = selStart, en = selEnd;
+          if (en < s) { var t = s; s = en; en = t; }
+          selStart = s; selEnd = en;
+          input.value = fmt(s) + ' ~ ' + fmt(en);
+          render();
+          close();
+        }
+      }
+    });
+
+    on(input, 'click', function (e) { e.preventDefault(); toggle(); });
+    on(dropdownBtn, 'click', function (e) { e.preventDefault(); e.stopPropagation(); toggle(); });
+    on(confirmBtn, 'click', function (e) {
+      e.preventDefault();
+      drpApplyFilter(table, input.value);
+    });
+  }
+
   /* =================================== boot ================================ */
 
   ready(function () {
@@ -2202,6 +2400,7 @@
     initBackofficeHint();
     initMemberQuickLinks();
     initAutoRefresh();
+    initDateRangeFilter();
     initPublicConfigSync();
     /* 開機套用已存語系(zh 基準時仍需把 about/FAQ 英文內文換成中文),
        並掛上 observer 讓其後動態產生的節點自動套用當前語系 */
