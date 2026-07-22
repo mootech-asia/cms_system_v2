@@ -39,7 +39,7 @@
      避免兩處各自維護一份、日後漏改。 */
   var MEMBER_PAGES = ['account', 'account-record', 'betting-record',
     'change-password', 'deposit', 'deposit-record', 'personal-info', 'profit-loss',
-    'security', 'support', 'withdrawal', 'withdrawal-record'];
+    'security', 'withdrawal', 'withdrawal-record'];
   function isMemberPage() { return MEMBER_PAGES.indexOf(pageName()) !== -1; }
   function isActivePage(href) {
     var target = href.replace(/\.html$/, '');
@@ -524,8 +524,11 @@
   function buildMemberDrawerHtml() {
     var links = D.MEMBER_MENU_LINKS || [];
     var rows = links.map(function (l) {
-      var active = isActivePage(l.href);
-      return '<a href="' + l.href + '" class="mmd-row' + (active ? ' active' : '') + '">' + iconSvg(l.icon, 'mmd-icon') + '<span>' + escapeHtml(l.label) + '</span></a>';
+      /* Customer Service 已改為 CS modal(業主:support.html 移除,
+         沒有這個項目),用 csOpen 旗標讓這一列改走 data-cs-open 代理點擊,
+         不再導去已刪除的頁面(見 initCsOpenTriggers)。 */
+      var active = !l.csOpen && isActivePage(l.href);
+      return '<a href="' + l.href + '" class="mmd-row' + (active ? ' active' : '') + '"' + (l.csOpen ? ' data-cs-open' : '') + '>' + iconSvg(l.icon, 'mmd-icon') + '<span>' + escapeHtml(l.label) + '</span></a>';
     }).join('');
     return (
       '<div class="mmd-overlay" data-mmd-overlay>' +
@@ -1228,8 +1231,25 @@
         wrap.remove();
       }
     }
+    /* 搜尋框 placeholder 隨層級變動(業主 2026-07-22:廠商列表層搜的是廠商名稱,
+       鑽進特定廠商後才是搜遊戲名稱)。不能沿用「先寫死 zh 字串、靠 applyLocale
+       事後掃過去」這個套路 —— 那套機制靠的是 MutationObserver 監聽新增節點,
+       但這裡是對「既有」input 元素改 placeholder 屬性(非新增節點),開機後
+       (initVendorBrowser 先跑,applyLocale 才跑)第一次沒問題,可是使用者
+       點進廠商、按返回等互動觸發的後續重繪就不會再被掃到,語系會卡住。改成
+       直接用 D.I18N[currentLocale()] 即時查表(search.vendorName/
+       game.placeholder,四語系皆有),每次呼叫都吃當前語系,不依賴事後掃描。 */
+    function updateSearchPlaceholder() {
+      if (!searchInput) return;
+      var showingVendors = !direct && !state.provider;
+      var dict = (D.I18N || {})[currentLocale()] || (D.I18N || {}).zh || {};
+      searchInput.placeholder = showingVendors
+        ? (dict['search.vendorName'] || T.searchVendor)
+        : (dict['game.placeholder'] || T.gamePlaceholder);
+    }
     function renderGrid() {
       var showingVendors = !direct && !state.provider;
+      updateSearchPlaceholder();
       var oldVnd = container.querySelector('.vnd-grid');
       var oldGame = container.querySelector('.grid.grid-cols-2');
       if (showingVendors) {
@@ -1320,8 +1340,11 @@
 
     /* direct(hot-games.html)頁的初始遊戲卡是靜態烘焙、早於收藏功能存在,
        沒有 heart 按鈕 — 開機時用同一份 buildGameCard 邏輯重繪一次補上;
-       其餘頁面初始畫面是廠商格(baked 已經正確,不需重繪)。 */
+       其餘頁面初始畫面是廠商格(baked 已經正確,不需重繪),但 placeholder
+       仍需補上一次(baked HTML 原本寫死「遊戲名稱」層級的字,非 direct 頁
+       開機不會走 renderGrid())。 */
     if (direct) renderGrid();
+    else updateSearchPlaceholder();
   }
 
   /* ============================ about.html tabs =========================== */
@@ -1766,6 +1789,7 @@
      so no carousel, unlike the bank card above) ------------------------- */
 
   var TRASH_SVG = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>';
+  var COPY_SVG = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>';
   function initAccountWalletCard() {
     if (pageName() !== 'account') return;
     var body = document.querySelector('[data-account-wallet-body]');
@@ -1778,11 +1802,34 @@
         return;
       }
       var w = wallets[0];
-      body.className = 'registered-card';
+      /* wallet-card:蓋掉 .registered-card 共用的深色底(業主嫌是個「深色洞」),
+         只加在這張錢包卡上 —— 銀行卡輪播(initAccountBankCarousel)共用同一個
+         .registered-card,沒有這個 class,深色底不受影響(global.css 定義)。 */
+      body.className = 'registered-card wallet-card';
+      /* 複製鈕文案沿用 deposit QR 步驟已有的 copy/copied 語系字典
+         (D.DEPOSIT_QR[locale].copy/.copied,四語系皆有),不新增等價定義。 */
+      var qrDict = D.DEPOSIT_QR || {};
+      var qrT = qrDict[currentLocale()] || qrDict.en || {};
+      var copyLabel = qrT.copy || '複製';
+      var copiedLabel = qrT.copied || '已複製';
       body.innerHTML = '<div class="bank-logo">₿</div>' +
         '<div class="rc-info"><strong>' + escapeHtml(w.type) + '</strong><span>' + escapeHtml(walletMask(w.address)) + '</span>' +
         '<span>' + escapeHtml(w.bindDate || '') + '</span></div>' +
-        '<button class="ml-auto text-ink-4 hover:text-ink transition-colors" data-wallet-del aria-label="Delete wallet">' + TRASH_SVG + '</button>';
+        '<div class="ml-auto flex items-center gap-3">' +
+        '<button type="button" class="text-ink-4 hover:text-ink transition-colors" data-wallet-copy aria-label="' + escapeHtml(copyLabel) + '">' + COPY_SVG + '</button>' +
+        '<button type="button" class="text-ink-4 hover:text-ink transition-colors" data-wallet-del aria-label="Delete wallet">' + TRASH_SVG + '</button>' +
+        '</div>';
+      on(body.querySelector('[data-wallet-copy]'), 'click', function (e) {
+        e.stopPropagation();
+        var btn = e.currentTarget;
+        try { navigator.clipboard.writeText(w.address); } catch (err) { /* clipboard 不可用,占位流程靜默略過 */ }
+        btn.innerHTML = iconSvg('check', 'w-4 h-4');
+        btn.setAttribute('aria-label', copiedLabel);
+        setTimeout(function () {
+          btn.innerHTML = COPY_SVG;
+          btn.setAttribute('aria-label', copyLabel);
+        }, 1500);
+      });
       on(body.querySelector('[data-wallet-del]'), 'click', function () {
         showMemberModal({
           type: 'danger',
@@ -2200,6 +2247,19 @@
     on(csModalRoot, 'click', function (e) { if (e.target === csModalRoot) closeCsModal(); });
     on(csModalRoot.querySelector('[data-cs-close]'), 'click', closeCsModal);
     document.body.appendChild(csModalRoot);
+  }
+
+  /* 全站通用 [data-cs-open] 觸發器(業主 2026-07-22:support.html「即將推出」頁
+     已整頁移除 — 客服改一律走 CS modal,不再導頁)。事件代理掛在 document 上,
+     任何頁面、任何時間點插入的 [data-cs-open] 元素(qr-rail Live Chat、mobile
+     drawer Customer Service 列等)都會生效,不需個別綁定;既有 deposit 轉帳
+     步驟裡的區域綁定(showDepositTransferStep)保留不動,兩者並存不衝突
+     (openCsModal 本身對已開啟的 modal 是 no-op)。 */
+  function initCsOpenTriggers() {
+    document.addEventListener('click', function (e) {
+      var trigger = e.target.closest('[data-cs-open]');
+      if (trigger) { e.preventDefault(); openCsModal(); }
+    });
   }
 
   function initMemberQuickLinks() {
@@ -2623,6 +2683,7 @@
     initSecurityPage();
     initBackofficeHint();
     initMemberQuickLinks();
+    initCsOpenTriggers();
     initAutoRefresh();
     initDateRangeFilter();
     initPublicConfigSync();

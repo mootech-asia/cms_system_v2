@@ -265,7 +265,7 @@
     { label: 'Account Record', href: 'account-record.html', icon: 'file' },
     { label: 'Personal Info', href: 'personal-info.html', icon: 'user' },
     { label: 'Security Center', href: 'security.html', icon: 'shield' },
-    { label: 'Customer Service', href: 'support.html', icon: 'chat' },
+    { label: 'Customer Service', href: '#', icon: 'chat', csOpen: true },
   ];
 
 

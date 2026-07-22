@@ -15,7 +15,7 @@ const PAGES = [
   'about', 'account-record', 'account', 'betting-record',
   'change-password', 'deposit-record', 'deposit', 'fish',
   'hot-games', 'index', 'live', 'mini-games', 'personal-info', 'profit-loss',
-  'promotion', 'security', 'slot', 'sport', 'support', 'ui-kit',
+  'promotion', 'security', 'slot', 'sport', 'ui-kit',
   'withdrawal-record', 'withdrawal',
 ];
 

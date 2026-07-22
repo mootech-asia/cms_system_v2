@@ -20,8 +20,7 @@
     { label: 'Mini Games', file: 'mini-games.html' },
     { label: 'Sport', file: 'sport.html' },
     { label: 'Promotion', file: 'promotion.html' },
-    { label: 'About', file: 'about.html' },
-    { label: 'Support', file: 'support.html' }
+    { label: 'About', file: 'about.html' }
   ];
 
   function readPublished() {

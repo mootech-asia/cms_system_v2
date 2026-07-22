@@ -10,7 +10,7 @@ const SLUGS = [
   'about', 'account', 'account-record', 'betting-record',
   'change-password', 'deposit', 'deposit-record', 'fish',
   'hot-games', 'live', 'mini-games', 'personal-info', 'profit-loss', 'promotion',
-  'security', 'slot', 'sport', 'support', 'ui-kit', 'withdrawal', 'withdrawal-record',
+  'security', 'slot', 'sport', 'ui-kit', 'withdrawal', 'withdrawal-record',
 ];
 const EXPECTED_PAGES = ['index.html', ...SLUGS.map((s) => `${s}.html`)];
 
@@ -21,9 +21,9 @@ function check(name, ok, detail) {
   else fails.push(`${name}${detail ? ' :: ' + detail : ''}`);
 }
 
-// 1. 22 pages exist
+// 1. 21 pages exist
 const missing = EXPECTED_PAGES.filter((f) => !fs.existsSync(path.join(OUT, f)));
-check('22 pages exist', missing.length === 0, missing.join(', '));
+check('21 pages exist', missing.length === 0, missing.join(', '));
 
 // gather all files for existence-checking of referenced assets
 function walk(dir, base = dir, acc = new Set()) {

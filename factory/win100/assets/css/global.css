@@ -236,6 +236,17 @@
   gap: 4px;
 }
 
+/* 加密錢包卡背景(業主 2026-07-22 B2):.registered-card 共用底色是
+   --c-bg(全站底色,比外層 bg-surface 模組更深),銀行卡輪播沿用沒問題,
+   但錢包卡疊在 bg-surface 卡片內視覺上變成一個深色洞。只加在錢包卡上蓋掉
+   背景讓它融入外層,不影響共用同一份 .registered-card 的銀行卡輪播
+   (initAccountBankCarousel 沒有加這個 class)。邊框保留(換成較柔和的
+   border-soft token)維持卡片邊界的可辨識度。 */
+.wallet-card {
+  background-color: transparent;
+  border-color: rgb(var(--c-border-soft));
+}
+
 /* Favorites 頁簽的空狀態(vnd-head 之後,重用既有的 game-grid 容器,
    跨版位橫向撐滿一整列)。 */
 .fav-empty {
@@ -295,4 +306,37 @@
 .mini-countdown-bar {
   display: flex;
   justify-content: flex-end;
+}
+
+/* ============ 業主 2026-07-22 手機版排版批次 ============ */
+
+/* 圖1:儲值付款方式(.payment-tabs 目前是 auto-fill grid,手機會排成 2×2)。
+   手機改成單排橫向捲動 —— grid-auto-flow:column 讓可見按鈕全部排同一列,
+   固定欄寬,超出視窗寬度時水平捲動(業主:寬度不夠就用 scroll bar)。
+   隱藏(display:none)的按鈕在 column flow 下不佔欄位,維持原本邏輯。 */
+@media (max-width: 767px) {
+  .payment-tabs {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 160px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* 圖2/3/4:紀錄頁篩選列,手機讓「全部」下拉與日期區間排在同一行。
+   日期外層原本是 w-full(手機佔滿整列 → 被擠到下一行),≤639px 改成
+   flex:1 與 w-36 下拉共用同一列;桌機(≥640,sm:w-80)維持不動。 */
+@media (max-width: 639px) {
+  .flex-wrap.items-center.gap-2 > .w-full.min-w-0.sm\:w-80 {
+    flex: 1 1 0;
+    width: auto;
+  }
+}
+
+/* 圖4/5:紀錄頁「狀態」欄,狀態膠囊要與置中的表頭對齊。cell 上的
+   text-center 被 p-datatable 的 td 規則洗掉(computed 實為靠左),
+   用高優先權選擇器補回置中,讓膠囊與置中表頭對齊。 */
+.record-table .p-datatable-tbody > tr > td.text-center {
+  text-align: center;
 }
