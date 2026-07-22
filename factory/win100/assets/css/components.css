@@ -1,0 +1,77 @@
+/*
+ * components.css — hand-written, component-organized styles for the WIN100
+ * static front-end.
+ *
+ * Stage B (owner standard: 手寫可讀切版) replaces the compiled Tailwind utility
+ * soup in the markup with v3-style semantic classes. Every rule here is the
+ * exact regrouping of the utility declarations it replaces (sourced from
+ * app.css), so the rendered result stays pixel-identical — only the HTML
+ * becomes hand-readable. Colours stay on theme tokens (rgb(var(--c-*))); no
+ * hard-coded colour values or arbitrary numbers beyond what the originals used.
+ */
+
+/* Shared page-width container (was: container mx-auto px-4). */
+.page-container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+@media (min-width: 640px)  { .page-container { max-width: 640px; } }
+@media (min-width: 768px)  { .page-container { max-width: 768px; } }
+@media (min-width: 1024px) { .page-container { max-width: 1024px; } }
+@media (min-width: 1280px) { .page-container { max-width: 1280px; } }
+@media (min-width: 1536px) { .page-container { max-width: 1536px; } }
+
+/* ============================== Site footer ============================== */
+/* was: <footer class="bg-surface border-t border-line-soft py-12 pb-24 md:pb-16"> */
+.site-footer {
+  border-top: 1px solid rgb(var(--c-border-soft));
+  background-color: rgb(var(--c-surface));
+  padding: 3rem 0 6rem;
+}
+@media (min-width: 768px) {
+  .site-footer { padding-bottom: 4rem; }
+}
+/* was: flex flex-col items-center */
+.site-footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+/* was: h-12 mix-blend-lighten mb-6 */
+.site-footer-logo {
+  height: 3rem;
+  margin-bottom: 1.5rem;
+  mix-blend-mode: lighten;
+}
+/* was: text-center + inline max-width:42rem */
+.site-footer-legal {
+  max-width: 42rem;
+  text-align: center;
+}
+/* was: text-ink-3 text-xs leading-relaxed (+ mb-3 on all but the last) */
+.site-footer-legal p {
+  margin-bottom: 0.75rem;
+  color: rgb(var(--c-text-3));
+  font-size: 0.75rem;
+  line-height: 1.625;
+}
+.site-footer-legal p:last-child {
+  margin-bottom: 0;
+}
+/* was: h-px w-full bg-line-soft + inline max-width:42rem; margin:24px 0 */
+.site-footer-rule {
+  width: 100%;
+  max-width: 42rem;
+  height: 1px;
+  margin: 24px 0;
+  background-color: rgb(var(--c-border-soft));
+}
+/* was: text-xs text-ink-4 */
+.site-footer-copy {
+  color: rgb(var(--c-text-4));
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
