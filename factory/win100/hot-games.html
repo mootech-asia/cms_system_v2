@@ -14,24 +14,24 @@
       <div>
         <div></div>
         <div class="min-h-screen overflow-x-hidden bg-surface-deep">
-          <header class="bg-surface border-b border-line-soft sticky top-0 z-50">
-            <div class="hidden md:flex items-stretch container mx-auto px-4">
-              <a href="index.html" class="flex items-center pr-6 flex-shrink-0"
-                ><img src="logo.png" alt="Casino Logo" class="h-10 mix-blend-lighten"
+          <header class="site-header">
+            <div class="site-header-desktop page-container">
+              <a href="index.html" class="site-header-logo"
+                ><img src="logo.png" alt="Casino Logo" class="site-header-logo-img"
               /></a>
-              <div class="flex flex-col flex-1">
-                <div class="flex items-center justify-end gap-3 py-2 text-sm min-h-[44px]">
-                  <button class="bg-surface-2 text-ink px-5 py-1.5 rounded-lg hover:opacity-90 transition-opacity">
+              <div class="site-header-right">
+                <div class="site-header-actions">
+                  <button class="site-header-login-btn">
                     登入</button
                   ><button
-                    class="bg-g-primary text-on-primary px-5 py-1.5 rounded-lg hover:opacity-90 transition-opacity font-semibold"
+                    class="site-header-register-btn"
                   >
                     註冊
                   </button>
                   <div class="relative">
                     <button
                       type="button"
-                      class="flex items-center gap-1 text-ink-2 transition-colors hover:text-ink"
+                      class="site-header-skin-btn"
                       aria-label="Switch skin"
                       title="切換皮膚"
                     >
@@ -56,7 +56,7 @@
                     </button>
                   </div>
                   <div class="relative">
-                    <button class="text-ink-2 hover:text-ink flex items-center gap-1">
+                    <button class="site-header-locale-btn">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="24"
@@ -90,10 +90,10 @@
                     </button>
                   </div>
                 </div>
-                <nav class="flex items-center justify-end gap-1.5 py-1.5 border-t border-line-soft text-sm relative">
+                <nav class="site-header-nav">
                   <a
                     href="index.html"
-                    class="px-2 py-1.5 rounded-lg flex items-center gap-1.5 transition-all whitespace-nowrap text-ink-2 hover:text-on-primary hover:bg-g-primary"
+                    class="site-header-nav-link"
                     ><svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
@@ -114,7 +114,7 @@
                   ><a
                     aria-current="page"
                     href="hot-games.html"
-                    class="router-link-active router-link-exact-active px-2 py-1.5 rounded-lg flex items-center gap-1.5 transition-all whitespace-nowrap text-on-primary bg-g-primary shadow-md font-semibold"
+                    class="site-header-nav-link is-active"
                     ><svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
@@ -135,7 +135,7 @@
                   <div class="relative">
                     <a
                       href="sport.html"
-                      class="px-2 py-1.5 rounded-lg flex items-center gap-1.5 transition-all whitespace-nowrap text-ink-2 hover:text-on-primary hover:bg-g-primary"
+                      class="site-header-nav-link"
                       ><svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="24"
@@ -169,15 +169,15 @@
                       >
                         <path d="m6 9 6 6 6-6"></path></svg
                     ></a>
-                    <div class="dd-panel left-0 min-w-[160px]" style="display: none">
+                    <div class="dd-panel site-header-nav-dropdown" style="display: none">
                       <a
                         href="sport.html?tab=BTI"
-                        class="rounded-md cursor-pointer block px-3.5 py-2.5 text-sm text-ink-2 hover:bg-surface-deep"
+                        class="site-header-nav-sublink"
                         style="text-decoration: none"
                         >BTI</a
                       ><a
                         href="sport.html?tab=SABA"
-                        class="rounded-md cursor-pointer block px-3.5 py-2.5 text-sm text-ink-2 hover:bg-surface-deep"
+                        class="site-header-nav-sublink"
                         style="text-decoration: none"
                         >SABA</a
                       >
@@ -186,7 +186,7 @@
                   <div class="relative">
                     <a
                       href="live.html"
-                      class="px-2 py-1.5 rounded-lg flex items-center gap-1.5 transition-all whitespace-nowrap text-ink-2 hover:text-on-primary hover:bg-g-primary"
+                      class="site-header-nav-link"
                       ><svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="24"
@@ -216,20 +216,20 @@
                       >
                         <path d="m6 9 6 6 6-6"></path></svg
                     ></a>
-                    <div class="dd-panel left-0 min-w-[160px]" style="display: none">
+                    <div class="dd-panel site-header-nav-dropdown" style="display: none">
                       <a
                         href="live.html?tab=Sexy"
-                        class="rounded-md cursor-pointer block px-3.5 py-2.5 text-sm text-ink-2 hover:bg-surface-deep"
+                        class="site-header-nav-sublink"
                         style="text-decoration: none"
                         >Sexy</a
                       ><a
                         href="live.html?tab=Pragmatic+Play"
-                        class="rounded-md cursor-pointer block px-3.5 py-2.5 text-sm text-ink-2 hover:bg-surface-deep"
+                        class="site-header-nav-sublink"
                         style="text-decoration: none"
                         >Pragmatic Play</a
                       ><a
                         href="live.html?tab=Yeebet"
-                        class="rounded-md cursor-pointer block px-3.5 py-2.5 text-sm text-ink-2 hover:bg-surface-deep"
+                        class="site-header-nav-sublink"
                         style="text-decoration: none"
                         >Yeebet</a
                       >
@@ -237,7 +237,7 @@
                   </div>
                   <a
                     href="slot.html"
-                    class="px-2 py-1.5 rounded-lg flex items-center gap-1.5 transition-all whitespace-nowrap text-ink-2 hover:text-on-primary hover:bg-g-primary"
+                    class="site-header-nav-link"
                     ><svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
@@ -257,7 +257,7 @@
                     ><span>老虎機</span></a
                   ><a
                     href="fish.html"
-                    class="px-2 py-1.5 rounded-lg flex items-center gap-1.5 transition-all whitespace-nowrap text-ink-2 hover:text-on-primary hover:bg-g-primary"
+                    class="site-header-nav-link"
                     ><svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
@@ -283,7 +283,7 @@
                     ><span>捕魚</span></a
                   ><a
                     href="mini-games.html"
-                    class="px-2 py-1.5 rounded-lg flex items-center gap-1.5 transition-all whitespace-nowrap text-ink-2 hover:text-on-primary hover:bg-g-primary"
+                    class="site-header-nav-link"
                     ><svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
@@ -306,7 +306,7 @@
                     ><span>迷你遊戲</span></a
                   ><a
                     href="promotion.html"
-                    class="px-2 py-1.5 rounded-lg flex items-center gap-1.5 transition-all whitespace-nowrap text-ink-2 hover:text-on-primary hover:bg-g-primary"
+                    class="site-header-nav-link"
                     ><svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
@@ -330,15 +330,15 @@
                 </nav>
               </div>
             </div>
-            <div class="flex md:hidden items-center justify-between h-16 px-4">
-              <a href="index.html" class="whitespace-nowrap flex-shrink-0"
-                ><img src="logo.png" alt="Casino Logo" class="h-10 mix-blend-lighten"
+            <div class="site-header-mobile">
+              <a href="index.html" class="site-header-logo-mobile"
+                ><img src="logo.png" alt="Casino Logo" class="site-header-logo-img"
               /></a>
-              <div class="flex items-center gap-3">
+              <div class="site-header-mobile-actions">
                 <div class="relative">
                   <button
                     type="button"
-                    class="flex items-center gap-1 text-ink-2 transition-colors hover:text-ink"
+                    class="site-header-skin-btn"
                     aria-label="Switch skin"
                     title="切換皮膚"
                   >
@@ -363,7 +363,7 @@
                   </button>
                 </div>
                 <div class="relative">
-                  <button class="text-ink-2 hover:text-ink flex items-center gap-1">
+                  <button class="site-header-locale-btn">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
@@ -396,7 +396,7 @@
                     </svg>
                   </button>
                 </div>
-                <button class="text-ink-2 hover:text-ink" aria-label="Menu">
+                <button class="site-header-menu-btn" aria-label="Menu">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
