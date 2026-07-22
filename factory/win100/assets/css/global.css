@@ -228,6 +228,14 @@
   margin-right: auto;
 }
 
+/* 加密錢包綁定卡:info 區直排(加了刪除鈕後 info div 不再是 :last-child,
+   原 .registered-card div:last-child 規則不再命中,故明確補上)。業主 2026-07-22 B1。 */
+.registered-card .rc-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 /* Favorites 頁簽的空狀態(vnd-head 之後,重用既有的 game-grid 容器,
    跨版位橫向撐滿一整列)。 */
 .fav-empty {

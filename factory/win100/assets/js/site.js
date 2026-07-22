@@ -1765,21 +1765,37 @@
      (same array withdrawal.html?tab=management writes to; capped at 1 entry
      so no carousel, unlike the bank card above) ------------------------- */
 
+  var TRASH_SVG = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>';
   function initAccountWalletCard() {
     if (pageName() !== 'account') return;
     var body = document.querySelector('[data-account-wallet-body]');
     if (!body) return;
     var wallets = D.WALLET_ACCOUNTS || [];
-    if (!wallets.length) {
-      body.className = 'bound-wallet';
-      body.innerHTML = '<div class="coin-empty coin-md">₿</div><div>Empty wallet list</div>';
-    } else {
+    function render() {
+      if (!wallets.length) {
+        body.className = 'bound-wallet';
+        body.innerHTML = '<div class="coin-empty coin-md">₿</div><div>Empty wallet list</div>';
+        return;
+      }
       var w = wallets[0];
       body.className = 'registered-card';
       body.innerHTML = '<div class="bank-logo">₿</div>' +
-        '<div><strong>' + escapeHtml(w.type) + '</strong><span>' + escapeHtml(walletMask(w.address)) + '</span>' +
-        '<span>' + escapeHtml(w.bindDate || '') + '</span></div>';
+        '<div class="rc-info"><strong>' + escapeHtml(w.type) + '</strong><span>' + escapeHtml(walletMask(w.address)) + '</span>' +
+        '<span>' + escapeHtml(w.bindDate || '') + '</span></div>' +
+        '<button class="ml-auto text-ink-4 hover:text-ink transition-colors" data-wallet-del aria-label="Delete wallet">' + TRASH_SVG + '</button>';
+      on(body.querySelector('[data-wallet-del]'), 'click', function () {
+        showMemberModal({
+          type: 'danger',
+          subject: w.type,
+          onConfirm: function () {
+            wallets.splice(0, 1);
+            render();
+            showMemberModal({ type: 'success', message: 'Wallet deleted successfully.' });
+          },
+        });
+      });
     }
+    render();
   }
 
   /* 提款頁銀行卡輪播與「帳戶管理」共用同一份 D.BANK_ACCOUNTS(業主:圖3圖4 要同步);

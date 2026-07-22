@@ -237,7 +237,9 @@
   ];
 
   // ---- withdrawal.html crypto wallet management tab (parity with BANK_ACCOUNTS) --
-  var WALLET_ACCOUNTS = [];
+  var WALLET_ACCOUNTS = [
+    { type: 'USDT TRC20', address: 'TXk9Ym3pQ8rL2vN5sB7cH4fG6dZ1aE0tUw', bindDate: '2025-08-14' },
+  ];
 
   // ---- AppHeader.vue nav[] (label already zh via t(), href → flattened static filenames) --
   var NAV_LINKS = [
