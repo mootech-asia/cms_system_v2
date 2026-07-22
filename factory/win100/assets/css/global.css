@@ -324,16 +324,6 @@
   }
 }
 
-/* 圖2/3/4:紀錄頁篩選列,手機讓「全部」下拉與日期區間排在同一行。
-   日期外層原本是 w-full(手機佔滿整列 → 被擠到下一行),≤639px 改成
-   flex:1 與 w-36 下拉共用同一列;桌機(≥640,sm:w-80)維持不動。 */
-@media (max-width: 639px) {
-  .flex-wrap.items-center.gap-2 > .w-full.min-w-0.sm\:w-80 {
-    flex: 1 1 0;
-    width: auto;
-  }
-}
-
 /* 圖4/5:紀錄頁「狀態」欄,狀態膠囊要與置中的表頭對齊。cell 上的
    text-center 被 p-datatable 的 td 規則洗掉(computed 實為靠左),
    用高優先權選擇器補回置中,讓膠囊與置中表頭對齊。 */
