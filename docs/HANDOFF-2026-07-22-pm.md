@@ -75,3 +75,35 @@
 的一次性 `send_later` 提醒,沒有任何仍在等待或循環中的排程**;且都不屬於本 CMS 專案
 (是 `littlebow11549/auto-leadgen` 每日名單早晨重試提醒 + 一則 `factory-web-refactor` 續作提醒)。
 → **本 CMS 工作沒有任何 active 排程任務需要接手或清理。**
+
+---
+
+## Stage B 語意化進度(2026-07-22 接續 session,分支 `claude/handover-tasks-list-sj48kv`)
+
+業主指示先把 v2 全部做完再做 v3。本 session 執行 task #3 Stage B(把 factory 前台
+Tailwind utility 堆改成 v3 式手寫語意 class)+ 附帶項目。**全部只進分支,正式站由業主
+promote 才更新。**
+
+**方法(已定型):** 不憑空重寫 CSS —— 把 `assets/css/app.css` 裡既有的 utility 宣告
+**精確重組**進手寫 `assets/css/components.css` 的語意 class(宣告完全相同,只是換語意名),
+所以視覺零變、只有 markup 變手寫可讀。每批獨立跑 **computed-style parity(git stash 前後
+逐屬性比對,要求 0 diff)+ 結構 9/9 + 行為 28/28** 才 commit。大件用 sonnet subagent 做、
+主線審查驗證 commit(省 context)。
+
+**已完成(commit / 驗證):**
+| 批 | 元件 | commit | 驗證 |
+|---|---|---|---|
+| C1 | cache-busting(候選組裝時注入 `?v=<hash>`,`scripts/cache-bust-candidate.js`) | `5319d36` | 9/9 |
+| B1 | 5 個脆弱 utility hook → 語意 class(拆 site.js 耦合) | `1fbfa49` | 9/9 · 28/28 · sport 針對性 |
+| B2 | footer + 共用 `.page-container` + 新建 `components.css` | `73e384c` | parity 0 · 9/9 · 28/28 |
+| B3 | site header(公開+member 兩變體;清 router-link 死 class) | `f7b3d0d` | parity 0(2170 值)· 9/9 · 28/28 |
+| B4 | 手機底部導覽 + member 側欄(router-link 全清 0) | `37c0a4b` | parity 0(870 值)· 9/9 · 28/28 |
+
+→ **共用 shell(footer/header/手機底部導覽/member 側欄)已全部語意化完成。**
+
+**進行中 / 待做(content 區,依序):**
+- 🔄 B5:共用遊戲卡 / rail / 篩選格 / 分類檢視 / vendor 卡(site.js 樣板為主)。
+- ⬜ 首頁 hero/campaign banner/promo ribbon/rewards banner;leaderboard/tournaments/sports/promotion；account 各頁(overview/deposit/withdrawal/personal/security)；record 5 頁；3 個 modal(signin/game/cs);about/promotion 雜項。
+- ⬜ **收尾**:`ui-kit.html`(非交付 dev 頁,暫留)一起語意化或排除;全部 content 轉完後,**移除 app.css 中已無人引用的死 utility 規則**(Stage B 最後一步,轉完前不可動,否則未轉元件會壞)。
+
+**續接方式:** 沿用上表方法逐元件做;subagent prompt 範式見本 session 對話(規模、hook 保留清單、parity 指令)。JS hook 一律先 grep `site.js` 再改;`ui-kit.html` 依前例暫跳。
