@@ -717,7 +717,7 @@
     $all('header').forEach(function (header) {
       if (header.querySelector('[data-member-account-bar]')) return;
       var mobileWrap = header.querySelector('[class~="md:hidden"]');
-      var row = mobileWrap ? mobileWrap.parentElement : header.querySelector('.flex.items-center.h-16');
+      var row = mobileWrap ? mobileWrap.parentElement : header.querySelector('.topbar-inner');
       if (!row) return;
       var bar = document.createElement('div');
       bar.className = 'hidden md:flex items-center gap-3 ml-auto text-sm';
@@ -1251,7 +1251,7 @@
       var showingVendors = !direct && !state.provider;
       updateSearchPlaceholder();
       var oldVnd = container.querySelector('.vnd-grid');
-      var oldGame = container.querySelector('.grid.grid-cols-2');
+      var oldGame = container.querySelector('.game-grid');
       if (showingVendors) {
         if (oldGame) oldGame.remove();
         var grid = oldVnd;
@@ -1261,7 +1261,7 @@
       } else {
         if (oldVnd) oldVnd.remove();
         var gGrid = oldGame;
-        if (!gGrid) { gGrid = document.createElement('div'); gGrid.className = 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4'; container.appendChild(gGrid); }
+        if (!gGrid) { gGrid = document.createElement('div'); gGrid.className = 'game-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4'; container.appendChild(gGrid); }
         gGrid.innerHTML = gamesList().map(function (g) { return buildGameCard(g.provider, g.i, kind); }).join('');
         updateLoadMore(true);
       }
@@ -1278,8 +1278,8 @@
     function renderFavorites() {
       var oldVnd = container.querySelector('.vnd-grid');
       if (oldVnd) oldVnd.remove();
-      var gGrid = container.querySelector('.grid.grid-cols-2');
-      if (!gGrid) { gGrid = document.createElement('div'); gGrid.className = 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4'; container.appendChild(gGrid); }
+      var gGrid = container.querySelector('.game-grid');
+      if (!gGrid) { gGrid = document.createElement('div'); gGrid.className = 'game-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4'; container.appendChild(gGrid); }
       var list = favoritesGamesList();
       gGrid.innerHTML = list.length
         ? list.map(function (p) { return buildGameCard(p.provider, p.i, p.kind); }).join('')
@@ -1532,20 +1532,20 @@
 
   function initSportProviderTabs() {
     if (pageName() !== 'sport') return;
-    var wrap = document.querySelector('.border-b.border-line-soft.mb-8');
+    var wrap = document.querySelector('.sport-provider-tabs');
     if (!wrap) return;
     var buttons = $all('button', wrap).filter(function (b) { return b.parentElement === wrap; });
     if (buttons.length !== 3) return;
     function activate(btn) {
       buttons.forEach(function (o) {
-        var bar = o.querySelector('.absolute.bottom-0');
+        var bar = o.querySelector('.sport-tab-underline');
         if (bar) bar.remove();
         o.classList.remove('text-primary');
         o.classList.add('text-ink-3', 'hover:text-ink-2');
       });
       btn.classList.remove('text-ink-3', 'hover:text-ink-2');
       btn.classList.add('text-primary');
-      btn.insertAdjacentHTML('beforeend', '<div class="absolute bottom-0 left-0 right-0 h-0.5 bg-g-primary"></div>');
+      btn.insertAdjacentHTML('beforeend', '<div class="sport-tab-underline absolute bottom-0 left-0 right-0 h-0.5 bg-g-primary"></div>');
     }
     buttons.forEach(function (b) { on(b, 'click', function () { activate(b); }); });
     var qs = new URLSearchParams(location.search);
@@ -1559,7 +1559,7 @@
   function initSportLoadMore() {
     if (pageName() !== 'sport') return;
     var matches = D.SPORT_MATCHES || [];
-    var grid = document.querySelector('.grid.grid-cols-1.sm\\:grid-cols-2');
+    var grid = document.querySelector('.sport-match-grid');
     var wrap = document.querySelector('.cms-load-more-wrap');
     if (!grid || !matches.length) return;
     var loads = 0;
