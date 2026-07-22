@@ -63,8 +63,11 @@
   (刪 `frontend/`/`vue3-app/`、刪分支)——高風險/不可逆,**業主在場再做**。
 - **帳戶卡真正「同一個模組」化**:目前銀行卡(靜態 markup + carousel JS)與錢包卡(JS 渲染)是兩套結構,
   只是視覺對齊;若要真正抽成一份共用模組,是額外重構(非本批範圍)。
-- **cache-busting**:assets 無版本號,使用者常看到舊版。可考慮在部署時給 site.js/global.css 加
-  `?v=<hash>` 或內容雜湊檔名,根治「更新看不到」。
+- ~~**cache-busting**~~ ✅ **完成(branch `claude/handover-tasks-list-sj48kv`,commit `5319d36`)**:
+  新增 `scripts/cache-bust-candidate.js`,在 build-pages-candidate 組裝候選時給本地 asset
+  引用注入 `?v=<內容 hash>`(site.js/global.css/app.css/data.js/primevue.css 各自 hash;
+  themes 由 site.js 執行期載入,一併蓋 build stamp)。**source 保持裸引用、`open index.html`
+  本地不變**,只有正式站帶版本號 → 根治「更新看不到」。下次 promote 後生效。
 
 ## 排程任務(業主 2026-07-22 要求列出)
 
