@@ -79,12 +79,12 @@
           </header>
           <div class="min-h-[calc(100vh-4rem)]">
             <aside
-              class="fixed bottom-0 left-0 top-16 z-40 hidden w-64 overflow-y-auto border-r border-line-soft bg-surface md:block"
+              class="member-sidebar"
             >
-              <nav class="p-4 space-y-2">
+              <nav class="member-sidebar-nav">
                 <a
                   href="account.html"
-                  class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-ink-2 hover:bg-surface-deep hover:text-ink"
+                  class="member-sidebar-link"
                   ><svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -104,7 +104,7 @@
                   ><span class="text-sm">Account Overview</span></a
                 ><a
                   href="deposit.html"
-                  class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-ink-2 hover:bg-surface-deep hover:text-ink"
+                  class="member-sidebar-link"
                   ><svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -123,7 +123,7 @@
                   ><span class="text-sm">Deposit</span></a
                 ><a
                   href="withdrawal.html"
-                  class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-ink-2 hover:bg-surface-deep hover:text-ink"
+                  class="member-sidebar-link"
                   ><svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -142,7 +142,7 @@
                   ><span class="text-sm">Withdrawal</span></a
                 ><a
                   href="betting-record.html"
-                  class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-ink-2 hover:bg-surface-deep hover:text-ink"
+                  class="member-sidebar-link"
                   ><svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -162,7 +162,7 @@
                 ><a
                   aria-current="page"
                   href="deposit-record.html"
-                  class="router-link-active router-link-exact-active flex items-center gap-3 px-4 py-3 rounded-lg transition-all bg-g-primary text-on-primary font-semibold"
+                  class="member-sidebar-link is-active"
                   ><svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -182,7 +182,7 @@
                   ><span class="text-sm">Deposit Record</span></a
                 ><a
                   href="profit-loss.html"
-                  class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-ink-2 hover:bg-surface-deep hover:text-ink"
+                  class="member-sidebar-link"
                   ><svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -200,7 +200,7 @@
                   ><span class="text-sm">Profit And Loss</span></a
                 ><a
                   href="withdrawal-record.html"
-                  class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-ink-2 hover:bg-surface-deep hover:text-ink"
+                  class="member-sidebar-link"
                   ><svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -220,7 +220,7 @@
                   ><span class="text-sm">Withdrawal Record</span></a
                 ><a
                   href="account-record.html"
-                  class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-ink-2 hover:bg-surface-deep hover:text-ink"
+                  class="member-sidebar-link"
                   ><svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -240,7 +240,7 @@
                   ><span class="text-sm">Account Record</span></a
                 ><a
                   href="personal-info.html"
-                  class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-ink-2 hover:bg-surface-deep hover:text-ink"
+                  class="member-sidebar-link"
                   ><svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -258,7 +258,7 @@
                   ><span class="text-sm">Personal Info</span></a
                 ><a
                   href="security.html"
-                  class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-ink-2 hover:bg-surface-deep hover:text-ink"
+                  class="member-sidebar-link"
                   ><svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -276,7 +276,7 @@
                     ></path></svg
                   ><span class="text-sm">Security Center</span></a
                 ><button
-                  class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-ink-2 hover:bg-surface-deep hover:text-ink"
+                  class="member-sidebar-cs-btn"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -1328,9 +1328,9 @@
               </div>
             </main>
           </div>
-          <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-surface-deep border-t border-line-soft z-50">
-            <div class="grid grid-cols-5 h-16">
-              <button class="flex flex-col items-center justify-center gap-1 text-ink-3 transition-all">
+          <nav class="md:hidden mobile-bottom-nav">
+            <div class="mobile-bottom-nav-grid">
+              <button class="mobile-bottom-nav-item">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -1346,8 +1346,8 @@
                   <line x1="4" x2="20" y1="12" y2="12"></line>
                   <line x1="4" x2="20" y1="6" y2="6"></line>
                   <line x1="4" x2="20" y1="18" y2="18"></line></svg
-                ><span class="text-xs">瀏覽</span></button
-              ><a href="index.html" class="flex flex-col items-center justify-center gap-1 transition-all text-ink-3"
+                ><span class="mobile-bottom-nav-item-label">瀏覽</span></button
+              ><a href="index.html" class="mobile-bottom-nav-item"
                 ><svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -1364,8 +1364,8 @@
                   <path
                     d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
                   ></path></svg
-                ><span class="text-xs">首頁</span></a
-              ><a href="deposit.html" class="flex flex-col items-center justify-center gap-1 transition-all text-ink-3"
+                ><span class="mobile-bottom-nav-item-label">首頁</span></a
+              ><a href="deposit.html" class="mobile-bottom-nav-item"
                 ><svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -1381,10 +1381,10 @@
                   <path d="M12 17V3"></path>
                   <path d="m6 11 6 6 6-6"></path>
                   <path d="M19 21H5"></path></svg
-                ><span class="text-xs">儲值</span></a
+                ><span class="mobile-bottom-nav-item-label">儲值</span></a
               ><a
                 href="promotion.html"
-                class="flex flex-col items-center justify-center gap-1 transition-all text-ink-3"
+                class="mobile-bottom-nav-item"
                 ><svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -1401,8 +1401,8 @@
                   <path d="M12 8v13"></path>
                   <path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"></path>
                   <path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"></path></svg
-                ><span class="text-xs">優惠活動</span></a
-              ><a href="account.html" class="flex flex-col items-center justify-center gap-1 transition-all text-ink-3"
+                ><span class="mobile-bottom-nav-item-label">優惠活動</span></a
+              ><a href="account.html" class="mobile-bottom-nav-item"
                 ><svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -1417,7 +1417,7 @@
                 >
                   <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
                   <circle cx="12" cy="7" r="4"></circle></svg
-                ><span class="text-xs">會員</span></a
+                ><span class="mobile-bottom-nav-item-label">會員</span></a
               >
             </div>
           </nav>
