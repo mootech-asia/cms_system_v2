@@ -53,6 +53,11 @@ jobs:
 
           # Static front-end (factory/win100/) is the primary site content.
           cp -R factory/win100/. .candidate/
+          # WIP static design-studio/admin live under factory/win100/ for future
+          # work but are not production-ready (skin-only) — drop them from the
+          # candidate so they neither collide with the Nuxt /studio copied below
+          # nor ship /admin before it's finished.
+          rm -rf .candidate/studio .candidate/admin
           test -f .candidate/index.html
           if grep -Eq '(src|href)="/_nuxt/' .candidate/index.html; then
             echo 'Found root-relative Nuxt asset path in the static front-end; refusing candidate.'
