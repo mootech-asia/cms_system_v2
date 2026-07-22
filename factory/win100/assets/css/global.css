@@ -185,8 +185,8 @@
 /* 收藏(業主 2026-07-21:恢復轉靜態站時遺失的收藏功能)— GameCard 右下角的
    心型收藏按鈕,疊在 buildGameCard() 的 .aspect-[4/3] 圖片包裝層內(與現有
    left/top 的 live 徽章共用同一層 relative 定位邏輯,只是換到對角)。預設為
-   outline 心型(muted token),收藏後(.is-active)填滿並改用 --c-danger,
-   呼應 live 徽章紅點的既有配色語彙。僅用 themes/*.css token,不用任意色碼。 */
+   outline 心型(muted token),收藏後(.is-active)填滿並改用 --c-primary,
+   跟隨當前 skin 主色(業主 2026-07-22)。僅用 themes/*.css token,不用任意色碼。 */
 .fav-toggle {
   position: absolute;
   right: 8px;
@@ -209,12 +209,12 @@
   height: 16px;
 }
 .fav-toggle:hover {
-  color: rgb(var(--c-danger));
-  border-color: rgb(var(--c-danger));
+  color: rgb(var(--c-primary));
+  border-color: rgb(var(--c-primary));
 }
 .fav-toggle.is-active {
-  color: rgb(var(--c-danger));
-  border-color: rgb(var(--c-danger) / .5);
+  color: rgb(var(--c-primary));
+  border-color: rgb(var(--c-primary) / .5);
 }
 .fav-toggle.is-active svg {
   fill: currentColor;
