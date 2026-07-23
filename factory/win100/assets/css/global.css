@@ -347,3 +347,44 @@
 .record-table .p-datatable-tbody > tr > td.text-center {
   text-align: center;
 }
+
+/* ═══ Stage B 去編譯化:會員區左側導覽 (2026-07-23) ══════════════════════
+   原 aside/各 nav item 是一長串重複 utility(flex items-center gap-3 px-4 py-3
+   rounded-lg transition-all text-ink-2 hover:bg-surface-deep hover:text-ink),
+   收斂成語意 class。token 對照(frontend/tailwind.config.ts):
+   ink→--c-text、ink-2→--c-text-2、surface-deep→--c-bg、line-soft→--c-border-soft、
+   g-primary→--g-primary。site.js 未以這些 class 為行為 hook,安全。 */
+.member-sidebar {
+  position: fixed;
+  top: 4rem;
+  bottom: 0;
+  left: 0;
+  z-index: 40;
+  width: 16rem;
+  overflow-y: auto;
+  border-right: 1px solid rgb(var(--c-border-soft));
+  background-color: rgb(var(--c-surface));
+  display: none;
+}
+@media (min-width: 768px) {
+  .member-sidebar { display: block; }
+}
+.sb-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.15s;
+  color: rgb(var(--c-text-2));
+}
+.sb-item:not(.active):hover {
+  background-color: rgb(var(--c-bg));
+  color: rgb(var(--c-text));
+}
+.sb-item.active {
+  background-image: var(--g-primary);
+  color: rgb(var(--c-on-primary));
+  font-weight: 600;
+}
