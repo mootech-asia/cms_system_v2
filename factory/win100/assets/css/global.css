@@ -678,3 +678,45 @@
 }
 .status-pill--success { background-color: rgb(var(--c-success)); }  /* bg-success */
 .status-pill--primary { background-image: var(--g-primary); }        /* bg-g-primary */
+
+/* ═══ Stage B 去編譯化:帳戶總覽動作鈕/icon 鈕(account.html) (2026-07-23)
+   由 utility 叢集精確重組,宣告完全相同、視覺零變。
+   .acct-action-btn = 全寬 CTA(Deposit/Withdraw);.acct-icon-btn = 小方 icon 鈕
+   (--surface 銀行輪播箭頭 ×2;--outline 改暱稱編輯鈕)。
+   token:g-primary→--g-primary、on-primary→--c-on-primary、surface-2→--c-surface-2、
+   text→--c-text、text-3→--c-text-3、primary→--c-primary。transition 值不重算(照 Tailwind 原值)。 */
+.acct-action-btn {
+  display: block; width: 100%;                          /* block w-full */
+  padding-top: 0.75rem; padding-bottom: 0.75rem;        /* py-3 */
+  border-radius: 0.5rem;                                 /* rounded-lg */
+  text-align: center;                                    /* text-center */
+  font-size: 0.875rem; line-height: 1.25rem;             /* text-sm */
+  transition-property: opacity;                          /* transition-opacity */
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 0.15s;
+}
+.acct-action-btn:hover { opacity: 0.9; }                 /* hover:opacity-90 */
+@media (min-width: 768px) { .acct-action-btn { font-size: 1rem; line-height: 1.5rem; } }  /* md:text-base */
+.acct-action-btn--primary {                              /* bg-g-primary text-on-primary font-semibold */
+  background-image: var(--g-primary); color: rgb(var(--c-on-primary)); font-weight: 600;
+}
+.acct-action-btn--secondary {                            /* bg-surface-2 text-ink */
+  background-color: rgb(var(--c-surface-2)); color: rgb(var(--c-text));
+}
+.acct-icon-btn {
+  width: 2rem; height: 2rem;                             /* w-8 h-8 */
+  display: flex; align-items: center; justify-content: center;  /* flex items-center justify-center */
+  border-radius: 0.5rem;                                 /* rounded-lg */
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 0.15s;  /* transition-colors */
+}
+.acct-icon-btn--surface {                                /* bg-surface-2 text-ink-3 */
+  background-color: rgb(var(--c-surface-2)); color: rgb(var(--c-text-3));
+}
+.acct-icon-btn--surface:hover { color: rgb(var(--c-text)); }  /* hover:text-ink */
+.acct-icon-btn--outline {                                /* inline-flex border border-primary/20 bg-primary/10 text-primary */
+  display: inline-flex;
+  border: 1px solid rgb(var(--c-primary) / 0.2);
+  background-color: rgb(var(--c-primary) / 0.1);
+  color: rgb(var(--c-primary));
+}
+.acct-icon-btn--outline:hover { background-color: rgb(var(--c-primary) / 0.2); }  /* hover:bg-primary/20 */
