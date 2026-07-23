@@ -1154,12 +1154,12 @@
     var T = D.T || {};
     var title = isLive ? (D.LIVE_GAME_NAMES || ['Game'])[i % (D.LIVE_GAME_NAMES || ['Game']).length] : T.gamePlaceholder;
     var favId = favIdFor(provider, i, kind);
-    return '<div class="group cursor-pointer overflow-hidden rounded-lg border border-line-soft bg-surface transition-colors hover:border-primary">' +
-      '<div class="aspect-[4/3] relative overflow-hidden">' +
-      '<img src="' + m.image + '" alt="' + escapeHtml(title) + '" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" style="object-position:' + m.focalPoint + ';" loading="lazy">' +
+    return '<div class="game-card">' +
+      '<div class="game-card-thumb">' +
+      '<img src="' + m.image + '" alt="' + escapeHtml(title) + '" class="game-card-img" style="object-position:' + m.focalPoint + ';" loading="lazy">' +
       (isLive ? '<div class="absolute inset-0 bg-gradient-to-t from-surface-deep/65 via-transparent to-transparent"></div><span class="absolute left-2 top-2 inline-flex items-center gap-1.5 rounded-full border border-line bg-surface-deep/90 px-2 py-1 text-[10px] font-extrabold tracking-[0.12em] text-ink"><span class="h-1.5 w-1.5 rounded-full bg-danger animate-pulse"></span>' + escapeHtml(T.liveDealer) + '</span>' : '') +
       favToggleHtml(favId) +
-      '</div><div class="p-4"><h3 class="mb-1 truncate text-ink">' + escapeHtml(title) + '</h3><p class="mb-3 truncate text-note text-ink-3">' + escapeHtml(provider) + '</p><button type="button" class="btn-primary btn-sm w-full">' + escapeHtml(T.playNow) + '</button></div></div>';
+      '</div><div class="game-card-body"><h3 class="game-card-title">' + escapeHtml(title) + '</h3><p class="game-card-provider">' + escapeHtml(provider) + '</p><button type="button" class="btn-primary btn-sm w-full">' + escapeHtml(T.playNow) + '</button></div></div>';
   }
 
   function initVendorBrowser() {

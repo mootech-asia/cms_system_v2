@@ -499,3 +499,32 @@
   color: rgb(var(--c-text));
 }
 @media (min-width: 768px) { .mini-card-title { font-size: 0.875rem; } }
+
+/* ═══ Stage B 去編譯化:遊戲卡(buildGameCard,大廳 vendor grid) (2026-07-23)
+   主結構語意化;條件式 live 徽章/scrim、favToggle、btn-primary 保留(後續處理)。
+   token:border-line-soft→--c-border-soft、bg-surface→--c-surface、text-ink→--c-text、
+   text-ink-3→--c-text-3、text-note→--fs-caption/--lh-body。 */
+.game-card {
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  border: 1px solid rgb(var(--c-border-soft));
+  background-color: rgb(var(--c-surface));
+  transition: border-color 0.15s;
+}
+.game-card:hover { border-color: rgb(var(--c-primary)); }
+.game-card-thumb { aspect-ratio: 4 / 3; position: relative; overflow: hidden; }
+.game-card-img { height: 100%; width: 100%; object-fit: cover; transition: transform 0.5s; }
+.game-card:hover .game-card-img { transform: scale(1.05); }
+.game-card-body { padding: 1rem; }
+.game-card-title {
+  margin-bottom: 0.25rem;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  color: rgb(var(--c-text));
+}
+.game-card-provider {
+  margin-bottom: 0.75rem;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-size: var(--fs-caption); line-height: var(--lh-body);
+  color: rgb(var(--c-text-3));
+}
