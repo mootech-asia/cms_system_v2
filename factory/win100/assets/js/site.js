@@ -1143,9 +1143,9 @@
     return '<button type="button" class="vnd-card group relative isolate min-h-[136px] overflow-hidden">' +
       '<img src="' + m.image + '" alt="" aria-hidden="true" class="vnd-card-media absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" style="object-position:' + m.focalPoint + ';" loading="lazy">' +
       '<div class="vnd-card-scrim absolute inset-0"></div>' +
-      '<span class="relative z-[1] flex h-full w-full flex-col items-center justify-end gap-2 p-4">' +
+      '<span class="vnd-card-content">' +
       '<span class="vnd-name">' + escapeHtml(name) + '</span>' +
-      (isLive ? '<span class="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface-deep/85 px-2.5 py-1 text-[10px] font-extrabold tracking-[0.14em] text-ink-2"><span class="h-1.5 w-1.5 rounded-full bg-danger animate-pulse"></span>' + escapeHtml(T.liveStudio) + '</span>' : '') +
+      (isLive ? '<span class="vnd-live-badge"><span class="pulse-dot animate-pulse"></span>' + escapeHtml(T.liveStudio) + '</span>' : '') +
       '</span></button>';
   }
   function buildGameCard(provider, i, kind) {
@@ -1157,7 +1157,7 @@
     return '<div class="game-card">' +
       '<div class="game-card-thumb">' +
       '<img src="' + m.image + '" alt="' + escapeHtml(title) + '" class="game-card-img" style="object-position:' + m.focalPoint + ';" loading="lazy">' +
-      (isLive ? '<div class="absolute inset-0 bg-gradient-to-t from-surface-deep/65 via-transparent to-transparent"></div><span class="absolute left-2 top-2 inline-flex items-center gap-1.5 rounded-full border border-line bg-surface-deep/90 px-2 py-1 text-[10px] font-extrabold tracking-[0.12em] text-ink"><span class="h-1.5 w-1.5 rounded-full bg-danger animate-pulse"></span>' + escapeHtml(T.liveDealer) + '</span>' : '') +
+      (isLive ? '<div class="absolute inset-0 bg-gradient-to-t from-surface-deep/65 via-transparent to-transparent"></div><span class="absolute left-2 top-2 inline-flex items-center gap-1.5 rounded-full border border-line bg-surface-deep/90 px-2 py-1 text-[10px] font-extrabold tracking-[0.12em] text-ink"><span class="pulse-dot animate-pulse"></span>' + escapeHtml(T.liveDealer) + '</span>' : '') +
       favToggleHtml(favId) +
       '</div><div class="game-card-body"><h3 class="game-card-title">' + escapeHtml(title) + '</h3><p class="game-card-provider">' + escapeHtml(provider) + '</p><button type="button" class="btn-primary btn-sm w-full">' + escapeHtml(T.playNow) + '</button></div></div>';
   }
