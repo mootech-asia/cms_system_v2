@@ -84,6 +84,17 @@
 Tailwind utility 堆改成 v3 式手寫語意 class)+ 附帶項目。**全部只進分支,正式站由業主
 promote 才更新。**
 
+**⛔ 業主定案取消(2026-07-23)——以下兩項不再做、未來 session 勿再提:**
+1. **`cms_v2_1.0.0` 首次交付**(原卡在 GitHub App 無建 repo 權限)→ **取消**。
+2. **靜態 studio 取代正式站 Nuxt studio 的部署接線**(原「待業主確認」)→ **取消**,
+   正式站 studio 維持 Nuxt 現狀。靜態 `factory/win100/studio`、`admin`、v3 `studio/`
+   留在分支/main 供參,不接進 candidate/正式站。
+3. **連帶**:既然 studio 續用 Nuxt,**`frontend/`(v2)、`vue3-app/`(v3)必須保留**
+   (build studio 用);task #6 收尾清理中「刪 `frontend/`/`vue3-app/` + 移除 Nuxt/Vite
+   build 步驟」**一併不做**。#6 只剩「刪已併入 main 的 `claude/*` stale 分支」這種可選、
+   不可逆的動作,須業主明確要求才做,否則不動。
+→ 本 session 剩餘自主範圍 = **純 Stage B 前台語意化 + 安全收尾(ui-kit、app.css 死 CSS 清除)**。
+
 **方法(已定型):** 不憑空重寫 CSS —— 把 `assets/css/app.css` 裡既有的 utility 宣告
 **精確重組**進手寫 `assets/css/components.css` 的語意 class(宣告完全相同,只是換語意名),
 所以視覺零變、只有 markup 變手寫可讀。每批獨立跑 **computed-style parity(git stash 前後
