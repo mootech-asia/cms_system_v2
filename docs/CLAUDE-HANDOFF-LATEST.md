@@ -1,8 +1,10 @@
 # Claude Latest Handoff
 
-> ⏭️ **2026-07-21 最新交接 → 先讀 `docs/HANDOFF-2026-07-21.md`**（bug 修復批次已完成上
-> main 並 promote;工廠純 HTML 化路線圖 task #1–6、v3 i18n 重建進行中）。以下 2026-07-19
-> 段落為部署機制底本,仍適用。
+> ⏭️ **2026-07-23 最新交接 → 先讀 `docs/HANDOFF-2026-07-23.md`**(Stage B 前台語意化進行中:
+> 共用 shell 4 批已完成上分支 `claude/handover-tasks-list-sj48kv`;含 v2+v3 完整任務清單、
+> 已定型的重組+parity 方法、業主 2026-07-23 定案[取消 cms_v2_1.0.0、studio 靜態化部署要做])。
+> 上一份 `docs/HANDOFF-2026-07-22-pm.md`、`docs/HANDOFF-2026-07-21.md` 仍可參(設計 review、部署教訓)。
+> 以下 2026-07-19 段落為部署機制底本,仍適用。
 
 > Updated: 2026-07-19 (Asia/Taipei)
 > Repository: `mootech-asia/cms_system_v2`
