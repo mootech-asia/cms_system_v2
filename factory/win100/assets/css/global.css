@@ -603,3 +603,20 @@
 }
 .win-ticker-item { font-size: 0.75rem; color: rgb(var(--c-text-3)); padding-left: 1rem; padding-right: 1rem; flex-shrink: 0; }
 .win-ticker-sep { margin-left: 0.75rem; margin-right: 0.75rem; color: rgb(var(--c-border)); }
+
+/* ═══ Stage B 去編譯化:operation-promo 卡外框/標題/按鈕(index/ui-kit) (2026-07-23)
+   內層 .promo-card-art/.operation-promo-media/.operation-promo-scrim 已是語意(app.css);
+   外框保留 group(app.css .group:hover .operation-promo-media 靠它做 hover 放大)。
+   token:surface-deep→--c-bg、line-soft→--c-border-soft、ink→--c-text、on-primary→--c-on-primary、g-primary→--g-primary。 */
+.op-promo-card {
+  background-color: rgb(var(--c-bg)); border: 1px solid rgb(var(--c-border-soft));
+  border-radius: 0.75rem; overflow: hidden; transition: border-color 0.15s; cursor: pointer;
+}
+.op-promo-card:hover { border-color: rgb(var(--c-primary)); }
+.op-promo-title { color: rgb(var(--c-text)); font-size: 0.875rem; margin-bottom: 0.75rem; text-align: center; }
+.op-promo-btn {
+  width: 100%; padding: 0.5rem 0.75rem; border-radius: 0.5rem; font-size: 0.75rem;
+  color: rgb(var(--c-on-primary)); transition: opacity 0.15s;
+  display: flex; align-items: center; justify-content: center; background-image: var(--g-primary);
+}
+.op-promo-btn:hover { opacity: 0.9; }
