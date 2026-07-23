@@ -388,3 +388,38 @@
   color: rgb(var(--c-on-primary));
   font-weight: 600;
 }
+
+/* ═══ Stage B 去編譯化:手機底部導覽列 (2026-07-23) ═════════════════════
+   原 md:hidden fixed bottom-0 ... + 每格 flex flex-col ... 收斂成語意 class。
+   site.js initMobileBottomNav 原以 nav.md:hidden 選 Browse 鈕,已同步改為
+   .mobile-bottom-nav。token:surface-deep→--c-bg、line-soft→--c-border-soft、
+   ink-3→--c-text-3、primary→--c-primary。 */
+.mobile-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background-color: rgb(var(--c-bg));
+  border-top: 1px solid rgb(var(--c-border-soft));
+}
+@media (min-width: 768px) {
+  .mobile-bottom-nav { display: none; }
+}
+.mbn-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  height: 4rem;
+}
+.mbn-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  color: rgb(var(--c-text-3));
+  transition: all 0.15s;
+}
+.mbn-item.active {
+  color: rgb(var(--c-primary));
+}

@@ -554,7 +554,7 @@
 
   function initMobileBottomNav() {
     var browseLabel = (D.T || {}).browse || '瀏覽';
-    var browseBtn = $all('nav.md\\:hidden button').filter(function (b) {
+    var browseBtn = $all('.mobile-bottom-nav button').filter(function (b) {
       return (b.textContent || '').replace(/\s+/g, '') === browseLabel;
     })[0];
     on(browseBtn, 'click', openMemberDrawer);
