@@ -347,3 +347,11 @@
 .record-table .p-datatable-tbody > tr > td.text-center {
   text-align: center;
 }
+
+/* B2a（業主 2026-07-22）：帳戶頁銀行卡/錢包卡兩模塊的「+新增」連結釘到模塊底，
+   兩側對齊在同一水平線。模塊與其 .space-y-3 皆改 flex flex-col + flex-1，連結加
+   mt-auto 推到底；因 factory 去編譯 CSS 未含 Tailwind mt-auto，且 .space-y-3 的
+   手足 margin 特異性 (0,3,0) 會蓋過裸 .mt-auto，這裡用更高特異性選擇器補一條。 */
+.space-y-3.flex.flex-col > .mt-auto {
+  margin-top: auto;
+}

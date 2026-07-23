@@ -1740,6 +1740,9 @@
 
   /* ---- account.html + withdrawal.html bank account carousels (P1) ---- */
 
+  /* 銀行卡空狀態的信用卡 icon，放進 .coin-md 虛線圓圈，與錢包空狀態（₿）對稱（業主 2026-07-22 B2b） */
+  var BANK_CARD_SVG = '<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"></rect><line x1="2" x2="22" y1="10" y2="10"></line></svg>';
+
   function initAccountBankCarousel() {
     if (pageName() !== 'account') return;
     var prevBtn = document.querySelector('[aria-label="Previous bank account"]');
@@ -1774,7 +1777,7 @@
           if (idx >= accounts.length) idx = Math.max(0, accounts.length - 1);
           if (!accounts.length && bankRow) {
             var listBlock = bankRow.closest('.space-y-3');
-            if (listBlock) listBlock.innerHTML = '<p class="text-ink-4 text-sm md:text-base">No bank account</p><a class="text-primary hover:text-primary-soft text-sm transition-colors" href="withdrawal.html?tab=management">+ Add New Bank Account</a>';
+            if (listBlock) listBlock.innerHTML = '<div class="bound-wallet"><div class="coin-empty coin-md">' + BANK_CARD_SVG + '</div><div>No bank account</div></div><a class="text-primary hover:text-primary-soft text-sm transition-colors mt-auto" href="withdrawal.html?tab=management">+ Add New Bank Account</a>';
           } else {
             render();
           }
