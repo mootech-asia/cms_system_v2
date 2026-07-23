@@ -755,3 +755,30 @@
 .topbar-cta--secondary {                    /* bg-surface-2 text-ink */
   background-color: rgb(var(--c-surface-2)); color: rgb(var(--c-text));
 }
+
+/* ═══ Stage B 去編譯化:FilteredGrid 遊戲卡 fg-card(hot-games.html「全部遊戲」格 30 張) (2026-07-23)
+   由 utility 叢集精確重組,視覺零變。保留 group / group-hover:scale-105(共享 hover 機制)。
+   p-4 內距 + .btn-primary/.btn-sm 立即遊玩鈕本就可讀,保留不動。
+   token:border-soft→--c-border-soft、surface→--c-surface、primary→--c-primary、text→--c-text、text-3→--c-text-3。 */
+.fg-card {                                   /* group cursor-pointer overflow-hidden rounded-lg border border-line-soft bg-surface transition-colors hover:border-primary */
+  cursor: pointer; overflow: hidden; border-radius: 0.5rem;
+  border: 1px solid rgb(var(--c-border-soft));
+  background-color: rgb(var(--c-surface));
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 0.15s;
+}
+.fg-card:hover { border-color: rgb(var(--c-primary)); }   /* hover:border-primary */
+.fg-card-media {                             /* aspect-[4/3] relative overflow-hidden */
+  aspect-ratio: 4/3; position: relative; overflow: hidden;
+}
+.fg-card-img {                               /* h-full w-full object-cover transition-transform duration-500 */
+  height: 100%; width: 100%; object-fit: cover;
+  transition-property: transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 0.5s;
+}
+.fg-card-title {                             /* mb-1 truncate text-ink */
+  margin-bottom: 0.25rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: rgb(var(--c-text));
+}
+.fg-card-provider {                          /* mb-3 truncate text-note text-ink-3 */
+  margin-bottom: 0.75rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-size: var(--fs-caption); line-height: var(--lh-body); color: rgb(var(--c-text-3));
+}
